@@ -1,5 +1,4 @@
-export const BASE_URL = "https://roomate.herokuapp.com";
-// export const STORE_API_BASE_URL = "http://127.0.0.1:8001/store";
+export const BASE_URL = "https://api.roommategeorgia.ge/"
 
 // eslint-disable-next-line no-useless-escape
 // const domain = document.domain.match(/[^\.]*\.[^.]*$/);
