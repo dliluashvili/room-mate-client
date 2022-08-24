@@ -42,4 +42,5 @@ jobs:
           cp /var/www/roommate/env_files/.env.production /var/www/roommate/client/
           npm i --force
           pm2 delete roommate-client
+          npm run build
           npm run pm2:start
