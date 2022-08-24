@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "engines": {
+    "node": "16.13.0",
+    "npm": "8.1.4"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "classnames": "^2.3.1",
+    "next": "latest",
+    "next-translate": "^1.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-facebook-login": "^4.1.1",
+    "react-hook-form": "^7.34.0",
+    "react-redux": "^8.0.2",
+    "react-toastify": "^9.0.8",
+    "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
+    "sass": "^1.54.1",
+    "swiper": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^12.20.55",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "eslint": "8.21.0",
+    "eslint-config-next": "12.2.4",
+    "typescript": "^4.7.4"
+  }
+}

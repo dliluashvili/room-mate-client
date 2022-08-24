@@ -1,0 +1,190 @@
+.createProfile {
+  background-color: rgba(0, 0, 0, 0.637);
+  min-height: 100vh;
+
+  &_wrapper {
+    background-color: #fff;
+    max-width: 800px;
+    width: 100%;
+    min-height: 300px;
+
+    box-shadow: 0px 4px 4px rgba(170, 170, 170, 0.25);
+    border-radius: 4px;
+    position: relative;
+  }
+
+  &_heading {
+    font-size: 20px;
+  }
+  &_controllerWrapper {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    background-color: $brandColor;
+    height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    align-items: center;
+
+    > div {
+      cursor: pointer;
+      color: #fff;
+      span {
+        text-transform: uppercase;
+      }
+    }
+  }
+  &_contentContainer {
+    padding: 25px;
+    margin-bottom: 80px;
+    max-height: 57vh;
+    overflow: auto;
+  }
+
+  &_checkboxItem {
+    background: #f7f7f7;
+    box-shadow: inset 1px -1px 3px rgba(170, 170, 170, 0.25);
+    border-radius: 4px;
+    padding: 20px 15px;
+    position: relative;
+
+    &:hover {
+      background: #f4f1f1;
+      cursor: pointer;
+      box-shadow: inset 1px -1px 3px rgba(163, 156, 156, 0.25);
+      .checkmark {
+        border: 1px solid $brandColor;
+      }
+    }
+
+    &_wrapper {
+      margin-top: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      label {
+        margin-bottom: 15px;
+        width: 48%;
+        display: flex;
+        align-items: center;
+        div {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+}
+
+.checkbox_wrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  background-color: #ffffff;
+  box-shadow: inset 2px 2px 2px rgba(160, 160, 160, 0.5);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox_wrapper:hover input ~ .checkmark {
+  background-color: #ffffff;
+  box-shadow: inset 2px 2px 2px rgba(160, 160, 160, 0.5);
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox_wrapper input:checked ~ .checkmark {
+  background-color: $brandColor;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox_wrapper input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox_wrapper .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.right_button {
+  span {
+    color: #fff;
+  }
+
+  color: #fff;
+  svg {
+    transition: 0.3s;
+  }
+  &:hover {
+    svg {
+      transform: translateX(3px);
+    }
+  }
+}
+
+.left_button {
+  span {
+    color: #fff;
+  }
+
+  svg {
+    transition: 0.3s;
+  }
+  &:hover {
+    svg {
+      transform: translateX(-3px);
+    }
+  }
+}
+
+.searchInput {
+  height: 49px;
+  background: #f7f7f7;
+  border: 1px solid #19a463;
+  border-radius: 4px;
+}
+
+@media only screen and (max-width: 768px) {
+  .createProfile_checkboxItem_wrapper label {
+    width: 100%;
+  }
+  .createProfile_wrapper {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .createProfile_heading {
+    font-size: 17px;
+  }
+  .createProfile_checkboxItem {
+    padding: 14px 10px;
+  }
+}
