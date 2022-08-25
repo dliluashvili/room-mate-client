@@ -28,9 +28,7 @@ const IndexPage = () => {
             <div className="row align-items-center">
               <div className="col-md-12 ">
                 <h1>
-                  იპოვე ოთახის მეზობელი და
-                  <br />
-                  გაიყავი ბინის ქირა
+                  {t("heading")} <br /> {t("heading2")}
                 </h1>
                 <Link href={user ? "/search" : "/createProfile"}>
                   <a className="btn btn-primary ">
@@ -47,7 +45,7 @@ const IndexPage = () => {
                         fill="white"
                       />
                     </svg>
-                    იპოვე შენი ოთახის მეზობელი
+                    {t("search")}
                   </a>
                 </Link>
               </div>
@@ -60,7 +58,7 @@ const IndexPage = () => {
       </div>
       <section id="howitwork" className="stepsSection">
         <div className="container ">
-          <h2>როგორ მუშაობს</h2>
+          <h2> {t("howItWorks")}</h2>
           <div className="row mt-5 pt-5">
             <div className="col-md-3">
               <div className="stepsSection_card stepsSection_card_Wrapper">
@@ -245,7 +243,7 @@ const IndexPage = () => {
       </section>
       <section className="partners">
         <div className="container">
-          <h2>პარტნიორები</h2>
+          <h2>{t("partners")}</h2>
           <Partners />
         </div>
       </section>
@@ -303,7 +301,7 @@ const IndexPage = () => {
       </section> */}
       <section id="faq" className="faqSection">
         <div className="container">
-          <h2>ხშირად დასმული შეკითხვები</h2>
+          <h2>{t("faq")}</h2>
           <div className="row">
             <Faq />
           </div>

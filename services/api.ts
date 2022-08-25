@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.roommategeorgia.ge/"
+export const BASE_URL = "https://api.roommategeorgia.ge";
 
 // eslint-disable-next-line no-useless-escape
 // const domain = document.domain.match(/[^\.]*\.[^.]*$/);

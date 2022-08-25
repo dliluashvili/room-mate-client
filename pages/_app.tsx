@@ -5,6 +5,7 @@ import Head from "next/head";
 import "../style/style.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { SearchProvider } from "../components/pages/search/context/searchContext";
+// import { Html } from "next/document";
 
 function MyApp({ Component, pageProps }) {
   return (

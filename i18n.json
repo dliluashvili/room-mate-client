@@ -1,6 +1,7 @@
 {
-  "locales": ["en-US", "fr"],
-  "defaultLocale": "en-US",
+  "locales": ["ka", "en"],
+  "defaultLocale": "ka",
+  "localeDetection": false,
   "pages": {
     "*": ["common"],
     "/about": ["about"]

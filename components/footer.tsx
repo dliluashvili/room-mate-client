@@ -1,7 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 function Footer() {
+  let { t } = useTranslation("common");
+
   return (
     <footer>
       <div className="container">
@@ -17,37 +20,37 @@ function Footer() {
             <ul className="list-inline">
               <li>
                 <Link href="/">
-                  <a>მთავარი</a>
+                  <a>{t("main")}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/search">
-                  <a> იპოვე ოთახის მეზობელი</a>
+                  <a> {t("search")} </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#howitwork">
-                  <a> როგორ მუშაობს</a>
+                  <a>{t("howItWorks")} </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#contact">
-                  <a>კონტაქტი</a>
+                  <a>{t("contact")}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/#faq">
-                  <a>ხშირად დასმული შეკითხვები</a>
+                  <a>{t("faq")}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/#faq">
-                  <a>წესები და პირობები</a>
+                  <a>{t("terms")}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/#faq">
-                  <a>კონფიდენციალურობის პოლიტიკა</a>
+                  <a>{t("confidencial")}</a>
                 </Link>
               </li>
             </ul>
@@ -137,7 +140,7 @@ function Footer() {
           </div>
         </div>
         <div className="copyRight text-center">
-          <div>ვებ გვერდის მფლობელი - / ი.მ. მარიამ ხანთაძე</div>
+          <div>{t("pageOwner")}</div>
           <span>
             <svg
               width="97"

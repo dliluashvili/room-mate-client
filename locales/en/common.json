@@ -1,0 +1,19 @@
+{
+  "main": "Home",
+  "contact": "Contact",
+  "search": "Find a Roommate",
+  "howItWorks": "How It Works",
+  "faq": "F.A.Q",
+  "terms": "Terms And Conditions",
+  "confidencial": "Confidential Policy",
+  "pageOwner": "Web page owner - / I.M. Mariam Khantadze",
+  "heading": "Find a roommate and",
+  "heading2": "split the rent",
+
+  "auth": "Login",
+  "active": "Active",
+  "edit": "Edit Profile",
+  "inactive": "Inactive",
+  "logout": "logout",
+  "partners": "Partners"
+}
