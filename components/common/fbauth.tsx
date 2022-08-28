@@ -11,15 +11,13 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
   const dispatch = useDispatch();
 
   const responseFacebook = (res) => {
-    console.log(res, "resss");
     const userData = {
       accessToken: res.accessToken,
-      facebookId: res.userID,
+      facebookId: res.userID
     };
 
     AuthService.fbAuth(userData)
       .then((res) => {
-        console.log("aqedan daalogineb....", res);
         toast.success("წარმატებით დაუკავშირდა", {
           position: "top-right",
           autoClose: 3000,
@@ -27,7 +25,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          progress: undefined
         });
         dispatch(setCurrentUser({ user: { ...user, socials: ["fb"] } }));
       })
@@ -39,7 +37,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
       <ToastContainer />
 
       <FacebookLogin
-        appId={1658731227842099}
+        appId={1116841412243862}
         isMobile={false}
         fields="name,email,picture"
         callback={responseFacebook}
