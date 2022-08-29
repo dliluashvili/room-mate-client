@@ -16,7 +16,7 @@ import ResetPassword from "../../components/pages/profile/resetPsswors";
 
 const tabs = [
   {
-    label: "კითხვების რედაქტირება",
+    label: "პროფილის რედაქტირება",
     path: "/profile/edit",
   },
   {

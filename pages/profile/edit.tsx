@@ -15,7 +15,7 @@ import QuestionEdit from "../../components/pages/profile/questionEdit";
 
 const tabs = [
   {
-    label: "კითხვების რედაქტირება",
+    label: "პროფილის რედაქტირება",
     path: "/profile/edit",
   },
   {

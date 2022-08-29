@@ -117,7 +117,7 @@ const ResetPassword = () => {
                 <Input
                   type="text"
                   name={"currentPassword"}
-                  placeholder="sms currentPassword"
+                  placeholder="მიმდინარე პაროლი"
                   hasError={!!errors?.currentPassword}
                   onChange={() => {
                     //   clearError("currentPassword");

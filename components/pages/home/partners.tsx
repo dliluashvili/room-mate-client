@@ -40,6 +40,18 @@ const Partners = () => {
       <SwiperSlide>
         <img src="./imgs/sam 1.png" />
       </SwiperSlide>
+      <SwiperSlide>
+        <img src="./imgs/kavk 1.png" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="./imgs/tv 1.png" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="./imgs/Untitled-1ს 1.png" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src="./imgs/sam 1.png" />
+      </SwiperSlide>
     </Swiper>
   );
 };

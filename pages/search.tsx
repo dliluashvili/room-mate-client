@@ -197,7 +197,7 @@ const Search = () => {
                     fill="white"
                   />
                 </svg>
-                გაგზავნა
+                გაფილტვრა
               </button>
             </div>
           </div>

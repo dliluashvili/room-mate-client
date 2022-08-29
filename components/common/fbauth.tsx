@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useTypedSelector } from "../hooks/useTypeSelector";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/action-creators";
+import { AlertIcon } from "../svg/statusIcon";
 
 const FbLoginButton: React.FC<{}> = ({ children }) => {
   const { user } = useTypedSelector((state) => state.profile);
@@ -13,7 +14,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
   const responseFacebook = (res) => {
     const userData = {
       accessToken: res.accessToken,
-      facebookId: res.userID
+      facebookId: res.userID,
     };
 
     AuthService.fbAuth(userData)
@@ -25,7 +26,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined
+          progress: undefined,
         });
         dispatch(setCurrentUser({ user: { ...user, socials: ["fb"] } }));
       })
@@ -49,8 +50,19 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
             }}
             className="facebook_auth_social"
           >
-            <img src="/imgs/facebook.svg" alt="fb" />
-            {children}
+            <img height={10} src="/imgs/facebook.svg" alt="fb" />
+            <span className="me-3">{children}</span>
+
+            <span className="pointer toltipWrapper">
+              <AlertIcon stroke="#fff" fill="#fff" />
+              <p>
+                ჩვენი გუნდი მომდევნო 24 საათის განმავლობაში გადაამოწმებს თქვენს
+                პროფილს. იმისთვის, რომ მოხდეს ანგარიშის ნამდვილობის დადასტურება,
+                გთხოვთ შეხვიდეთ თქვენს Facebook პროფილზე. თუ არ გაქვს
+                Facebook-ის ანგარიში, გთხოვთ დაგვიკავშირდე მეილზე -
+                roommatetbilisi@gmail.com
+              </p>
+            </span>
           </a>
         )}
       />

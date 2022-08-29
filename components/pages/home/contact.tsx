@@ -125,7 +125,7 @@ function Contact() {
       </FormGroup>
       <FormGroup errorMessage={errors?.text ? errors.text.message : ""}>
         <textarea
-          placeholder="მოგვწერეთ წერილი"
+          placeholder="მოგვწერე წერილი"
           className={classnames("form-control textarea", {
             "is-invalid": !!errors?.text,
           })}
