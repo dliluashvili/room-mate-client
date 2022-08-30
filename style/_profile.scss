@@ -331,6 +331,22 @@
   flex-wrap: wrap;
 }
 
+@media only screen and (max-height: 768px) {
+  .profile_aboutMe {
+    margin-top: 9px;
+    padding-bottom: 0px;
+  }
+  .profile_userHeading img {
+    width: 70px;
+    height: 70px;
+  }
+  .profile_contacts {
+    margin-top: 17px;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 12px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .contactViewSwitch {
     align-items: center;
