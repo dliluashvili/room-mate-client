@@ -28,6 +28,7 @@ export const backEndRoutes = {
       `${BASE_URL}/users/update-lock-communication`,
 
     updateAvailable: () => `${BASE_URL}/users/update-available`,
+    uploadImage: () => `${BASE_URL}/users/upload-image`,
     contactForm: () => `${BASE_URL}/contact/send`,
   },
   questions: {

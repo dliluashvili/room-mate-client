@@ -13,6 +13,7 @@ export interface ISearchItems {
   users_is_locked_communication: boolean;
   isFavourite: boolean;
   about_me: string;
+  profile_image: string;
   favourite_id?: number;
 }
 
@@ -131,6 +132,10 @@ class _ProfileService {
     return axiosWithToken.patch(backEndRoutes.profile.updateAvailable(), {
       available,
     });
+  };
+
+  uploadImage = (data: any): AxiosPromise<any> => {
+    return axiosWithToken.patch(backEndRoutes.profile.uploadImage(), data);
   };
 
   contactForm = (data: {

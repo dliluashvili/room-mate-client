@@ -22,6 +22,7 @@ const ProfileCard: React.FC<IProps> = ({
   about_me,
   payed,
   setPayModal,
+  profile_image,
 
   updateAddRemove,
 }) => {
@@ -69,7 +70,14 @@ const ProfileCard: React.FC<IProps> = ({
       </div>
       <div className="userCard_body d-flex">
         <div>
-          <img src="/imgs/download.jpg" />
+          <img
+            style={{ border: "1px solid #b1a1a130" }}
+            src={
+              profile_image
+                ? profile_image
+                : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+            }
+          />
         </div>
         <p>{about_me}</p>
       </div>

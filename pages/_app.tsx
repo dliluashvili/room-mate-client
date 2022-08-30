@@ -15,6 +15,19 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta charSet="utf-8" />
         <title>Room Mate</title>
+        <meta
+          name="description"
+          content="იპოვე ოთახის მეზობელი და
+გაიყავი ბინის ქირა"
+        />
+        <link rel="icon" href="/imgs/loop-04.svg" />
+        <meta property="og:title" content="room mate georgia" />
+        <meta
+          property="og:description"
+          content="იპოვე ოთახის მეზობელი და
+          გაიყავი ბინის ქირა"
+        />
+        <meta property="og:image" content="/img/Capture.PNG" />
 
         {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> */}
       </Head>

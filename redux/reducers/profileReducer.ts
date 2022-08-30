@@ -18,6 +18,7 @@ interface IUser {
   available?: boolean;
   payed?: boolean;
   phone?: string;
+  profile_image?: string;
   notifications?: number;
   social_network?: string;
   is_locked_communication?: boolean;
