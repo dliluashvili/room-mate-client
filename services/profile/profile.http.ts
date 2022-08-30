@@ -127,6 +127,12 @@ class _ProfileService {
     );
   };
 
+  updateAvailable = (available: boolean): AxiosPromise<any> => {
+    return axiosWithToken.patch(backEndRoutes.profile.updateAvailable(), {
+      available,
+    });
+  };
+
   contactForm = (data: {
     firstname: string;
     lastname: string;

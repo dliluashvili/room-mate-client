@@ -19,7 +19,7 @@ function Balance(props) {
   return (
     <ProfileWrapper consumerPage="balance">
       <div className="balance_wrapper">
-        {user?.payed ? (
+        {!user?.payed ? (
           <div className="payModal_wrapper">
             <div className="buyModal pt-5">
               <h2 className="pt-4">თვენი პროფილი აქტიურია! </h2>

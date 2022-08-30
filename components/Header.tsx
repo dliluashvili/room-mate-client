@@ -104,7 +104,10 @@ function Header({ type }: IProps) {
                     <>
                       <Link href="/profile/balance">
                         <a className="d-block d-md-none">
-                          <CheckIcon className="ml-3" />
+                          <CheckIcon
+                            className="ml-3 CheckIcon"
+                            fill="#19a463"
+                          />
                           {t("active")}
                         </a>
                       </Link>
@@ -238,7 +241,11 @@ function Header({ type }: IProps) {
                       <Link href="/profile/balance">
                         <a className="">
                           {t("active")}
-                          <CheckIcon className="ml-3" />
+
+                          <CheckIcon
+                            className="ml-3 CheckIcon"
+                            fill="#19a463"
+                          />
                         </a>
                       </Link>
                     </>

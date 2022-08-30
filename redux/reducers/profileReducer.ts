@@ -15,6 +15,7 @@ interface IUser {
   lastname?: string;
   id?: number;
   about_me?: string;
+  available?: boolean;
   payed?: boolean;
   phone?: string;
   notifications?: number;

@@ -71,6 +71,11 @@ header {
   &.profile {
     position: inherit;
     background-color: #fff;
+    .CheckIcon {
+      path {
+        fill: transparent !important;
+      }
+    }
     img.logoPng {
       display: inline-block;
     }

@@ -28,7 +28,7 @@ export const AlertIcon = ({
   );
 };
 
-export const CheckIcon = ({ className = "" }) => {
+export const CheckIcon = ({ className = "", fill = null }) => {
   return (
     <svg
       width="20"
@@ -38,11 +38,12 @@ export const CheckIcon = ({ className = "" }) => {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <circle cx="10" cy="10" r="10" fill="#19A463" />
+      <circle cx="10" cy="10" r="10" fill={fill ? fill : `"#19A463"`} />
       <path
         d="M15.1724 6.20679L7.58622 13.793L4.13794 10.3447"
         stroke="#E2EEED"
         strokeWidth="2"
+        fill={fill ? fill : `"#19A463"`}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

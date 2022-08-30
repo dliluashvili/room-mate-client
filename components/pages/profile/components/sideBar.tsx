@@ -69,18 +69,41 @@ const SideBar: React.FC<ISidebar> = (props) => {
         }
       });
   };
+
+  const handleChangeAvailable = () => {
+    ProfileService.updateAvailable(!user?.available)
+      .then((res) => {
+        // console.log(res);
+        let newUSer = {
+          ...user,
+          available: !user.available,
+        };
+        dispatch(setCurrentUser({ user: newUSer }));
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err?.response?.data?.message === "Unauthorized") {
+          checkAuth();
+        }
+      });
+  };
   return (
     <div className="profile_sideBar">
       <div className="profile_userHeading">
-        <img src="https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg" />
+        <img
+          className="pointer"
+          src="https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+        />
         <span>
           {props?.firstname} {props?.lastname}
         </span>
       </div>
+
       <div className="profile_aboutMe">
         <div>ჩემ შესახებ</div>
         <p>{props?.about_me}</p>
       </div>
+
       {!props.myProfile && !props.phone ? (
         <div className="profile_contacts">
           <p className="text-center">
@@ -98,21 +121,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
       ) : (
         <>
           {props.myProfile ? (
-            <div className="contactViewSwitch flex-column">
-              <p>
-                <span className="pr-3">
-                  ჩართთეთ ან გამორთეთ კონტაქტის ხილვადობა ყველსასთვის
-                </span>
-                <span className="pointer toltipWrapper">
-                  <AlertIcon stroke="blue" fill="blue" />
-                  <p>
-                    კონტაქტის ხილვადობის გამორთვის შემთხვევაში სხვა
-                    მომხმარებლები ვერ შეძლებს, რომ თქვენი ნებართვის გარეშე ნახონ
-                    თქვენი საკონტაქტო ინფორმაცია.
-                  </p>
-                </span>
-              </p>
-
+            <div className="contactViewSwitch flex-column mt-3">
               <div className="form-check form-switch ">
                 <input
                   className="form-check-input"
@@ -129,9 +138,48 @@ const SideBar: React.FC<ISidebar> = (props) => {
                   htmlFor="flexSwitchCheckDefault"
                 >
                   {/* კონტაqტის ხილვადობა{" "} */}
-                  {!user?.is_locked_communication ? "ჩართვა" : "გამორთვა"}
+                  კონტაქტის ხილვადობა
+                  <span className="pointer toltipWrapper ml-3">
+                    <AlertIcon stroke="blue" fill="blue" />
+                    <p>
+                      კონტაქტის ხილვადობის გამორთვის შემთხვევაში სხვა
+                      მომხმარებლები ვერ შეძლებენ, რომ თქვენი ნებართვის გარეშე
+                      ნახონ თქვენი საკონტაქტო ინფორმაცია.
+                    </p>
+                  </span>
                 </label>
               </div>
+
+              {props.myProfile ? (
+                <div className="contactViewSwitch flex-column">
+                  <div className="form-check form-switch ">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={user?.available}
+                      role="switch"
+                      onChange={() => {
+                        handleChangeAvailable();
+                      }}
+                      id="flexSwitchCheckDefault"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexSwitchCheckDefault"
+                    >
+                      {/* კონტაqტის ხილვადობა{" "} */}
+                      ვეძებ ოთახის მეზობელს
+                      <span className="pointer toltipWrapper ml-3">
+                        <AlertIcon stroke="blue" fill="blue" />
+                        <p>
+                          გამორთვის შემთხვევაში შენ აღარ გამოჩნდები საძიებო
+                          სისტემაში
+                        </p>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              ) : null}
               {!user?.socials?.length ? (
                 <Fb>დაკავშირება</Fb>
               ) : (
