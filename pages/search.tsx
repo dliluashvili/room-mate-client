@@ -40,7 +40,9 @@ const Search = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Questions.getQuestions()
+    Questions.getQuestions({
+      lang: router.query.locale,
+    })
       .then((res) => {
         console.log(res);
         setSearchParams(res.data.filter((el) => el.is_searchable));

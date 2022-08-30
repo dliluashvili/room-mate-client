@@ -5,6 +5,7 @@ import { FormGroup, Button, Input } from "../../common/form";
 import classnames from "classnames";
 import { ProfileService } from "../../../services/profile/profile.http";
 import { ToastContainer, toast } from "react-toastify";
+import useTranslation from "next-translate/useTranslation";
 
 interface IContactForm {
   name: string;
@@ -32,6 +33,8 @@ function Contact() {
     formState: { errors },
   } = useForm<IContactForm>();
 
+  let { t } = useTranslation("common");
+
   const submit = handleSubmit((data) => {
     // console.log(errors);
     ProfileService.contactForm({
@@ -42,7 +45,9 @@ function Contact() {
     })
       .then((res) => {
         // alert("saved");
-        toast.success("შეტყობინება წარმატეით გაიგზავნა", {
+        let rr = t("contacteSendSusses");
+        debugger;
+        toast.success(rr, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -55,7 +60,8 @@ function Contact() {
       })
       .catch((err) => {
         // console.log("err");
-        toast.error("დაფიქსირდა შეცდომა", {
+        let rr = t("contacteSendError");
+        toast.error(rr, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -75,9 +81,9 @@ function Contact() {
           useRef={register("name")}
           type="name"
           hasError={!!errors?.name}
-          placeholder="სახელი"
+          placeholder={t("name")}
           {...register("name", {
-            required: "სახელი აუცილებელია",
+            required: t("nameError"),
           })}
           autocomplete="off"
         />
@@ -91,9 +97,9 @@ function Contact() {
           autocomplete="off"
           type="last_name"
           hasError={!!errors?.last_name}
-          placeholder="გვარი"
+          placeholder={t("surname")}
           {...register("last_name", {
-            required: "გვარი აუცილებელია",
+            required: t("surnameError"),
           })}
         />
       </FormGroup>
@@ -102,7 +108,7 @@ function Contact() {
           errors?.email?.message
             ? errors?.email?.message
             : errors?.email?.type === "pattern"
-            ? "გთხოვთ შიყვანოთ მეილი სწორი ფორმატით"
+            ? t("mailError2")
             : ""
         }
       >
@@ -110,7 +116,7 @@ function Contact() {
           type="text"
           name={"email"}
           autocomplete="off"
-          placeholder="ელ.ფოსტა"
+          placeholder={t("mail")}
           hasError={!!errors?.email}
           onChange={() => {
             //   clearError("email");
@@ -118,25 +124,25 @@ function Contact() {
           }}
           useRef={register("email")}
           {...register("email", {
-            required: "მეილი აუცილებელია",
+            required: t("mailError"),
             pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           })}
         />
       </FormGroup>
       <FormGroup errorMessage={errors?.text ? errors.text.message : ""}>
         <textarea
-          placeholder="მოგვწერე წერილი"
+          placeholder={t("WriteLetter")}
           className={classnames("form-control textarea", {
             "is-invalid": !!errors?.text,
           })}
           {...register("text", {
-            required: "ტექსტი აუცილებელია",
+            required: t("WriteLettererror"),
           })}
         ></textarea>
       </FormGroup>
       <div className="btn_wrapper">
         <Button loading={load} className="btn btn-primary w-100 mt-3 py-2">
-          გაგზავნა
+          {t("Send")}
         </Button>
       </div>
     </form>

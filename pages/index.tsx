@@ -29,10 +29,7 @@ const IndexPage = () => {
               <div className="col-md-12 ">
                 <h1>
                   {t("heading")} <br /> {t("heading2")}
-                  <div>
-                    პირველი 200 მომხმარებლისთვის პლატფორმით სარგებლობა ერთი თვით
-                    განმავლობაში უფასოა
-                  </div>
+                  <div>{t("promotionText")}</div>
                 </h1>
 
                 <Link href={user ? "/search" : "/createProfile"}>
@@ -51,7 +48,7 @@ const IndexPage = () => {
                       />
                     </svg>
 
-                    {user ? t("search") : "სცადე უფასოდ"}
+                    {user ? t("search") : t("tryForFree")}
                   </a>
                 </Link>
               </div>
@@ -95,7 +92,7 @@ const IndexPage = () => {
                 <div className="img-wrapper mt-3">
                   <img src="/imgs/Frame.png" />
                 </div>
-                <h3 className="mb-5">შექმენი პროფილი</h3>
+                <h3 className="mb-5">{t("Create_profile")}</h3>
                 {/* <p>
                   შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
                   ტიპოგრაფიული ნაწარმის შემქმნელებს, რეალურთან მაქსიმალურად
@@ -133,9 +130,10 @@ const IndexPage = () => {
                 <div className="img-wrapper">
                   <img src="/imgs/Frame (1).png" />
                 </div>
-                <h3 className="mb-3">
-                  მიუთითე სასურველი <br /> კრიტერიუმები და <br /> იპოვე ოთახის{" "}
-                  <br /> მეზობელი
+                <h3 className="mb-3 mb-5">
+                  {t("criteria")}
+                  {/* მიუთითე სასურველი <br /> კრიტერიუმები და <br /> იპოვე ოთახის{" "}
+                  <br /> მეზობელი */}
                 </h3>
                 {/* <p>
                   შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
@@ -174,7 +172,9 @@ const IndexPage = () => {
                   <img src="/imgs/Frame (2).png" />
                 </div>
                 <h3 className="mb-5">
-                  გაეცანი მის <br /> პროფილს და <br /> დაუკავშირდი
+                  {t("criteria2")}
+
+                  {/* გაეცანი მის <br /> პროფილს და <br /> დაუკავშირდი */}
                 </h3>
                 {/* <p>
                   შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
@@ -212,7 +212,7 @@ const IndexPage = () => {
                 <div className="img-wrapper">
                   <img src="/imgs/Frame (3).png" />
                 </div>
-                <h3>უსაფრთხოება</h3>
+                <h3>{t("security")}</h3>
                 <div>
                   <p className="text-left">
                     <svg
@@ -225,8 +225,7 @@ const IndexPage = () => {
                     >
                       <circle cx="3.5" cy="3.5" r="3.5" fill="#484848" />
                     </svg>
-                    შეგიძლია დამალო პირადი მონაცემები შენთვის არამიზნობრივი
-                    ჯგუფისგან.
+                    {t("security1")}
                   </p>
                   <p className="text-left">
                     <svg
@@ -239,7 +238,7 @@ const IndexPage = () => {
                     >
                       <circle cx="3.5" cy="3.5" r="3.5" fill="#484848" />
                     </svg>
-                    ყალბი ექაუნთების შემოწმებას უზრუნველყოფს ჩვენი გუნდი.
+                    {t("security2")}
                   </p>
                 </div>
               </div>
@@ -317,7 +316,7 @@ const IndexPage = () => {
         <div className="container">
           <div className="row ">
             <div className="col-md-6 d-flex flex-column justify-content-center">
-              <h2 className="pb-5">დაგვიკავშირდი</h2>
+              <h2 className="pb-5">{t("ContactUs")}</h2>
             </div>
             <div className="col-md-6">
               <Contact />

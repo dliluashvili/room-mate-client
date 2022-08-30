@@ -1,6 +1,7 @@
 {
   "main": "Home",
   "contact": "Contact",
+  "ContactUs": "Contact Us",
   "search": "Find a Roommate",
   "howItWorks": "How It Works",
   "faq": "F.A.Q",
@@ -15,5 +16,39 @@
   "edit": "Edit Profile",
   "inactive": "Inactive",
   "logout": "logout",
+  "howWorks_1": "logout",
+  "promotionText": "For the first 200 users, using the platform is free for one month",
+  "tryForFree": "Try it for free",
+  "Create_profile": "Create a profile",
+  "criteria": "Choose your preferred criteria and find a roommate",
+  "criteria2": "Learn about them through their profile and contact them",
+  "security": "Security",
+  "security1": "You can hide your private data from non-target groups",
+  "security2": "Our team provides the verification of fake accounts",
+  "faq1": "What is the cost of using the platform?",
+  "faq2": "The price of the one-month package of the platform is 30 GEL, and 10 GEL for students of partner universities.",
+  "faq3": "Who is the platform for?",
+  "faq4": "Anyone looking for a roommate.",
+  "faq5": "How secure is the platform from fake accounts?",
+  "faq6": "Fake accounts are a big challenge, that's why before confirming the profile on the platform, it will be verified by the Roommategeorgia team ",
+  "faq7": "In addition, at the moment of creating the profile, the user will be able to hide his profile from unwanted groups.",
+  "faq8": "How secure is personal data?",
+  "faq9": "Our platform ensures maximum protection of personal data. You decide who your contact information is available to.",
+
+  "name": "Name",
+  "surname": "Surname",
+  "mail": "E-mail",
+  "WriteLetter": "Write us a letter",
+
+  "WriteLettererror": "Text is required",
+  "mailError": "Email is required",
+  "mailError2": "Please enter email in the correct format",
+  "surnameError": "Last name is required",
+  "nameError": "Name is required",
+  "contacteSendSusses": "Message sent successfully",
+  "contacteSendError": "An error occurred",
+
+  "Send": "Send",
+
   "partners": "Partners"
 }

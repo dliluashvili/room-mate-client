@@ -1,41 +1,35 @@
 import React, { useState } from "react";
 import classnames from "classnames";
+import useTranslation from "next-translate/useTranslation";
 
 const faqData = [
   {
-    question: "რა ღირს პლატფორმის გამოყენება?",
-    answer:
-      "პლატფორმის ერთთვიანი პაკეტის ღირებულება 30 ლარს შეადგენს, ხოლო პარტნიორი უნივერსტეტების სტუდენტებისთვის 10 ლარს.",
+    question: (t) => t("faq1"),
+    answer: (t) => t("faq2"),
   },
   {
-    question: "ვისთვის არის პლატფორმა?",
-    answer: "ნებისმიერი ადამიანისთვის, ვინც ეძებს ოთახის მეზობელს.",
+    question: (t) => t("faq2"),
+    answer: (t) => t("faq4"),
   },
   {
-    question: "რამდენად დაცულია პლატფორმა ყალბი ექაუნთებისგან?",
-    answer: (
+    question: (t) => t("faq6"),
+    answer: (t) => (
       <>
-        <p className="pl-0 pb-0">
-          - ყალბი ექაუნთები დიდ გამოწვევას წარმოადგენს, სწორედ ამიტომ
-          პლატფორმაზე პროფილი დადასტურებამდე, მოხდება მისი გადამოწმება
-          Roommategeorgia-ს გუნდის მიერ;
-        </p>
-        <p className="pl-0 ">
-          - გარდა ამისა პროფილის შექმნის მომენტში მომხმარებელს შეეძლება თავის
-          პროფილი დაფაროს მისთვის არასასურველი ჯგუფისგან.
-        </p>
+        <p className="pl-0 pb-0">- {t("faq7")}</p>
+        <p className="pl-0 ">- {t("faq8")}</p>
       </>
     ),
   },
   {
-    question: "პირადი მონაცემები რამდენად დაცულია? ",
-    answer:
-      "ჩვენი პლატფორმა უზრუნველყოფს პირადი მონაცემების მაქსიმალურ დაცულობას. თქვენ თავად განსაზღვრავთ ვისთვის იყოს თქვენი საკონტაქტო მონაცემები ხელმისაწვდომი. ",
+    question: (t) => t("faq9"),
+    answer: (t) => t("faq10"),
   },
 ];
 
 function Faq() {
   const [openindex, setOpenIndex] = useState<null | number>(null);
+
+  let { t } = useTranslation("common");
 
   const toggleIndex = (i: number) => {
     if (i === openindex) {
@@ -69,7 +63,7 @@ function Faq() {
                   <circle cx="3.5" cy="4" r="3.5" fill="#5E666E" />
                 </svg>
 
-                <div className="mx-2">{item.question}</div>
+                <div className="mx-2">{item.question(t)}</div>
               </div>
               <svg
                 className="arrow"
@@ -96,7 +90,7 @@ function Faq() {
               </svg>
             </div>
             <div className="faq_answer">
-              <p>{item.answer}</p>
+              <p> {item.answer(t)}</p>
             </div>
           </div>
         );

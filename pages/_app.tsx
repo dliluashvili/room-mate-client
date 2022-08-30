@@ -27,7 +27,10 @@ function MyApp({ Component, pageProps }) {
           content="იპოვე ოთახის მეზობელი და
           გაიყავი ბინის ქირა"
         />
-        <meta property="og:image" content="/img/Capture.PNG" />
+        <meta
+          property="og:image"
+          content="blob:https://imgur.com/02bef647-5b15-43d2-9d7e-b334e04845d6"
+        />
 
         {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> */}
       </Head>

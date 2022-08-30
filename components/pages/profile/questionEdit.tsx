@@ -9,6 +9,7 @@ import { Button } from "../../common/form";
 import { setCurrentUser } from "../../../redux/action-creators/index";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { Router, useRouter } from "next/router";
 
 const QuestionEdit = () => {
   const [questions, setQuestions] = useState<IQuestions[] | null>(null);
@@ -16,6 +17,8 @@ const QuestionEdit = () => {
   const [answersContainer, setAnswersContainer] = useState<{
     [key: string]: [];
   }>({});
+
+  const router = useRouter();
 
   const { answeredAnswers } = useTypedSelector((state) => state.profile.user);
 
@@ -42,7 +45,7 @@ const QuestionEdit = () => {
   }, [answeredAnswers]);
 
   useEffect(() => {
-    Questions.getQuestions()
+    Questions.getQuestions({ lang: router.query.locale })
       .then((res) => {
         setQuestions(res.data);
         console.log(res.data);

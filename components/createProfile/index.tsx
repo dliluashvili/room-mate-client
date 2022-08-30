@@ -4,7 +4,7 @@ import CreateProfileContent from "./createProfileContent";
 import { Questions, IQuestions } from "../../services/questions/questions.http";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { Button } from "../common/form/button";
 import { SmsCheckContext } from "./createProfileContent/context/smsCheckContext";
 
@@ -20,9 +20,13 @@ function CreateProfileWrapper(props) {
     [key: string]: [];
   }>({});
 
+  const router = useRouter();
+
   useEffect(() => {
     setLoadQuestions(true);
-    Questions.getQuestions()
+    // console.log(router.query, "router.query");
+    // debugger;
+    Questions.getQuestions({ lang: router.locale })
       .then((res) => {
         console.log(res);
         setQuestions(res.data.sort((a, b) => a.position - b.position));

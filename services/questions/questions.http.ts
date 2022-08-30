@@ -27,8 +27,12 @@ export type IQuestions = {
 };
 
 class _Questions {
-  getQuestions = (): AxiosPromise<IQuestions[]> => {
-    return axios.get(backEndRoutes.questions.getQuestions());
+  getQuestions = ({ lang }: { lang: any }): AxiosPromise<IQuestions[]> => {
+    return axios.get(backEndRoutes.questions.getQuestions(), {
+      params: {
+        locale: lang,
+      },
+    });
   };
 
   saveAnswers = (answers: any): AxiosPromise => {
