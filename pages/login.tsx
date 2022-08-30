@@ -50,7 +50,8 @@ const Login = () => {
       setLoad(false);
       Router.push("/profile");
     } catch (e) {
-      console.log(e);
+      console.log(e, "eeeeeeeeeeeee");
+      debugger;
       setLoad(false);
       if (e?.response?.data?.message) {
         toast.error(e?.response?.data?.message, {
@@ -114,7 +115,7 @@ const Login = () => {
                 <Input
                   type="number"
                   name={"phone"}
-                  placeholder="579121212"
+                  placeholder="მობილურის ნომერი"
                   hasError={!!errors?.phone}
                   onChange={() => {
                     //   clearError("phone");

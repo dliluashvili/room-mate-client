@@ -22,6 +22,7 @@ export type IQuestions = {
     title: string;
     question_id: number;
     active: boolean;
+    searchable_title?: string;
   }[];
 };
 

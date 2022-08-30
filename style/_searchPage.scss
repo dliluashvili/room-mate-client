@@ -55,11 +55,13 @@
       padding: 10px;
       position: absolute;
       left: 0;
-      top: 35px;
+      box-shadow: -1px 1px 3px 0px #0000000a;
+      top: 41px;
       max-height: 249px;
       /* height: 100%; */
       background: #e3e3e3;
       /* min-height: 200px; */
+      border-radius: 5px;
       width: 100%;
       z-index: 2;
       overflow: auto;

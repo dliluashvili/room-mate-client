@@ -173,7 +173,7 @@ const Search = () => {
             value="fsf"
           /> */}
             {searchParams.map((el) => {
-              if (el.search_type === "choice" && el.name !== "distinct") {
+              if (el.search_type === "choice" && el.name !== "district") {
                 return <Choice key={el.id} data={el} />;
               } else if (el.search_type === "range") {
                 return <Range key={el.id} data={el} />;
@@ -296,7 +296,7 @@ const Search = () => {
               </div>
               <div className="w-100">
                 <LocationSearch
-                  data={searchParams.find((el) => el.name === "distinct")}
+                  data={searchParams.find((el) => el.name === "district")}
                   searchHandler={searchHandler}
                 />
               </div>

@@ -113,7 +113,7 @@ const Choice: React.FC<IProps> = ({ data }) => {
                     />
                     <span className="checkmark"></span>
                   </div>
-                  <div className="">{el.title} </div>
+                  <div className="">{el.searchable_title || el.title} </div>
                 </label>
               </div>
             );
@@ -144,7 +144,7 @@ const Choice: React.FC<IProps> = ({ data }) => {
                       fill="red"
                     />
                   </svg>
-                  {el.title}{" "}
+                  {el.searchable_title || el.title}
                 </div>
               );
             }

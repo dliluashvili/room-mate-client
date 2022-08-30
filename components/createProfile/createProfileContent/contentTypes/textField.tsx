@@ -30,7 +30,7 @@ export const TextField = ({ data, setData, values }: IContentProps) => {
         {data.type === "textarea" ? (
           <textarea
             value={value[0] || ""}
-            // placeholder={data.title}
+            placeholder={"ჩაწერე ტექსტი აქ"}
             onChange={(e) => {
               setValue([e.target.value]);
               setData({

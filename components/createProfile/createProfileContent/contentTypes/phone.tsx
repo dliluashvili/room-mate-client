@@ -85,7 +85,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
           <input
             value={value[0] || ""}
             // placeholder={data.title}
-            placeholder="ტელეფონის ნომერი"
+            placeholder="ჩაწერე ნომერი აქ"
             onChange={(e) => {
               setIsVerify(false);
               setValue([e.target.value]);
@@ -112,7 +112,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
               setSmsCode(e.target.value);
             }}
             className="form-control placeholder-active"
-            placeholder="sms კოდი"
+            placeholder="ჩაწერე კოდი აქ"
           />
         </div>
       </div>

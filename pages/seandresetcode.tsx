@@ -101,7 +101,7 @@ const SendResetCode = () => {
                 <Input
                   type="number"
                   name={"phone"}
-                  placeholder="+995"
+                  placeholder="მობილურის ნომერი"
                   hasError={!!errors?.phone}
                   onChange={() => {
                     //   clearError("phone");

@@ -18,7 +18,7 @@ const IndexPage = () => {
 
   const { user } = useTypedSelector((state) => state.profile);
 
-  console.log(router.locales, "ttttttttt");
+  // console.log(router.locales, "ttttttttt");
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <div className="mainBg">
@@ -29,7 +29,12 @@ const IndexPage = () => {
               <div className="col-md-12 ">
                 <h1>
                   {t("heading")} <br /> {t("heading2")}
+                  <div>
+                    პირველი 200 მომხმარებლისთვის პლატფორმით სარგებლობა უფასო
+                    იქნება ერთი თვით!
+                  </div>
                 </h1>
+
                 <Link href={user ? "/search" : "/createProfile"}>
                   <a className="btn btn-primary ">
                     <svg
@@ -45,7 +50,8 @@ const IndexPage = () => {
                         fill="white"
                       />
                     </svg>
-                    {t("search")}
+
+                    {user ? t("search") : "სცადე უფასოდ"}
                   </a>
                 </Link>
               </div>
