@@ -32,36 +32,52 @@ const Partners = () => {
       }}
     >
       <SwiperSlide>
-        <img src="/imgs/kavk 1.png" />
-        <h5 className="sliderTitle">{t("uni1")}</h5>
+        <div>
+          <img src="/imgs/kavk 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni1")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/tv 1.png" />
-        <h5 className="sliderTitle">{t("uni2")}</h5>
+        <div>
+          <img src="/imgs/tv 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni2")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/Untitled-1ს 1.png" />
-        <h5 className="sliderTitle">{t("uni3")}</h5>
+        <div>
+          <img src="/imgs/Untitled-1ს 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni3")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/sam 1.png" />
-        <h5 className="sliderTitle">{t("uni4")}</h5>
+        <div>
+          <img src="/imgs/sam 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni4")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/kavk 1.png" />
-        <h5 className="sliderTitle">{t("uni1")}</h5>
+        <div>
+          <img src="/imgs/kavk 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni1")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/tv 1.png" />
-        <h5 className="sliderTitle">{t("uni2")}</h5>
+        <div>
+          <img src="/imgs/tv 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni2")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/Untitled-1ს 1.png" />
-        <h5 className="sliderTitle">{t("uni3")}</h5>
+        <div>
+          <img src="/imgs/Untitled-1ს 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni3")}</h5> */}
+        </div>
       </SwiperSlide>
       <SwiperSlide>
-        <img src="/imgs/sam 1.png" />
-        <h5 className="sliderTitle">{t("uni4")}</h5>
+        <div>
+          <img src="/imgs/sam 1.png" />
+          {/* <h5 className="sliderTitle">{t("uni4")}</h5> */}
+        </div>
       </SwiperSlide>
     </Swiper>
   );
