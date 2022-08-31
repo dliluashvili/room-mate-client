@@ -21,6 +21,7 @@ interface ISidebar {
   social_network: any;
   signOut?: () => void;
   myProfile?: boolean;
+  profile_image?: string;
   is_locked_communication?: boolean;
 }
 
@@ -97,17 +98,23 @@ const SideBar: React.FC<ISidebar> = (props) => {
     <div className="profile_sideBar">
       <div className="profile_userHeading">
         <span>
-          <img
-            onClick={() => {
-              fileRef?.current?.click();
-            }}
-            className="pointer"
-            src={
-              user?.profile_image
-                ? user?.profile_image
-                : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
-            }
-          />
+          {props.myProfile ? (
+            <img
+              onClick={() => {
+                fileRef?.current?.click();
+              }}
+              className="pointer"
+              src={
+                user?.profile_image
+                  ? user?.profile_image
+                  : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+              }
+            />
+          ) : (
+            props.profile_image && (
+              <img className="pointer" src={props.profile_image} />
+            )
+          )}
           <input
             onChange={(e) => {
               setImage(URL.createObjectURL(e.target.files[0]));

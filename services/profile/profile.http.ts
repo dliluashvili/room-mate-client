@@ -41,6 +41,7 @@ export interface IUserProfile {
   id: number;
   payed: boolean;
   is_locked_communication?: boolean;
+  profile_image?: string;
   answeredAnswers: {
     answer_id: number;
     id: number;
