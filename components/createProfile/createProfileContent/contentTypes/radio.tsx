@@ -29,7 +29,7 @@ export default function Radio({ data, setData, values }: IRadioProps) {
       <Heading text={data.title} />
       <div className="createProfile_checkboxItem_wrapper">
         {data.answers.map((item, i) => {
-          let answerId = item.real_id ? item.real_id : item.id;
+          let answerId = item.id;
           return (
             <Checkbox
               key={item.id}
