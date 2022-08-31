@@ -34,12 +34,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /var/www/roommate
-          rm -rf client
-          git clone git@github.com:dliluashvili/room-mate-client.git client
           cd client/
           git stash
           git checkout prod
-          cp /var/www/roommate/env_files/.env.production /var/www/roommate/client/
+          git pull origin prod
           npm i --force
           pm2 delete roommate-client
           npm run build
