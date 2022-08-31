@@ -54,7 +54,20 @@ const ProfileCard: React.FC<IProps> = ({
             bluer: !user?.payed,
           })}
         >
-          <span className="pr-3">{firstname}</span>
+          <span
+            onClick={(e) => {
+              e.preventDefault();
+              if (!user?.payed) {
+                setPayModal(user?.payed);
+                return;
+              } else {
+                router.push(`/user/${id}`);
+              }
+            }}
+            className="pr-3 pointer"
+          >
+            {firstname}
+          </span>
           <span>
             {age} {t("years")}
           </span>
@@ -76,6 +89,16 @@ const ProfileCard: React.FC<IProps> = ({
       <div className="userCard_body d-flex">
         <div>
           <img
+            onClick={(e) => {
+              e.preventDefault();
+              if (!user?.payed) {
+                setPayModal(user?.payed);
+                return;
+              } else {
+                router.push(`/user/${id}`);
+              }
+            }}
+            className="pointer"
             style={{ border: "1px solid #b1a1a130" }}
             src={
               profile_image

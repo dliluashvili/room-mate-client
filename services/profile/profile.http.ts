@@ -54,6 +54,7 @@ export interface INotificationReceiver {
   id: number;
   sender_firstname?: string;
   sender_lastname?: string;
+  sender_profile_imagee?: string;
   status: number;
   sender_id?: number;
 }
@@ -62,6 +63,7 @@ export interface INotificationSent {
   id: number;
   receiver_firstname?: string;
   receiver_lastname?: string;
+  receiver_profile_image?: string;
   status: number;
   receiver_id?: number;
 }

@@ -92,6 +92,7 @@ const ReceiveNotification = () => {
             <ToastContainer />
             <NotificationsCard
               type="receive"
+              img={el.sender_profile_imagee}
               text={
                 el.status === 1
                   ? t("needSeeYourProfile", {

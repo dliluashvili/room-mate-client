@@ -11,9 +11,16 @@ interface IProps {
   text: string;
   type?: string;
   id: number;
+  img?: string;
 }
 
-const NotificationsCard: React.FC<IProps> = ({ text, id, children, type }) => {
+const NotificationsCard: React.FC<IProps> = ({
+  text,
+  id,
+  children,
+  type,
+  img,
+}) => {
   return (
     <div
       className={classNames("notification_card ", {
@@ -23,7 +30,13 @@ const NotificationsCard: React.FC<IProps> = ({ text, id, children, type }) => {
       <div className="notification_body d-flex">
         <Link href={"/user/" + id}>
           <a>
-            <img src="/imgs/download.jpg" />
+            <img
+              src={
+                img
+                  ? img
+                  : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+              }
+            />
           </a>
         </Link>
         <p>
