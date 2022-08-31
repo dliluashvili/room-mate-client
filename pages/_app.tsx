@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import Head from "next/head";
@@ -6,10 +6,14 @@ import "../style/style.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { SearchProvider } from "../components/pages/search/context/searchContext";
 import MessengerCustomerChat from "react-messenger-customer-chat";
+import { hotjar } from "react-hotjar";
 
 // import { Html } from "next/document";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    hotjar.initialize(3128732, 6);
+  }, []);
   return (
     <>
       <Head>
@@ -32,6 +36,18 @@ function MyApp({ Component, pageProps }) {
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=G-90LQL896FN`}
+        />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'G-90LQL896FN')
+          `,
+          }}
         />
 
         <script
