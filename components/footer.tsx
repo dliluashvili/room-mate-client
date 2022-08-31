@@ -133,7 +133,7 @@ function Footer() {
                       </clipPath>
                     </defs>
                   </svg>
-                  loremipsum@gmail.com
+                  roommatetbilisi@gmail.com
                 </a>
               </Link>
             </div>

@@ -8,21 +8,21 @@ const faqData = [
     answer: (t) => t("faq2"),
   },
   {
-    question: (t) => t("faq2"),
+    question: (t) => t("faq3"),
     answer: (t) => t("faq4"),
   },
   {
-    question: (t) => t("faq6"),
+    question: (t) => t("faq5"),
     answer: (t) => (
       <>
-        <p className="pl-0 pb-0">- {t("faq7")}</p>
-        <p className="pl-0 ">- {t("faq8")}</p>
+        <p className="pl-0 pb-0">- {t("faq6")}</p>
+        <p className="pl-0 ">- {t("faq7")}</p>
       </>
     ),
   },
   {
-    question: (t) => t("faq9"),
-    answer: (t) => t("faq10"),
+    question: (t) => t("faq8"),
+    answer: (t) => t("faq9"),
   },
 ];
 
