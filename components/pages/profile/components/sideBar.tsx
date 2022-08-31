@@ -186,7 +186,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  checked={user?.is_locked_communication}
+                  checked={!user?.is_locked_communication}
                   role="switch"
                   onChange={() => {
                     handleChangeProfileLock();
