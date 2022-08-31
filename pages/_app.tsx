@@ -27,9 +27,23 @@ function MyApp({ Component, pageProps }) {
           content="იპოვე ოთახის მეზობელი და
           გაიყავი ბინის ქირა"
         />
-        <meta
-          property="og:image"
-          content="blob:https://imgur.com/02bef647-5b15-43d2-9d7e-b334e04845d6"
+        <meta property="og:image" content="https://i.imgur.com/eZmxufE.png" />
+
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=G-90LQL896FN`}
+        />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'G-90LQL896FN')
+          `,
+          }}
         />
 
         {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> */}
