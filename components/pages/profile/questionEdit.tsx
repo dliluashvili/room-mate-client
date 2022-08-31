@@ -45,7 +45,7 @@ const QuestionEdit = () => {
   }, [answeredAnswers]);
 
   useEffect(() => {
-    Questions.getQuestions({ lang: router.query.locale })
+    Questions.getQuestions({ lang: router.locale })
       .then((res) => {
         setQuestions(res.data);
         console.log(res.data);
@@ -54,7 +54,7 @@ const QuestionEdit = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [router.locale]);
 
   const answers = () => {
     // debugger;

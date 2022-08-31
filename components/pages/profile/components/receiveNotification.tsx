@@ -9,11 +9,14 @@ import classNames from "classnames";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
+import useTranslation from "next-translate/useTranslation";
 
 const ReceiveNotification = () => {
   const [sentNotifications, setSentNotifications] = useState<
     INotificationReceiver[] | null
   >(null);
+
+  let { t } = useTranslation("common");
 
   const checkAuth = useCheckUnAuthResponse();
 
@@ -61,7 +64,7 @@ const ReceiveNotification = () => {
           })
         );
         toast.success(
-          flag === "reject" ? "მოთხოვნა უარყოფილია" : "მოთხოვნა მიღებულია",
+          flag === "reject" ? t("requestRejected") : t("requestApproved"),
           {
             position: "top-right",
             autoClose: 3000,
@@ -91,10 +94,19 @@ const ReceiveNotification = () => {
               type="receive"
               text={
                 el.status === 1
-                  ? `${el.sender_firstname} ${el.sender_lastname} - ს უნდა თქვენი კონტაქტების ნახვა`
+                  ? t("needSeeYourProfile", {
+                      name: el.sender_firstname,
+                      lastname: el.sender_lastname,
+                    })
                   : el.status === 2
-                  ? `თვენ უფლება მიეცით ${el.sender_firstname} ${el.sender_lastname} - ს ნახოს თქვენი კონტაქტი`
-                  : `თვენ უარი თქვით ${el.sender_firstname} ${el.sender_lastname} - მა ნახოს თქვენი კონტაქტი`
+                  ? t("youApproveuserToSee", {
+                      name: el.sender_firstname,
+                      lastname: el.sender_lastname,
+                    })
+                  : t("youRejectuserToSee", {
+                      name: el.sender_firstname,
+                      lastname: el.sender_lastname,
+                    })
               }
               id={el.sender_id}
             >
@@ -105,22 +117,22 @@ const ReceiveNotification = () => {
                     onClick={() => answerAllowRequest(el, "reject")}
                     className="btn btn-light w-50  mr-3"
                   >
-                    უარყოფა
+                    {t("reject")}
                   </Button>
                   <Button
                     onClick={() => answerAllowRequest(el, "approve")}
                     className="btn btn-primary w-50"
                   >
-                    დაშვება
+                    {t("approve")}
                   </Button>
                 </>
               ) : el.status === 2 ? (
                 <Button className="btn btn-primary w-100">
-                  მომხმარებელი დაშვებულია
+                  {t("approveUser")}
                 </Button>
               ) : (
                 <Button className="btn btn-danger w-100">
-                  მომხმარებელი უარყოფილია
+                  {t("rejectUser")}
                 </Button>
               )}
             </NotificationsCard>

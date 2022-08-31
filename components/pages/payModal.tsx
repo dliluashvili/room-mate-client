@@ -1,4 +1,5 @@
 import React from "react";
+import useTranslation from "next-translate/useTranslation";
 import { Button } from "../common/form";
 
 const PayModal = ({
@@ -8,34 +9,27 @@ const PayModal = ({
   setClose?: () => void;
   isModal?: boolean;
 }) => {
+  let { t } = useTranslation("common");
+
   return (
     <div className="payModal_wrapper">
       {isModal ? <div className="blurBg"></div> : null}
 
       <div className="buyModal">
-        <h2>სერვისის სარგებლობისთვის საჭიროა მომსახურების საფასურის გადახდა</h2>
+        <h2>{t("servicePriceDEscription")}</h2>
         <div>
           <p className="text-center">
-            <div>მომსახურების საფასური 30 ლარი</div>
-            <div className="mb-2">
-              პარტნიორი უნივერსიტეტის სტუდენტებისთვის - 10 ლარი
-            </div>
-            <div>
-              საფასურის გადახდის შემთხვევაში თქვენ შეძლებთ პლატფორმით
-              სარგებლობას მომდევნო 1 თვის განმავლობაში.
-            </div>
-            <div>
-              იმისთვის, რომ ერთი თვის გასვლის შემდეგ თქვენ კვლავ ისარგებლოთ
-              პლატფორმით საჭირო იქნება თანხის ხელახლა გადახდა. ავტომატური
-              ჩამოჭრა არ განხორციელდება.
-            </div>
+            <div>{t("servicePriceDEscription2")}</div>
+            <div className="mb-2">{t("servicePriceDEscription3")}</div>
+            <div>{t("servicePriceDEscription4")}</div>
+            <div>{t("servicePriceDEscription5")}</div>
           </p>
 
           <div className="d-flex align-items-center w-100 justify-content-center">
             <Button onClick={setClose} className="btn btn-light mr-3">
-              გაუქმება
+              {t("Cancel")}
             </Button>
-            <Button className="btn btn-primary">გადახდა</Button>
+            <Button className="btn btn-primary">{t("Pay")}</Button>
           </div>
         </div>
       </div>

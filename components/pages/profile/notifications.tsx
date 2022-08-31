@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NotificationsCard from "./components/notificationsCard";
+import useTranslation from "next-translate/useTranslation";
 import {
   ProfileService,
   INotificationReceiver,
@@ -12,6 +13,7 @@ const Notifications = () => {
   const [notificationType, setNotificationType] = useState<"sent" | "receive">(
     "receive"
   );
+  let { t } = useTranslation("common");
 
   return (
     <div className="d-flex flex-wrap mt-4 ">
@@ -24,7 +26,7 @@ const Notifications = () => {
             ["active"]: notificationType !== "receive",
           })}
         >
-          მიღებული
+          {t("resave")}
         </span>
         <span
           onClick={() => {
@@ -34,7 +36,7 @@ const Notifications = () => {
             ["active"]: notificationType !== "sent",
           })}
         >
-          გაგზავნილი
+          {t("sent")}
         </span>
       </div>
       <div className="container notificationsContainer p-0">

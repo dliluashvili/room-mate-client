@@ -12,6 +12,7 @@ import Router, { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILoginForm {
   phone: string;
@@ -32,6 +33,8 @@ const SendResetCode = () => {
     formState: { errors },
   } = useForm<ILoginForm>();
 
+  let { t } = useTranslation("common");
+
   //   const [errors, setErrors] = useState<IErrorMsg>({});
 
   const [load, setLoad] = useState(false);
@@ -46,7 +49,7 @@ const SendResetCode = () => {
       // debugger;
       //   dispatch(setCurrentUser({ user: null, token: res.data.access_token }));
       setLoad(false);
-      toast.success("კოდი გამოგზავნილია თვენ ნომერზე", {
+      toast.success(t("codeSent"), {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -86,7 +89,7 @@ const SendResetCode = () => {
         <div className="loginSection_container">
           <div className="form_Wrapper m-auto">
             <form onSubmit={submit} className="contentWrapper">
-              <h2 className="form_title">პაროლის აღდგენა</h2>
+              <h2 className="form_title">{t("passwordrecovery")}</h2>
 
               <FormGroup
                 errorMessage={
@@ -96,12 +99,12 @@ const SendResetCode = () => {
                     ? "მობილური"
                     : ""
                 }
-                Label="მობილურის ნომერი"
+                Label={t("Phonenumber")}
               >
                 <Input
                   type="number"
                   name={"phone"}
-                  placeholder="მობილურის ნომერი"
+                  placeholder={t("Phonenumber")}
                   hasError={!!errors?.phone}
                   onChange={() => {
                     //   clearError("phone");
@@ -110,7 +113,7 @@ const SendResetCode = () => {
                   useRef={register("phone")}
                   className="w-100"
                   {...register("phone", {
-                    required: "მოობილური აუცილებელია",
+                    required: t("PhonenumberError"),
                   })}
                 />
               </FormGroup>
@@ -130,14 +133,14 @@ const SendResetCode = () => {
                 loading={load}
                 className="btn btn-primary w-100 mt-3 py-2 mb-3"
               >
-                გაგზავნა
+                {t("Send")}
               </Button>
               <Link href="/createProfile">
-                <a className="label">რეგისტრაცია</a>
+                <a className="label"> {t("register")}</a>
               </Link>
               <br />
               <Link href="/login">
-                <a className="label">ავტორიზაცია</a>
+                <a className="label"> {t("login")}</a>
               </Link>
             </form>
           </div>

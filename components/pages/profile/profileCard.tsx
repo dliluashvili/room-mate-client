@@ -5,6 +5,7 @@ import { ProfileService } from "../../../services/profile/profile.http";
 import classnames from "classnames";
 import { useRouter } from "next/router";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
+import useTranslation from "next-translate/useTranslation";
 
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
@@ -38,6 +39,8 @@ const ProfileCard: React.FC<IProps> = ({
       });
   };
 
+  let { t } = useTranslation("common");
+
   const { user } = useTypedSelector((state) => state.profile);
   const router = useRouter();
 
@@ -52,7 +55,9 @@ const ProfileCard: React.FC<IProps> = ({
           })}
         >
           <span className="pr-3">{firstname}</span>
-          <span>{age} წლის</span>
+          <span>
+            {age} {t("years")}
+          </span>
         </div>
         <div
           className={classnames({
@@ -64,8 +69,8 @@ const ProfileCard: React.FC<IProps> = ({
               "-" +
               suitablePrices[suitablePrices.length - 1]
                 .split("-")[1]
-                .replace("ლარი", "₾ ")}
-          თვეში
+                .replace("ლარი", "₾ ")}{" "}
+          {t("InMonth")}
         </div>
       </div>
       <div className="userCard_body d-flex">
@@ -146,7 +151,7 @@ const ProfileCard: React.FC<IProps> = ({
               </svg>
             )}
 
-            {isFavourite ? "წაშლა" : " შენახვა"}
+            {isFavourite ? t("delete") : t("save")}
           </div>
           <Link href={`/user/${id}`}>
             <a
@@ -160,7 +165,7 @@ const ProfileCard: React.FC<IProps> = ({
                 }
               }}
             >
-              მეტის ნახვა
+              {t("seeMore")}
             </a>
           </Link>
         </div>

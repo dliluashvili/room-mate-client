@@ -12,19 +12,21 @@ import ProfileTab from "../../components/pages/profile/components/profileTab";
 import Loader from "../../components/common/loader";
 import ProfileWrapper from "../../components/pages/profile/profileWrapper";
 import QuestionEdit from "../../components/pages/profile/questionEdit";
-
-const tabs = [
-  {
-    label: "პროფილის რედაქტირება",
-    path: "/profile/edit",
-  },
-  {
-    label: "პაროლის შეცვლა",
-    path: "/profile/resetpassword",
-  },
-];
+import useTranslation from "next-translate/useTranslation";
 
 function Edit(props) {
+  let { t } = useTranslation("common");
+
+  const tabs = [
+    {
+      label: t("editProfile"),
+      path: "/profile/edit",
+    },
+    {
+      label: t("changePassword"),
+      path: "/profile/resetpassword",
+    },
+  ];
   return (
     <ProfileWrapper consumerPage={"edit"}>
       <ProfileTab tabs={tabs} />

@@ -5,6 +5,7 @@ import {
   ISearchItems,
 } from "../../../services/profile/profile.http";
 import PayModal from "../payModal";
+import { useRouter } from "next/router";
 
 const Favorites = () => {
   const [favoritesList, setFavoritesList] = useState<ISearchItems[] | null>(
@@ -12,8 +13,10 @@ const Favorites = () => {
   );
   const [payModal, setPayModal] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    ProfileService.getFavorites()
+    ProfileService.getFavorites({ lang: router.locale })
       .then((res) => {
         console.log(res);
         setFavoritesList(res.data.data);
@@ -21,7 +24,7 @@ const Favorites = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [router.locale]);
 
   const updateAddRemove = (id, saveId) => {
     // debugger;

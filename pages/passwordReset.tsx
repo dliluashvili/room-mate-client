@@ -12,6 +12,7 @@ import Router, { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILoginForm {
   password: string;
@@ -37,6 +38,7 @@ const PasswordReset = () => {
   } = useForm<ILoginForm>();
 
   //   const [errors, setErrors] = useState<IErrorMsg>({});
+  let { t } = useTranslation("common");
 
   const router = useRouter();
   const [load, setLoad] = useState(false);
@@ -55,7 +57,7 @@ const PasswordReset = () => {
       // debugger
       //   dispatch(setCurrentUser({ user: null, token: res.data.access_token }));
       setLoad(false);
-      toast.error("პაროლი წარმატებით შეიცვალა", {
+      toast.success(t("passwordChangeSuccess"), {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -102,11 +104,11 @@ const PasswordReset = () => {
         <div className="loginSection_container">
           <div className="form_Wrapper m-auto">
             <form onSubmit={submit} className="contentWrapper">
-              <h2 className="form_title">პაროლის აღდგენა</h2>
+              <h2 className="form_title">{t("passwordrecovery")}</h2>
 
-              <label className="mb-3 text-center">
+              {/* <label className="mb-3 text-center">
                 გთხოვთ შიყვანოთ {router?.query?.phone} ნომერზე გამოგზავნილი კოდი
-              </label>
+              </label> */}
               <FormGroup
                 errorMessage={
                   errors?.code?.message
@@ -115,12 +117,12 @@ const PasswordReset = () => {
                     ? "მობილური"
                     : ""
                 }
-                Label="SMS კოდი"
+                Label={t("SMSCode")}
               >
                 <Input
                   type="text"
                   name={"code"}
-                  placeholder="sms code"
+                  placeholder={t("SMSCode")}
                   hasError={!!errors?.code}
                   onChange={() => {
                     //   clearError("code");
@@ -129,7 +131,7 @@ const PasswordReset = () => {
                   useRef={register("code")}
                   className="w-100"
                   {...register("code", {
-                    required: "SMS კოდი აუცილებელია",
+                    required: t("SMSCodeError"),
                   })}
                 />
               </FormGroup>
@@ -141,7 +143,7 @@ const PasswordReset = () => {
                     className="form-control-label d-flex "
                     htmlFor="inputSuccess2"
                   >
-                    <span> პაროლი </span>
+                    <span> {t("Password")} </span>
                   </label>
                 }
               >
@@ -152,7 +154,7 @@ const PasswordReset = () => {
                   hasError={!!errors?.password}
                   placeholder="******"
                   {...register("password", {
-                    required: "პაროლი აუცილებელია",
+                    required: t("PasswordError"),
                   })}
                 />
               </FormGroup>
@@ -161,15 +163,15 @@ const PasswordReset = () => {
                 errorMessage={
                   errors?.passwordRepeat &&
                   errors?.passwordRepeat.type === "required"
-                    ? "პაროლი აუცილებელია"
-                    : "პაროლები არ მეთხვევა"
+                    ? t("PasswordError")
+                    : t("passwordMatchError")
                 }
                 Label={
                   <label
                     className="form-control-label d-flex "
                     htmlFor="inputSuccess2"
                   >
-                    <span> გაიმეორე პაროლი </span>
+                    <span> {t("PasswordRepeat")} </span>
                   </label>
                 }
               >
@@ -180,7 +182,7 @@ const PasswordReset = () => {
                   hasError={!!errors?.passwordRepeat}
                   placeholder="******"
                   {...register("passwordRepeat", {
-                    required: "პაროლი აუცილებელია",
+                    required: t("PasswordError"),
                     validate: {
                       isMatch: (value) => value === watch("password"),
                     },
@@ -203,14 +205,14 @@ const PasswordReset = () => {
                 loading={load}
                 className="btn btn-primary w-100 mt-3 py-2 mb-3"
               >
-                პაროლის აღდგენა
+                {t("passwordrecovery")}
               </Button>
               <Link href="/createProfile">
-                <a className="label">რეგისტრაცია</a>
+                <a className="label">{t("register")}</a>
               </Link>
               <br />
               <Link href="/seandresetcode">
-                <a className="label">დაგავიწყდა პაროლი?</a>
+                <a className="label">{t("Forgotpassword")}</a>
               </Link>
             </form>
           </div>

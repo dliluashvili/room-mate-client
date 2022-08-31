@@ -5,6 +5,7 @@ import {
 } from "../../../services/questions/questions.http";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
 import { IUserProfile } from "../../../services/profile/profile.http";
+import { useRouter } from "next/router";
 
 interface IProps {
   userProfile: IUserProfile;
@@ -14,9 +15,9 @@ const QuestionPreview: React.FC<IProps> = ({
   userProfile: { answeredAnswers },
 }) => {
   const [questions, setQuestions] = useState<IQuestions[] | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
-    Questions.getQuestions()
+    Questions.getQuestions({ lang: router.locale })
       .then((res) => {
         setQuestions(res.data);
         console.log(res.data);
@@ -25,7 +26,7 @@ const QuestionPreview: React.FC<IProps> = ({
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [router.locale]);
 
   const answers = () => {
     // debugger;

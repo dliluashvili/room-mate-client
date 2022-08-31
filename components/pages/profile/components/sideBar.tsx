@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import classnames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
+
 import { Button } from "../../../common/form";
 import { ProfileService } from "../../../../services/profile/profile.http";
 import { useTypedSelector } from "../../../hooks/useTypeSelector";
@@ -28,6 +30,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const [status, setStatus] = useState<"load" | boolean>(false);
   const dispatch = useDispatch();
   const [image, setImage] = useState("");
+  let { t } = useTranslation("common");
 
   const fileRef: any = useRef();
 
@@ -149,22 +152,20 @@ const SideBar: React.FC<ISidebar> = (props) => {
       </div>
 
       <div className="profile_aboutMe">
-        <div>ჩემ შესახებ</div>
+        <div>{t("aboutMe")} </div>
         <p>{props?.about_me}</p>
       </div>
 
       {!props.myProfile && !props.phone ? (
         <div className="profile_contacts">
-          <p className="text-center">
-            კონტაქტების სანახავად გთხოვთ გააგზავნოთ მოთხოვნა
-          </p>
+          <p className="text-center">{t("seandContactRequest")}</p>
           <Button
             loading={status === "load"}
             disabled={!!status}
             onClick={userContactRequest}
             className="btn btn-primary mb-4 w-100"
           >
-            {status ? "მოთხოვნა გაგზავნილია" : " კონტაქტის მოთხოვნა"}
+            {status ? t("sentContactRequest") : t("contactRequest")}
           </Button>
         </div>
       ) : (
@@ -187,14 +188,10 @@ const SideBar: React.FC<ISidebar> = (props) => {
                   htmlFor="flexSwitchCheckDefault"
                 >
                   {/* კონტაqტის ხილვადობა{" "} */}
-                  კონტაქტის ხილვადობა
+                  {t("contactVisibility")}
                   <span className="pointer toltipWrapper ml-3">
                     <AlertIcon stroke="blue" fill="blue" />
-                    <p>
-                      კონტაქტის ხილვადობის გამორთვის შემთხვევაში სხვა
-                      მომხმარებლები ვერ შეძლებენ, რომ თქვენი ნებართვის გარეშე
-                      ნახონ თქვენი საკონტაქტო ინფორმაცია.
-                    </p>
+                    <p>{t("contactVisibilityHint")}</p>
                   </span>
                 </label>
               </div>
@@ -217,22 +214,20 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       htmlFor="flexSwitchCheckDefault"
                     >
                       {/* კონტაqტის ხილვადობა{" "} */}
-                      ვეძებ ოთახის მეზობელს
+                      {t("findRoomate")}
+
                       <span className="pointer toltipWrapper ml-3">
                         <AlertIcon stroke="blue" fill="blue" />
-                        <p>
-                          გამორთვის შემთხვევაში შენ აღარ გამოჩნდები საძიებო
-                          სისტემაში
-                        </p>
+                        <p>{t("findRoomateHint")}</p>
                       </span>
                     </label>
                   </div>
                 </div>
               ) : null}
               {!user?.socials?.length ? (
-                <Fb>დაკავშირება</Fb>
+                <Fb>{t("connect")}</Fb>
               ) : (
-                <p>სოციალური ქსელი დაკავშირებულია</p>
+                <p>{t("connected")}</p>
               )}
             </div>
           ) : null}
@@ -303,7 +298,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       stroke="#5E666E"
                     />
                   </svg>
-                  ჩემი გვერდი
+                  {/* ჩემი გვერდი */}
+                  {t("myProfile")}
                 </a>
               </Link>
             </li>
@@ -327,7 +323,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       stroke="#5E666E"
                     />
                   </svg>
-                  პროფილის რედაქტირება
+                  {t("editProfile")}
                 </a>
               </Link>
             </li>
@@ -362,16 +358,17 @@ const SideBar: React.FC<ISidebar> = (props) => {
                         </clipPath>
                       </defs>
                     </svg>
-                    სტატუსი
+                    {t("status")}
                   </span>
 
                   {!user?.payed ? (
                     <span className="btn  payStatus">
-                      არაქტიური
+                      {t("inactive")}
+
                       <AlertIcon stroke="#db0505" fill="#db0505" />
                     </span>
                   ) : (
-                    <span className="btn btn-success  ">აქტიური</span>
+                    <span className="btn btn-success  ">{t("active")}</span>
                   )}
                 </a>
               </Link>
@@ -407,7 +404,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                გამოსვლა
+                {t("logout")}
               </a>
             </li>
           </ul>

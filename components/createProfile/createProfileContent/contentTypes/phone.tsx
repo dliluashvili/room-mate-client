@@ -9,6 +9,7 @@ import { AuthService } from "../../../../services/auth/auth.http";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { SmsCheckContext } from "../context/smsCheckContext";
+import useTranslation from "next-translate/useTranslation";
 
 interface IContentProps {
   data: IQuestions;
@@ -19,6 +20,8 @@ interface IContentProps {
 export const PhoneField = ({ data, setData, values }: IContentProps) => {
   const [value, setValue] = useState([]);
   const [loadSendSms, setLoadSendSms] = useState(false);
+
+  let { t } = useTranslation("common");
 
   const { smsCode, setSmsCode, setIsVerify } = useContext(SmsCheckContext);
 
@@ -45,7 +48,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
 
         // debugger;
         if (res.data.exists) {
-          toast.error("მოცემული ტელეფონის ნომერი უკვე გამოყენებულია", {
+          toast.error(t("phoneUsed"), {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -56,7 +59,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
           });
         } else {
           AuthService.sendResetCode(value[0]).then((r) => {
-            toast.success("Sms კოდი გამოგზავნილია თქვენს ნომერზე", {
+            toast.success(t("smsCodeSent"), {
               position: "top-right",
               autoClose: 3000,
               hideProgressBar: false,
@@ -85,7 +88,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
           <input
             value={value[0] || ""}
             // placeholder={data.title}
-            placeholder="ჩაწერე ნომერი აქ"
+            placeholder={t("fillField")}
             onChange={(e) => {
               setIsVerify(false);
               setValue([e.target.value]);
@@ -102,7 +105,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
             loading={loadSendSms}
             className="btn btn-primary w-50 ml-3"
           >
-            SMS კოდის გაგზავნა
+            {t("SMSsent")}
           </Button>
         </div>
         <div className="mt-3">
@@ -112,7 +115,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
               setSmsCode(e.target.value);
             }}
             className="form-control placeholder-active"
-            placeholder="ჩაწერე კოდი აქ"
+            placeholder={t("fillSmsCode")}
           />
         </div>
       </div>

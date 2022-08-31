@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Router, { useRouter } from "next/router";
 import { Button } from "../common/form/button";
 import { SmsCheckContext } from "./createProfileContent/context/smsCheckContext";
+import useTranslation from "next-translate/useTranslation";
 
 function CreateProfileWrapper(props) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -15,6 +16,8 @@ function CreateProfileWrapper(props) {
   const [registerLoad, setRegisterLoad] = useState(false);
 
   const { smsCode, setIsVerify, isVerify } = useContext(SmsCheckContext);
+
+  let { t } = useTranslation("common");
 
   const [answersContainer, setAnswersContainer] = useState<{
     [key: string]: [];
@@ -37,7 +40,7 @@ function CreateProfileWrapper(props) {
         console.log(err);
         setLoadQuestions(false);
       });
-  }, []);
+  }, [router.locale]);
 
   const modalNavigate = (type: "prev" | "next") => {
     // alert(answersContainer[currentQuestionIndex + 1]);
@@ -59,7 +62,7 @@ function CreateProfileWrapper(props) {
           .then((res) => {
             setRegisterLoad(false);
 
-            toast.success("გილოცავთ თქვენ წამატებით დარეგისტრირდით", {
+            toast.success(t("registerSussess"), {
               position: "top-right",
               autoClose: 3000,
               hideProgressBar: false,
@@ -96,7 +99,7 @@ function CreateProfileWrapper(props) {
         // debugger;
         console.log(answersContainer);
 
-        toast.error("მოცემული ველი აუცილებელია", {
+        toast.error(t("filsRequire"), {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -130,7 +133,7 @@ function CreateProfileWrapper(props) {
               setIsVerify(true);
               setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
-              toast.error("SMS კოდი არასორია", {
+              toast.error(t("wrongCode"), {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -171,7 +174,7 @@ function CreateProfileWrapper(props) {
     <div className="createProfile_wrapper">
       <ToastContainer />
       <div className="createProfile_contentContainer">
-        {loadQuestions && <div className="text-center">ტვირთება...</div>}
+        {loadQuestions && <div className="text-center">{t("load")}...</div>}
         {questions.length ? (
           <CreateProfileContent
             setData={(data) => {
@@ -201,7 +204,7 @@ function CreateProfileWrapper(props) {
               fill="white"
             />
           </svg>
-          <span className="d-inline-block m-2"> წინა</span>
+          <span className="d-inline-block m-2"> {t("previous")}</span>
         </div>{" "}
         <div onClick={() => modalNavigate("next")} className={"right_button"}>
           {currentQuestionIndex === questions.length - 1 ? (
@@ -211,7 +214,7 @@ function CreateProfileWrapper(props) {
           ) : (
             // <button className="btn btn-light">რეგისტრაცია</button>
             <>
-              <span className="d-inline-block m-2">შემდეგი</span>
+              <span className="d-inline-block m-2">{t("next")}</span>
               <svg
                 className="ml-3"
                 width="30"

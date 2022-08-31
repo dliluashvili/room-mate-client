@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IQuestions } from "../../../../services/questions/questions.http";
 import classnames from "classnames";
 import { SearchContext } from "../context/searchContext";
+import useTranslation from "next-translate/useTranslation";
 
 interface IProps {
   data: IQuestions;
@@ -9,6 +10,8 @@ interface IProps {
 }
 
 const Choice: React.FC<IProps> = ({ data }) => {
+  let { t } = useTranslation("common");
+
   // const [openSelect, setOpenSelect] = useState<boolean | number>(false);
   const {
     openSearchItemId,
@@ -68,7 +71,7 @@ const Choice: React.FC<IProps> = ({ data }) => {
         className="selectBtn"
       >
         <div className="d-flex justify-content-between align-items-center">
-          <span>არჩევა</span>
+          <span>{t("chose")}</span>
           <svg
             width="14"
             height="8"

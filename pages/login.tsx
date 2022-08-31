@@ -12,6 +12,7 @@ import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILoginForm {
   password: string;
@@ -33,6 +34,8 @@ const Login = () => {
     getValues,
     formState: { errors },
   } = useForm<ILoginForm>();
+
+  let { t } = useTranslation("common");
 
   //   const [errors, setErrors] = useState<IErrorMsg>({});
 
@@ -95,12 +98,14 @@ const Login = () => {
                   <Logo />
                 </a>
               </Link>
-              <p>იპოვე ოთახის მეზობელი და გაიყავი ბინის ქირა</p>
+              <p>
+                {t("heading")} {t("heading2")}
+              </p>
             </div>
           </div>
           <div className="form_Wrapper">
             <form onSubmit={submit} className="contentWrapper">
-              <h2 className="form_title">ავტორიზაცია</h2>
+              <h2 className="form_title"> {t("auth")}</h2>
 
               <FormGroup
                 errorMessage={
@@ -110,12 +115,12 @@ const Login = () => {
                     ? "მობილური"
                     : ""
                 }
-                Label="მობილურის ნომერი"
+                Label={t("Phonenumber")}
               >
                 <Input
                   type="number"
                   name={"phone"}
-                  placeholder="მობილურის ნომერი"
+                  placeholder={t("Phonenumber")}
                   hasError={!!errors?.phone}
                   onChange={() => {
                     //   clearError("phone");
@@ -135,7 +140,7 @@ const Login = () => {
                     className="form-control-label d-flex "
                     htmlFor="inputSuccess2"
                   >
-                    <span> პაროლი </span>
+                    <span> {t("Password")} </span>
                   </label>
                 }
               >
@@ -166,14 +171,14 @@ const Login = () => {
                 loading={load}
                 className="btn btn-primary w-100 mt-3 py-2 mb-3"
               >
-                შესვლა
+                {t("enter")}
               </Button>
               <Link href="/createProfile">
-                <a className="label">რეგისტრაცია</a>
+                <a className="label">{t("register")} </a>
               </Link>
               <br />
               <Link href="/seandresetcode">
-                <a className="label">დაგავიწყდა პაროლი?</a>
+                <a className="label">{t("Forgotpassword")}</a>
               </Link>
             </form>
           </div>

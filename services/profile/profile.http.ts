@@ -79,8 +79,14 @@ class _ProfileService {
     return axiosWithToken.get(backEndRoutes.profile.getUserById(id));
   };
 
-  getFavorites = (): AxiosPromise<{ data: ISearchItems[]; meta: IMeta }> => {
-    return axiosWithToken.get(backEndRoutes.profile.getFavorites());
+  getFavorites = ({
+    lang,
+  }): AxiosPromise<{ data: ISearchItems[]; meta: IMeta }> => {
+    return axiosWithToken.get(backEndRoutes.profile.getFavorites(), {
+      params: {
+        locale: lang,
+      },
+    });
   };
 
   getSentNotifications = (): AxiosPromise<INotificationSent[]> => {

@@ -10,11 +10,14 @@ import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
+import useTranslation from "next-translate/useTranslation";
 
 const SentNotification = () => {
   const [sentNotifications, setSentNotifications] = useState<
     INotificationSent[] | null
   >(null);
+
+  let { t } = useTranslation("common");
 
   const router = useRouter();
   const checkUnAuth = useCheckUnAuthResponse();
@@ -37,7 +40,7 @@ const SentNotification = () => {
     ProfileService.deleteContactRequest(id)
       .then((res) => {
         console.log();
-        toast.success("მოთხოვნა გაუქმდა", {
+        toast.success(t("requestCacneled"), {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -67,11 +70,20 @@ const SentNotification = () => {
             <NotificationsCard
               text={
                 el.status === 1
-                  ? `თქვენ გაგზავნილი გაქვთ ${el.receiver_firstname} ${el.receiver_lastname} - სთან კონტაქტების ნახვის მოთხოვნა`
+                  ? t("haveTosentQequest", {
+                      name: el.receiver_firstname,
+                      lastname: el.receiver_lastname,
+                    })
                   : el.status === 2
-                  ? `${el.receiver_firstname} ${el.receiver_lastname} - დაეთანხმა თქვენ მოთხოვნას `
+                  ? t("approvedYouRequest", {
+                      name: el.receiver_firstname,
+                      lastname: el.receiver_lastname,
+                    })
                   : el.status === 3
-                  ? `${el.receiver_firstname} ${el.receiver_lastname} - მ უარყო თქვენი მოთხოვნას `
+                  ? t("rejectedYouRequest", {
+                      name: el.receiver_firstname,
+                      lastname: el.receiver_lastname,
+                    })
                   : null
               }
               id={el.receiver_id}
@@ -81,7 +93,7 @@ const SentNotification = () => {
                   onClick={() => handleRemoveRequest(el.receiver_id)}
                   className="btn btn-light w-100"
                 >
-                  მოთხოვნის გაუქმება
+                  {t("cancelRequest")}
                 </Button>
               ) : el.status === 2 ? (
                 <Button
@@ -90,7 +102,7 @@ const SentNotification = () => {
                   }}
                   className="btn btn-success w-100"
                 >
-                  პროფილის ნახვა
+                  {t("seeProfile")}
                 </Button>
               ) : el.status === 3 ? (
                 <Button
@@ -100,7 +112,7 @@ const SentNotification = () => {
                   // onClick={() => handleRemoveRequest(el.receiver_id)}
                   className="btn btn-danger w-100"
                 >
-                  პროფილის ნახვა
+                  {t("seeProfile")}
                 </Button>
               ) : null}
             </NotificationsCard>

@@ -13,19 +13,22 @@ import { Questions, IQuestions } from "../../services/questions/questions.http";
 import QuestionPreview from "../../components/pages/profile/QuestionPreview";
 import ProfileTab from "../../components/pages/profile/components/profileTab";
 import Notifications from "../../components/pages/profile/notifications";
-
-const tabs = [
-  {
-    label: "შეტყობინებები",
-    path: "/profile",
-  },
-  {
-    label: "ფავორიტები",
-    path: "/profile/favorites",
-  },
-];
+import useTranslation from "next-translate/useTranslation";
 
 const Profile = (props) => {
+  let { t } = useTranslation("common");
+
+  const tabs = [
+    {
+      label: t("notifications"),
+      path: "/profile",
+    },
+    {
+      label: t("favorites"),
+      path: "/profile/favorites",
+    },
+  ];
+
   return (
     <ProfileWrapper>
       <ProfileTab tabs={tabs} />

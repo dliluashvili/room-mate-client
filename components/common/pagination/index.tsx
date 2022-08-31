@@ -20,9 +20,9 @@ const GetButton = ({ href, btnClass, btnType = null, buttonInner = null }) => {
         {buttonInner ? (
           buttonInner
         ) : btnType == "prev" ? (
-          <img src="imgs/Vector.svg" />
+          <img src="/imgs/Vector.svg" />
         ) : (
-          <img src="imgs/Vector (1).svg" />
+          <img src="/imgs/Vector (1).svg" />
         )}
       </a>
     </Link>

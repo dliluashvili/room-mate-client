@@ -3,6 +3,7 @@ import { IQuestions } from "../../../../services/questions/questions.http";
 import classnames from "classnames";
 import { SearchContext } from "../context/searchContext";
 import { Button } from "../../../common/form";
+import useTranslation from "next-translate/useTranslation";
 
 interface IProps {
   data: IQuestions;
@@ -17,6 +18,7 @@ const LocationSearch: React.FC<IProps> = ({ data, searchHandler }) => {
     setSearchObject,
     searchObject,
   } = useContext(SearchContext);
+  let { t } = useTranslation("common");
 
   useEffect(() => {
     let remove = () => {
@@ -65,12 +67,12 @@ const LocationSearch: React.FC<IProps> = ({ data, searchHandler }) => {
             }
           }}
           className="locationSearch_input"
-          placeholder="მოძებნე სასურველი უბანი"
+          placeholder={t("searchPlh")}
         >
           {!data?.id
             ? null
             : !searchObject[data.id]?.length
-            ? "მოძებნე სასურველი უბანი"
+            ? t("searchPlh")
             : data?.answers.map((el) => {
                 if (searchObject[el.question_id]) {
                   if (searchObject[el.question_id].find((it) => it === el.id)) {
@@ -121,7 +123,7 @@ const LocationSearch: React.FC<IProps> = ({ data, searchHandler }) => {
               fill="white"
             />
           </svg>
-          <span> ძებნა</span>
+          <span> {t("searchBtn")}</span>
         </Button>
       </div>
       {data?.id ? (

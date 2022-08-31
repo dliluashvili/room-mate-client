@@ -19,6 +19,7 @@ import { logout } from "../redux/action-creators";
 import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
+import useTranslation from "next-translate/useTranslation";
 
 const Search = () => {
   useCheckAuth();
@@ -26,6 +27,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
   const [meta, setMeta] = useState<any>();
+  let { t } = useTranslation("common");
 
   const [openPayModal, setOpenPayModal] = useState(false);
 
@@ -41,7 +43,7 @@ const Search = () => {
 
   useEffect(() => {
     Questions.getQuestions({
-      lang: router.query.locale,
+      lang: router.locale,
     })
       .then((res) => {
         console.log(res);
@@ -50,7 +52,7 @@ const Search = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [router.locale]);
 
   useEffect(() => {
     if (router.query.filter) {
@@ -75,6 +77,7 @@ const Search = () => {
     ProfileService.search({
       filters: cleanUpSearchObject,
       page: router.query.page ? router.query.page : 1,
+      locale: router.locale,
     })
       .then((res) => {
         // debugger;
@@ -90,7 +93,7 @@ const Search = () => {
         }
         // debugger;
       });
-  }, [router.query]);
+  }, [router.query, router.locale]);
 
   const searchHandler = () => {
     console.log(searchObject, "searchObject");
@@ -199,7 +202,7 @@ const Search = () => {
                     fill="white"
                   />
                 </svg>
-                გაფილტვრა
+                {t("filter")}
               </button>
             </div>
           </div>
@@ -304,7 +307,7 @@ const Search = () => {
               </div>
             </div>
             {!searchResults.length ? (
-              <div className="text-center mt-5">განცხადება არ მოიძებნა</div>
+              <div className="text-center mt-5">{t("statementNotFound")}</div>
             ) : (
               searchResults?.map((el) => {
                 return (
