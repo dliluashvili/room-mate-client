@@ -23,7 +23,7 @@ interface ISidebar {
   myProfile?: boolean;
   profile_image?: string;
   is_locked_communication?: boolean;
-  isRequested?: boolean;
+  isSentRequest?: boolean;
 }
 
 const SideBar: React.FC<ISidebar> = (props) => {
@@ -173,7 +173,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
             onClick={userContactRequest}
             className="btn btn-primary mb-4 w-100"
           >
-            {status || props.isRequested
+            {status || props.isSentRequest
               ? t("sentContactRequest")
               : t("contactRequest")}
           </Button>
