@@ -248,8 +248,8 @@ const IndexPage = () => {
       </section>
       <section className="partners">
         <div className="container">
-          <h2>{t("partners")}</h2>
-          <Partners />
+          {/* <h2>{t("partners")}</h2> */}
+          {/* <Partners /> */}
         </div>
       </section>
       {/* <section id="testimonial" className="testimonialSection">
