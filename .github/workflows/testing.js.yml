@@ -40,4 +40,5 @@ jobs:
           git pull origin testing
           npm i --force
           npm run build
+          pm2 delete roommate-client-test
           pm2 start ecosystem.testing.config.js
