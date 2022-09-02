@@ -40,4 +40,5 @@ jobs:
           git pull origin prod
           npm i --force
           npm run build
-          npm run pm2:start ecosystem.production.config.js
+          pm2 start ecosystem.production.config.js
+          

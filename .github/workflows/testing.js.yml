@@ -40,4 +40,4 @@ jobs:
           git pull origin testing
           npm i --force
           npm run build
-          npm run pm2:start ecosystem.testing.config.js
+          pm2 start ecosystem.testing.config.js
