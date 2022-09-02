@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "roommate-client-test",
+      name: "roommate-client",
       script: "npm",
       args: "start",
       watch: false,
