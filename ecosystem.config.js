@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "roommate-client-test",
       script: "npm",
-      args: "start",
+      args: "start:testing",
       watch: false,
       force: true,
       env: {
