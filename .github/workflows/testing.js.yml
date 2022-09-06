@@ -2,9 +2,9 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [ "prod" ]
+    branches: [ "testing" ]
   pull_request:
-    branches: [ "prod" ]
+    branches: [ "testing" ]
 
 jobs:
   deploy:
@@ -34,12 +34,11 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /var/www/roommate
-          cd client/
+          cd testing_client/
           git stash
-          git checkout prod
-          git pull origin prod
+          git checkout testing
+          git pull origin testing
           npm i --force
           npm run build
-          pm2 delete roommate-client
-          pm2 start ecosystem.production.config.js
-          
+          pm2 delete roommate-client-test
+          pm2 start ecosystem.testing.config.js
