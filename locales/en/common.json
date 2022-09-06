@@ -104,7 +104,7 @@
   "Cancel": "Cancel",
   "Pay": "Pay ",
 
-  "needSeeYourProfile": "{{firstname}} {{lastname}} - ს უნდა თქვენი კონტაქტების ნახვა",
+  "needSeeYourProfile": "{{name}} {{lastname}} - ს უნდა თქვენი კონტაქტების ნახვა",
   "youApproveuserToSee": "You have allowed {{name}} {{lastname}} - ს ნახოს თქვენი კონტაქტი",
   "youRejectuserToSee": "You refused {{name}} {{lastname}} to see your contact",
   "reject": "reject",

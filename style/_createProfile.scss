@@ -187,4 +187,10 @@
   .createProfile_checkboxItem {
     padding: 14px 10px;
   }
+
+  .createProfile_checkboxItem_wrapper {
+    .btn-primary {
+      font-size: 11px !important;
+    }
+  }
 }

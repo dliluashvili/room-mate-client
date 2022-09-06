@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/router";
 
 function Footer() {
   let { t } = useTranslation("common");
+  const router = useRouter();
 
   return (
     <footer>
@@ -44,13 +46,25 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#faq">
-                  <a>{t("terms")}</a>
+                <Link
+                  href={
+                    router.locale === "ka"
+                      ? "/imgs/წესები და პირობები & დაბრუნების პოლიტიკა.pdf"
+                      : "/Terms & Conditions & Payment & Refund Policy.pdf"
+                  }
+                >
+                  <a target={"_blank"}>{t("terms")}</a>
                 </Link>
               </li>
               <li>
-                <Link href="/#faq">
-                  <a>{t("confidencial")}</a>
+                <Link
+                  href={
+                    router.locale === "ka"
+                      ? "/imgs/პერსონალური მონაცემების დაცვის პოლიტიკა.pdf"
+                      : "/Personal Data Processing Policy (1).pdf"
+                  }
+                >
+                  <a target={"_blank"}>{t("confidencial")}</a>
                 </Link>
               </li>
             </ul>

@@ -348,6 +348,18 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .contactViewSwitch .form-check {
+    min-width: 224px;
+  }
+  .contactViewSwitch {
+    label {
+      width: 190px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
   .contactViewSwitch {
     align-items: center;
     text-align: center;
@@ -358,6 +370,8 @@
     p {
       min-width: 200px;
       transform: translate(9%, -100%);
+      transform: translate(-90%, -44%);
+      z-index: 3;
     }
   }
   .profile_userHeading {

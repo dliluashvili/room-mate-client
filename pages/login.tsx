@@ -122,10 +122,6 @@ const Login = () => {
                   name={"phone"}
                   placeholder={t("Phonenumber")}
                   hasError={!!errors?.phone}
-                  onChange={() => {
-                    //   clearError("phone");
-                    //   setUnVerify(false);
-                  }}
                   useRef={register("phone")}
                   {...register("phone", {
                     required: "მოობილური აუცილებელია",

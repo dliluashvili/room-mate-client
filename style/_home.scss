@@ -278,6 +278,9 @@ footer {
     margin-top: 60px;
     border-top: 1px solid #e3e3e3;
     padding: 17px 0;
+    div {
+      font-size: 11px;
+    }
   }
 }
 
@@ -321,6 +324,14 @@ h2 {
   margin-top: 7px;
 }
 @media only screen and (max-width: 768px) {
+  .subTitle {
+    font-size: 18px !important;
+  }
+  .CheckIcon {
+    margin-left: 0 !important;
+    height: 15px;
+    margin-right: 8px;
+  }
   .partners {
     padding-top: 60px;
     padding-bottom: 30px;

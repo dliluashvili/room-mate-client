@@ -29,7 +29,7 @@ const IndexPage = () => {
               <div className="col-md-12 ">
                 <h1>
                   {t("heading")} <br /> {t("heading2")}
-                  <div>{t("promotionText")}</div>
+                  <div className="subTitle">{t("promotionText")}</div>
                 </h1>
 
                 <Link href={user ? "/search" : "/createProfile"}>
