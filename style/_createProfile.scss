@@ -182,10 +182,22 @@
     margin-right: 10px;
   }
   .createProfile_heading {
-    font-size: 17px;
+    font-size: 16px;
+  }
+  .createProfile_contentContainer {
+    margin-bottom: 53px;
+  }
+  .createProfile_checkboxItem_wrapper {
+    margin-top: 17px;
+  }
+  .createProfile_contentContainer {
+    max-height: calc(100vw - 132px);
   }
   .createProfile_checkboxItem {
     padding: 14px 10px;
+  }
+  .createProfile_checkboxItem {
+    padding: 8px 9px;
   }
 
   .createProfile_checkboxItem_wrapper {

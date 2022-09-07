@@ -31,7 +31,7 @@ function CreateProfileWrapper(props) {
     // debugger;
     Questions.getQuestions({ lang: router.locale })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setQuestions(res.data.sort((a, b) => a.position - b.position));
         setLoadQuestions(false);
         // setCurrentQuestionIndex(res.data[0].id);
@@ -97,7 +97,7 @@ function CreateProfileWrapper(props) {
         !answersContainer[questions[currentQuestionIndex].id].length
       ) {
         // debugger;
-        console.log(answersContainer);
+        // console.log(answersContainer);
 
         toast.error(t("filsRequire"), {
           position: "top-right",
@@ -110,9 +110,9 @@ function CreateProfileWrapper(props) {
         });
       } else {
         if (questions[currentQuestionIndex].name === "phone") {
-          console.log(
-            answersContainer[questions[currentQuestionIndex].id] as []
-          );
+          // console.log(
+          //   answersContainer[questions[currentQuestionIndex].id] as []
+          // );
           if (isVerify) {
             debugger;
             setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -129,7 +129,7 @@ function CreateProfileWrapper(props) {
             code: Number(smsCode),
           }).then((res) => {
             if (res.data) {
-              console.log(res);
+              // console.log(res);
               setIsVerify(true);
               setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {

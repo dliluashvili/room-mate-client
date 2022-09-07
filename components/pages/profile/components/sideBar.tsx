@@ -182,28 +182,30 @@ const SideBar: React.FC<ISidebar> = (props) => {
         <>
           {props.myProfile ? (
             <div className="contactViewSwitch flex-column mt-3">
-              <div className="form-check form-switch ">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={!user?.is_locked_communication}
-                  role="switch"
-                  onChange={() => {
-                    handleChangeProfileLock();
-                  }}
-                  id="flexSwitchCheckDefault"
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="flexSwitchCheckDefault"
-                >
-                  {/* კონტაqტის ხილვადობა{" "} */}
-                  {t("contactVisibility")}
-                  <span className="pointer toltipWrapper ml-3">
-                    <AlertIcon stroke="blue" fill="blue" />
-                    <p>{t("contactVisibilityHint")}</p>
-                  </span>
-                </label>
+              <div className="contactViewSwitch flex-column">
+                <div className=" form-check form-switch ">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={!user?.is_locked_communication}
+                    role="switch"
+                    onChange={() => {
+                      handleChangeProfileLock();
+                    }}
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexSwitchCheckDefault"
+                  >
+                    {/* კონტაqტის ხილვადობა{" "} */}
+                    {t("contactVisibility")}
+                    <span className="pointer toltipWrapper ml-3">
+                      <AlertIcon stroke="blue" fill="blue" />
+                      <p>{t("contactVisibilityHint")}</p>
+                    </span>
+                  </label>
+                </div>
               </div>
 
               {props.myProfile ? (

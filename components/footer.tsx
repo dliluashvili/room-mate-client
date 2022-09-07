@@ -49,8 +49,8 @@ function Footer() {
                 <Link
                   href={
                     router.locale === "ka"
-                      ? "/imgs/წესები და პირობები & დაბრუნების პოლიტიკა.pdf"
-                      : "/Terms & Conditions & Payment & Refund Policy.pdf"
+                      ? "https://roommategeorgia.ge/imgs/%E1%83%AC%E1%83%94%E1%83%A1%E1%83%94%E1%83%91%E1%83%98%20%E1%83%93%E1%83%90%20%E1%83%9E%E1%83%98%E1%83%A0%E1%83%9D%E1%83%91%E1%83%94%E1%83%91%E1%83%98%20&%20%E1%83%93%E1%83%90%E1%83%91%E1%83%A0%E1%83%A3%E1%83%9C%E1%83%94%E1%83%91%E1%83%98%E1%83%A1%20%E1%83%9E%E1%83%9D%E1%83%9A%E1%83%98%E1%83%A2%E1%83%98%E1%83%99%E1%83%90.pdf"
+                      : "https://roommategeorgia.ge/en/Terms%20&%20Conditions%20&%20Payment%20&%20Refund%20Policy.pdf"
                   }
                 >
                   <a target={"_blank"}>{t("terms")}</a>
@@ -60,8 +60,8 @@ function Footer() {
                 <Link
                   href={
                     router.locale === "ka"
-                      ? "/imgs/პერსონალური მონაცემების დაცვის პოლიტიკა.pdf"
-                      : "/Personal Data Processing Policy (1).pdf"
+                      ? "https://roommategeorgia.ge/imgs/%E1%83%9E%E1%83%94%E1%83%A0%E1%83%A1%E1%83%9D%E1%83%9C%E1%83%90%E1%83%9A%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%9B%E1%83%9D%E1%83%9C%E1%83%90%E1%83%AA%E1%83%94%E1%83%9B%E1%83%94%E1%83%91%E1%83%98%E1%83%A1%20%E1%83%93%E1%83%90%E1%83%AA%E1%83%95%E1%83%98%E1%83%A1%20%E1%83%9E%E1%83%9D%E1%83%9A%E1%83%98%E1%83%A2%E1%83%98%E1%83%99%E1%83%90.pdf"
+                      : "https://roommategeorgia.ge/en/Personal%20Data%20Processing%20Policy%20(1).pdf"
                   }
                 >
                   <a target={"_blank"}>{t("confidencial")}</a>

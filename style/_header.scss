@@ -203,3 +203,24 @@ header {
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .notificationBell {
+    max-width: 15px;
+  }
+  .profile_userHeading {
+    text-align: left !important;
+  }
+  .profile_aboutMe {
+    text-align: left !important;
+  }
+  .contactViewSwitch {
+    margin-left: 0px !important;
+  }
+  .contactViewSwitch {
+    display: inherit !important;
+  }
+  .profile_contacts {
+    justify-content: flex-start;
+  }
+}
