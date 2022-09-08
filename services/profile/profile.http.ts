@@ -100,6 +100,10 @@ class _ProfileService {
     return axiosWithToken.get(backEndRoutes.profile.getReceivedNotifications());
   };
 
+  getAgents = (): AxiosPromise<any> => {
+    return axiosWithToken.get(backEndRoutes.profile.getAgents());
+  };
+
   addRemoveFavorites = (id: number): AxiosPromise<IUserProfile> => {
     return axiosWithToken.post(backEndRoutes.profile.addRemoveFavorites(), {
       favourite_id: id,
@@ -154,6 +158,12 @@ class _ProfileService {
     text: string;
   }): AxiosPromise<any> => {
     return axios.post(backEndRoutes.profile.contactForm(), data);
+  };
+
+  buyPlan = (): AxiosPromise<any> => {
+    return axiosWithToken.post(backEndRoutes.profile.buyPlan(), {
+      reason: "matching",
+    });
   };
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useCheckAuth } from "../../components/hooks/useCheckAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +15,25 @@ import PayModal from "../../components/pages/payModal";
 function Balance(props) {
   const [load, setLoad] = useState(false);
   const { user } = useTypedSelector((state) => state.profile);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (router.query.paid === "success") {
+      dispatch(setCurrentUser({ ...user, payed: true }));
+    }
+  }, [router.query]);
 
   return (
     <ProfileWrapper consumerPage="balance">
       <div className="balance_wrapper">
-        {!user?.payed ? (
+        {user?.payed ? (
           <div className="payModal_wrapper">
             <div className="buyModal pt-5">
+              {router.query.paid === "success" ? (
+                <h2 className="pt-4">გადახდა წარმატებით განხორციელდა </h2>
+              ) : null}
+
               <h2 className="pt-4">თვენი პროფილი აქტიურია! </h2>
               <div className="text-center pt-4 pb-5">
                 <svg

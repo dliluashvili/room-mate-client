@@ -20,6 +20,7 @@ export const backEndRoutes = {
     getFavorites: () => `${BASE_URL}/favourites`,
     getSentNotifications: () => `${BASE_URL}/requests/sent`,
     getReceivedNotifications: () => `${BASE_URL}/requests/received`,
+    getAgents: () => `${BASE_URL}/estate-agents`,
     addRemoveFavorites: () => `${BASE_URL}/favourites/add-or-remove`,
     addContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
     removeContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
@@ -30,6 +31,7 @@ export const backEndRoutes = {
     updateAvailable: () => `${BASE_URL}/users/update-available`,
     uploadImage: () => `${BASE_URL}/users/upload-image`,
     contactForm: () => `${BASE_URL}/contact/send`,
+    buyPlan: () => `${BASE_URL}/payments/tbc/pay`,
   },
   questions: {
     getQuestions: () => `${BASE_URL}​/questions`,

@@ -12,11 +12,13 @@ import ProfileWrapper from "../../components/pages/profile/profileWrapper";
 import { Questions, IQuestions } from "../../services/questions/questions.http";
 import QuestionPreview from "../../components/pages/profile/QuestionPreview";
 import ProfileTab from "../../components/pages/profile/components/profileTab";
-import Notifications from "../../components/pages/profile/notifications";
+import FavoritesContent from "../../components/pages/profile/favorites";
 import useTranslation from "next-translate/useTranslation";
+import { ProfileService } from "../../services/profile/profile.http";
 
-const Profile = (props) => {
+const Favorites = (props) => {
   let { t } = useTranslation("common");
+  const [agents, setAgents] = useState([]);
 
   const tabs = [
     {
@@ -33,12 +35,32 @@ const Profile = (props) => {
     },
   ];
 
+  useEffect(() => {
+    ProfileService.getAgents()
+      .then((res) => {
+        console.log(res);
+        setAgents(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <ProfileWrapper>
       <ProfileTab tabs={tabs} />
-      <Notifications />
+      {/* <FavoritesContent /> */}
+      <div className="d-flex flex-wrap mt-4">
+        {agents.map((el) => {
+          return (
+            <div className="notification_card mr-3 ">
+              {el.fullname}: {el.phone}
+            </div>
+          );
+        })}
+      </div>
     </ProfileWrapper>
   );
 };
 
-export default Profile;
+export default Favorites;

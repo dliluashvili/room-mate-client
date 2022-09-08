@@ -18,14 +18,14 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <title>Room Mate</title>
+        <title>Roommate Georgia</title>
         <meta
           name="description"
           content="იპოვე ოთახის მეზობელი და
 გაიყავი ბინის ქირა"
         />
         <link rel="icon" href="/imgs/loop-04.svg" />
-        <meta property="og:title" content="room mate georgia" />
+        <meta property="og:title" content="Roommate Georgia" />
         <meta
           property="og:description"
           content="იპოვე ოთახის მეზობელი და

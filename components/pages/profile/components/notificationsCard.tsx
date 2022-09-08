@@ -8,7 +8,7 @@ import classNames from "classnames";
 import Link from "next/link";
 
 interface IProps {
-  text: string;
+  text: string | React.ReactNode;
   type?: string;
   id: number;
   img?: string;
@@ -46,6 +46,18 @@ const NotificationsCard: React.FC<IProps> = ({
             : `${sender_firstname} ${sender_lastname} - ს უნდა თქვენი კონტაქტების ნახვა`} */}
         </p>
       </div>
+      {/* <div>
+        ბინის მოსაძებნად, კრიტერიუმების მიხედვით, უძრავი ქონების აგენტი
+        შეგირჩიეთ, რომ არ დაგეკარგოს პროფილის ველშიც დავამატეთ საკონტაქტო
+        ინფორმაცია:
+        <br />
+        <br />
+        ანდრო - 595 210 395
+        <br />
+        ადა - 551 547 548
+        <br />
+        წარმატებებს გისურვებთ! ^^
+      </div> */}
       <div className="notification_footer d-flex ">
         {children}
         {/* {type === "receive" ? (

@@ -41,7 +41,12 @@ function Header({ type }: IProps) {
             <div className="col-2">
               <Link href="/">
                 <a className="logo">
-                  <Logo />
+                  {/* <Logo /> */}
+                  <img
+                    className="mainLogo"
+                    height={30}
+                    src="/imgs/rommate2-05.png"
+                  />
                   <img className="logoPng" src="/imgs/logo mini-03 1.svg" />
                 </a>
               </Link>

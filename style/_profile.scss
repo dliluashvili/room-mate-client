@@ -346,8 +346,18 @@
     margin-bottom: 12px;
   }
 }
+.headerWrapper.profile {
+  .mainLogo {
+    display: none !important;
+  }
+}
 
 @media only screen and (max-width: 768px) {
+  .profile_tab a {
+    padding: 6px 7px;
+    font-size: 11px;
+  }
+
   .contactViewSwitch .form-check {
     min-width: 224px;
   }

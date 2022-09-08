@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../common/form";
+import { ProfileService } from "../../services/profile/profile.http";
+import { useRouter } from "next/router";
 
 const PayModal = ({
   setClose,
@@ -10,7 +12,20 @@ const PayModal = ({
   isModal?: boolean;
 }) => {
   let { t } = useTranslation("common");
+  const router = useRouter();
 
+  // useEffect(() => {
+
+  // }, [])
+
+  const buyHandler = () => {
+    ProfileService.buyPlan().then((res) => {
+      console.log(res);
+      router.push("");
+      window.open(res.data.redirectUrl);
+      debugger;
+    });
+  };
   return (
     <div className="payModal_wrapper">
       {isModal ? <div className="blurBg"></div> : null}
@@ -29,7 +44,9 @@ const PayModal = ({
             <Button onClick={setClose} className="btn btn-light mr-3">
               {t("Cancel")}
             </Button>
-            <Button className="btn btn-primary">{t("Pay")}</Button>
+            <Button onClick={() => buyHandler()} className="btn btn-primary">
+              {t("Pay")}
+            </Button>
           </div>
         </div>
       </div>

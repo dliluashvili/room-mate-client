@@ -116,7 +116,11 @@
   "cancelRequest": "Cancel Request",
   "seeProfile": "Request Canceled",
   "haveTosentQequest": "You have sent a request to  {{name}} {{lastname}}  to view contacts  ",
-  "approvedYouRequest": "{{name}} {{lastname}} - approved your request",
+  "approvedYouRequest": "Congratulations! {{name}} {{lastname}}  accepted your request.",
+  "approvedYouRequest2": "To find an apartment, according to your criteria, a real estate agent s were chosen for you. We also added their contact information in your profile field:",
+  "approvedYouRequest3": "Andro - 595 210 395",
+  "approvedYouRequest4": "Ada - 551 547 548",
+  "approvedYouRequest5": "Good luck! ⭐️",
   "rejectedYouRequest": "{{name}} {{lastname}} - declined your request",
 
   "years": "Years old",
@@ -135,6 +139,7 @@
   "uni2": "D.Tvildian Medical University",
   "uni3": "Black sea international university",
   "uni4": "Tbilisi State Medical University",
+  "maklierebi": "Real estate agents",
 
   "partners": "Partners"
 }

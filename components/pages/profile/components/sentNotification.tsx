@@ -69,22 +69,36 @@ const SentNotification = () => {
             <ToastContainer />
             <NotificationsCard
               text={
-                el.status === 1
-                  ? t("haveTosentQequest", {
+                el.status === 1 ? (
+                  t("haveTosentQequest", {
+                    name: el.receiver_firstname,
+                    lastname: el.receiver_lastname,
+                  })
+                ) : el.status === 2 ? (
+                  <>
+                    {t("approvedYouRequest", {
                       name: el.receiver_firstname,
                       lastname: el.receiver_lastname,
-                    })
-                  : el.status === 2
-                  ? t("approvedYouRequest", {
-                      name: el.receiver_firstname,
-                      lastname: el.receiver_lastname,
-                    })
-                  : el.status === 3
-                  ? t("rejectedYouRequest", {
-                      name: el.receiver_firstname,
-                      lastname: el.receiver_lastname,
-                    })
-                  : null
+                    })}
+                    <div>
+                      {t("approvedYouRequest2")}
+                      <br />
+                      <br />
+                      {t("approvedYouRequest3")}
+
+                      <br />
+                      {t("approvedYouRequest4")}
+
+                      <br />
+                      {t("approvedYouRequest5")}
+                    </div>
+                  </>
+                ) : el.status === 3 ? (
+                  t("rejectedYouRequest", {
+                    name: el.receiver_firstname,
+                    lastname: el.receiver_lastname,
+                  })
+                ) : null
               }
               id={el.receiver_id}
             >
