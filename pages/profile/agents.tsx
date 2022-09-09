@@ -51,9 +51,9 @@ const Favorites = (props) => {
       <ProfileTab tabs={tabs} />
       {/* <FavoritesContent /> */}
       <div className="d-flex flex-wrap mt-4">
-        {agents.map((el) => {
+        {agents.map((el, i) => {
           return (
-            <div className="notification_card mr-3 ">
+            <div key={i} className="notification_card mr-3 ">
               {el.fullname}: {el.phone}
             </div>
           );
