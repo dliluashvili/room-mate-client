@@ -24,7 +24,12 @@ function MyApp({ Component, pageProps }) {
           content="იპოვე ოთახის მეზობელი და
 გაიყავი ბინის ქირა"
         />
-        <link rel="icon" href="/imgs/loop-04.svg" />
+        <link rel="icon" href="/imgs/loop-04.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/imgs/loop-04.png"
+        ></link>
         <meta property="og:title" content="Roommate Georgia" />
         <meta
           property="og:description"

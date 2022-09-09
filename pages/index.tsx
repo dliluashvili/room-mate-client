@@ -29,7 +29,7 @@ const IndexPage = () => {
               <div className="col-md-12 ">
                 <h1>
                   {t("heading")} <br /> {t("heading2")}
-                  <div className="subTitle">{t("promotionText")}</div>
+                  {/* <div className="subTitle">{t("promotionText")}</div> */}
                 </h1>
 
                 <Link href={user ? "/search" : "/createProfile"}>
@@ -48,7 +48,7 @@ const IndexPage = () => {
                       />
                     </svg>
 
-                    {user ? t("search") : t("tryForFree")}
+                    {user ? t("search") : t("search")}
                   </a>
                 </Link>
               </div>
