@@ -15,6 +15,7 @@ export type IQuestions = {
   is_multiple?: boolean;
   is_searchable?: boolean;
   searchable_title?: string;
+  is_editable?: boolean;
   search_type?: "choice" | "range";
   answers?: {
     id: number;

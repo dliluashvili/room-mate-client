@@ -157,7 +157,12 @@ const SideBar: React.FC<ISidebar> = (props) => {
             type="file"
           />
         </span>
-        <span>
+        <span
+          style={{
+            display: "inline-block",
+            maxWidth: "136px",
+          }}
+        >
           {props?.firstname} {props?.lastname}
         </span>
       </div>

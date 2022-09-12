@@ -54,7 +54,18 @@ const Favorites = (props) => {
         {agents.map((el, i) => {
           return (
             <div key={i} className="notification_card mr-3 ">
-              {el.fullname}: {el.phone}
+              <b>
+                {" "}
+                {el.fullname}: {el.phone}
+              </b>
+              <div
+                style={{
+                  fontSize: "13px",
+                }}
+              >
+                უძრავი ქონების აგენტებთან დარეკვისას აუცილებლად უთხარი, რომ
+                Roommate Georgia-დან ურეკავ
+              </div>
             </div>
           );
         })}

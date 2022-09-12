@@ -107,6 +107,7 @@ const QuestionEdit = () => {
       {answers()
         .filter(Boolean)
         .map((question, i) => {
+          if (!question.is_editable) return;
           return (
             <div key={i} className="answersPreview">
               <CreateProfileContent
@@ -123,7 +124,7 @@ const QuestionEdit = () => {
           );
         })}
 
-      <div className="py-3 text-right w-100 mb-5 d-flex justify-content-end">
+      <div className="py-3 pb-5 text-right w-100 mb-5 d-flex justify-content-end">
         <Button onClick={handleEdit} loading={load} className="btn btn-primary">
           შენახვა
         </Button>
