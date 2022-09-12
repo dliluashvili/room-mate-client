@@ -98,13 +98,16 @@ const SideBar: React.FC<ISidebar> = (props) => {
   return (
     <div className="profile_sideBar">
       <div className="profile_userHeading">
-        <span>
+        <span
+          onClick={() => {
+            fileRef?.current?.click();
+          }}
+          // className="pointer"
+          className="imgUploadWrapper pointer"
+        >
+          <img className="cameraIcon" src="/imgs/camera.png" />
           {props.myProfile ? (
             <img
-              onClick={() => {
-                fileRef?.current?.click();
-              }}
-              className="pointer"
               src={
                 user?.profile_image
                   ? user?.profile_image

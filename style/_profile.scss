@@ -470,3 +470,23 @@
     }
   }
 }
+
+.imgUploadWrapper {
+  position: relative;
+  .cameraIcon {
+    cursor: pointer;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 0px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.435);
+    padding: 2px;
+    border-radius: 6px;
+    left: 50%;
+    bottom: -30px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.635);
+    }
+  }
+}
