@@ -55,6 +55,18 @@ function CreateProfileWrapper(props) {
     }
     if (type === "next") {
       if (currentQuestionIndex === questions.length - 1) {
+        if (answersContainer[questions[currentQuestionIndex].id].length < 5) {
+          toast.error(t("minpass"), {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
         setRegisterLoad(true);
         Questions.saveAnswers({
           answers: answersContainer,

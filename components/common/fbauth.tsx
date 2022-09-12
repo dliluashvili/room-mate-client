@@ -12,6 +12,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
   const dispatch = useDispatch();
 
   const responseFacebook = (res) => {
+    // debugger;
     const userData = {
       accessToken: res.accessToken,
       facebookId: res.userID,
@@ -45,6 +46,7 @@ const FbLoginButton: React.FC<{}> = ({ children }) => {
         render={(renderProps) => (
           <a
             onClick={(e) => {
+              // debugger;
               e.preventDefault();
               renderProps.onClick();
             }}

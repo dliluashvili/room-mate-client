@@ -10,11 +10,14 @@ import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/router";
 
 const ReceiveNotification = () => {
   const [sentNotifications, setSentNotifications] = useState<
     INotificationReceiver[] | null
   >(null);
+
+  const router = useRouter();
 
   let { t } = useTranslation("common");
 
@@ -94,20 +97,36 @@ const ReceiveNotification = () => {
               type="receive"
               img={el.sender_profile_imagee}
               text={
-                el.status === 1
-                  ? t("needSeeYourProfile", {
+                el.status === 1 ? (
+                  t("needSeeYourProfile", {
+                    name: el.sender_firstname,
+                    lastname: el.sender_lastname,
+                  })
+                ) : el.status === 2 ? (
+                  <>
+                    {t("youApproveuserToSee", {
                       name: el.sender_firstname,
                       lastname: el.sender_lastname,
-                    })
-                  : el.status === 2
-                  ? t("youApproveuserToSee", {
-                      name: el.sender_firstname,
-                      lastname: el.sender_lastname,
-                    })
-                  : t("youRejectuserToSee", {
-                      name: el.sender_firstname,
-                      lastname: el.sender_lastname,
-                    })
+                    })}
+                    <div>
+                      {t("approvedYouRequest2")}
+                      <br />
+                      <br />
+                      {t("approvedYouRequest3")}
+
+                      <br />
+                      {t("approvedYouRequest4")}
+
+                      <br />
+                      {t("approvedYouRequest5")}
+                    </div>
+                  </>
+                ) : (
+                  t("youRejectuserToSee", {
+                    name: el.sender_firstname,
+                    lastname: el.sender_lastname,
+                  })
+                )
               }
               id={el.sender_id}
             >
@@ -128,7 +147,12 @@ const ReceiveNotification = () => {
                   </Button>
                 </>
               ) : el.status === 2 ? (
-                <Button className="btn btn-primary w-100">
+                <Button
+                  onClick={() => {
+                    router.push("/user/" + el.id);
+                  }}
+                  className="btn btn-primary w-100"
+                >
                   {t("approveUser")}
                 </Button>
               ) : (
