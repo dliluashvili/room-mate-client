@@ -15,12 +15,13 @@ const QuestionEdit = () => {
   const [questions, setQuestions] = useState<IQuestions[] | null>(null);
   const [load, setLoad] = useState(false);
   const [answersContainer, setAnswersContainer] = useState<{
-    [key: string]: [];
+    [key: string]: any[];
   }>({});
 
   const router = useRouter();
 
   const { answeredAnswers } = useTypedSelector((state) => state.profile.user);
+  const { user } = useTypedSelector((state) => state.profile);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ const QuestionEdit = () => {
           [el.question_id]: [...formattedAnswers[el.question_id], el.answer_id],
         };
       }
-      setAnswersContainer(formattedAnswers);
+      setAnswersContainer({ ...formattedAnswers, 14: [user.about_me] });
     });
   }, [answeredAnswers]);
 
@@ -59,15 +60,25 @@ const QuestionEdit = () => {
   const answers = () => {
     // debugger;
     if (!questions?.length || !answeredAnswers?.length) return [];
-    return questions.map((quest) => {
-      let isId = answeredAnswers.filter((el) => el.question_id === quest.id);
-      // if(answeredAnswers.includes() quest.id)
-      // debugger;
-      console.log(isId, "isId");
-      if (isId.length) {
-        return quest;
-      }
-    });
+    return [
+      ...questions.map((quest) => {
+        let isId = answeredAnswers.filter((el) => el.question_id === quest.id);
+        // if(answeredAnswers.includes() quest.id)
+        // debugger;
+        console.log(isId, "isId");
+        if (isId.length) {
+          return quest;
+        }
+      }),
+      {
+        id: 14,
+        is_editable: true,
+        name: "about_me",
+        title: "მოკლე აღწერა შენს შესახებ",
+        type: "textarea",
+        // values: { 14: [user.about_me] },
+      },
+    ] as IQuestions[];
   };
 
   // console.log(questions, "pppppppppppp");
@@ -118,7 +129,7 @@ const QuestionEdit = () => {
                   });
                 }}
                 data={question}
-                values={answersContainer}
+                values={answersContainer as { [key: string]: [] }}
               />
             </div>
           );
