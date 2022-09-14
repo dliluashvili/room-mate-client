@@ -98,65 +98,83 @@ const SideBar: React.FC<ISidebar> = (props) => {
   return (
     <div className="profile_sideBar">
       <div className="profile_userHeading">
-        <span
-          onClick={() => {
-            fileRef?.current?.click();
-          }}
-          // className="pointer"
-          className="imgUploadWrapper pointer"
-        >
-          <img className="cameraIcon" src="/imgs/camera.png" />
-          {props.myProfile ? (
+        {props.myProfile ? (
+          <span
+            onClick={() => {
+              fileRef?.current?.click();
+            }}
+            // className="pointer"
+            className="imgUploadWrapper pointer"
+          >
+            <img className="cameraIcon" src="/imgs/camera.png" />
+            {props.myProfile ? (
+              <img
+                src={
+                  user?.profile_image
+                    ? user?.profile_image
+                    : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+                }
+              />
+            ) : (
+              props.profile_image && (
+                <img className="pointer" src={props.profile_image} />
+              )
+            )}
+            <input
+              onChange={(e) => {
+                setImage(URL.createObjectURL(e.target.files[0]));
+
+                const toBase64 = (file) =>
+                  new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = (error) => reject(error);
+                  });
+
+                async function Main() {
+                  const file = e.target.files[0];
+                  let fileString = await toBase64(file);
+                  ProfileService.uploadImage({
+                    base64: fileString,
+                  })
+                    .then((res) => {
+                      // console.log(res);
+                      let newUSer = {
+                        ...user,
+                        profile_image: res.data.profileImage,
+                      };
+                      dispatch(setCurrentUser({ user: newUSer }));
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
+
+                Main();
+              }}
+              className="d-none"
+              ref={fileRef}
+              type="file"
+            />
+          </span>
+        ) : (
+          <span
+            // onClick={() => {
+            //   fileRef?.current?.click();
+            // }}
+            // className="pointer"
+            className="imgUploadWrapper pointer"
+          >
             <img
               src={
-                user?.profile_image
-                  ? user?.profile_image
+                props?.profile_image
+                  ? props?.profile_image
                   : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
               }
             />
-          ) : (
-            props.profile_image && (
-              <img className="pointer" src={props.profile_image} />
-            )
-          )}
-          <input
-            onChange={(e) => {
-              setImage(URL.createObjectURL(e.target.files[0]));
-
-              const toBase64 = (file) =>
-                new Promise((resolve, reject) => {
-                  const reader = new FileReader();
-                  reader.readAsDataURL(file);
-                  reader.onload = () => resolve(reader.result);
-                  reader.onerror = (error) => reject(error);
-                });
-
-              async function Main() {
-                const file = e.target.files[0];
-                let fileString = await toBase64(file);
-                ProfileService.uploadImage({
-                  base64: fileString,
-                })
-                  .then((res) => {
-                    // console.log(res);
-                    let newUSer = {
-                      ...user,
-                      profile_image: res.data.profileImage,
-                    };
-                    dispatch(setCurrentUser({ user: newUSer }));
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }
-
-              Main();
-            }}
-            className="d-none"
-            ref={fileRef}
-            type="file"
-          />
-        </span>
+          </span>
+        )}
         <span
           style={{
             display: "inline-block",
