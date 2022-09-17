@@ -32,6 +32,7 @@ export const backEndRoutes = {
     uploadImage: () => `${BASE_URL}/users/upload-image`,
     contactForm: () => `${BASE_URL}/contact/send`,
     buyPlan: () => `${BASE_URL}/payments/tbc/pay`,
+    updateNotifications: () => `${BASE_URL}/notifications/update-seen`,
   },
   questions: {
     getQuestions: () => `${BASE_URL}​/questions`,

@@ -27,7 +27,8 @@ const Range: React.FC<IProps> = ({
       <label>{searchable_title || title}</label>
       <div className="d-flex inputsWrapper">
         <input
-          min={18}
+          min="0"
+          step="1"
           onChange={(e) => {
             if (Number(e.target.value) > 80) {
               toast.error("მაქსიმუმ 80 წელი", {
@@ -39,6 +40,7 @@ const Range: React.FC<IProps> = ({
                 draggable: true,
                 progress: undefined,
               });
+
               return;
             }
             setRangeValues([e.target.value, rangeValues[1]]);
@@ -56,7 +58,9 @@ const Range: React.FC<IProps> = ({
 
         <input
           max={80}
+          min={0}
           onChange={(e) => {
+            if (e.target.value === "-") return;
             if (Number(e.target.value) > 80) {
               toast.error("მაქსიმუმ 80 წელი", {
                 position: "top-right",

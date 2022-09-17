@@ -24,6 +24,7 @@ interface IUser {
   is_locked_communication?: boolean;
   answeredAnswers: IAnsweredAnswers[];
   socials?: string[];
+  has_flat?: boolean;
 }
 
 interface ISearchReducer {

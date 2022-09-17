@@ -9,11 +9,38 @@ import {
 import classNames from "classnames";
 import ReceiveNotification from "./components/receiveNotification";
 import SentNotification from "./components/sentNotification";
+import { useTypedSelector } from "../../hooks/useTypeSelector";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../../../redux/action-creators";
+
 const Notifications = () => {
   const [notificationType, setNotificationType] = useState<"sent" | "receive">(
     "receive"
   );
   let { t } = useTranslation("common");
+
+  const user = useTypedSelector((state) => state.profile.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user.notifications) {
+      ProfileService.updateNotifications({})
+        .then((res) => {
+          console.log(res);
+          dispatch(
+            setCurrentUser({
+              user: {
+                ...user,
+                notifications: 1,
+              },
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <div className="d-flex flex-wrap mt-4 ">

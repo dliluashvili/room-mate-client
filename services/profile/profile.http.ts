@@ -165,6 +165,13 @@ class _ProfileService {
       reason: "matching",
     });
   };
+
+  updateNotifications = (data: any): AxiosPromise<any> => {
+    return axiosWithToken.post(
+      backEndRoutes.profile.updateNotifications(),
+      data
+    );
+  };
 }
 
 export const ProfileService = new _ProfileService();
