@@ -26,6 +26,7 @@ const Search = () => {
   const [searchParams, setSearchParams] = useState<IQuestions[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
+  // const [takosModali, setTakosModali] = useState(false);
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
 
@@ -96,6 +97,11 @@ const Search = () => {
   }, [router.query, router.locale]);
 
   const searchHandler = () => {
+    // if (user?.has_flat) {
+    //   setTakosModali(true);
+    //   setOpenPayModal(true);
+    // }
+
     console.log(searchObject, "searchObject");
     if (!user?.payed) {
       setOpenPayModal(true);
@@ -149,6 +155,7 @@ const Search = () => {
       {openPayModal ? (
         <PayModal
           isModal
+          // isTakosModal={takosModali}
           setClose={() => {
             setOpenPayModal(false);
           }}
