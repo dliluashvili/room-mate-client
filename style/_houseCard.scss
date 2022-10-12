@@ -1,0 +1,129 @@
+.houseCard {
+  background: #ffffff;
+  box-shadow: 0px 7px 16px rgba(170, 170, 170, 0.25);
+  border-radius: 6px;
+  width: 260px;
+  height: 328px;
+  margin: 13px;
+  &_link {
+    text-decoration: none;
+  }
+  &_container {
+    margin-left: -13px;
+    margin-right: -13px;
+  }
+  &_imageBLock {
+    height: 170px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    overflow: hidden;
+  }
+  div {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  &_body {
+    padding-top: 20px;
+    > div {
+      margin-bottom: 7px;
+      padding-left: 19px;
+      &.green {
+        background: #f1fdf7;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        // margin-left: -19px;
+        box-sizing: border-box;
+        margin-right: -19px;
+        padding-right: 19px;
+        // padding-left: 19px;
+        width: 100%;
+        margin-bottom: 0;
+        span {
+          color: #19a463;
+        }
+      }
+    }
+  }
+
+  &_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 19px;
+    border-top: 1px solid #e3e3e3;
+    svg {
+      margin-right: 10px;
+    }
+    div {
+      font-size: 12px;
+    }
+    .price {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+
+      svg {
+        margin-left: 6px;
+      }
+    }
+  }
+}
+
+.ImgPreview_container {
+  position: relative;
+  height: 170px;
+  .leftArr {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 1;
+    height: 50px;
+    transform: translate(-25px, -50%);
+    cursor: pointer;
+  }
+  .rightArr {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    z-index: 2;
+    height: 50px;
+    transform: rotate(180deg) translate(-25px, 50%);
+    cursor: pointer;
+  }
+  .sliderImg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    &.active {
+      opacity: 1;
+    }
+  }
+  .sliderBullets {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    > div {
+      border: 1px solid #ffffff;
+      height: 9px;
+      width: 9px;
+      border-radius: 10px;
+      margin: 3px;
+      cursor: pointer;
+      &.active {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.mr-10 {
+  margin-right: 10px;
+}

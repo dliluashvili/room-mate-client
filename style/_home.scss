@@ -323,9 +323,15 @@ h2 {
   margin: auto;
   margin-top: 7px;
 }
+.mainBtn {
+  min-width: 280px;
+}
 @media only screen and (max-width: 768px) {
   .subTitle {
     font-size: 18px !important;
+  }
+  .mainBtn {
+    margin-bottom: 20px !important;
   }
   .CheckIcon {
     margin-left: 0 !important;

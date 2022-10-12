@@ -41,4 +41,10 @@ export const backEndRoutes = {
     checkPhone: () => `${BASE_URL}​/users/check-phone`,
     checkSmsCode: () => `${BASE_URL}/sms-api/check`,
   },
+
+  flats: {
+    flatFilters: () => `${BASE_URL}/flats/filters`,
+    getFlats: () => `${BASE_URL}/flats`,
+    getById: (id: number) => `${BASE_URL}/flats/view/${id}`,
+  },
 };

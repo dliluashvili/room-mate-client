@@ -2,15 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/footer";
 import { Questions, IQuestions } from "../services/questions/questions.http";
+import { Flats } from "../services/flats/flats.http";
 import { ProfileService, ISearchItems } from "../services/profile/profile.http";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
-import Choice from "../components/pages/search/searchItems/choice";
+// import Choice from "../components/pages/search/searchItems/choice";
+import Choice from "../components/pages/houseSearch/houseSearchComponets/choice";
+
 import { SearchProvider } from "../components/pages/search/context/searchContext";
-import { SearchContext } from "../components/pages/search/context/searchContext";
+import { HouseSearchContext } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
 import Link from "next/link";
 import ProfileCard from "../components/pages/profile/profileCard";
-import Range from "../components/pages/search/searchItems/range";
+import Range from "../components/pages/houseSearch/houseSearchComponets/range";
 import { Button } from "../components/common/form";
+import Checkbox from "../components/pages/houseSearch/houseSearchComponets/checkbox";
 import LocationSearch from "../components/pages/search/searchItems/locationSearch";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -21,9 +25,11 @@ import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
 
+import HouseCard from "../components/pages/houseSearch/houseCard";
+
 const Search = () => {
   useCheckAuth();
-  const [searchParams, setSearchParams] = useState<IQuestions[]>([]);
+  const [searchParams, setSearchParams] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
   // const [takosModali, setTakosModali] = useState(false);
@@ -38,17 +44,17 @@ const Search = () => {
     searchObject,
     setSearchObject,
     setSearchObjectFromQuery,
-  } = useContext(SearchContext);
+  } = useContext(HouseSearchContext);
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Questions.getQuestions({
+    Flats.getFlatFilters({
       lang: router.locale,
     })
       .then((res) => {
         console.log(res);
-        setSearchParams(res.data.filter((el) => el.is_searchable));
+        setSearchParams(res.data.filter((el) => el.type !== "chies"));
       })
       .catch((err) => {
         console.log(err);
@@ -69,14 +75,14 @@ const Search = () => {
       return;
     }
 
-    let cleanUpSearchObject = {};
-    for (const key in searchObject) {
-      if (searchObject[key].length) {
-        cleanUpSearchObject[key] = searchObject[key];
-      }
-    }
-    ProfileService.search({
-      filters: cleanUpSearchObject,
+    // let cleanUpSearchObject = {};
+    // for (const key in searchObject) {
+    //   if (searchObject[key].length) {
+    //     cleanUpSearchObject[key] = searchObject[key];
+    //   }
+    // }
+    Flats.getFlats({
+      ...searchObject,
       page: router.query.page ? router.query.page : 1,
       locale: router.locale,
     })
@@ -108,16 +114,16 @@ const Search = () => {
       return;
     }
 
-    let cleanUpSearchObject = {};
-    for (const key in searchObject) {
-      if (searchObject[key].length) {
-        cleanUpSearchObject[key] = searchObject[key];
-      }
-    }
+    // let cleanUpSearchObject = {};
+    // for (const key in searchObject) {
+    //   if (searchObject[key].length) {
+    //     cleanUpSearchObject[key] = searchObject[key];
+    //   }
+    // }
 
-    router.push("/search", {
+    router.push("/houseSearch", {
       query: {
-        filter: JSON.stringify(cleanUpSearchObject),
+        ...searchObject,
         page: 1,
       },
     });
@@ -162,7 +168,7 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage">
+      <div className="searchPage searchPage-houses">
         <div className="container d-flex pt-5">
           <div
             // onClick={(e) => {
@@ -185,12 +191,24 @@ const Search = () => {
             value="fsf"
           /> */}
             {searchParams.map((el) => {
-              if (el.search_type === "choice" && el.name !== "district") {
-                return <Choice key={el.id} data={el} />;
+              if (el.search_type === "checkbox") {
+                // return <Choice key={el.id} data={el} />;
+                return <Checkbox title={el.title} name={el.name} />;
               } else if (el.search_type === "range") {
                 return <Range key={el.id} data={el} />;
+              } else if (el.search_type === "choice") {
+                return (
+                  <Choice data={el.data} name={el.name} title={el.title} />
+                );
               }
             })}
+            <div
+              onClick={() => {
+                console.log(searchObject);
+              }}
+            >
+              test
+            </div>
             <div className="searchBtnWrapper">
               <button
                 onClick={searchHandler}
@@ -313,25 +331,27 @@ const Search = () => {
                 />
               </div>
             </div>
-            {!searchResults.length ? (
-              <div className="text-center mt-5">{t("statementNotFound")}</div>
-            ) : (
-              searchResults?.map((el) => {
-                return (
-                  <ProfileCard
-                    setPayModal={() => {
-                      setOpenPayModal(true);
-                    }}
-                    key={el.id}
-                    {...el}
-                    updateAddRemove={updateAddRemove}
-                  />
-                );
-              })
-            )}
+            <div className="d-flex flex-wrap houseCard_container">
+              {!searchResults.length ? (
+                <div className="text-center mt-5">{t("statementNotFound")}</div>
+              ) : (
+                searchResults?.map((el) => {
+                  return (
+                    <HouseCard
+                      setPayModal={() => {
+                        setOpenPayModal(true);
+                      }}
+                      key={el.id}
+                      data={el}
+                      updateAddRemove={updateAddRemove}
+                    />
+                  );
+                })
+              )}
+            </div>
 
             <Pagination
-              pagePath="/search"
+              pagePath="/houseSearch"
               maxPage={meta?.pageCount}
               maxItem={meta?.take}
             />

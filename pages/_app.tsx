@@ -5,6 +5,7 @@ import Head from "next/head";
 import "../style/style.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { SearchProvider } from "../components/pages/search/context/searchContext";
+import { HouseSearchProvider } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { hotjar } from "react-hotjar";
 
@@ -74,11 +75,13 @@ function MyApp({ Component, pageProps }) {
           pageId="103648229133196"
           appId="1116841412243862"
         />
-        <SearchProvider>
-          <Provider store={store}>
-            <Component {...pageProps} />
-          </Provider>
-        </SearchProvider>
+        <HouseSearchProvider>
+          <SearchProvider>
+            <Provider store={store}>
+              <Component {...pageProps} />
+            </Provider>
+          </SearchProvider>
+        </HouseSearchProvider>
       </div>
     </>
   );

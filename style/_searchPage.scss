@@ -1,6 +1,14 @@
 .searchPage {
   min-height: 100vh;
   padding-top: 70px;
+  &-houses {
+    .container {
+      max-width: 990px !important;
+    }
+    .search_mainContent {
+      max-width: 548px;
+    }
+  }
   .container {
     max-width: 900px;
   }

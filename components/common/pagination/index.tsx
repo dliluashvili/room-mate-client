@@ -35,6 +35,7 @@ interface IProps {
   maxPage?: number;
   next?: any;
   prev?: any;
+  pagePath: string;
 }
 
 const Pagination: React.FC<IProps> = ({
@@ -43,8 +44,11 @@ const Pagination: React.FC<IProps> = ({
   maxPage,
   next,
   prev,
+  pagePath,
 }) => {
   const router = useRouter();
+
+  console.log(router?.query, "router?.query");
 
   const getPagination = useMemo(() => {
     let paginationList = [];
@@ -57,7 +61,7 @@ const Pagination: React.FC<IProps> = ({
         paginationList.push(
           <PaginationItem
             href={{
-              pathname: "/search",
+              pathname: pagePath,
               query: {
                 ...router?.query,
                 page: index + 1,
@@ -72,7 +76,7 @@ const Pagination: React.FC<IProps> = ({
         paginationList.push(
           <PaginationItem
             href={{
-              pathname: "/search",
+              pathname: pagePath,
               query: {
                 ...router.query,
                 page: index + 1,
@@ -97,7 +101,7 @@ const Pagination: React.FC<IProps> = ({
     <div className="beks_pagination pagination">
       <GetButton
         href={{
-          pathname: "/search",
+          pathname: pagePath,
           query: {
             ...router?.query,
             page: Number(router?.query?.page) - 1,
@@ -112,7 +116,7 @@ const Pagination: React.FC<IProps> = ({
       {getPagination}
       <GetButton
         href={{
-          pathname: "/search",
+          pathname: pagePath,
           query: {
             ...router?.query,
             page: Number(router?.query?.page) + 1,
