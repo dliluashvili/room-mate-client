@@ -6,6 +6,7 @@ import { Flats } from "../../services/flats/flats.http";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { useRouter } from "next/router";
+import GoogleMapReact from "google-map-react";
 
 const Specification = ({
   title,
@@ -52,6 +53,8 @@ const Specification = ({
   );
 };
 
+const AnyReactComponent = ({ text, lat, lan }: any) => <div>{text}</div>;
+
 function House() {
   const [statementData, setStatementData] = useState<any>({});
   const [showNumber, setShowNumber] = useState(false);
@@ -71,6 +74,15 @@ function House() {
         console.log(err);
       });
   }, []);
+
+  const defaultProps = {
+    center: {
+      lat: Number(statementData?.coords?.lat),
+      lng: Number(statementData?.coords?.lng),
+    },
+    zoom: 14,
+  };
+
   return (
     <div>
       <Header />
@@ -329,13 +341,42 @@ function House() {
               {/* <Specification title="ტელევიზორი" yes={true} /> */}
               {/* <Specification title="კონდიციონერი" yes={true} /> */}
               <Specification
-                title="შამუშაო სივრცე"
+                title="სამუშაო სივრცე"
                 yes={statementData?.working_space}
               />
             </div>
           </div>
         </div>
       </div>
+      <div className="container">
+        <div style={{ height: "50vh", width: "100%" }}>
+          {statementData?.coords ? (
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: "AIzaSyBF7PfPBVg6vpD-wtTDOfo3BR8oskb9QwE",
+              }}
+              defaultCenter={defaultProps.center}
+              defaultZoom={defaultProps.zoom}
+              // marker
+            >
+              {/* <AnyReactComponent
+              lat={59.955413}
+              lng={30.337844}
+              text="My Marker"
+            /> */}
+              {/* // @ts-ignore: Unreachable code error */}
+              <img
+                // @ts-expect-error: Let's ignore a compile error like this unreachable code
+                lat={statementData?.coords?.lat}
+                lng={statementData?.coords?.lng}
+                height={30}
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg3pegHsLEb7hFj2gZyYrDpsmHK4zjai_wCA&usqp=CAU"
+              />
+            </GoogleMapReact>
+          ) : null}
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
