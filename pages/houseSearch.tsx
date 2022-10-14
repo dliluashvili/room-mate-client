@@ -28,9 +28,9 @@ import useTranslation from "next-translate/useTranslation";
 import HouseCard from "../components/pages/houseSearch/houseCard";
 
 const Search = () => {
-  useCheckAuth();
+  useCheckAuth(false);
   const [searchParams, setSearchParams] = useState<any[]>([]);
-  const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
+  const [searchResults, setSearchResults] = useState<any>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
   // const [takosModali, setTakosModali] = useState(false);
   const [meta, setMeta] = useState<any>();
@@ -324,22 +324,39 @@ const Search = () => {
                   </svg>
                 )}
               </div>
-              <div className="w-100">
+              {/* <div className="w-100">
                 <LocationSearch
                   data={searchParams.find((el) => el.name === "district")}
                   searchHandler={searchHandler}
                 />
-              </div>
+              </div> */}
             </div>
-            <div className="d-flex flex-wrap houseCard_container">
+            <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!searchResults.length ? (
                 <div className="text-center mt-5">{t("statementNotFound")}</div>
               ) : (
                 searchResults?.map((el) => {
                   return (
                     <HouseCard
+                      isAuth={!!user}
                       setPayModal={() => {
                         setOpenPayModal(true);
+                      }}
+                      addRemoveFavorite={(flag, id) => {
+                        console.log(flag, id);
+                        setSearchResults([
+                          ...searchResults.map((item) => {
+                            if (item.id === id) {
+                              if (flag === "remove") {
+                                item.isFavourite = 0;
+                              } else {
+                                item.isFavourite = 1;
+                              }
+                            }
+
+                            return item;
+                          }),
+                        ]);
                       }}
                       key={el.id}
                       data={el}

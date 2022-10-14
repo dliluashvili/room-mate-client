@@ -45,6 +45,9 @@ export const backEndRoutes = {
   flats: {
     flatFilters: () => `${BASE_URL}/flats/filters`,
     getFlats: () => `${BASE_URL}/flats`,
+    getFavoriteFlats: () => `${BASE_URL}/users-flats-favourites`,
+    showNumber: () => `${BASE_URL}/click-events `,
+    saveRemoveFlat: () => `${BASE_URL}/users-flats-favourites/add-or-remove`,
     getById: (id: number) => `${BASE_URL}/flats/view/${id}`,
   },
 };

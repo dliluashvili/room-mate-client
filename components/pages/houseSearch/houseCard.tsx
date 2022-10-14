@@ -1,14 +1,47 @@
 import React from "react";
 import ImgPreview from "./imgsPreviev";
 import Link from "next/link";
+import { Flats } from "../../../services/flats/flats.http";
 
-const HouseCard = ({ data }: any) => {
+const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
   return (
     <Link href={"/house/" + data.id}>
       <a className="houseCard_link">
         <div className="houseCard">
           <div className="houseCard_imageBLock">
             <ImgPreview images={data.images} />
+            {isAuth ? (
+              <svg
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+
+                  Flats.saveRemoveFlat(data.id)
+                    .then((res) => {
+                      console.log("rrr");
+                      if (data.isFavourite === 1) {
+                        addRemoveFavorite("remove", data.id);
+                      } else {
+                        addRemoveFavorite("add", data.id);
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+                className="cardLike"
+                width="19"
+                height="16"
+                viewBox="0 0 19 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.1558 1.09402C15.1222 -0.573804 12.0979 -0.273809 10.2313 1.57973L9.50027 2.30471L8.76923 1.57973C6.90638 -0.273809 3.87831 -0.573804 1.84476 1.09402C-0.485668 3.00827 -0.608127 6.44392 1.47738 8.51889L8.65791 15.6545C9.12176 16.1152 9.87507 16.1152 10.3389 15.6545L17.5195 8.51889C19.6087 6.44392 19.4862 3.00827 17.1558 1.09402Z"
+                  fill={data.isFavourite === 1 ? "#cb2525" : "white"}
+                />
+              </svg>
+            ) : null}
           </div>
           <div className="houseCard_body">
             <div>

@@ -78,7 +78,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     border: none;
-    left: -53px;
+    left: -44px;
     position: absolute;
     transform: rotate(180deg);
   }
@@ -186,4 +186,63 @@
 
 .f-13 {
   font-size: 13px;
+}
+
+@media only screen and (max-width: 768px) {
+  .houseStatement .slider-wrapper .slider div {
+    height: 300px;
+  }
+  .houseStatement .thumbs-wrapper .thumb {
+    border: 1px solid #ffffff;
+    padding: 0;
+    border-radius: 3px;
+    width: 76px !important;
+    height: 52px;
+  }
+  .houseStatement .slider-wrapper .slider img {
+    min-height: 200px;
+  }
+
+  .houseStatement .carousel .control-arrow.control-next:before,
+  .houseStatement .carousel.carousel-slider .control-arrow.control-next:before {
+    width: 64px;
+    height: 64px;
+    left: -27px;
+    top: 105px;
+  }
+
+  .houseStatement .carousel .control-arrow.control-prev:before,
+  .houseStatement .carousel.carousel-slider .control-arrow.control-prev:before {
+    width: 64px;
+    height: 64px;
+    left: -35px;
+    top: 105px;
+  }
+  .carousel {
+    position: absolute;
+  }
+  .houseStatement .slider-wrapper {
+    padding-top: 0;
+  }
+  .carousel .thumbs {
+    padding-left: 0;
+  }
+  .specifications_list div {
+    width: 100%;
+  }
+  .mainSpecifications div {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .firtLinetr {
+    // margin-top: 70px !important;
+  }
+
+  .carousel .thumbs-wrapper {
+    height: 0 !important;
+    overflow: inherit;
+  }
+  .houseStatement .thumbs-wrapper {
+    transform: translateY(-19px);
+  }
 }

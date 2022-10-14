@@ -37,7 +37,7 @@ class _Flats {
   };
 
   getFlats = (data: any): AxiosPromise<any> => {
-    return axios.get(backEndRoutes.flats.getFlats(), {
+    return axiosWithToken.get(backEndRoutes.flats.getFlats(), {
       params: {
         ...data,
       },
@@ -50,6 +50,23 @@ class _Flats {
         locale: lang,
       },
     });
+  };
+
+  showNumber = ({ user_id, flat_id }): AxiosPromise<any> => {
+    return axios.post(backEndRoutes.flats.showNumber(), {
+      type: "show_number",
+      data: { user_id, flat_id },
+    });
+  };
+
+  saveRemoveFlat = (flat_id): AxiosPromise<any> => {
+    return axiosWithToken.post(backEndRoutes.flats.saveRemoveFlat(), {
+      flat_id,
+    });
+  };
+
+  getFavoriteFlats = (): AxiosPromise<any> => {
+    return axiosWithToken.get(backEndRoutes.flats.getFavoriteFlats());
   };
 
   //   saveAnswers = (answers: any): AxiosPromise => {

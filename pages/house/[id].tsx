@@ -54,6 +54,8 @@ const Specification = ({
 
 function House() {
   const [statementData, setStatementData] = useState<any>({});
+  const [showNumber, setShowNumber] = useState(false);
+
   const router = useRouter();
   console.log(router);
   useEffect(() => {
@@ -85,7 +87,7 @@ function House() {
       </div>
       <div className="container">
         <div className="row">
-          <div className="d-flex justify-content-between align-items-center mt-4 withBorderBottom">
+          <div className="d-flex justify-content-between align-items-center mt-4 withBorderBottom firtLinetr">
             <div className="d-flex align-items-center justify-content-between w-100">
               <div className="d-flex">
                 <svg
@@ -101,7 +103,7 @@ function House() {
                     fill="white"
                   />
                 </svg>
-                <div className="ml-3">თეკლა</div>
+                <div className="ml-3">{statementData?.full_name}</div>
               </div>
 
               <div className="phoneBlock d-flex align-items-center ">
@@ -117,9 +119,26 @@ function House() {
                     fill="white"
                   />
                 </svg>
-                <div>
-                  <div>599 4324342 </div>
-                  <div className="label">ნომრის ნახვა</div>
+                <div
+                  onClick={() => {
+                    setShowNumber(true);
+
+                    Flats.showNumber({
+                      user_id: statementData?.id,
+                      flat_id: 1,
+                    })
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  }}
+                >
+                  <div>
+                    {!showNumber ? "59 94 67. .." : statementData?.phone}{" "}
+                  </div>
+                  {showNumber ? null : (
+                    <div className="label">ნომრის ნახვა</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -280,7 +299,7 @@ function House() {
           <div className="specifications">
             <label>მახასიათებლები</label>
             <div className="specifications_list">
-              <Specification title="შშმპ ადაპტირებული" yes={true} />
+              {/* <Specification title="შშმპ ადაპტირებული" yes={true} /> */}
               <Specification
                 title="ცხელი წყალი"
                 yes={statementData?.hot_water}
@@ -294,21 +313,21 @@ function House() {
                 yes={statementData?.central_heating}
               />
               <Specification title="ბუნებრივი აირი" yes={statementData?.gas} />
-              <Specification title="ვერანდა 35 მ²" yes={true} />
+              {/* <Specification title="ვერანდა 35 მ²" yes={true} /> */}
               <Specification
                 title={`სველი წერტილი ${statementData?.bedroom}`}
                 yes={statementData?.bedroom}
               />
               <Specification title="გათბობა" yes={statementData?.heating} />
               <Specification title="ინტერნეტი" yes={statementData?.internet} />
-              <Specification title="სათავსო" yes={true} />
-              <Specification title="ავეჯი" yes={true} />
-              <Specification title="სამგზავრო ლიფტი" yes={true} />
-              <Specification title="სატვირთო" yes={true} />
+              {/* <Specification title="სათავსო" yes={true} /> */}
+              {/* <Specification title="ავეჯი" yes={true} /> */}
+              {/* <Specification title="სამგზავრო ლიფტი" yes={true} /> */}
+              {/* <Specification title="სატვირთო" yes={true} /> */}
               <Specification title="ლიფტი" yes={statementData?.elevator} />
-              <Specification title="ტელეფონი" yes={true} />
-              <Specification title="ტელევიზორი" yes={true} />
-              <Specification title="კონდიციონერი" yes={true} />
+              {/* <Specification title="ტელეფონი" yes={true} /> */}
+              {/* <Specification title="ტელევიზორი" yes={true} /> */}
+              {/* <Specification title="კონდიციონერი" yes={true} /> */}
               <Specification
                 title="შამუშაო სივრცე"
                 yes={statementData?.working_space}

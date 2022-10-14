@@ -33,6 +33,10 @@ const Favorites = (props) => {
       label: t("maklierebi"),
       path: "/profile/agents",
     },
+    {
+      label: t("favoriteFlats"),
+      path: "/profile/flats",
+    },
   ];
 
   useEffect(() => {

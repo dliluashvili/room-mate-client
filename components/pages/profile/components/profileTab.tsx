@@ -11,19 +11,21 @@ const ProfileTab: React.FC<IProps> = ({ tabs }) => {
   const router = useRouter();
   return (
     <div className="profile_tab d-flex">
-      {tabs.map((el, i) => {
-        return (
-          <Link key={i} href={el.path}>
-            <a
-              className={classnames("btn", {
-                active: router.asPath === el.path,
-              })}
-            >
-              {el.label}
-            </a>
-          </Link>
-        );
-      })}
+      <div className="d-flex">
+        {tabs.map((el, i) => {
+          return (
+            <Link key={i} href={el.path}>
+              <a
+                className={classnames("btn", {
+                  active: router.asPath === el.path,
+                })}
+              >
+                {el.label}
+              </a>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 };

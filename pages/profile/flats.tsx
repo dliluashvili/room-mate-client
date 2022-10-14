@@ -14,8 +14,9 @@ import QuestionPreview from "../../components/pages/profile/QuestionPreview";
 import ProfileTab from "../../components/pages/profile/components/profileTab";
 import FavoritesContent from "../../components/pages/profile/favorites";
 import useTranslation from "next-translate/useTranslation";
+import FavoriteFlats from "../../components/pages/houseSearch/favoriteFlats";
 
-const Favorites = (props) => {
+const FlatsList = (props) => {
   let { t } = useTranslation("common");
 
   const tabs = [
@@ -40,9 +41,9 @@ const Favorites = (props) => {
   return (
     <ProfileWrapper>
       <ProfileTab tabs={tabs} />
-      <FavoritesContent />
+      <FavoriteFlats />
     </ProfileWrapper>
   );
 };
 
-export default Favorites;
+export default FlatsList;

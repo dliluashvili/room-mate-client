@@ -31,6 +31,10 @@ const Profile = (props) => {
       label: t("maklierebi"),
       path: "/profile/agents",
     },
+    {
+      label: t("favoriteFlats"),
+      path: "/profile/flats",
+    },
   ];
 
   return (

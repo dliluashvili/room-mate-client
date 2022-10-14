@@ -287,6 +287,7 @@
     }
     &.openSearchMenu {
       display: block;
+      z-index: 3;
     }
     .search_item > label {
       font-size: 12px;

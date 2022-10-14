@@ -5,6 +5,15 @@
   width: 260px;
   height: 328px;
   margin: 13px;
+  &_imageBLock {
+    position: relative;
+    .cardLike {
+      position: absolute;
+      z-index: 2;
+      right: 15px;
+      top: 10px;
+    }
+  }
   &_link {
     text-decoration: none;
   }
@@ -98,7 +107,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     opacity: 0;
     &.active {
       opacity: 1;
@@ -126,4 +135,18 @@
 
 .mr-10 {
   margin-right: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .houseCard {
+    min-width: 100%;
+    width: 100%;
+  }
+  .houseCard_link {
+    display: block;
+    min-width: 100%;
+  }
+  // .search_mainContent {
+  //   max-width: 350px !important;
+  // }
 }

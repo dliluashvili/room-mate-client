@@ -166,9 +166,14 @@
   box-shadow: 0px 7px 16px rgba(170, 170, 170, 0.25);
   border-radius: 6px;
   padding: 4px;
+  width: 100%;
+  overflow: auto;
+  > div {
+  }
   a {
     padding: 6px 20px;
     font-size: 14px;
+    white-space: nowrap;
   }
   a.active {
     background-color: $brandColor;
