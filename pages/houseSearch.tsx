@@ -206,9 +206,7 @@ const Search = () => {
               onClick={() => {
                 console.log(searchObject);
               }}
-            >
-              test
-            </div>
+            ></div>
             <div className="searchBtnWrapper">
               <button
                 onClick={searchHandler}
