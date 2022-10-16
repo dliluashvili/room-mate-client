@@ -143,5 +143,30 @@
   "minpass": "Enter minimum 6 character",
   "unuthorized": "Username or password is wrong",
 
-  "partners": "Partners"
+  "partners": "Partners",
+
+  "viewNumber": "view number",
+  "totalRent": "total rent",
+  "Space": "space",
+  "floor": "floor",
+  "NumberOfRooms": "number of rooms",
+  "rentedFor": "rented for (max persons)",
+  "RentPerPerson": "rent cost for per person",
+  "specifications": "specifications",
+  "hotWater": "hot water",
+  "balcony": "balcony",
+  "CentralHeating": "central heating",
+  "gas": "gas",
+  "bathroom": "bathroom",
+  "Heating": "heating",
+  "Internet": "internet",
+  "elevator": "elevator",
+  "workspace": "workspace",
+
+  "maximumPersonsInApartamnet": "maximum persons in apartamnet",
+  "Numberofrooms": "number of rooms",
+  "RentAmountPerPerson": "rent amount per person",
+  "totalRent": "total rent",
+  "RentAnApartment": "rent an apartment",
+  "savedApartments": "saved apartments"
 }

@@ -68,7 +68,7 @@ const IndexPage = () => {
                         />
                       </svg>
                       {/* {user ? t("search") : t("search")} */}
-                      იქირავე ბინა
+                      {t("RentAnApartment")}
                     </a>
                   </Link>
                 </div>

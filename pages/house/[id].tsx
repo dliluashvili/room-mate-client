@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { useRouter } from "next/router";
 import GoogleMapReact from "google-map-react";
+import useTranslation from "next-translate/useTranslation";
 
 const Specification = ({
   title,
@@ -59,6 +60,8 @@ function House() {
   const [statementData, setStatementData] = useState<any>({});
   const [showNumber, setShowNumber] = useState(false);
 
+  let { t } = useTranslation("common");
+
   const router = useRouter();
   console.log(router);
   useEffect(() => {
@@ -73,7 +76,7 @@ function House() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [router.locale]);
 
   const defaultProps = {
     center: {
@@ -149,7 +152,7 @@ function House() {
                     {!showNumber ? "59 94 67. .." : statementData?.phone}{" "}
                   </div>
                   {showNumber ? null : (
-                    <div className="label">ნომრის ნახვა</div>
+                    <div className="label">{t("viewNumber")}</div>
                   )}
                 </div>
               </div>
@@ -187,7 +190,7 @@ function House() {
                   fill="#484848"
                 />
               </svg>
-              <span className="f-13">ჯამური ქირა</span>
+              <span className="f-13">{t("totalRent")}</span>
             </div>
           </div>
           <div className="mainSpecifications">
@@ -207,7 +210,9 @@ function House() {
                   strokeWidth="0.5"
                 />
               </svg>
-              <span>ფართი: {statementData?.area} მ²</span>
+              <span>
+                {t("Space")}: {statementData?.area} მ²
+              </span>
             </div>
             <div>
               <svg
@@ -227,7 +232,8 @@ function House() {
               </svg>
 
               <span>
-                სართული: {statementData?.floor}/{statementData?.total_floors}
+                {t("floor")}: {statementData?.floor}/
+                {statementData?.total_floors}
               </span>
             </div>
             <div>
@@ -247,7 +253,9 @@ function House() {
                 />
               </svg>
 
-              <span>ოთახების რაოდენობა: {statementData?.bedroom}</span>
+              <span>
+                {t("NumberOfRooms")}: {statementData?.bedroom}
+              </span>
             </div>
             <div>
               <svg
@@ -267,7 +275,7 @@ function House() {
               </svg>
 
               <span>
-                რამდენ ადამიანზე ქირავდება: {statementData?.capacity}{" "}
+                {t("rentedFor")}: {statementData?.capacity}{" "}
               </span>
             </div>
             <div className="green">
@@ -288,7 +296,7 @@ function House() {
               </svg>
 
               <span>
-                ქირის თანხა თითო ადამიანისთვის: {statementData?.each_pay}
+                {t("RentPerPerson")}: {statementData?.each_pay}
                 <svg
                   width="10"
                   height="12"
@@ -309,39 +317,48 @@ function House() {
             <p>{statementData?.description}</p>
           </div>
           <div className="specifications">
-            <label>მახასიათებლები</label>
+            <label>{t("specifications")}</label>
             <div className="specifications_list">
               {/* <Specification title="შშმპ ადაპტირებული" yes={true} /> */}
               <Specification
-                title="ცხელი წყალი"
+                title={t("hotWater")}
                 yes={statementData?.hot_water}
               />
               <Specification
-                title={`აივანი ${statementData?.balcony} მ²`}
+                title={`${t("balcony")} ${statementData?.balcony} მ²`}
                 yes={!!statementData?.balcony}
               />
               <Specification
-                title="ცენტრალური გათბობა"
+                title={t("CentralHeating")}
                 yes={statementData?.central_heating}
               />
-              <Specification title="ბუნებრივი აირი" yes={statementData?.gas} />
+              <Specification title={t("gas")} yes={statementData?.gas} />
               {/* <Specification title="ვერანდა 35 მ²" yes={true} /> */}
               <Specification
-                title={`სველი წერტილი ${statementData?.bedroom}`}
+                title={`${t("bathroom")} ${statementData?.bedroom}`}
                 yes={statementData?.bedroom}
               />
-              <Specification title="გათბობა" yes={statementData?.heating} />
-              <Specification title="ინტერნეტი" yes={statementData?.internet} />
+              <Specification
+                title={t("Heating")}
+                yes={statementData?.heating}
+              />
+              <Specification
+                title={t("Internet")}
+                yes={statementData?.internet}
+              />
               {/* <Specification title="სათავსო" yes={true} /> */}
               {/* <Specification title="ავეჯი" yes={true} /> */}
               {/* <Specification title="სამგზავრო ლიფტი" yes={true} /> */}
               {/* <Specification title="სატვირთო" yes={true} /> */}
-              <Specification title="ლიფტი" yes={statementData?.elevator} />
+              <Specification
+                title={t("elevator")}
+                yes={statementData?.elevator}
+              />
               {/* <Specification title="ტელეფონი" yes={true} /> */}
               {/* <Specification title="ტელევიზორი" yes={true} /> */}
               {/* <Specification title="კონდიციონერი" yes={true} /> */}
               <Specification
-                title="სამუშაო სივრცე"
+                title={t("workspace")}
                 yes={statementData?.working_space}
               />
             </div>

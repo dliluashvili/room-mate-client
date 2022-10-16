@@ -146,5 +146,30 @@
   "minpass": "შეიყვანეთ მინიმუმ 6 სიმბოლო",
   "unuthorized": "მომხმარებელი ან პაროლი არასწორია",
 
-  "partners": "პარტნიორები"
+  "partners": "პარტნიორები",
+
+  "viewNumber": "ნომრის ნახვა",
+  "totalRent": "ჯამური ქირა",
+  "Space": "ფართი",
+  "floor": "სართული",
+  "NumberOfRooms": "ოთახების რაოდენობა",
+  "rentedFor": "რამდენ ადამიანზე ქირავდება",
+  "RentPerPerson": "ქირის თანხა თითო ადამიანისთვის",
+  "specifications": "მახასიათებლები",
+  "hotWater": "ცხელი წყალი",
+  "balcony": "აივანი",
+  "CentralHeating": "ცენტრალური გათბობა",
+  "gas": "ბუნებრივი აირი",
+  "bathroom": "`სველი წერტილი",
+  "Heating": "გათბობა",
+  "Internet": "ინტერნეტი",
+  "elevator": "ლიფტი",
+  "workspace": "სამუშაო სივრცე",
+
+  "maximumPersonsInApartamnet": "რამდენ ადამიანზე ქირავდება",
+  "Numberofrooms": "ოთახების რაოდენობა",
+  "RentAmountPerPerson": "ქირის თანხა  თითო ადამიანისთვის",
+  "totalRent": "ჯამური ქირა",
+  "RentAnApartment": "იქირავე ბინა",
+  "savedApartments": "შენახული ბინები"
 }

@@ -62,7 +62,7 @@
     padding: 14px 19px;
     border-top: 1px solid #e3e3e3;
     svg {
-      margin-right: 10px;
+      margin-right: 3px;
     }
     div {
       font-size: 12px;
@@ -74,7 +74,7 @@
       font-weight: 600;
 
       svg {
-        margin-left: 6px;
+        margin-left: 2px;
       }
     }
   }
@@ -135,6 +135,13 @@
 
 .mr-10 {
   margin-right: 10px;
+}
+
+.houseCard_locations {
+  width: 93px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media only screen and (max-width: 768px) {

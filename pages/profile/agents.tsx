@@ -34,7 +34,7 @@ const Favorites = (props) => {
       path: "/profile/agents",
     },
     {
-      label: t("favoriteFlats"),
+      label: t("savedApartments"),
       path: "/profile/flats",
     },
   ];

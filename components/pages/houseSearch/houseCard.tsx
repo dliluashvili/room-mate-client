@@ -2,8 +2,11 @@ import React from "react";
 import ImgPreview from "./imgsPreviev";
 import Link from "next/link";
 import { Flats } from "../../../services/flats/flats.http";
+import useTranslation from "next-translate/useTranslation";
 
 const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
+  let { t } = useTranslation("common");
+
   return (
     <Link href={"/house/" + data.id}>
       <a className="houseCard_link">
@@ -60,7 +63,7 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
                   strokeWidth="0.5"
                 />
               </svg>
-              ოთახების რაოდენობა: {data.room}
+              {t("Numberofrooms")}: {data.room}
             </div>
             <div>
               <svg
@@ -78,7 +81,7 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
                   strokeWidth="0.5"
                 />
               </svg>
-              რამდენ ადამიანზე ქირავდება: {data.capacity}
+              {t("maximumPersonsInApartamnet")}: {data.capacity}
             </div>
             <div className="green d-flex align-items-center">
               <svg
@@ -98,12 +101,12 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
               </svg>
 
               <span>
-                ქირის თანხა <br /> თითო ადამიანისთვის: {data.each_pay} ₾
+                {t("RentAmountPerPerson")}: {data.each_pay} ₾
               </span>
             </div>
           </div>
           <div className="houseCard_footer">
-            <div>
+            <div className="houseCard_locations">
               <svg
                 width="13"
                 height="18"
@@ -116,7 +119,7 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
                   stroke="#5E666E"
                 />
               </svg>
-              <span>გლდანი</span>
+              <span>{data?.district?.title}</span>
             </div>
             <div className="d-flex">
               <span className="price">
@@ -134,7 +137,7 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
                   />
                 </svg>
               </span>
-              <span className="smallText"> ჯამური ქირა</span>
+              <span className="smallText"> {t("totalRent")}</span>
             </div>
           </div>
         </div>

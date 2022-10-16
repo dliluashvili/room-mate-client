@@ -222,7 +222,7 @@ function Header({ type }: IProps) {
                       </svg>
 
                       {/* {t("search")} */}
-                      {"იქირავე ბინა"}
+                      {t("RentAnApartment")}
                     </a>
                   </Link>
                 </li>
