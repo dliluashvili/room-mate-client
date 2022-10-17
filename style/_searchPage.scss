@@ -226,7 +226,22 @@
 }
 ///
 ///
+///
+///
+///
 
+.locationSearch_input-TestSearch {
+  padding: 0;
+  input {
+    height: 40px;
+    width: 100%;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    display: block;
+    padding-left: 15px;
+  }
+}
 @media only screen and (max-width: 768px) {
   .locationSearch_input {
     width: calc(100vw - 176px);

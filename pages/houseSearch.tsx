@@ -24,6 +24,7 @@ import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
+import TextSearch from "../components/pages/houseSearch/houseSearchComponets/testField";
 
 import HouseCard from "../components/pages/houseSearch/houseCard";
 
@@ -62,12 +63,15 @@ const Search = () => {
   }, [router.locale]);
 
   useEffect(() => {
-    if (router.query.filter) {
-      let query = JSON.parse(router.query.filter as string);
-      console.log(query, "qqqqqqqqqqqqqqq");
-      setSearchObjectFromQuery(query);
+    if (router.query) {
+      // debugger
+      console.log(router.query);
+      // debugger;
+      // let query = JSON.parse(router.query as string);
+      // console.log(query, "qqqqqqqqqqqqqqq");
+      setSearchObjectFromQuery(router.query);
     }
-  }, [router.query.filter]);
+  }, []);
 
   useEffect(() => {
     if (user && !user?.payed) {
@@ -127,6 +131,8 @@ const Search = () => {
         page: 1,
       },
     });
+
+    setSearchObjectFromQuery(searchObject);
   };
 
   const updateAddRemove = (id: number, saveId: boolean) => {
@@ -202,6 +208,13 @@ const Search = () => {
                 );
               }
             })}
+            <div
+              onClick={() => {
+                console.log(searchObject);
+              }}
+            >
+              test
+            </div>
             <div
               onClick={() => {
                 console.log(searchObject);
@@ -322,12 +335,9 @@ const Search = () => {
                   </svg>
                 )}
               </div>
-              {/* <div className="w-100">
-                <LocationSearch
-                  data={searchParams.find((el) => el.name === "district")}
-                  searchHandler={searchHandler}
-                />
-              </div> */}
+              <div className="w-100">
+                <TextSearch searchHandler={searchHandler} />
+              </div>
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!searchResults.length ? (
