@@ -153,8 +153,8 @@
   "Space": "ფართი",
   "floor": "სართული",
   "NumberOfRooms": "ოთახების რაოდენობა",
-  "rentedFor": "რამდენ ადამიანზე ქირავდება",
-  "RentPerPerson": "ქირის თანხა თითო ადამიანისთვის",
+  "rentedFor": "საწოლების რაოდენობა",
+  "RentPerPerson": "ქირის თანხა {{person}} ადამიანის შემთხვევაში ",
   "specifications": "მახასიათებლები",
   "hotWater": "ცხელი წყალი",
   "balcony": "აივანი",
@@ -166,10 +166,11 @@
   "elevator": "ლიფტი",
   "workspace": "სამუშაო სივრცე",
 
-  "maximumPersonsInApartamnet": "რამდენ ადამიანზე ქირავდება",
+  "maximumPersonsInApartamnet": "საწოლების რაოდენობა",
   "Numberofrooms": "ოთახების რაოდენობა",
   "RentAmountPerPerson": "ქირის თანხა  თითო ადამიანისთვის",
   "totalRent": "ჯამური ქირა",
   "RentAnApartment": "იქირავე ბინა",
-  "savedApartments": "შენახული ბინები"
+  "savedApartments": "შენახული ბინები",
+  "mdebareoba": "დგილმდებარეობა"
 }

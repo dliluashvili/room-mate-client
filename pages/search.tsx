@@ -217,7 +217,7 @@ const Search = () => {
             <div className="d-flex ">
               <div
                 onClick={toggleSearchMenu}
-                className="searchMenu_btn d-block d-md-none "
+                className="searchMenu_btn d-flex d-md-none "
               >
                 {openSearchMenu ? (
                   <svg

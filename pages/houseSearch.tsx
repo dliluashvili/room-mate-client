@@ -208,13 +208,7 @@ const Search = () => {
                 );
               }
             })}
-            <div
-              onClick={() => {
-                console.log(searchObject);
-              }}
-            >
-              test
-            </div>
+
             <div
               onClick={() => {
                 console.log(searchObject);
@@ -246,7 +240,7 @@ const Search = () => {
             <div className="d-flex ">
               <div
                 onClick={toggleSearchMenu}
-                className="searchMenu_btn d-block d-md-none "
+                className="searchMenu_btn d-flex d-md-none "
               >
                 {openSearchMenu ? (
                   <svg
@@ -335,9 +329,9 @@ const Search = () => {
                   </svg>
                 )}
               </div>
-              <div className="w-100">
+              {/* <div className="w-100">
                 <TextSearch searchHandler={searchHandler} />
-              </div>
+              </div> */}
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!searchResults.length ? (

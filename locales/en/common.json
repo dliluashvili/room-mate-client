@@ -151,7 +151,7 @@
   "floor": "floor",
   "NumberOfRooms": "number of rooms",
   "rentedFor": "rented for (max persons)",
-  "RentPerPerson": "rent cost for per person",
+  "RentPerPerson": "rent cost for {{person}} person",
   "specifications": "specifications",
   "hotWater": "hot water",
   "balcony": "balcony",
@@ -168,5 +168,6 @@
   "RentAmountPerPerson": "rent amount per person",
   "totalRent": "total rent",
   "RentAnApartment": "rent an apartment",
-  "savedApartments": "saved apartments"
+  "savedApartments": "saved apartments",
+  "mdebareoba": "location"
 }

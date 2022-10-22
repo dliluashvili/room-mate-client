@@ -1,7 +1,13 @@
 .houseStatement {
-  padding-top: 70px;
+  margin-top: 90px !important;
+  max-width: 1320px;
+  margin: auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
 
   &_price {
+    padding-right: 80px;
     svg {
       margin-left: 5px;
       margin-right: 10px;
@@ -10,7 +16,7 @@
 
   .slider-wrapper {
     max-height: 70vh;
-    padding-top: 50px;
+    // padding-top: 50px;
     .slider {
       img {
         height: 100%;
@@ -22,8 +28,11 @@
       }
     }
   }
+  .carousel-status {
+    display: none;
+  }
   .thumbs-wrapper {
-    transform: translateY(-86%);
+    transform: translateY(-46px);
     max-width: 1200px;
     margin: auto !important;
     display: flex;
@@ -68,6 +77,7 @@
     border: none;
     left: -53px;
     position: absolute;
+    transform: translateY(-50%);
   }
 
   .carousel .control-arrow.control-next:before,
@@ -80,23 +90,30 @@
     border: none;
     left: -44px;
     position: absolute;
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateY(50%);
   }
 }
 
 .phoneBlock {
-  background: #19a463;
-  border-radius: 17px;
+  background: #ffe9ae;
+  border-radius: 10px;
   padding: 5px 20px;
   cursor: pointer;
   svg {
     margin-right: 14px;
+    path {
+      fill: #00431a;
+    }
   }
   .label {
     font-size: 12px;
   }
   * {
-    color: #fff;
+    color: #00431a;
+  }
+  .phoneNumber {
+    font-size: 16px;
+    font-weight: 600;
   }
 }
 .mainSpecifications {
@@ -175,22 +192,117 @@
 }
 
 .mr-12 {
-  margin-right: 12px;
+  margin-right: 12px !important;
 }
 
 .f-25 {
   font-weight: 400;
-  font-size: 24px;
+  font-size: 24px !important;
   line-height: 32px;
 }
 
 .f-13 {
-  font-size: 13px;
+  font-size: 13px !important;
+}
+.carousel .thumbs-wrapper {
+  overflow: inherit !important;
+  height: 1px;
+}
+.statementContainer {
+  background-color: #fff;
+  max-width: 1320px;
+  margin: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  * {
+    font-size: 14px;
+  }
+  .container {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+.priceSwitcher {
+  background: #f7f7f7;
+  width: 61px;
+  height: 24px;
+  border-radius: 20px;
+  margin-left: 5px;
+  margin-right: 10px;
+  justify-content: space-around;
+  position: relative;
+  cursor: pointer;
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0px;
+    top: 0px;
+    width: 50%;
+    height: 100%;
+    border-radius: 11px;
+    background-color: #f9c745;
+  }
+  svg {
+    position: relative;
+  }
+  &.usd {
+    &::before {
+      left: inherit;
+      right: 0;
+    }
+  }
+}
+
+.eachPay {
+  width: 301px;
+  height: 62px;
+  background: #ffe9ae;
+  border-radius: 10px;
+  padding-left: 23px;
+  padding-right: 23px;
+  .priceBlock {
+    padding-right: 10px;
+  }
+  .currencyBlock {
+    margin-left: 5px;
+    background: #f9c745;
+    border-radius: 11px;
+    width: 33px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      display: block;
+      margin-left: inherit;
+      margin-right: 3px;
+    }
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  .eachPay {
+    width: 100%;
+    padding-right: 20px !important;
+    margin-left: 0px !important;
+  }
+  .statementContainer {
+    padding-left: 0px;
+    padding-right: 0px;
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+  .houseStatement_price {
+    padding-right: 0px;
+    margin-left: 23px;
+    margin-top: 15px;
+  }
   .houseStatement .slider-wrapper .slider div {
-    height: 300px;
+    height: 222px;
   }
   .houseStatement .thumbs-wrapper .thumb {
     border: 1px solid #ffffff;
@@ -208,7 +320,7 @@
     width: 64px;
     height: 64px;
     left: -27px;
-    top: 105px;
+    top: 141px;
   }
 
   .houseStatement .carousel .control-arrow.control-prev:before,
@@ -216,7 +328,7 @@
     width: 64px;
     height: 64px;
     left: -35px;
-    top: 105px;
+    top: 141px;
   }
   .carousel {
     position: absolute;
@@ -244,5 +356,19 @@
   }
   .houseStatement .thumbs-wrapper {
     transform: translateY(-19px);
+  }
+
+  .mapWrapper {
+    height: 250px !important;
+  }
+  .houseCard {
+    margin: 0 !important;
+  }
+  .houseCard_link {
+    display: block;
+    padding: 15px;
+  }
+  .searchPage .container {
+    // padding-top: 20px !important;
   }
 }

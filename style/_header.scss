@@ -58,13 +58,22 @@ header {
   }
   .btn {
     &_profile {
-      color: #fff !important;
+      color: $brandColor !important;
       height: 34px;
+      background: #f9c745;
+      &.btn {
+        border-color: #f9c745 !important;
+      }
       svg {
         margin-right: 10px;
         path {
-          fill: $brandColor !important ;
+          stroke: $brandColor;
+          fill: #f9c745 !important ;
         }
+      }
+      &:hover {
+        border-color: #f9c645d4 !important;
+        background: #f9c645dc;
       }
     }
   }
@@ -89,7 +98,7 @@ header {
     }
     .btn {
       color: $brandColor !important;
-      border-color: $brandColor !important;
+      // border-color: $brandColor !important;
       &_profile {
         color: #fff !important;
         height: 34px;
@@ -133,6 +142,13 @@ header {
     justify-content: center;
     right: -10px;
     top: 1px;
+  }
+}
+
+.loginBtnHEader {
+  border-color: #f9c745 !important ;
+  &.btn-wight {
+    color: #f9c745 !important;
   }
 }
 

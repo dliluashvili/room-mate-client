@@ -84,7 +84,7 @@
       }
       &:hover,
       &.active {
-        background-color: #e2eeed;
+        background-color: #ffe9ae;
         color: $brandColor;
 
         .payStatus {
@@ -176,8 +176,8 @@
     white-space: nowrap;
   }
   a.active {
-    background-color: $brandColor;
-    color: #fff;
+    background-color: #f9c745;
+    color: #00431a;
   }
 }
 
