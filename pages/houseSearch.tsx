@@ -74,10 +74,10 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    if (user && !user?.payed) {
-      setOpenPayModal(true);
-      return;
-    }
+    // if (user && !user?.payed) {
+    //   setOpenPayModal(true);
+    //   return;
+    // }
 
     // let cleanUpSearchObject = {};
     // for (const key in searchObject) {
@@ -113,10 +113,10 @@ const Search = () => {
     // }
 
     console.log(searchObject, "searchObject");
-    if (!user?.payed) {
-      setOpenPayModal(true);
-      return;
-    }
+    // if (!user?.payed) {
+    //   setOpenPayModal(true);
+    //   return;
+    // }
 
     // let cleanUpSearchObject = {};
     // for (const key in searchObject) {
@@ -342,7 +342,7 @@ const Search = () => {
                     <HouseCard
                       isAuth={!!user}
                       setPayModal={() => {
-                        setOpenPayModal(true);
+                        // setOpenPayModal(true);
                       }}
                       addRemoveFavorite={(flag, id) => {
                         console.log(flag, id);
