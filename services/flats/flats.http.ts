@@ -31,37 +31,37 @@ class _Flats {
   getFlatFilters = ({ lang }: { lang: any }): AxiosPromise<any> => {
     return axios.get(backEndRoutes.flats.flatFilters(), {
       params: {
-        locale: lang,
-      },
+        locale: lang
+      }
     });
   };
 
   getFlats = (data: any): AxiosPromise<any> => {
     return axiosWithToken.get(backEndRoutes.flats.getFlats(), {
       params: {
-        ...data,
-      },
+        ...data
+      }
     });
   };
 
   getById = ({ lang, id }: { lang: any; id: number }): AxiosPromise<any> => {
     return axios.get(backEndRoutes.flats.getById(id), {
       params: {
-        locale: lang,
-      },
+        locale: lang
+      }
     });
   };
 
   showNumber = ({ user_id, flat_id }): AxiosPromise<any> => {
     return axios.post(backEndRoutes.flats.showNumber(), {
       type: "show_number",
-      data: { user_id, flat_id },
+      data: { user_id, flat_id }
     });
   };
 
   saveRemoveFlat = (flat_id): AxiosPromise<any> => {
     return axiosWithToken.post(backEndRoutes.flats.saveRemoveFlat(), {
-      flat_id,
+      flat_id
     });
   };
 
