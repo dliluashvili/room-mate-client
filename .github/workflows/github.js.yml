@@ -39,7 +39,7 @@ jobs:
           git checkout prod
           git pull origin prod
           npm i --force
-          npm run build
+          npx next build
           pm2 delete roommate-client
           pm2 start ecosystem.production.config.js
           
