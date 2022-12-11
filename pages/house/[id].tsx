@@ -9,10 +9,12 @@ import { useRouter } from "next/router";
 import GoogleMapReact from "google-map-react";
 import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
+import { useCheckAuth } from "../../components/hooks/useCheckAuth";
+import { useTypedSelector } from "../../components/hooks/useTypeSelector";
 
 const Specification = ({
   title,
-  yes = true
+  yes = true,
 }: {
   title: string;
   yes: boolean;
@@ -63,6 +65,10 @@ function House() {
   const [currentCurrency, setCurrentCurrency] = useState("gel");
   const [usdRate, setUsdRate] = useState(1);
 
+  useCheckAuth(false);
+
+  let user = useTypedSelector((state) => state.profile.user);
+
   let { t } = useTranslation("common");
 
   const router = useRouter();
@@ -71,7 +77,7 @@ function House() {
     console.log("");
     Flats.getById({
       lang: router.locale,
-      id: Number(router.query.id)
+      id: Number(router.query.id),
     })
       .then((res) => {
         setStatementData(res.data);
@@ -84,9 +90,9 @@ function House() {
   const defaultProps = {
     center: {
       lat: Number(statementData?.coords?.lat),
-      lng: Number(statementData?.coords?.lng)
+      lng: Number(statementData?.coords?.lng),
     },
-    zoom: 14
+    zoom: 14,
   };
 
   useEffect(() => {
@@ -156,7 +162,7 @@ function House() {
                         : Math.ceil(
                             statementData?.price / usdRate
                           ).toLocaleString(undefined, {
-                            maximumFractionDigits: 2
+                            maximumFractionDigits: 2,
                           })}
                     </span>
                     <div
@@ -172,7 +178,7 @@ function House() {
                       className={classNames(
                         "priceSwitcher d-flex align-items-center",
                         {
-                          [currentCurrency]: currentCurrency
+                          [currentCurrency]: currentCurrency,
                         }
                       )}
                     >
@@ -231,8 +237,8 @@ function House() {
                     setShowNumber(true);
 
                     Flats.showNumber({
-                      user_id: statementData?.id,
-                      flat_id: 1
+                      user_id: user?.id,
+                      flat_id: statementData?.id,
                     })
                       .then((res) => {})
                       .catch((err) => {
@@ -255,7 +261,7 @@ function House() {
                     : Math.ceil(statementData?.price / usdRate).toLocaleString(
                         undefined,
                         {
-                          maximumFractionDigits: 2
+                          maximumFractionDigits: 2,
                         }
                       )}
                 </span>
@@ -272,7 +278,7 @@ function House() {
                   className={classNames(
                     "priceSwitcher d-flex align-items-center",
                     {
-                      [currentCurrency]: currentCurrency
+                      [currentCurrency]: currentCurrency,
                     }
                   )}
                 >
@@ -318,7 +324,7 @@ function House() {
                         : Math.ceil(
                             statementData?.each_pay / usdRate
                           ).toLocaleString(undefined, {
-                            maximumFractionDigits: 2
+                            maximumFractionDigits: 2,
                           })}
                     </span>
                     {
@@ -362,7 +368,7 @@ function House() {
 
                   <span className="f-13">
                     {t("RentPerPerson", {
-                      person: statementData?.capacity
+                      person: statementData?.capacity,
                     })}
                   </span>
                 </div>
@@ -556,14 +562,14 @@ function House() {
                 height: "50vh",
                 width: "100%",
                 borderRadius: "10px",
-                overflow: "hidden"
+                overflow: "hidden",
               }}
               className="mapWrapper"
             >
               {statementData?.coords ? (
                 <GoogleMapReact
                   bootstrapURLKeys={{
-                    key: "AIzaSyBF7PfPBVg6vpD-wtTDOfo3BR8oskb9QwE"
+                    key: "AIzaSyBF7PfPBVg6vpD-wtTDOfo3BR8oskb9QwE",
                   }}
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
