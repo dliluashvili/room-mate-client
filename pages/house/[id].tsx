@@ -237,7 +237,7 @@ function House() {
                     setShowNumber(true);
 
                     Flats.showNumber({
-                      user_id: user?.id,
+                      user_id: user?.id || 0,
                       flat_id: statementData?.id,
                     })
                       .then((res) => {})
