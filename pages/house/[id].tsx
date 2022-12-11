@@ -234,8 +234,6 @@ function House() {
                 </svg>
                 <div
                   onClick={() => {
-                    setShowNumber(true);
-
                     Flats.showNumber({
                       user_id: user?.id || 0,
                       flat_id: statementData?.id
