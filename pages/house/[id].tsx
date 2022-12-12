@@ -234,17 +234,12 @@ function House() {
                 </svg>
                 <div
                   onClick={() => {
+                    setShowNumber(true);
                     Flats.showNumber({
                       user_id: user?.id || 0,
                       flat_id: statementData?.id
                     })
-                      .then((res) => {
-                        if (user?.id) {
-                          setShowNumber(true);
-                        } else {
-                          router.push("/login");
-                        }
-                      })
+                      .then((res) => {})
                       .catch((err) => {
                         console.log(err);
                       });
