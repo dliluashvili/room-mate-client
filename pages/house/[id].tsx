@@ -121,7 +121,7 @@ function House() {
           {statementData?.images?.map((el, i) => {
             return (
               <div key={i}>
-                <img src={el.original} />
+                <img src={el.thumb} />
               </div>
             );
           })}
