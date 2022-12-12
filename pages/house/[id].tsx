@@ -113,15 +113,30 @@ function House() {
     }
   }, []);
 
+  const renderThumbs = () => {
+    return statementData?.images?.map((el, i) => {
+      return (
+        <div key={i}>
+          <img src={el.thumb} />
+        </div>
+      );
+    });
+  };
+
   return (
     <div>
       <Header />
       <div className="houseStatement ">
-        <Carousel infiniteLoop swipeable emulateTouch>
+        <Carousel
+          renderThumbs={renderThumbs}
+          infiniteLoop
+          swipeable
+          emulateTouch
+        >
           {statementData?.images?.map((el, i) => {
             return (
               <div key={i}>
-                <img src={el.thumb} />
+                <img src={el.original} />
               </div>
             );
           })}
