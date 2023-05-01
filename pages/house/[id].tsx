@@ -104,6 +104,7 @@ function House() {
         {
           const currencies = res.data[0].currencies;
           const currency = currencies.find((cur) => cur.code === "USD");
+          console.log('curency', currency)
           setUsdRate(currency.rate);
         }
       })
@@ -175,7 +176,7 @@ function House() {
 
                 <div>
                   <div className="d-none d-md-flex align-items-center houseStatement_price ">
-                    <span className="f-25">
+                    <span data-price={statementData?.price} data-rate={usdRate} className="f-25">
                       {currentCurrency === "gel"
                         ? statementData?.price
                         : Math.ceil(
