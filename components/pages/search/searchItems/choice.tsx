@@ -1,3 +1,4 @@
+/* eslint no-use-before-define: 0 */
 import React, { useContext, useEffect, useState } from "react";
 import { IQuestions } from "../../../../services/questions/questions.http";
 import classnames from "classnames";
