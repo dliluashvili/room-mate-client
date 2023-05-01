@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/footer";
+import axios from "axios";
 import { Flats } from "../../services/flats/flats.http";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -96,16 +97,21 @@ function House() {
   };
 
   useEffect(() => {
-    fetch("https://any.ge/currency/api.php?info=yvela")
+    const url =
+      "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json";
+    axios
+      .get(url)
       .then((res) => {
-        res.json().then((r) => {
-          setUsdRate(r.currency[40].cur_value);
-          //   debugger;
-        });
+        {
+          const currencies = res.data[0].currencies;
+          const currency = currencies.find((cur) => cur.code === "USD");
+          setUsdRate(currency.rate);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
+    Ç;
 
     const currency = localStorage.getItem("currentCurrency");
     if (currency) {
