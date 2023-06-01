@@ -7,6 +7,7 @@ interface IButton {
   loading?: boolean;
   type?: "submit" | "button" | "reset";
   disabled?: boolean;
+  style?: any;
 }
 
 export const Button: React.FC<IButton> = ({

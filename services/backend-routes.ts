@@ -14,6 +14,7 @@ export const backEndRoutes = {
       `${BASE_URL}/api/resend/verification/${email}`,
   },
   profile: {
+    getReports: () => `${BASE_URL}​/reports`,
     getUser: (token: string) => `${BASE_URL}​/auth/profile`,
     search: () => `${BASE_URL}​/users/search`,
     getUserById: (id: string) => `${BASE_URL}​/users/profile/${id}`,

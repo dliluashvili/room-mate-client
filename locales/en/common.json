@@ -10,10 +10,8 @@
   "pageOwner": "Web page owner - / I.M. Mariam Khantadze",
   "heading": "Find a roommate and",
   "heading2": "split the rent",
-
   "auth": "Login",
   "register": "Registration",
-
   "active": "Active",
   "edit": "Edit Profile",
   "inactive": "Inactive",
@@ -36,12 +34,10 @@
   "faq7": "In addition, at the moment of creating the profile, the user will be able to hide his profile from unwanted groups.",
   "faq8": "How secure is personal data?",
   "faq9": "Our platform ensures maximum protection of personal data. You decide who your contact information is available to.",
-
   "name": "Name",
   "surname": "Surname",
   "mail": "E-mail",
   "WriteLetter": "Write us a letter",
-
   "WriteLettererror": "Text is required",
   "mailError": "Email is required",
   "mailError2": "Please enter email in the correct format",
@@ -49,26 +45,20 @@
   "nameError": "Name is required",
   "contacteSendSusses": "Message sent successfully",
   "contacteSendError": "An error occurred",
-
   "Phonenumber": "Phone number",
   "PhonenumberError": "Phone number is required",
-
   "Password": "Password",
   "PasswordRepeat": "Repeat the password",
-
   "enter": "Login",
   "Forgotpassword": "Forgot password?",
-
   "Send": "Send",
   "passwordrecovery": "Password Recovery",
   "codeSent": "The code has been sent to your number",
-
   "SMSCode": "SMS code",
   "SMSCodeError": "SMS code is required",
   "passwordMatchError": "Password does not match",
   "PasswordError": "Password is required",
   "passwordChangeSuccess": "Password changed successfully",
-
   "next": "next",
   "previous": "previous",
   "registerSussess": "Congratulations, you have successfully registered",
@@ -80,7 +70,6 @@
   "fillField": "Enter the number here",
   "fillSmsCode": "Enter the code here",
   "SMSsent": "Send SMS code",
-
   "aboutMe": "About me",
   "contactRequest": "Request contact",
   "sentContactRequest": "Request sent",
@@ -91,11 +80,13 @@
   "connected": "Social networking is connected",
   "myProfile": "My page",
   "editProfile": "Edit profile",
+  "reportBtn": "Report user",
+  "reportDone": "Thanks, report sent!",
+  "reportReason": "Reason for reporting",
   "changePassword": "Change password",
   "status": "Status",
   "contactVisibilityHint": "If contact visibility is turned off, other users will not be able to see your contact information without your permission.",
   "seandContactRequest": "To view the contacts, please send a request.  ",
-
   "servicePriceDEscription": "To use the service, you need to pay the service fee",
   "servicePriceDEscription2": "Service fee - 30 GEL",
   "servicePriceDEscription3": "Foe partner university students - 10 GEL  ",
@@ -103,7 +94,6 @@
   "servicePriceDEscription5": "In order to continue using the platform after one month, you will need to pay again. Automatic deductions will not be made. ",
   "Cancel": "Cancel",
   "Pay": "Pay ",
-
   "needSeeYourProfile": "{{name}} {{lastname}} - ს უნდა თქვენი კონტაქტების ნახვა",
   "youApproveuserToSee": "You have allowed {{name}} {{lastname}} - ს ნახოს თქვენი კონტაქტი",
   "youRejectuserToSee": "You refused {{name}} {{lastname}} to see your contact",
@@ -122,19 +112,16 @@
   "approvedYouRequest4": "Ada - 551 547 548",
   "approvedYouRequest5": "Good luck! ⭐️",
   "rejectedYouRequest": "{{name}} {{lastname}} - declined your request",
-
   "years": "Years old",
   "InMonth": "Monthly",
   "delete": "Remove",
   "save": "Save",
   "seeMore": "See More",
-
   "filter": "Filter",
   "statementNotFound": "statements could not be found",
   "chose": "choose",
   "searchBtn": "Search",
   "searchPlh": "Search for the desired area",
-
   "uni1": "Caucasus International University",
   "uni2": "D.Tvildian Medical University",
   "uni3": "Black sea international university",
@@ -142,9 +129,7 @@
   "maklierebi": "Real estate agents",
   "minpass": "Enter minimum 6 character",
   "unuthorized": "Username or password is wrong",
-
   "partners": "Partners",
-
   "viewNumber": "view number",
   "totalRent": "total rent",
   "Space": "space",
@@ -162,7 +147,6 @@
   "Internet": "internet",
   "elevator": "elevator",
   "workspace": "workspace",
-
   "maximumPersonsInApartamnet": "maximum persons in apartamnet",
   "Numberofrooms": "number of rooms",
   "RentAmountPerPerson": "rent amount per person",
