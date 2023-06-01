@@ -433,7 +433,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
           </>
         )}
         {
-          !props.myProfile && <Button
+          !props.myProfile && props.phone &&
+          <Button
             loading={status === "load"}
             disabled={!!status}
             style={{
