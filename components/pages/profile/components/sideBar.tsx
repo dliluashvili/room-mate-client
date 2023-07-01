@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import Link from "next/link";
@@ -26,7 +27,7 @@ interface ISidebar {
   profile_image?: string;
   is_locked_communication?: boolean;
   isSentRequest?: boolean;
-  id?: number
+  id?: number;
 }
 
 const SideBar: React.FC<ISidebar> = (props) => {
@@ -34,12 +35,12 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const router = useRouter();
   const [status, setStatus] = useState<"load" | boolean>(false);
   const [reportModal, setReportModal] = useState<"load" | boolean>(false);
-  const [reports, setReports] = useState([])
+  const [reports, setReports] = useState([]);
   const dispatch = useDispatch();
   const [image, setImage] = useState("");
   let { t } = useTranslation("common");
   const [selectedValue, setSelectedValue] = useState(0); // State variable to store the selected value
-  const [loadReports, setLoadReports] = useState(false)
+  const [loadReports, setLoadReports] = useState(false);
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value); // Update the selected value when a radio button is clicked
   };
@@ -89,14 +90,15 @@ const SideBar: React.FC<ISidebar> = (props) => {
   };
 
   useEffect(() => {
-    ProfileService.getReports({ lang: router.locale }).then(res => {
-      console.log(res)
-      setReports(res.data)
-    })
-      .catch(e => {
-        console.log(e)
+    ProfileService.getReports({ lang: router.locale })
+      .then((res) => {
+        console.log(res);
+        setReports(res.data);
       })
-  }, [router.locale])
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [router.locale]);
 
   const handleChangeAvailable = () => {
     ProfileService.updateAvailable(!user?.available)
@@ -117,71 +119,71 @@ const SideBar: React.FC<ISidebar> = (props) => {
   };
 
   const reportUser = () => {
-    setLoadReports(true)
+    setLoadReports(true);
 
     ProfileService.postReports({
-      userId: props.id, reportId: selectedValue, text: ""
-    }).then(res => {
-      toast.success(t("reportDone"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setReportModal(false)
-    }).catch(err => {
-      toast.error("error :/", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }).finally(() => {
-      setLoadReports(false)
-
+      userId: props.id,
+      reportId: selectedValue,
+      text: "",
     })
-  }
+      .then((res) => {
+        toast.success(t("reportDone"), {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setReportModal(false);
+      })
+      .catch((err) => {
+        toast.error("error :/", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .finally(() => {
+        setLoadReports(false);
+      });
+  };
 
   return (
     <>
       <ToastContainer />
-      {
-        reportModal && <div className="reportModal">
+      {reportModal && (
+        <div className="reportModal">
           <div className=" reportModal-header text-right d-flex align-items-center justify-between w-100 ">
-            <div>
-              {t("reportReason")}
-            </div>
+            <div>{t("reportReason")}</div>
 
             <img
               className="pointer"
               onClick={() => {
-                setReportModal(false)
+                setReportModal(false);
               }}
-              src="https://t3.ftcdn.net/jpg/00/69/37/26/360_F_69372697_LSptpUKLbHwJSeCdBZ2uINqCQkg34oBF.jpg" />
+              src="https://t3.ftcdn.net/jpg/00/69/37/26/360_F_69372697_LSptpUKLbHwJSeCdBZ2uINqCQkg34oBF.jpg"
+            />
           </div>
           <div className="reportModal-reason pl-4">
-            {
-              reports.map((el) => {
-                return <label className="d-flex align-items-center">
+            {reports.map((el, i) => {
+              return (
+                <label key={i} className="d-flex align-items-center">
                   <input
                     type="radio"
                     value={el.title}
                     checked={selectedValue === el.title} // Compare the selected value with the current radio button's value
                     onChange={handleRadioChange}
-                  /> <span> {el.title} </span>
-
+                  />{" "}
+                  <span> {el.title} </span>
                 </label>
-              })
-
-            }
-
-
+              );
+            })}
 
             {/* <div className="d-flex align-items-center">
               <Checkbox title={"ცუდი იზერი დაარეპორტეთ"} name={"tt"} />
@@ -197,13 +199,12 @@ const SideBar: React.FC<ISidebar> = (props) => {
             <Button
               loading={loadReports}
               disabled={loadReports}
-
               style={{
                 backgroundColor: "#f9c745 ",
-                maxWidth: "260px"
+                maxWidth: "260px",
               }}
               onClick={() => {
-                reportUser()
+                reportUser();
               }}
               className="btn btn-primary btn_profile mb-4 w-100"
             >
@@ -211,10 +212,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
             </Button>
           </div>
         </div>
-      }
+      )}
       <div className="profile_sideBar">
-
-
         <div className="profile_userHeading">
           {props.myProfile ? (
             <span
@@ -432,23 +431,21 @@ const SideBar: React.FC<ISidebar> = (props) => {
             </div>
           </>
         )}
-        {
-          !props.myProfile && props.phone &&
+        {!props.myProfile && props.phone && (
           <Button
             loading={status === "load"}
             disabled={!!status}
             style={{
-              backgroundColor: "#f9c745 "
+              backgroundColor: "#f9c745 ",
             }}
             onClick={() => {
-              setReportModal(true)
+              setReportModal(true);
             }}
             className="btn btn-primary btn_profile mb-4 w-100"
           >
             {t("reportBtn")}
-
           </Button>
-        }
+        )}
         <div className="profile_menu">
           {props.myProfile ? (
             <ul className="list-unstyled">
@@ -585,7 +582,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
         </div>
       </div>
     </>
-
   );
 };
 
