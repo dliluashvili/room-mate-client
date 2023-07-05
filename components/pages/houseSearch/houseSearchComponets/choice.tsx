@@ -18,7 +18,7 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
     openSearchItemId,
     setOpenSearchItemId,
     setSearchObject,
-    searchObject,
+    searchObject
   } = useContext(HouseSearchContext);
   useEffect(() => {
     let remove = () => {
@@ -40,13 +40,9 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
       if (selected.find((el) => Number(el) === id)) {
         return true;
       }
-
-      // console.log(answers, "answersanswers");
     }
     return false;
   };
-
-  console.log(searchObject, "searchObjectsearchObjectsearchObject");
 
   return (
     <div
@@ -77,7 +73,7 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
             style={{
               transform: `rotate(${
                 openSearchItemId !== name ? "180deg" : "0deg"
-              })`,
+              })`
             }}
           >
             <path
@@ -92,7 +88,7 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
           }}
           className={classnames("optionsWrapper", {
             ["d-block"]: openSearchItemId === name,
-            ["d-none"]: openSearchItemId !== name,
+            ["d-none"]: openSearchItemId !== name
           })}
         >
           {data.map((el) => {
@@ -115,15 +111,13 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
                               .toString()
                               .split(",")
                               .filter((item) => Number(item) !== el.id)
-                              .join(","),
+                              .join(",")
                           });
                         } else {
-                          console.log(typeof searchObject[name]);
-                          debugger;
                           setSearchObject({
                             [name]: searchObject[name]
                               ? searchObject[name] + "," + el.id
-                              : el.id,
+                              : el.id
                           });
                         }
                       }}
@@ -157,7 +151,7 @@ const Choice: React.FC<IProps> = ({ data, name, title }) => {
                         .toString()
                         .split(",")
                         .filter((item) => Number(item) !== el.id)
-                        .join(","),
+                        .join(",")
                     });
                     // setSearchObject({ name:  });
                   }}

@@ -23,7 +23,6 @@ const Notifications = () => {
     if (user.notifications) {
       ProfileService.updateNotifications({})
         .then((res) => {
-          console.log(res);
           dispatch(
             setCurrentUser({
               user: {

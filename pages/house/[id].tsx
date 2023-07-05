@@ -74,9 +74,7 @@ function House() {
   let { t } = useTranslation("common");
 
   const router = useRouter();
-  console.log(router);
   useEffect(() => {
-    console.log("");
     Flats.getById({
       lang: router.locale,
       id: Number(router.query.id),

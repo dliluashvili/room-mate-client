@@ -18,7 +18,6 @@ const Favorites = () => {
   useEffect(() => {
     ProfileService.getFavorites({ lang: router.locale })
       .then((res) => {
-        console.log(res);
         setFavoritesList(res.data.data);
       })
       .catch((err) => {

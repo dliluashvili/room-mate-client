@@ -13,13 +13,11 @@ export default function Radio({ data, setData, values }: IRadioProps) {
   const [value, setValue] = useState<number[]>([]);
 
   useEffect(() => {
-    console.log(value, "vvvvvvvvvvvvvvvvv");
     if (values && values[data.id] && values[data.id].length > 0) {
       setValue(values[data.id]);
     } else {
       setValue([]);
     }
-    console.log(data.id);
   }, [values, data.id]);
 
   useEffect(() => {}, []);
@@ -38,20 +36,20 @@ export default function Radio({ data, setData, values }: IRadioProps) {
                   setValue(value.filter((id) => id !== answerId));
                   setData({
                     question_id: item.question_id,
-                    value: value.filter((id) => id !== answerId),
+                    value: value.filter((id) => id !== answerId)
                   });
                 } else {
                   if (data.is_multiple) {
                     setValue([...value, answerId]);
                     setData({
                       question_id: item.question_id,
-                      value: [...value, answerId],
+                      value: [...value, answerId]
                     });
                   } else {
                     setValue([answerId]);
                     setData({
                       question_id: item.question_id,
-                      value: [answerId],
+                      value: [answerId]
                     });
                   }
                 }

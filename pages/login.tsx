@@ -32,7 +32,7 @@ const Login = () => {
     control,
     watch,
     getValues,
-    formState: { errors },
+    formState: { errors }
   } = useForm<ILoginForm>();
 
   let { t } = useTranslation("common");
@@ -53,8 +53,6 @@ const Login = () => {
       setLoad(false);
       Router.push("/profile");
     } catch (e) {
-      console.log(e, "eeeeeeeeeeeee");
-      debugger;
       setLoad(false);
       if (e?.response?.data?.message) {
         if (e?.response?.data?.message === "Unauthorized") {
@@ -65,7 +63,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
+            progress: undefined
           });
         } else {
           toast.error(e?.response?.data?.message, {
@@ -75,7 +73,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
+            progress: undefined
           });
         }
       } else {
@@ -86,11 +84,10 @@ const Login = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          progress: undefined
         });
       }
     }
-    // console.log(data);
   });
 
   console.log(errors);
@@ -136,7 +133,7 @@ const Login = () => {
                   hasError={!!errors?.phone}
                   useRef={register("phone")}
                   {...register("phone", {
-                    required: "მოობილური აუცილებელია",
+                    required: "მოობილური აუცილებელია"
                   })}
                 />
               </FormGroup>
@@ -159,7 +156,7 @@ const Login = () => {
                   hasError={!!errors?.password}
                   placeholder="password"
                   {...register("password", {
-                    required: "პაროლი აუცილებელია",
+                    required: "პაროლი აუცილებელია"
                   })}
                 />
               </FormGroup>

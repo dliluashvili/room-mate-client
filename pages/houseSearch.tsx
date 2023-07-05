@@ -41,20 +41,16 @@ const Search = () => {
 
   const { user } = useTypedSelector((state) => state.profile);
 
-  const {
-    searchObject,
-    setSearchObject,
-    setSearchObjectFromQuery,
-  } = useContext(HouseSearchContext);
+  const { searchObject, setSearchObject, setSearchObjectFromQuery } =
+    useContext(HouseSearchContext);
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     Flats.getFlatFilters({
-      lang: router.locale,
+      lang: router.locale
     })
       .then((res) => {
-        console.log(res);
         setSearchParams(res.data.filter((el) => el.type !== "chies"));
       })
       .catch((err) => {
@@ -64,34 +60,17 @@ const Search = () => {
 
   useEffect(() => {
     if (router.query) {
-      // debugger
-      console.log(router.query);
-      // debugger;
-      // let query = JSON.parse(router.query as string);
-      // console.log(query, "qqqqqqqqqqqqqqq");
       setSearchObjectFromQuery(router.query);
     }
   }, []);
 
   useEffect(() => {
-    // if (user && !user?.payed) {
-    //   setOpenPayModal(true);
-    //   return;
-    // }
-
-    // let cleanUpSearchObject = {};
-    // for (const key in searchObject) {
-    //   if (searchObject[key].length) {
-    //     cleanUpSearchObject[key] = searchObject[key];
-    //   }
-    // }
     Flats.getFlats({
       ...searchObject,
       page: router.query.page ? router.query.page : 1,
-      locale: router.locale,
+      locale: router.locale
     })
       .then((res) => {
-        // debugger;
         setMeta(res.data.meta);
 
         setSearchResults(res.data.data);
@@ -99,7 +78,6 @@ const Search = () => {
       .catch((err) => {
         if (err?.response?.data?.message === "Unauthorized") {
           dispatch(logout());
-          // router.push("/login");
           window.location.replace("/login");
         }
         // debugger;
@@ -107,29 +85,11 @@ const Search = () => {
   }, [router.query, router.locale]);
 
   const searchHandler = () => {
-    // if (user?.has_flat) {
-    //   setTakosModali(true);
-    //   setOpenPayModal(true);
-    // }
-
-    console.log(searchObject, "searchObject");
-    // if (!user?.payed) {
-    //   setOpenPayModal(true);
-    //   return;
-    // }
-
-    // let cleanUpSearchObject = {};
-    // for (const key in searchObject) {
-    //   if (searchObject[key].length) {
-    //     cleanUpSearchObject[key] = searchObject[key];
-    //   }
-    // }
-
     router.push("/houseSearch", {
       query: {
         ...searchObject,
-        page: 1,
-      },
+        page: 1
+      }
     });
 
     setSearchObjectFromQuery(searchObject);
@@ -152,7 +112,6 @@ const Search = () => {
   const toggleSearchMenu = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    // e.stopPropagation();
     if (openSearchMenu) {
       setOpenSearchMenu(false);
     } else {
@@ -167,7 +126,6 @@ const Search = () => {
       {openPayModal ? (
         <PayModal
           isModal
-          // isTakosModal={takosModali}
           setClose={() => {
             setOpenPayModal(false);
           }}
@@ -177,28 +135,12 @@ const Search = () => {
       <div className="searchPage searchPage-houses">
         <div className="container d-flex pt-5">
           <div
-            // onClick={(e) => {
-            //   setOpenSearchMenu(true);
-            // }}
             className={classNames("search_sideBar", {
-              openSearchMenu: openSearchMenu,
+              openSearchMenu: openSearchMenu
             })}
           >
-            {/* left */}
-            {/* <SelectCommon
-            type={"search"}
-            filterHeaderHideHandler={() => {
-              console.log("");
-            }}
-            selectClose="dsf"
-            setValue={(val) => {
-              console.log(val);
-            }}
-            value="fsf"
-          /> */}
             {searchParams.map((el) => {
               if (el.search_type === "checkbox") {
-                // return <Choice key={el.id} data={el} />;
                 return <Checkbox title={el.title} name={el.name} />;
               } else if (el.search_type === "range") {
                 return <Range key={el.id} data={el} />;
@@ -209,11 +151,7 @@ const Search = () => {
               }
             })}
 
-            <div
-              onClick={() => {
-                console.log(searchObject);
-              }}
-            ></div>
+            <div></div>
             <div className="searchBtnWrapper">
               <button
                 onClick={searchHandler}
@@ -341,11 +279,8 @@ const Search = () => {
                   return (
                     <HouseCard
                       isAuth={!!user}
-                      setPayModal={() => {
-                        // setOpenPayModal(true);
-                      }}
+                      setPayModal={() => {}}
                       addRemoveFavorite={(flag, id) => {
-                        console.log(flag, id);
                         setSearchResults([
                           ...searchResults.map((item) => {
                             if (item.id === id) {
@@ -357,7 +292,7 @@ const Search = () => {
                             }
 
                             return item;
-                          }),
+                          })
                         ]);
                       }}
                       key={el.id}
@@ -377,7 +312,6 @@ const Search = () => {
           </div>
         </div>
       </div>
-      {/* </SearchProvider> */}
       <Footer />
     </div>
   );

@@ -44,12 +44,9 @@ const Choice: React.FC<IProps> = ({ data }) => {
       if (answers.find((el) => el === id)) {
         return true;
       }
-      // console.log(answers, "answersanswers");
     }
     return false;
   };
-
-  console.log(searchObject, "searchObjectsearchObjectsearchObject");
 
   return (
     <div

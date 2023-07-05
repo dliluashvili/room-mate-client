@@ -20,7 +20,6 @@ export const TextField = ({ data, setData, values }: IContentProps) => {
 
       setValue([]);
     }
-    console.log(value, "valueee");
   }, [values, data.id]);
 
   return (

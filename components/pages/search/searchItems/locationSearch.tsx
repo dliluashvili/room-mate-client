@@ -45,7 +45,6 @@ const LocationSearch: React.FC<IProps> = ({ data, searchHandler }) => {
       if (answers.find((el) => el === id)) {
         return true;
       }
-      // console.log(answers, "answersanswers");
     }
     return false;
   };

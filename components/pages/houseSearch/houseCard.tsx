@@ -21,7 +21,6 @@ const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
 
                   Flats.saveRemoveFlat(data.id)
                     .then((res) => {
-                      console.log("rrr");
                       if (data.isFavourite === 1) {
                         addRemoveFavorite("remove", data.id);
                       } else {
