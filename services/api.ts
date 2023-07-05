@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://api.roommategeorgia.ge";
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "https://api.roommategeorgia.ge";
+// export const BASE_URL = "http://localhost:3000";
 
 // eslint-disable-next-line no-useless-escape
 // const domain = document.domain.match(/[^\.]*\.[^.]*$/);
