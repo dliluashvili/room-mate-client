@@ -3,9 +3,7 @@ import NotificationsCard from "./notificationsCard";
 import {
   ProfileService,
   INotificationReceiver,
-  INotificationSent,
 } from "../../../../services/profile/profile.http";
-import classNames from "classnames";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
@@ -149,7 +147,7 @@ const ReceiveNotification = () => {
               ) : el.status === 2 ? (
                 <Button
                   onClick={() => {
-                    router.push("/user/" + el.id);
+                    router.push("/user/" + el.sender_id);
                   }}
                   className="btn btn-primary w-100"
                 >

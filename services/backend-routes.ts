@@ -2,7 +2,7 @@ import { BASE_URL } from "./api";
 
 export const backEndRoutes = {
   auth: {
-    login: () => `${BASE_URL}​/auth/login`,
+    login: () => `${BASE_URL}/auth/login`,
     fbAuth: () => `${BASE_URL}/social/facebook/login`,
     register: () => `${BASE_URL}/api/register`,
     password: {
@@ -14,10 +14,10 @@ export const backEndRoutes = {
       `${BASE_URL}/api/resend/verification/${email}`,
   },
   profile: {
-    getReports: () => `${BASE_URL}​/reports`,
-    getUser: (token: string) => `${BASE_URL}​/auth/profile`,
-    search: () => `${BASE_URL}​/users/search`,
-    getUserById: (id: string) => `${BASE_URL}​/users/profile/${id}`,
+    getReports: () => `${BASE_URL}/reports`,
+    getUser: (token: string) => `${BASE_URL}/auth/profile`,
+    search: () => `${BASE_URL}/users/search`,
+    getUserById: (id: string) => `${BASE_URL}/users/profile/${id}`,
     getFavorites: () => `${BASE_URL}/favourites`,
     getSentNotifications: () => `${BASE_URL}/requests/sent`,
     getReceivedNotifications: () => `${BASE_URL}/requests/received`,
@@ -36,7 +36,7 @@ export const backEndRoutes = {
     updateNotifications: () => `${BASE_URL}/notifications/update-seen`,
   },
   questions: {
-    getQuestions: () => `${BASE_URL}​/questions`,
+    getQuestions: () => `${BASE_URL}/questions`,
     saveAnswers: () => `${BASE_URL}​/user-answers/save`,
     updateAnswers: () => `${BASE_URL}​/user-answers/update`,
     checkPhone: () => `${BASE_URL}​/users/check-phone`,

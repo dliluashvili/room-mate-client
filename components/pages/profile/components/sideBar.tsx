@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import { AlertIcon, CheckIcon } from "../../../svg/statusIcon";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import Fb from "../../../common/fbauth";
-import Checkbox from "../../houseSearch/houseSearchComponets/checkbox";
 
 interface ISidebar {
   firstname: string;
@@ -42,7 +41,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const [selectedValue, setSelectedValue] = useState(0); // State variable to store the selected value
   const [loadReports, setLoadReports] = useState(false);
   const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value); // Update the selected value when a radio button is clicked
+    setSelectedValue(parseInt(event.target.value)); // Update the selected value when a radio button is clicked
   };
 
   const fileRef: any = useRef();
@@ -77,7 +76,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
         // console.log(res);
         let newUSer = {
           ...user,
-          is_locked_communication: !user.is_locked_communication,
+          is_locked_communication: !user.is_locked_communication
         };
         dispatch(setCurrentUser({ user: newUSer }));
       })
@@ -106,7 +105,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
         // console.log(res);
         let newUSer = {
           ...user,
-          available: !user.available,
+          available: !user.available
         };
         dispatch(setCurrentUser({ user: newUSer }));
       })
@@ -124,7 +123,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
     ProfileService.postReports({
       userId: props.id,
       reportId: selectedValue,
-      text: "",
+      text: ""
     })
       .then((res) => {
         toast.success(t("reportDone"), {
@@ -134,7 +133,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          progress: undefined
         });
         setReportModal(false);
       })
@@ -146,7 +145,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          progress: undefined
         });
       })
       .finally(() => {
@@ -176,8 +175,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <label key={i} className="d-flex align-items-center">
                   <input
                     type="radio"
-                    value={el.title}
-                    checked={selectedValue === el.title} // Compare the selected value with the current radio button's value
+                    value={el.id}
+                    checked={selectedValue === el.id} // Compare the selected value with the current radio button's value
                     onChange={handleRadioChange}
                   />{" "}
                   <span> {el.title} </span>
@@ -201,7 +200,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
               disabled={loadReports}
               style={{
                 backgroundColor: "#f9c745 ",
-                maxWidth: "260px",
+                maxWidth: "260px"
               }}
               onClick={() => {
                 reportUser();
@@ -253,13 +252,13 @@ const SideBar: React.FC<ISidebar> = (props) => {
                     const file = e.target.files[0];
                     let fileString = await toBase64(file);
                     ProfileService.uploadImage({
-                      base64: fileString,
+                      base64: fileString
                     })
                       .then((res) => {
                         // console.log(res);
                         let newUSer = {
                           ...user,
-                          profile_image: res.data.profileImage,
+                          profile_image: res.data.profileImage
                         };
                         dispatch(setCurrentUser({ user: newUSer }));
                       })
@@ -295,7 +294,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           <span
             style={{
               display: "inline-block",
-              maxWidth: "136px",
+              maxWidth: "136px"
             }}
           >
             {props?.firstname} {props?.lastname}
@@ -436,7 +435,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
             loading={status === "load"}
             disabled={!!status}
             style={{
-              backgroundColor: "#f9c745 ",
+              backgroundColor: "#f9c745 "
             }}
             onClick={() => {
               setReportModal(true);
@@ -453,7 +452,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <Link href="/profile">
                   <a
                     className={classnames({
-                      active: "/profile" === router.asPath,
+                      active: "/profile" === router.asPath
                     })}
                   >
                     <svg
@@ -478,7 +477,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <Link href="/profile/edit">
                   <a
                     className={classnames({
-                      active: "/profile/edit" === router.asPath,
+                      active: "/profile/edit" === router.asPath
                     })}
                   >
                     <svg
@@ -501,7 +500,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <Link href="/profile/balance">
                   <a
                     className={classnames("statusLink", {
-                      active: "/profile/balance" === router.asPath,
+                      active: "/profile/balance" === router.asPath
                     })}
                   >
                     <span>
