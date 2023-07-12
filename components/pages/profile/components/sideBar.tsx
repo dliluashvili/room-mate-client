@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { ToastContainer, toast } from "react-toastify";
 
-import { Button } from "../../../common/form";
+import { Button, FormGroup } from "../../../common/form";
 import { ProfileService } from "../../../../services/profile/profile.http";
 import { useTypedSelector } from "../../../hooks/useTypeSelector";
 import { setCurrentUser } from "../../../../redux/action-creators/index";
@@ -39,11 +39,22 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const dispatch = useDispatch();
   const [image, setImage] = useState("");
   let { t } = useTranslation("common");
-  const [selectedValue, setSelectedValue] = useState(0); // State variable to store the selected value
+  const [selectedValue, setSelectedValue] = useState<any>(); // State variable to store the selected value
   const [loadReports, setLoadReports] = useState(false);
-  const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value); // Update the selected value when a radio button is clicked
+  const [reportTextarea, setReportTextarea] = useState(null);
+  const [reportText, setReportText] = useState("");
+  const handleRadioChange = (data) => {
+    setSelectedValue(data); // Update the selected value when a radio button is clicked
   };
+
+  useEffect(() => {
+    if (selectedValue?.id == 5) {
+      debugger;
+      setReportTextarea(true);
+    } else {
+      setReportTextarea(false);
+    }
+  }, [selectedValue]);
 
   const fileRef: any = useRef();
 
@@ -54,13 +65,11 @@ const SideBar: React.FC<ISidebar> = (props) => {
     setStatus("load");
     ProfileService.addContactRequest(Number(router.query.userId))
       .then((res) => {
-        console.log(res);
         setStatus(true);
       })
       .catch((err) => {
         setStatus(false);
 
-        console.log(err);
         if (err?.response?.data?.message === "Unauthorized") {
           checkAuth();
         }
@@ -123,8 +132,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
 
     ProfileService.postReports({
       userId: props.id,
-      reportId: selectedValue,
-      text: "",
+      reportId: selectedValue?.id,
+      text: selectedValue?.id == 5 ? reportText : "",
     })
       .then((res) => {
         toast.success(t("reportDone"), {
@@ -175,25 +184,31 @@ const SideBar: React.FC<ISidebar> = (props) => {
               return (
                 <label key={i} className="d-flex align-items-center">
                   <input
+                    style={{
+                      minWidth: "15px",
+                      minHeight: " 15px",
+                    }}
                     type="radio"
                     value={el.title}
-                    checked={selectedValue === el.title} // Compare the selected value with the current radio button's value
-                    onChange={handleRadioChange}
+                    checked={selectedValue?.id === el.id} // Compare the selected value with the current radio button's value
+                    onChange={() => handleRadioChange(el)}
                   />{" "}
                   <span> {el.title} </span>
                 </label>
               );
             })}
+            <br />
+            {reportTextarea && (
+              <FormGroup>
+                <textarea
+                  value={reportText}
+                  onChange={(e) => setReportText(e.target.value)}
+                  placeholder={t("WriteLetter")}
+                  className={classnames("form-control textarea")}
+                ></textarea>
+              </FormGroup>
+            )}
 
-            {/* <div className="d-flex align-items-center">
-              <Checkbox title={"ცუდი იზერი დაარეპორტეთ"} name={"tt"} />
-            </div>
-            <div className="d-flex align-items-center">
-              <Checkbox title={"ცუდი იზერი დაარეპორტეთ"} name={"f"} />
-            </div>
-            <div className="d-flex align-items-center">
-              <Checkbox title={"ცუდი იზერი დაარეპორტეთ"} name={"f"} />
-            </div> */}
             <br />
             <br />
             <Button
