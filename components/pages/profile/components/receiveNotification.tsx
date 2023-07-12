@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import NotificationsCard from "./notificationsCard";
 import {
   ProfileService,
-  INotificationReceiver,
-  INotificationSent,
+  INotificationReceiver
 } from "../../../../services/profile/profile.http";
-import classNames from "classnames";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
@@ -26,15 +24,12 @@ const ReceiveNotification = () => {
   useEffect(() => {
     ProfileService.getReceivedNotifications()
       .then((res) => {
-        console.log(res);
         setSentNotifications(res.data);
       })
       .catch((err) => {
         if (err?.response?.data?.message === "Unauthorized") {
           checkAuth();
         }
-
-        console.log(err);
       });
   }, []);
 
@@ -44,7 +39,7 @@ const ReceiveNotification = () => {
   ) => {
     let requestBody: { senderId: number; answer: 2 | 3 } = {
       senderId: data.sender_id,
-      answer: 2,
+      answer: 2
     };
 
     if (flag === "reject") {
@@ -53,7 +48,6 @@ const ReceiveNotification = () => {
 
     ProfileService.approveRejectContact(data.id, requestBody)
       .then((res) => {
-        console.log(res);
         setSentNotifications(
           sentNotifications.map((el) => {
             if (data.id === el.id) {
@@ -75,7 +69,7 @@ const ReceiveNotification = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
+            progress: undefined
           }
         );
       })
@@ -100,13 +94,13 @@ const ReceiveNotification = () => {
                 el.status === 1 ? (
                   t("needSeeYourProfile", {
                     name: el.sender_firstname,
-                    lastname: el.sender_lastname,
+                    lastname: el.sender_lastname
                   })
                 ) : el.status === 2 ? (
                   <>
                     {t("youApproveuserToSee", {
                       name: el.sender_firstname,
-                      lastname: el.sender_lastname,
+                      lastname: el.sender_lastname
                     })}
                     <div>
                       {t("approvedYouRequest2")}
@@ -124,7 +118,7 @@ const ReceiveNotification = () => {
                 ) : (
                   t("youRejectuserToSee", {
                     name: el.sender_firstname,
-                    lastname: el.sender_lastname,
+                    lastname: el.sender_lastname
                   })
                 )
               }
@@ -149,7 +143,7 @@ const ReceiveNotification = () => {
               ) : el.status === 2 ? (
                 <Button
                   onClick={() => {
-                    router.push("/user/" + el.id);
+                    router.push("/user/" + el.sender_id);
                   }}
                   className="btn btn-primary w-100"
                 >

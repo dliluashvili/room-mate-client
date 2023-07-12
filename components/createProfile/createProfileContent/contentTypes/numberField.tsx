@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Checkbox } from "../components/checkbox";
 import { Heading } from "../components/heading";
 import { IQuestions } from "../../../../services/questions/questions.http";
 
@@ -16,11 +15,8 @@ export const NumberText = ({ data, setData, values }: IContentProps) => {
     if (values && values[data.id] && values[data.id].length > 0) {
       setValue(values[data.id]);
     } else {
-      // debugger;
-
       setValue([]);
     }
-    console.log(data.id, "valueee");
   }, [values, data.id]);
 
   return (
@@ -34,7 +30,7 @@ export const NumberText = ({ data, setData, values }: IContentProps) => {
             setValue([e.target.value]);
             setData({
               question_id: data.id,
-              value: [e.target.value].filter(Boolean),
+              value: [e.target.value].filter(Boolean)
             });
           }}
           type={data.type === "password" ? "password" : "text"}

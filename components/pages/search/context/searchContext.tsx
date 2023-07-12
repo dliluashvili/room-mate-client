@@ -39,7 +39,6 @@ export const SearchProvider: React.FC<IProps> = ({ children }) => {
     type?: string;
     value?: any;
   }) => {
-    console.log("dddd");
     if (data.type === "range") {
       //   debugger;
       setSearchValues({

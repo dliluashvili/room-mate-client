@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 const PayModal = ({
   setClose,
-  isModal = false,
+  isModal = false
 }: {
   setClose?: () => void;
   isModal?: boolean;
@@ -14,16 +14,10 @@ const PayModal = ({
   let { t } = useTranslation("common");
   const router = useRouter();
 
-  // useEffect(() => {
-
-  // }, [])
-
   const buyHandler = () => {
     ProfileService.buyPlan().then((res) => {
-      console.log(res);
       router.push("");
       window.open(res.data.redirectUrl);
-      debugger;
     });
   };
   return (

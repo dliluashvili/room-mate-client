@@ -14,8 +14,6 @@ interface IContentProps {
 }
 
 const Content: React.FC<IContentProps> = ({ data, setData, values }) => {
-  // console.log(data);
-
   const GetAnswers = (data) => {
     return <> ups</>;
   };
@@ -23,13 +21,6 @@ const Content: React.FC<IContentProps> = ({ data, setData, values }) => {
   switch (data.type) {
     case "choice":
       return <Radio values={values} setData={(d) => setData(d)} data={data} />;
-
-    // case "choice":
-    //   return <Select data={data} />;
-    // case "free-text":
-    //   return <TextField data={data} />;
-    // case "password":
-    //   return <PasswordField data={data} />;
     case data.name === "phone" ? "text" : "null":
       return (
         <PhoneField values={values} setData={(d) => setData(d)} data={data} />

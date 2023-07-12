@@ -7,7 +7,6 @@ const FavoriteFlats = () => {
   useEffect(() => {
     Flats.getFavoriteFlats()
       .then((res) => {
-        console.log(res);
         setFlatsList(
           res.data.data.map((el) => {
             el.isFavourite = 1;
@@ -32,7 +31,6 @@ const FavoriteFlats = () => {
               key={i}
               data={el}
               addRemoveFavorite={(flag, id) => {
-                console.log(flag, id);
                 setFlatsList([
                   ...flatsList.filter((item) => {
                     if (item.id === id) {

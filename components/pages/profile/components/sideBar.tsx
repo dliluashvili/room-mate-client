@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import { AlertIcon, CheckIcon } from "../../../svg/statusIcon";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import Fb from "../../../common/fbauth";
-import Checkbox from "../../houseSearch/houseSearchComponets/checkbox";
 
 interface ISidebar {
   firstname: string;
@@ -31,7 +30,6 @@ interface ISidebar {
 }
 
 const SideBar: React.FC<ISidebar> = (props) => {
-  console.log(props, "propspropsprops");
   const router = useRouter();
   const [status, setStatus] = useState<"load" | boolean>(false);
   const [reportModal, setReportModal] = useState<"load" | boolean>(false);
@@ -49,7 +47,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
 
   useEffect(() => {
     if (selectedValue?.id == 5) {
-      debugger;
       setReportTextarea(true);
     } else {
       setReportTextarea(false);
@@ -83,7 +80,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const handleChangeProfileLock = () => {
     ProfileService.updateLockCommunication(!user?.is_locked_communication)
       .then((res) => {
-        // console.log(res);
         let newUSer = {
           ...user,
           is_locked_communication: !user.is_locked_communication,
@@ -101,7 +97,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
   useEffect(() => {
     ProfileService.getReports({ lang: router.locale })
       .then((res) => {
-        console.log(res);
         setReports(res.data);
       })
       .catch((e) => {
@@ -112,7 +107,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const handleChangeAvailable = () => {
     ProfileService.updateAvailable(!user?.available)
       .then((res) => {
-        // console.log(res);
         let newUSer = {
           ...user,
           available: !user.available,
@@ -120,7 +114,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
         dispatch(setCurrentUser({ user: newUSer }));
       })
       .catch((err) => {
-        console.log(err);
         if (err?.response?.data?.message === "Unauthorized") {
           checkAuth();
         }
@@ -148,7 +141,10 @@ const SideBar: React.FC<ISidebar> = (props) => {
         setReportModal(false);
       })
       .catch((err) => {
-        toast.error("error :/", {
+        const errorText = err?.response?.data?.isAlreadyReported
+          ? t("alreadyReported")
+          : "error :/";
+        toast.error(errorText, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -271,7 +267,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       base64: fileString,
                     })
                       .then((res) => {
-                        // console.log(res);
                         let newUSer = {
                           ...user,
                           profile_image: res.data.profileImage,

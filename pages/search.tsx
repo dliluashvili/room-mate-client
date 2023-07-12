@@ -5,12 +5,9 @@ import { Questions, IQuestions } from "../services/questions/questions.http";
 import { ProfileService, ISearchItems } from "../services/profile/profile.http";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import Choice from "../components/pages/search/searchItems/choice";
-import { SearchProvider } from "../components/pages/search/context/searchContext";
 import { SearchContext } from "../components/pages/search/context/searchContext";
-import Link from "next/link";
 import ProfileCard from "../components/pages/profile/profileCard";
 import Range from "../components/pages/search/searchItems/range";
-import { Button } from "../components/common/form";
 import LocationSearch from "../components/pages/search/searchItems/locationSearch";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -26,7 +23,6 @@ const Search = () => {
   const [searchParams, setSearchParams] = useState<IQuestions[]>([]);
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
-  // const [takosModali, setTakosModali] = useState(false);
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
 
@@ -34,20 +30,16 @@ const Search = () => {
 
   const { user } = useTypedSelector((state) => state.profile);
 
-  const {
-    searchObject,
-    setSearchObject,
-    setSearchObjectFromQuery,
-  } = useContext(SearchContext);
+  const { searchObject, setSearchObject, setSearchObjectFromQuery } =
+    useContext(SearchContext);
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     Questions.getQuestions({
-      lang: router.locale,
+      lang: router.locale
     })
       .then((res) => {
-        console.log(res);
         setSearchParams(res.data.filter((el) => el.is_searchable));
       })
       .catch((err) => {
@@ -58,7 +50,6 @@ const Search = () => {
   useEffect(() => {
     if (router.query.filter) {
       let query = JSON.parse(router.query.filter as string);
-      console.log(query, "qqqqqqqqqqqqqqq");
       setSearchObjectFromQuery(query);
     }
   }, [router.query.filter]);
@@ -78,7 +69,7 @@ const Search = () => {
     ProfileService.search({
       filters: cleanUpSearchObject,
       page: router.query.page ? router.query.page : 1,
-      locale: router.locale,
+      locale: router.locale
     })
       .then((res) => {
         // debugger;
@@ -97,12 +88,6 @@ const Search = () => {
   }, [router.query, router.locale]);
 
   const searchHandler = () => {
-    // if (user?.has_flat) {
-    //   setTakosModali(true);
-    //   setOpenPayModal(true);
-    // }
-
-    console.log(searchObject, "searchObject");
     if (!user?.payed) {
       setOpenPayModal(true);
       return;
@@ -118,8 +103,8 @@ const Search = () => {
     router.push("/search", {
       query: {
         filter: JSON.stringify(cleanUpSearchObject),
-        page: 1,
-      },
+        page: 1
+      }
     });
   };
 
@@ -165,25 +150,10 @@ const Search = () => {
       <div className="searchPage">
         <div className="container d-flex pt-5">
           <div
-            // onClick={(e) => {
-            //   setOpenSearchMenu(true);
-            // }}
             className={classNames("search_sideBar", {
-              openSearchMenu: openSearchMenu,
+              openSearchMenu: openSearchMenu
             })}
           >
-            {/* left */}
-            {/* <SelectCommon
-            type={"search"}
-            filterHeaderHideHandler={() => {
-              console.log("");
-            }}
-            selectClose="dsf"
-            setValue={(val) => {
-              console.log(val);
-            }}
-            value="fsf"
-          /> */}
             {searchParams.map((el) => {
               if (el.search_type === "choice" && el.name !== "district") {
                 return <Choice key={el.id} data={el} />;
@@ -338,7 +308,6 @@ const Search = () => {
           </div>
         </div>
       </div>
-      {/* </SearchProvider> */}
       <Footer />
     </div>
   );
