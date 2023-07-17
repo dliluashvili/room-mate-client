@@ -49,7 +49,6 @@ const QuestionEdit = () => {
     Questions.getQuestions({ lang: router.locale })
       .then((res) => {
         setQuestions(res.data);
-        console.log(res.data);
         res.data;
       })
       .catch((e) => {
@@ -58,14 +57,10 @@ const QuestionEdit = () => {
   }, [router.locale]);
 
   const answers = () => {
-    // debugger;
     if (!questions?.length || !answeredAnswers?.length) return [];
     return [
       ...questions.map((quest) => {
         let isId = answeredAnswers.filter((el) => el.question_id === quest.id);
-        // if(answeredAnswers.includes() quest.id)
-        // debugger;
-        console.log(isId, "isId");
         if (isId.length) {
           return quest;
         }
@@ -81,17 +76,10 @@ const QuestionEdit = () => {
     ] as IQuestions[];
   };
 
-  // console.log(questions, "pppppppppppp");
-  // console.log(answeredAnswers, "answeredAnswerspppppppppppp");
-  // console.log(answers().filter(Boolean), "xxxxxxxxxxxxxxxxxxx");
-
   const handleEdit = () => {
     setLoad(true);
-    console.log(answersContainer);
     Questions.updateAnswers({ answers: answersContainer })
       .then((res) => {
-        console.log(res.data);
-
         dispatch(setCurrentUser({ user: res.data }));
         setLoad(false);
         toast.success("წარმატებით განახლდა", {
@@ -114,7 +102,6 @@ const QuestionEdit = () => {
   return (
     <div className="mt-3">
       <ToastContainer />
-      {/* <button onClick={handleEdit}>edit</button> */}
       {answers()
         .filter(Boolean)
         .map((question, i) => {

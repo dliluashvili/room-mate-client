@@ -6,6 +6,7 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+
   &_sideBar {
     width: 100%;
     max-width: 300px;
@@ -25,10 +26,12 @@
     padding-left: 15px;
     // text-align: center;
   }
+
   &_userHeading {
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
     padding-top: 10px;
+
     img {
       width: 90px;
       height: 90px;
@@ -37,10 +40,12 @@
       display: inline-block;
       margin-right: 23px;
     }
+
     span {
       color: $brandTextColor;
     }
   }
+
   &_aboutMe {
     margin-top: 20px;
     padding-bottom: 20px;
@@ -51,26 +56,32 @@
       font-size: 14px;
     }
   }
+
   &_contacts {
     margin-top: 30px;
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 30px;
+
     p {
       font-size: 13px;
     }
+
     div {
       display: flex;
       align-items: center;
       margin-bottom: 12px;
+
       svg {
         width: 40px;
         text-align: left;
       }
+
       a {
         text-decoration: none;
       }
     }
   }
+
   &_menu {
     a {
       text-decoration: none;
@@ -79,9 +90,11 @@
       align-items: center;
       font-size: 14px;
       margin-bottom: 5px;
+
       svg {
         width: 35px;
       }
+
       &:hover,
       &.active {
         background-color: #ffe9ae;
@@ -95,6 +108,7 @@
           path {
             stroke: $brandColor;
           }
+
           &.fillHover {
             path {
               stroke: inherit;
@@ -116,19 +130,23 @@
     position: relative;
     padding-top: 60px;
     padding-bottom: 60px;
+
     h2 {
       color: $brandColor;
     }
   }
+
   &_container {
     max-width: 230px;
     width: 100%;
     margin: auto;
   }
 }
+
 .statusLink {
   display: flex;
   justify-content: space-between;
+
   .btn {
     font-size: 13px;
   }
@@ -150,6 +168,7 @@
   padding: 25px;
   margin-bottom: 30px;
   text-align: left;
+
   // margin-left: 15px;
   h2 {
     font-size: 18px;
@@ -158,8 +177,8 @@
     color: $brandTextColor;
   }
 }
-.editQuestion_item {
-}
+
+.editQuestion_item {}
 
 .profile_tab {
   background-color: #fff;
@@ -168,13 +187,15 @@
   padding: 4px;
   width: 100%;
   overflow: auto;
-  > div {
-  }
+
+  >div {}
+
   a {
     padding: 6px 20px;
     font-size: 14px;
     white-space: nowrap;
   }
+
   a.active {
     background-color: #f9c745;
     color: #00431a;
@@ -194,17 +215,20 @@
     &.receive {
       background: $brandColorLight;
     }
+
     img {
       width: 79px;
       height: 73px;
       border-radius: 6px;
       object-fit: cover;
     }
+
     p {
       font-size: 12px;
       padding-left: 15px;
       padding-top: 8px;
     }
+
     button {
       height: 34px;
       font-size: 13px;
@@ -227,6 +251,7 @@
     justify-content: center;
     left: 0px;
     top: 0px;
+
     .blurBg {
       width: 100%;
       height: 100%;
@@ -247,12 +272,14 @@
       border-radius: 6px;
       position: relative;
       z-index: 34;
+
       h2 {
         line-height: 30px;
         font-size: 18px;
         max-width: 360px;
         margin: auto;
       }
+
       p {
         font-size: 18px;
         border-top: 1px solid #e3e3e3;
@@ -261,6 +288,7 @@
         margin-top: 45px;
         padding-bottom: 40px;
       }
+
       .btn {
         width: 170px;
         height: 35px;
@@ -274,12 +302,14 @@
   .answersPreview {
     padding: 10px;
     margin-bottom: 5px;
+
     h2 {
       font-size: 16px;
       line-height: 16px;
       margin-bottom: 10px;
     }
   }
+
   .createProfile_checkboxItem {
     background: #f7f7f7;
     border-radius: 4px;
@@ -290,32 +320,39 @@
     font-size: 14px;
   }
 }
+
 .contactViewSwitch {
   display: flex;
   justify-content: center;
   font-size: 13px;
   margin-top: 6px;
-  > div {
+
+  >div {
     cursor: pointer;
   }
+
   .form-check {
     cursor: pointer;
+
     input {
       cursor: pointer;
     }
   }
 }
+
 // .profile_Wrapper {
 //   max-width: 1300px;
 //   margin: auto;
 // }
 .toltipWrapper {
   position: relative;
+
   &:hover {
     p {
       display: block;
     }
   }
+
   p {
     position: absolute;
     display: none;
@@ -341,23 +378,28 @@
     margin-top: 9px;
     padding-bottom: 0px;
   }
+
   .profile_userHeading img {
     width: 70px;
     height: 70px;
   }
+
   .profile_contacts {
     margin-top: 17px;
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 12px;
   }
 }
+
 .headerWrapper.profile {
   .mainLogo {
     display: none !important;
   }
 }
+
 .imgUploadWrapper {
   position: relative;
+
   .cameraIcon {
     cursor: pointer;
     position: absolute;
@@ -370,6 +412,7 @@
     border-radius: 6px;
     left: 50%;
     bottom: -30px;
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.635);
     }
@@ -386,6 +429,7 @@
     display: flex;
     align-items: center;
   }
+
   .imgUploadWrapper .cameraIcon {
     cursor: pointer;
     position: absolute;
@@ -403,6 +447,7 @@
   .contactViewSwitch .form-check {
     min-width: 224px;
   }
+
   .contactViewSwitch {
     label {
       width: 190px;
@@ -418,6 +463,7 @@
     max-width: 300px;
     margin: auto;
   }
+
   .toltipWrapper {
     p {
       min-width: 200px;
@@ -426,24 +472,30 @@
       z-index: 3;
     }
   }
+
   .profile_userHeading {
     text-align: center;
   }
+
   .answersPreview_wrapper .createProfile_checkboxItem {
     margin-bottom: 5px !important;
     padding: 2px 7px !important;
   }
+
   .answersPreview_wrapper .answersPreview {
     padding-top: 8px !important;
   }
+
   .profile_aboutMe {
     text-align: center;
+
     p {
       margin-top: 6px;
       font-size: 13px;
       margin-bottom: 0;
     }
   }
+
   .profile_contacts {
     justify-content: center;
     display: flex;
@@ -453,42 +505,53 @@
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 5px;
   }
+
   .notification_card {
     width: 100%;
     max-width: 400px;
   }
+
   .userCard_wrapper {
     max-width: 100%;
   }
+
   .notificationsContainer {
     max-width: 100%;
   }
+
   .profile {
     &_wrapper {
       flex-direction: column;
+
       .createProfile_checkboxItem {
         padding: 9px 10px;
       }
+
       &.balance,
       &.edit {
         .profile_aboutMe {
           display: none;
         }
+
         .profile_contacts {
           display: none;
         }
       }
     }
+
     &_aboutMe {
       margin-top: 10px;
       padding-bottom: 10px;
     }
+
     &_mainContent {
       width: calc(100% - 0px);
       padding-left: 0;
+
       .answersPreview {
         margin-left: 0;
         padding: 19px 17px 2px;
+
         h2 {
           font-size: 15px;
           text-align: left;
@@ -496,6 +559,7 @@
         }
       }
     }
+
     &_sideBar {
       margin: auto;
       padding-right: 0;
@@ -503,12 +567,56 @@
       max-width: 100%;
       position: inherit;
     }
+
     &_menu {
       display: none;
     }
+
     &_userHeading img {
       width: 50px;
       height: 50px;
     }
+  }
+}
+
+.reportModal {
+  position: fixed;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, 0%);
+  z-index: 3;
+  background-color: #fff;
+
+  max-width: 80%;
+  width: 500px;
+  z-index: 30;
+  box-shadow: 0px 1px 4px 2px;
+  border-radius: 5px;
+  padding: 10px 20px;
+
+  label {
+    margin-bottom: 8px;
+    cursor: pointer;
+
+    input {
+      margin-right: 10px;
+      display: inline-block;
+    }
+  }
+
+  &-header {
+    justify-content: space-between;
+  }
+
+  &-reason {
+    padding-left: 10px;
+    border-top: 1px solid #000;
+    margin-top: 15px;
+    padding-top: 25px;
+    margin-bottom: 20px;
+  }
+
+  img {
+    max-width: 30px;
   }
 }

@@ -25,7 +25,6 @@ const SentNotification = () => {
   useEffect(() => {
     ProfileService.getSentNotifications()
       .then((res) => {
-        console.log(res);
         setSentNotifications(res.data);
       })
       .catch((err) => {
@@ -39,7 +38,6 @@ const SentNotification = () => {
   const handleRemoveRequest = (id: number) => {
     ProfileService.deleteContactRequest(id)
       .then((res) => {
-        console.log();
         toast.success(t("requestCacneled"), {
           position: "top-right",
           autoClose: 3000,

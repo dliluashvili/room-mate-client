@@ -11,12 +11,9 @@ import QuestionPreview from "../../components/pages/profile/QuestionPreview";
 const UserId = () => {
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<IUserProfile | null>(null);
-  ///
-  console.log(router, "rrrrrrrrrrr");
   useEffect(() => {
     ProfileService.getUserById(router.query.userId as string)
       .then((res) => {
-        // console.log(res);
         setUserProfile(res.data);
       })
       .catch((err) => {
@@ -26,8 +23,6 @@ const UserId = () => {
   ///
   return (
     <div className="profile">
-      {/* <Header /> */}
-
       <ProfileWrapper myProfile={false} userProfile={userProfile}>
         {userProfile ? <QuestionPreview userProfile={userProfile} /> : null}
       </ProfileWrapper>

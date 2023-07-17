@@ -6,7 +6,7 @@ import Link from "next/link";
 const PaginationItem = ({ page, index, href, onClick }) => {
   return (
     <Link href={href}>
-      <a className={page == index + 1 && "active"} onClick={onClick}>
+      <a className={page == index + 1 ? "active" : ""} onClick={onClick}>
         <span>{index + 1}</span>
       </a>
     </Link>
@@ -44,12 +44,9 @@ const Pagination: React.FC<IProps> = ({
   maxPage,
   next,
   prev,
-  pagePath,
+  pagePath
 }) => {
   const router = useRouter();
-
-  console.log(router?.query, "router?.query");
-
   const getPagination = useMemo(() => {
     let paginationList = [];
     let page = 1;
@@ -60,12 +57,13 @@ const Pagination: React.FC<IProps> = ({
       if (page < 3) {
         paginationList.push(
           <PaginationItem
+            key={index}
             href={{
               pathname: pagePath,
               query: {
                 ...router?.query,
-                page: index + 1,
-              },
+                page: index + 1
+              }
             }}
             index={index}
             page={page}
@@ -75,12 +73,13 @@ const Pagination: React.FC<IProps> = ({
       } else if (index > page - 5 || index > maxPage - 8) {
         paginationList.push(
           <PaginationItem
+            key={index}
             href={{
               pathname: pagePath,
               query: {
                 ...router.query,
-                page: index + 1,
-              },
+                page: index + 1
+              }
             }}
             index={index}
             page={page}
@@ -104,12 +103,12 @@ const Pagination: React.FC<IProps> = ({
           pathname: pagePath,
           query: {
             ...router?.query,
-            page: Number(router?.query?.page) - 1,
-          },
+            page: Number(router?.query?.page) - 1
+          }
         }}
         btnType="prev"
         btnClass={classnames("pagination_prevBtn", {
-          disabledLink: Number(router?.query?.page) <= 1,
+          disabledLink: Number(router?.query?.page) <= 1
         })}
         buttonInner={prev}
       />
@@ -119,11 +118,11 @@ const Pagination: React.FC<IProps> = ({
           pathname: pagePath,
           query: {
             ...router?.query,
-            page: Number(router?.query?.page) + 1,
-          },
+            page: Number(router?.query?.page) + 1
+          }
         }}
         btnClass={classnames("pagination_nextBtn", {
-          disabledLink: Number(router?.query?.page) >= maxPage,
+          disabledLink: Number(router?.query?.page) >= maxPage
         })}
         buttonInner={next}
       />

@@ -43,8 +43,6 @@ const ResetPassword = () => {
   const [load, setLoad] = useState(false);
   const checkUnAuth = useCheckUnAuthResponse();
   const submit = handleSubmit(async (data) => {
-    // console.log(errors);'
-
     setLoad(true);
     try {
       const res = await AuthService.passwordReset({
@@ -91,7 +89,6 @@ const ResetPassword = () => {
         }
       }
     }
-    // console.log(data);
   });
 
   console.log(errors);

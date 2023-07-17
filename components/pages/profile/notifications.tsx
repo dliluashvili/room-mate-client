@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import NotificationsCard from "./components/notificationsCard";
 import useTranslation from "next-translate/useTranslation";
 import {
-  ProfileService,
-  INotificationReceiver,
-  INotificationSent,
+  ProfileService
 } from "../../../services/profile/profile.http";
 import classNames from "classnames";
 import ReceiveNotification from "./components/receiveNotification";
@@ -26,7 +23,6 @@ const Notifications = () => {
     if (user.notifications) {
       ProfileService.updateNotifications({})
         .then((res) => {
-          console.log(res);
           dispatch(
             setCurrentUser({
               user: {

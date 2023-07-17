@@ -13,7 +13,6 @@ export const Checkbox = ({ label, setValue, id, selected }: ICheckbox) => {
       <div className="checkbox_wrapper">
         <input
           onChange={() => {
-            // console.log(selected);
             setValue(id);
           }}
           readOnly

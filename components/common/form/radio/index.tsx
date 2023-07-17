@@ -3,8 +3,8 @@ import classnames from "classnames";
 
 interface Props {
   options: string[];
-  active: string;
-  changeHandler: (d: string) => void;
+  active?: string;
+  changeHandler?: (d: string) => void;
 }
 
 const index: React.FC<Props> = ({ options = [], active, changeHandler }) => {

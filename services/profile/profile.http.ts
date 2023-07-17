@@ -95,6 +95,17 @@ class _ProfileService {
   getSentNotifications = (): AxiosPromise<INotificationSent[]> => {
     return axiosWithToken.get(backEndRoutes.profile.getSentNotifications());
   };
+  getReports = ({ lang }: { lang: any }): AxiosPromise<INotificationSent[]> => {
+    return axiosWithToken.get(backEndRoutes.profile.getReports(), {
+      params: {
+        locale: lang,
+      },
+    });
+  };
+
+  postReports = (data: { userId: number, reportId: number, text?: string }): AxiosPromise<INotificationSent[]> => {
+    return axiosWithToken.post(backEndRoutes.profile.getReports(), data);
+  };
 
   getReceivedNotifications = (): AxiosPromise<INotificationReceiver[]> => {
     return axiosWithToken.get(backEndRoutes.profile.getReceivedNotifications());

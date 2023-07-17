@@ -23,26 +23,25 @@ const Favorites = (props) => {
   const tabs = [
     {
       label: t("notifications"),
-      path: "/profile",
+      path: "/profile"
     },
     {
       label: t("favorites"),
-      path: "/profile/favorites",
+      path: "/profile/favorites"
     },
     {
       label: t("maklierebi"),
-      path: "/profile/agents",
+      path: "/profile/agents"
     },
     {
       label: t("savedApartments"),
-      path: "/profile/flats",
-    },
+      path: "/profile/flats"
+    }
   ];
 
   useEffect(() => {
     ProfileService.getAgents()
       .then((res) => {
-        console.log(res);
         setAgents(res.data);
       })
       .catch((err) => {
@@ -64,7 +63,7 @@ const Favorites = (props) => {
               </b>
               <div
                 style={{
-                  fontSize: "13px",
+                  fontSize: "13px"
                 }}
               >
                 უძრავი ქონების აგენტებთან დარეკვისას აუცილებლად უთხარი, რომ

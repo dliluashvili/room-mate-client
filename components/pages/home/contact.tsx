@@ -71,7 +71,6 @@ function Contact() {
           progress: undefined,
         });
       });
-    console.log(data);
   });
   return (
     <form onSubmit={submit} className="contactSection_from">

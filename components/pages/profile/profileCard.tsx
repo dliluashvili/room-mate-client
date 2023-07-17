@@ -25,13 +25,12 @@ const ProfileCard: React.FC<IProps> = ({
   setPayModal,
   profile_image,
 
-  updateAddRemove,
+  updateAddRemove
 }) => {
   const addRemoveFromFavorites = () => {
     let requestId = favourite_id ? favourite_id : id;
     ProfileService.addRemoveFavorites(requestId)
       .then((res) => {
-        console.log(res);
         updateAddRemove(requestId, isFavourite);
       })
       .catch((err) => {
@@ -44,14 +43,12 @@ const ProfileCard: React.FC<IProps> = ({
   const { user } = useTypedSelector((state) => state.profile);
   const router = useRouter();
 
-  console.log(user?.payed);
-
   return (
     <div className="userCard_wrapper">
       <div className="userCard_heading d-flex justify-content-between ">
         <div
           className={classnames({
-            bluer: !user?.payed,
+            bluer: !user?.payed
           })}
         >
           <span
@@ -74,7 +71,7 @@ const ProfileCard: React.FC<IProps> = ({
         </div>
         <div
           className={classnames({
-            bluer: !user?.payed,
+            bluer: !user?.payed
           })}
         >
           {suitablePrices &&
@@ -126,7 +123,7 @@ const ProfileCard: React.FC<IProps> = ({
           </svg>
           <span
             className={classnames("pl-2 userCard_footer_locations ", {
-              bluer: !user?.payed,
+              bluer: !user?.payed
             })}
           >
             {suitableDistricts && suitableDistricts.join(", ")}

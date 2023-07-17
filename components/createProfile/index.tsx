@@ -27,14 +27,10 @@ function CreateProfileWrapper(props) {
 
   useEffect(() => {
     setLoadQuestions(true);
-    // console.log(router.query, "router.query");
-    // debugger;
     Questions.getQuestions({ lang: router.locale })
       .then((res) => {
-        // console.log(res);
         setQuestions(res.data.sort((a, b) => a.position - b.position));
         setLoadQuestions(false);
-        // setCurrentQuestionIndex(res.data[0].id);
       })
       .catch((err) => {
         console.log(err);
@@ -43,12 +39,6 @@ function CreateProfileWrapper(props) {
   }, [router.locale]);
 
   const modalNavigate = (type: "prev" | "next") => {
-    // alert(answersContainer[currentQuestionIndex + 1]);
-    // console.log(
-    //   JSON.stringify(answersContainer),
-    //   "nnnnnnnnnnnnnnndddddddddddddd"
-    // );
-
     if (type === "prev") {
       if (currentQuestionIndex === 0) return;
       setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -63,13 +53,13 @@ function CreateProfileWrapper(props) {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
+            progress: undefined
           });
         }
 
         setRegisterLoad(true);
         Questions.saveAnswers({
-          answers: answersContainer,
+          answers: answersContainer
         })
           .then((res) => {
             setRegisterLoad(false);
@@ -81,7 +71,7 @@ function CreateProfileWrapper(props) {
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-              progress: undefined,
+              progress: undefined
             });
             setTimeout(() => {
               Router.push("/login");
@@ -98,7 +88,7 @@ function CreateProfileWrapper(props) {
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-              progress: undefined,
+              progress: undefined
             });
           });
         return;
@@ -108,9 +98,6 @@ function CreateProfileWrapper(props) {
         !answersContainer[questions[currentQuestionIndex].id] ||
         !answersContainer[questions[currentQuestionIndex].id].length
       ) {
-        // debugger;
-        // console.log(answersContainer);
-
         toast.error(t("filsRequire"), {
           position: "top-right",
           autoClose: 3000,
@@ -118,13 +105,10 @@ function CreateProfileWrapper(props) {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
+          progress: undefined
         });
       } else {
         if (questions[currentQuestionIndex].name === "phone") {
-          // console.log(
-          //   answersContainer[questions[currentQuestionIndex].id] as []
-          // );
           if (isVerify) {
             debugger;
             setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -133,15 +117,12 @@ function CreateProfileWrapper(props) {
           let [phone] = answersContainer[
             questions[currentQuestionIndex].id
           ] as string[];
-          // Questions.checkPhone(phone)
-          //   .then((res) => {
 
           Questions.checkSmsCode({
             phone: phone,
-            code: Number(smsCode),
+            code: Number(smsCode)
           }).then((res) => {
             if (res.data) {
-              // console.log(res);
               setIsVerify(true);
               setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
@@ -152,29 +133,10 @@ function CreateProfileWrapper(props) {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
+                progress: undefined
               });
             }
           });
-
-          // debugger;
-          //   if (res.data.exists) {
-          //     toast.error("მოცემული ტელეფონის ნომერი უკვე გამოყენებულია", {
-          //       position: "top-right",
-          //       autoClose: 3000,
-          //       hideProgressBar: false,
-          //       closeOnClick: true,
-          //       pauseOnHover: true,
-          //       draggable: true,
-          //       progress: undefined,
-          //     });
-          //   } else {
-          //     setCurrentQuestionIndex(currentQuestionIndex + 1);
-          //   }
-          // })
-          // .catch((err) => {
-          //   console.log(err.response);
-          // });
         } else {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
@@ -190,10 +152,9 @@ function CreateProfileWrapper(props) {
         {questions.length ? (
           <CreateProfileContent
             setData={(data) => {
-              console.log(data);
               setAnswersContainer({
                 ...answersContainer,
-                [data.question_id]: [...data.value],
+                [data.question_id]: [...data.value]
               });
             }}
             data={questions[currentQuestionIndex]}
@@ -224,7 +185,6 @@ function CreateProfileWrapper(props) {
               რეგისტრაცია
             </Button>
           ) : (
-            // <button className="btn btn-light">რეგისტრაცია</button>
             <>
               <span className="d-inline-block m-2">{t("next")}</span>
               <svg
