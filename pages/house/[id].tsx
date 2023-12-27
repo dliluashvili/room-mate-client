@@ -145,7 +145,7 @@ function House(props) {
         {props?.description && <meta name="description" content={props?.description} key="description"/>}
         {props?.title && <meta property="og:title" content={props?.title} key="og:title"/>}
         {props?.description && <meta property="og:description" content={props?.description} key="og:description"/>}
-        {props?.images[0]?.thumb && <meta property="og:image" content={props?.images[0]?.thumb} key="og:image" />}
+        {props?.images[0]?.original && <meta property="og:image" content={props?.images[0].original} key="og:image" />}
         <meta property="og:type" content="website" />
       </Head>
       <div>
