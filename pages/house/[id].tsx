@@ -146,10 +146,9 @@ function House(props) {
     <>
       <Head>
         {props?.title && <title>{props?.title}</title>}
-        {props?.title && <title>{props?.title}</title>}
-        {props?.description && <meta name="description" content={props?.description} />}
-        {props?.title && <meta property="og:title" content={props?.title} />}
-        {props?.description && <meta property="og:description" content={props?.description} />}
+        {props?.description && <meta name="description" content={props?.description} key="description"/>}
+        {props?.title && <meta property="og:title" content={props?.title} key="og:title"/>}
+        {props?.description && <meta property="og:description" content={props?.description} key="og:description"/>}
         {props?.images[0]?.thumb && <meta property="og:image" content={props?.images[0]?.thumb} key="og:image" />}
         <meta property="og:type" content="website" />
       </Head>

@@ -22,8 +22,8 @@ function MyApp({ Component, pageProps }) {
         <title>Roommate Georgia</title>
         <meta
           name="description"
-          content="იპოვე ოთახის მეზობელი და
-გაიყავი ბინის ქირა"
+          content="იპოვე ოთახის მეზობელი და გაიყავი ბინის ქირა"
+          key="description"
         />
         <link rel="icon" href="/imgs/loop-04.png" />
         <link
@@ -31,13 +31,14 @@ function MyApp({ Component, pageProps }) {
           sizes="180x180"
           href="/imgs/loop-04.png"
         ></link>
-        <meta property="og:title" content="Roommate Georgia" />
+        <meta property="og:title" content="Roommate Georgia" key="og:title"/>
         <meta
           property="og:description"
           content="იპოვე ოთახის მეზობელი და
           გაიყავი ბინის ქირა"
+          key="og:description"
         />
-        <meta property="og:image" content="https://i.imgur.com/eZmxufE.png" />
+        <meta property="og:image" content="https://i.imgur.com/eZmxufE.png" key="og:image"/>
 
         <script
           async
