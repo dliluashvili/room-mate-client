@@ -95,8 +95,6 @@ function House(props) {
 
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}${router.asPath}`;
 
-  console.log("🚀 ~ file: [id].tsx:99 ~ House ~ url:", url)
-
   useEffect(() => {
     if(props){
       setStatementData(props);
@@ -147,12 +145,12 @@ function House(props) {
   return (
     <>
       <Head>
-        <title>{props?.title ?? ''}</title>
-        <meta name="description" content={props?.description ?? ''} />
-        <meta property="og:title" content={props?.title ?? ''} />
-        <meta property="og:description" content={props?.description ?? ''} />
-        <meta property="og:image" content={props?.images[0]?.thumb ?? ''}/>
-        <meta property="og:url" content={url} />
+        {props?.title && <title>{props?.title}</title>}
+        {props?.title && <title>{props?.title}</title>}
+        {props?.description && <meta name="description" content={props?.description} />}
+        {props?.title && <meta property="og:title" content={props?.title} />}
+        {props?.description && <meta property="og:description" content={props?.description} />}
+        {props?.images[0]?.thumb && <meta property="og:image" content={props?.images[0]?.thumb} key="og:image" />}
         <meta property="og:type" content="website" />
       </Head>
       <div>
