@@ -12,7 +12,6 @@ import useTranslation from "next-translate/useTranslation";
 import { useCheckAuth } from "../../components/hooks/useCheckAuth";
 import { useTypedSelector } from "../../components/hooks/useTypeSelector";
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 // access remote data
 export async function getServerSideProps(context) {
@@ -85,15 +84,12 @@ function House(props) {
   const [showNumber, setShowNumber] = useState(false);
   const [currentCurrency, setCurrentCurrency] = useState("gel");
   const [usdRate, setUsdRate] = useState(1);
-  const router = useRouter();
   
   useCheckAuth(false);
 
   let user = useTypedSelector((state) => state.profile.user);
 
   let { t } = useTranslation("common");
-
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${router.asPath}`;
 
   useEffect(() => {
     if(props){
