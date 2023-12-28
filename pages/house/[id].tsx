@@ -17,8 +17,8 @@ import Linkify from "linkify-react";
 // access remote data
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  const lang = context.__lang;
-
+  const lang = context.locale;
+  
   const response = await Flats.getById({
     lang,
     id: Number(id),
@@ -115,7 +115,6 @@ function House(props) {
         {
           const currencies = res.data[0].currencies;
           const currency = currencies.find((cur) => cur.code === "USD");
-          console.log("curency", currency);
           setUsdRate(currency.rate);
         }
       })
@@ -143,30 +142,16 @@ function House(props) {
     <>
       <Head>
         {props?.title && <title>{props?.title}</title>}
-        {props?.description && (
-          <meta
-            name="description"
-            content={props?.description}
-            key="description"
-          />
-        )}
-        {props?.title && (
-          <meta property="og:title" content={props?.title} key="og:title" />
-        )}
-        {props?.description && (
-          <meta
-            property="og:description"
-            content={props?.description}
-            key="og:description"
-          />
-        )}
-        {props?.images[0]?.original && (
-          <meta
-            property="og:image"
-            content={props?.images[0].original}
-            key="og:image"
-          />
-        )}
+        {props?.description && <meta name="description" content={props?.description} key="description"/>}
+        {props?.title && <meta property="og:title" content={props?.title} key="og:title"/>}
+        {props?.description && <meta property="og:description" content={props?.description} key="og:description"/>}
+        {props?.images[0]?.original && 
+          <>
+            <meta property="og:image" content={props?.images[0].original} key="og:image" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+          </>
+        }
         <meta property="og:type" content="website" />
       </Head>
       <div>
