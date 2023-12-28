@@ -11,27 +11,28 @@ import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
 import { useCheckAuth } from "../../components/hooks/useCheckAuth";
 import { useTypedSelector } from "../../components/hooks/useTypeSelector";
-import Head from 'next/head'
+import Head from "next/head";
+import Linkify from "linkify-react";
 
 // access remote data
 export async function getServerSideProps(context) {
   const { id } = context.params;
   const lang = context.__lang;
-  
+
   const response = await Flats.getById({
     lang,
     id: Number(id),
-  })
- 
+  });
+
   if (!response) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
-    props: response.data
-  }
+    props: response.data,
+  };
 }
 
 const Specification = ({
@@ -84,7 +85,7 @@ function House(props) {
   const [showNumber, setShowNumber] = useState(false);
   const [currentCurrency, setCurrentCurrency] = useState("gel");
   const [usdRate, setUsdRate] = useState(1);
-  
+
   useCheckAuth(false);
 
   let user = useTypedSelector((state) => state.profile.user);
@@ -92,7 +93,7 @@ function House(props) {
   let { t } = useTranslation("common");
 
   useEffect(() => {
-    if(props){
+    if (props) {
       setStatementData(props);
     }
   }, [props]);
@@ -114,7 +115,7 @@ function House(props) {
         {
           const currencies = res.data[0].currencies;
           const currency = currencies.find((cur) => cur.code === "USD");
-          console.log('curency', currency)
+          console.log("curency", currency);
           setUsdRate(currency.rate);
         }
       })
@@ -142,10 +143,30 @@ function House(props) {
     <>
       <Head>
         {props?.title && <title>{props?.title}</title>}
-        {props?.description && <meta name="description" content={props?.description} key="description"/>}
-        {props?.title && <meta property="og:title" content={props?.title} key="og:title"/>}
-        {props?.description && <meta property="og:description" content={props?.description} key="og:description"/>}
-        {props?.images[0]?.original && <meta property="og:image" content={props?.images[0].original} key="og:image" />}
+        {props?.description && (
+          <meta
+            name="description"
+            content={props?.description}
+            key="description"
+          />
+        )}
+        {props?.title && (
+          <meta property="og:title" content={props?.title} key="og:title" />
+        )}
+        {props?.description && (
+          <meta
+            property="og:description"
+            content={props?.description}
+            key="og:description"
+          />
+        )}
+        {props?.images[0]?.original && (
+          <meta
+            property="og:image"
+            content={props?.images[0].original}
+            key="og:image"
+          />
+        )}
         <meta property="og:type" content="website" />
       </Head>
       <div>
@@ -195,7 +216,11 @@ function House(props) {
 
                   <div>
                     <div className="d-none d-md-flex align-items-center houseStatement_price ">
-                      <span data-price={statementData?.price} data-rate={usdRate} className="f-25">
+                      <span
+                        data-price={statementData?.price}
+                        data-rate={usdRate}
+                        className="f-25"
+                      >
                         {currentCurrency === "gel"
                           ? statementData?.price
                           : Math.ceil(
@@ -285,7 +310,9 @@ function House(props) {
                     }}
                   >
                     <div className="phoneNumber">
-                      {!showNumber ? "599 12 ** **" : statementData?.author_phone}
+                      {!showNumber
+                        ? "599 12 ** **"
+                        : statementData?.author_phone}
                     </div>
                     {showNumber ? null : (
                       <div className="label">{t("viewNumber")}</div>
@@ -296,12 +323,11 @@ function House(props) {
                   <span className="f-25">
                     {currentCurrency === "gel"
                       ? statementData?.price
-                      : Math.ceil(statementData?.price / usdRate).toLocaleString(
-                          undefined,
-                          {
-                            maximumFractionDigits: 2,
-                          }
-                        )}
+                      : Math.ceil(
+                          statementData?.price / usdRate
+                        ).toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
                   </span>
                   <div
                     onClick={() => {
@@ -538,7 +564,7 @@ function House(props) {
               </div>
               <div className="description">
                 <h1>{statementData?.title}</h1>
-                <p>{statementData?.description}</p>
+                <Linkify>{statementData?.description}</Linkify>
               </div>
               <div className="specifications">
                 <label>{t("specifications")}</label>
@@ -592,7 +618,8 @@ function House(props) {
               </div>
             </div>
           </div>
-          {statementData?.coords && Object.keys(statementData?.coords).length ? (
+          {statementData?.coords &&
+          Object.keys(statementData?.coords).length ? (
             <div className="container specifications pb-5">
               <label>{t("mdebareoba")}</label>
               <div
