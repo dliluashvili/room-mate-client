@@ -103,8 +103,8 @@ const ReceiveNotification = () => {
                       lastname: el.sender_lastname
                     })}
                     <div>
-                      {t("approvedYouRequest2")}
-                      <br />
+                      {/* {t("approvedYouRequest2")} */}
+                      {/* <br />
                       <br />
                       {t("approvedYouRequest3")}
 
@@ -112,7 +112,7 @@ const ReceiveNotification = () => {
                       {t("approvedYouRequest4")}
 
                       <br />
-                      {t("approvedYouRequest5")}
+                      {t("approvedYouRequest5")} */}
                     </div>
                   </>
                 ) : (
