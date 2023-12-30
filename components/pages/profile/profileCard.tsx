@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
 
+
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
   setPayModal?: (payed: boolean) => void;
@@ -25,7 +26,7 @@ const ProfileCard: React.FC<IProps> = ({
   setPayModal,
   profile_image,
 
-  updateAddRemove
+  updateAddRemove,
 }) => {
   const addRemoveFromFavorites = () => {
     let requestId = favourite_id ? favourite_id : id;
@@ -48,7 +49,7 @@ const ProfileCard: React.FC<IProps> = ({
       <div className="userCard_heading d-flex justify-content-between ">
         <div
           className={classnames({
-            bluer: !user?.payed
+            bluer: !user?.payed,
           })}
         >
           <span
@@ -71,7 +72,7 @@ const ProfileCard: React.FC<IProps> = ({
         </div>
         <div
           className={classnames({
-            bluer: !user?.payed
+            bluer: !user?.payed,
           })}
         >
           {suitablePrices &&
@@ -84,8 +85,23 @@ const ProfileCard: React.FC<IProps> = ({
         </div>
       </div>
       <div className="userCard_body d-flex">
-        <div>
+        <div
+          style={{
+            position: "relative",
+            width: "130px",
+            height: "100px",
+          }}
+        >
           <img
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              border: "1px solid #b1a1a130",
+            }}
             onClick={(e) => {
               e.preventDefault();
               if (!user?.payed) {
@@ -96,7 +112,6 @@ const ProfileCard: React.FC<IProps> = ({
               }
             }}
             className="pointer"
-            style={{ border: "1px solid #b1a1a130" }}
             src={
               profile_image
                 ? profile_image
@@ -104,6 +119,7 @@ const ProfileCard: React.FC<IProps> = ({
             }
           />
         </div>
+
         <p>{about_me}</p>
       </div>
       <div className="userCard_footer d-flex justify-content-between ">
@@ -123,7 +139,7 @@ const ProfileCard: React.FC<IProps> = ({
           </svg>
           <span
             className={classnames("pl-2 userCard_footer_locations ", {
-              bluer: !user?.payed
+              bluer: !user?.payed,
             })}
           >
             {suitableDistricts && suitableDistricts.join(", ")}

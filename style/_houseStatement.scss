@@ -16,6 +16,7 @@
 
   .slider-wrapper {
     max-height: 70vh;
+    margin-bottom: 60px !important;
     // padding-top: 50px;
     .slider {
       img {
@@ -91,6 +92,11 @@
     left: -44px;
     position: absolute;
     transform: rotate(180deg) translateY(50%);
+  }
+  @media (min-width: 769px) {
+    .slider-wrapper {
+      margin-bottom: 100px !important;
+    }
   }
 }
 
@@ -304,6 +310,7 @@
   .houseStatement .slider-wrapper .slider div {
     height: 222px;
   }
+
   .houseStatement .thumbs-wrapper .thumb {
     border: 1px solid #ffffff;
     padding: 0;
