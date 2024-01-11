@@ -67,6 +67,11 @@ function Footer() {
                   <a target={"_blank"}>{t("confidencial")}</a>
                 </Link>
               </li>
+              <li>
+                <Link href="https://www.roommate.blog/">
+                  <a>{t("blog")}</a>
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="col-md-3 d-flex flex-column justify-content-center">
