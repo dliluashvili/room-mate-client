@@ -161,5 +161,15 @@
   "totalRent": "ჯამური ქირა",
   "RentAnApartment": "იქირავე ბინა",
   "savedApartments": "შენახული ბინები",
-  "mdebareoba": "აგილმდებარეობა"
+  "mdebareoba": "აგილმდებარეობა",
+  "gender": "სქესი",
+  "genderError": "ეს ველი აუცილებელია",
+  "men": "კაცი",
+  "women": "ქალი",
+  "selectGender": "აირჩიე სქესი",
+  "country": "ქვეყანა",
+  "selectCountry": "აირჩიე ქვეყანა",
+  "age": "ასაკი",
+  "selectAge": "მიუთითე ასაკი",
+  "mailProvide": "დაგვიტოვე შენი მეილი"
 }

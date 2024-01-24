@@ -154,5 +154,15 @@
   "totalRent": "total rent",
   "RentAnApartment": "rent an apartment",
   "savedApartments": "saved apartments",
-  "mdebareoba": "location"
+  "mdebareoba": "location",
+  "gender": "Gender",
+  "genderError": "This field is required",
+  "men": "Men",
+  "women": "Women",
+  "selectGender": "Select gender",
+  "country": "Country",
+  "selectCountry": "Select country",
+  "age": "Age",
+  "selectAge": "Please provide age",
+  "mailProvide": "Please provide your email address"
 }
