@@ -1,19 +1,35 @@
 import React from "react";
-import Signup from "../components/Signup";
 import axios from "axios";
+import SignupFirst from "../components/SignupFirst";
+import SignupSecond from "../components/SignupSecond";
 
 export async function getServerSideProps() {
   const query = `
-    query FindAllCountry {
-      getQuestions {
+  query ExampleQuery {
+    getQuestions {
+      id
+      translations {
+        id
+        lang
+        title
+      }
+      answers {
         id
         translations {
           id
-          title
           lang
+          title
         }
       }
     }
+    findAllCountry {
+      translations {
+        lang
+        name
+        id
+      }
+    }
+  }
   `;
 
   const response = await axios.post(
@@ -23,10 +39,15 @@ export async function getServerSideProps() {
     }
   );
 
-  const questions = response.data;
-  return { props: { questions } };
+  const data = response.data;
+  return { props: { data } };
 }
 
-export default function signup({ questions }) {
-  return <Signup questions={questions} />;
+export default function signup({ data }) {
+  return (
+    <>
+      <SignupFirst countries={data.data.findAllCountry} />
+      <SignupSecond questions={data.data.getQuestions} />
+    </>
+  );
 }
