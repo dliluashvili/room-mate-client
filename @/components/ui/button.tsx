@@ -14,7 +14,7 @@ const buttonVariants = cva(
           "bg-primaryBeta p-[12px] hover:bg-hoverBeta focus:bg-pressedBeta text-whiteTextBeta text-xs lg:text-base",
       },
       size: {
-        default: "w-[280px]  ",
+        default: "w-full h-10  ",
       },
     },
     defaultVariants: {

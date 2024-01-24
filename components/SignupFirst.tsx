@@ -1,11 +1,9 @@
-import React, { useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,16 +13,15 @@ import { BaseInput } from "../@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../@/components/ui/select";
 import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
+import { count } from "console";
 
-export default function Signup({ questions }) {
+export default function SignupFirst({ countries }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const formSchema = z.object({
     name: z.string().min(2, { message: t("nameError") }),
@@ -51,15 +48,19 @@ export default function Signup({ questions }) {
 
   const handleSubmit = (data) => {
     data.phone = Number(data.phone);
+    data.age = Number(data.age);
     console.log(data);
   };
 
+  console.log(countries);
+  const lang = "KA"; // or 'EN'
+
   return (
     <>
-      <main className="flex flex-col p-24 items-center">
+      <main className="flex flex-col p-20 items-center   ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="grid  grid-cols-2  gap-x-4 gap-y-4 mb-3  ">
+            <div className="grid  grid-cols-2  gap-x-8 gap-y-8 mb-3 items-center justify-center  ">
               <FormField
                 control={form.control}
                 name="name"
@@ -111,18 +112,37 @@ export default function Signup({ questions }) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
-                    <FormControl>
-                      <BaseInput
-                        placeholder={t("country")}
-                        {...field}
-                        hasError={!!form.formState.errors.country}
-                        isSuccess={
-                          !form.formState.errors.country &&
-                          form.formState.touchedFields.country &&
-                          field.value !== ""
-                        }
-                      />
-                    </FormControl>
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("country")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countries.map((item) => {
+                          // Find the translation for the desired language
+                          const translation = item.translations.find(
+                            (t) => t.lang === lang
+                          ); // replace 'EN' with the desired language code
+                          // Check if translation is not undefined before accessing its name property
+                          if (translation) {
+                            return (
+                              <SelectItem
+                                key={item.id}
+                                value={translation.name}
+                              >
+                                {translation.name}
+                              </SelectItem>
+                            );
+                          }
+                          // You can return a default value or nothing here, depending on your requirements
+                          return null;
+                        })}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -188,15 +208,13 @@ export default function Signup({ questions }) {
                   </FormItem>
                 )}
               />
-            </div>
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("Phonenumber")}</FormLabel>
-                  <FormControl>
-                    <div className="flex w-full max-w-sm items-center space-x-2">
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("Phonenumber")}</FormLabel>
+                    <FormControl>
                       <BaseInput
                         type="number"
                         placeholder={t("Phonenumber")}
@@ -208,15 +226,15 @@ export default function Signup({ questions }) {
                           field.value !== ""
                         }
                       />
-                      <Button variant="default" size="default">
-                        {t("SMSsent")}
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button variant="default" size="default">
+                {t("SMSsent")}
+              </Button>
+            </div>
             <Button
               className="mt-4"
               variant="default"
