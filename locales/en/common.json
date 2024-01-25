@@ -164,5 +164,6 @@
   "selectCountry": "Select country",
   "age": "Age",
   "selectAge": "Please provide age",
-  "mailProvide": "Please provide your email address"
+  "mailProvide": "Please provide your email address",
+  "incorrectFormat": "Incorrect format"
 }

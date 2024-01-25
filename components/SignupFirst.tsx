@@ -1,6 +1,5 @@
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import * as ge from "../locales/country.json";
 import {
   Form,
   FormControl,
@@ -19,41 +18,27 @@ import {
 } from "../@/components/ui/select";
 import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
-import { count } from "console";
+import "react-phone-number-input/style.css";
+import en from "react-phone-number-input/locale/en";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import { SignupForm } from "./validations/SignupForm";
 
-export default function SignupFirst({ countries }) {
+
+export default function SignupFirst({ countries, gender }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  const formSchema = z.object({
-    name: z.string().min(2, { message: t("nameError") }),
-    surname: z.string().min(2, { message: t("surnameError") }),
-    gender: z.string().min(1, { message: t("genderError") }),
-    country: z.string().min(2, { message: t("selectCountry") }),
-    age: z.string().min(1, { message: t("selectAge") }),
-    phone: z.string().min(9, { message: t("PhonenumberError") }),
-    mail: z.string().optional(),
-  });
+  const form = SignupForm();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      gender: "",
-      country: "",
-      age: "",
-      mail: "",
-      phone: "",
-    },
-  });
-
-  const handleSubmit = (data) => {
+  const handleSubmit = (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
-    console.log(data);
   };
 
-  console.log(countries);
-  const lang = "KA"; // or 'EN'
+
+
+
+  let lang = "KA";
+  let phoneLang = "";
+  const labels = phoneLang === "KA" ? en : ge.ge;
 
   return (
     <>
@@ -105,7 +90,6 @@ export default function SignupFirst({ countries }) {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="country"
@@ -123,11 +107,9 @@ export default function SignupFirst({ countries }) {
                       </FormControl>
                       <SelectContent>
                         {countries.map((item) => {
-                          // Find the translation for the desired language
                           const translation = item.translations.find(
                             (t) => t.lang === lang
-                          ); // replace 'EN' with the desired language code
-                          // Check if translation is not undefined before accessing its name property
+                          );
                           if (translation) {
                             return (
                               <SelectItem
@@ -138,7 +120,6 @@ export default function SignupFirst({ countries }) {
                               </SelectItem>
                             );
                           }
-                          // You can return a default value or nothing here, depending on your requirements
                           return null;
                         })}
                       </SelectContent>
@@ -147,7 +128,42 @@ export default function SignupFirst({ countries }) {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("gender")}</FormLabel>
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("gender")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {gender.map((item) => {
+                          const translation = item.translations.find(
+                            (t) => t.lang === lang.toLowerCase()
+                          );
+                          if (translation) {
+                            return (
+                              <SelectItem key={item.id} value={translation.sex}>
+                                {translation.sex}
+                              </SelectItem>
+                            );
+                          }
 
+                          return null;
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="age"
@@ -173,30 +189,6 @@ export default function SignupFirst({ countries }) {
               />
               <FormField
                 control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("gender")}</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("selectGender")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Men">{t("men")}</SelectItem>
-                        <SelectItem value="Women">{t("women")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="mail"
                 render={({ field }) => (
                   <FormItem>
@@ -215,19 +207,24 @@ export default function SignupFirst({ countries }) {
                   <FormItem>
                     <FormLabel>{t("Phonenumber")}</FormLabel>
                     <FormControl>
-                      <BaseInput
-                        type="number"
-                        placeholder={t("Phonenumber")}
-                        {...field}
-                        hasError={!!form.formState.errors.phone}
-                        isSuccess={
-                          !form.formState.errors.phone &&
-                          form.formState.touchedFields.phone &&
-                          field.value !== ""
-                        }
+                      <PhoneInput
+                        labels={labels}
+                        inputComponent={BaseInput}
+                        defaultCountry="GE"
+                        international
+                        placeholder="Enter phone number"
+                        value={field.value}
+                        onChange={(phone) => {
+                          form.setValue("phone", phone);
+                        }}
+                        hasError={!!form.formState.touchedFields.phone}
                       />
                     </FormControl>
-                    <FormMessage />
+                    {form.formState.errors.phone && (
+                      <FormMessage>
+                        {form.formState.errors.phone.message}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
