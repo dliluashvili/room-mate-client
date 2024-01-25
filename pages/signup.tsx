@@ -29,6 +29,14 @@ export async function getServerSideProps() {
         id
       }
     }
+    findAllGender {
+      id
+      translations {
+        lang
+        sex
+        id
+      }
+    }
   }
   `;
 
@@ -46,7 +54,10 @@ export async function getServerSideProps() {
 export default function signup({ data }) {
   return (
     <>
-      <SignupFirst countries={data.data.findAllCountry} />
+      <SignupFirst
+        countries={data.data.findAllCountry}
+        gender={data.data.findAllGender}
+      />
       <SignupSecond questions={data.data.getQuestions} />
     </>
   );

@@ -4,6 +4,7 @@ import errorIcon from "../../../public/imgs/Error.png";
 import successIcon from "../../../public/imgs/Success.png";
 import Image from "next/image";
 
+
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;

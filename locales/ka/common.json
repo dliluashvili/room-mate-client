@@ -171,5 +171,6 @@
   "selectCountry": "აირჩიე ქვეყანა",
   "age": "ასაკი",
   "selectAge": "მიუთითე ასაკი",
-  "mailProvide": "დაგვიტოვე შენი მეილი"
+  "mailProvide": "დაგვიტოვე შენი მეილი",
+  "incorrectFormat": "არასწორი ფორმატი"
 }
