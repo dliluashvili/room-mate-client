@@ -1,9 +1,8 @@
 import * as React from "react";
 import { cn } from "../../lib/utils";
-import errorIcon from "../../../public/imgs/Error.png";
-import successIcon from "../../../public/imgs/Success.png";
+import errorIcon from "../../../public/imgs/Error.svg";
+import successIcon from "../../../public/imgs/Success.svg";
 import Image from "next/image";
-
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
