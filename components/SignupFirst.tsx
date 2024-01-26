@@ -1,4 +1,3 @@
-
 import * as ge from "../locales/country.json";
 import {
   Form,
@@ -19,10 +18,8 @@ import {
 import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
-import en from "react-phone-number-input/locale/en";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput from "react-phone-number-input";
 import { SignupForm } from "./validations/SignupForm";
-
 
 export default function SignupFirst({ countries, gender }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -33,12 +30,9 @@ export default function SignupFirst({ countries, gender }) {
     data.age = Number(data.age);
   };
 
-
-
-
   let lang = "KA";
-  let phoneLang = "";
-  const labels = phoneLang === "KA" ? en : ge.ge;
+  let phoneLang = "KA";
+  const labels = phoneLang === "KA" ? ge.ge : undefined;
 
   return (
     <>
