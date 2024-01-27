@@ -21,6 +21,12 @@ export function SignupForm() {
         message: t("incorrectFormat"),
       }),
     mail: z.string().optional(),
+    password: z.string().min(4),
+    confirmPassword: z
+      .string()
+      .refine((value) => value === form.getValues().password, {
+        message: t("passwordMatchError"),
+      }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -33,6 +39,8 @@ export function SignupForm() {
       age: "",
       mail: "",
       phone: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 

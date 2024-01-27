@@ -9,9 +9,11 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
   isSuccess?: boolean;
-  hasButton?: boolean;
+  getCode?: boolean;
   confirm?: boolean;
+  confirmButton?: boolean;
   setConfirm?: (value: boolean) => void;
+  onGetCodeClick?: () => void; // Add this line
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -21,9 +23,11 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       type,
       hasError,
       isSuccess,
-      hasButton,
+      getCode,
       confirm,
       setConfirm,
+      confirmButton,
+      onGetCodeClick, // Add this
       ...props
     },
     ref
@@ -54,11 +58,25 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
             />
           </div>
         )}
-        {hasButton && (
+        {getCode && (
           <div className="absolute right-4">
             <Button
               onClick={() => {
-                setConfirm(true), console.log("ladosssssss");
+                setConfirm(true);
+                if (onGetCodeClick) {
+                  onGetCodeClick();
+                }
+              }}
+            >
+              Get Code
+            </Button>
+          </div>
+        )}
+        {confirmButton && (
+          <div className="absolute right-4">
+            <Button
+              onClick={() => {
+                setConfirm(true);
               }}
             >
               Confrim
