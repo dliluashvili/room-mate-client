@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
-
 import { isValidPhoneNumber } from "react-phone-number-input";
 
 export function SignupForm() {

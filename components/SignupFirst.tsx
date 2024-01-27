@@ -20,15 +20,20 @@ import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { SignupForm } from "./validations/SignupForm";
+import { useState } from "react";
 
 export default function SignupFirst({ countries, gender }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
-
+  const [clicked, setClicked] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const handleSubmit = (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
+    console.log(data);
   };
+
+  console.log(confirm);
 
   let lang = "KA";
   let phoneLang = "KA";
@@ -39,7 +44,7 @@ export default function SignupFirst({ countries, gender }) {
       <main className="flex flex-col p-20 items-center   ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="grid  grid-cols-2  gap-x-8 gap-y-8 mb-3 items-center justify-center  ">
+            <div className="grid  lg:grid-cols-2  gap-x-8 gap-y-8 mb-3 items-start justify-center  ">
               <FormField
                 control={form.control}
                 name="name"
@@ -222,10 +227,36 @@ export default function SignupFirst({ countries, gender }) {
                   </FormItem>
                 )}
               />
-              <Button variant="default" size="default">
+              <div>
+                <label className="mb-2 text-sm">შეიყვანე კოდი</label>
+                <BaseInput
+                  confirm={confirm}
+                  setConfirm={setConfirm}
+                  type="number"
+                  placeholder="შეიყვანე კოდი"
+                  disabled={!clicked}
+                  hasButton={clicked}
+                />
+                <FormMessage></FormMessage>
+              </div>
+
+              <Button
+                variant="default"
+                size="default"
+                onClick={async () => {
+                  await form.handleSubmit(async (data) => {
+                    // At this point, the form values are updated and errors are checked.
+                    if (!form.formState.errors.phone) {
+                      console.log("lado");
+                      setClicked(true);
+                    }
+                  })();
+                }}
+              >
                 {t("SMSsent")}
               </Button>
             </div>
+
             <Button
               className="mt-4"
               variant="default"

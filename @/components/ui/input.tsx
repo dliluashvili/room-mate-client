@@ -3,15 +3,31 @@ import { cn } from "../../lib/utils";
 import errorIcon from "../../../public/imgs/Error.svg";
 import successIcon from "../../../public/imgs/Success.svg";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
   isSuccess?: boolean;
+  hasButton?: boolean;
+  confirm?: boolean;
+  setConfirm?: (value: boolean) => void;
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, hasError, isSuccess, ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      hasError,
+      isSuccess,
+      hasButton,
+      confirm,
+      setConfirm,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <div className="relative flex items-center ">
         <input
@@ -36,6 +52,17 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
               width={24}
               height={24}
             />
+          </div>
+        )}
+        {hasButton && (
+          <div className="absolute right-4">
+            <Button
+              onClick={() => {
+                setConfirm(true), console.log("ladosssssss");
+              }}
+            >
+              Confrim
+            </Button>
           </div>
         )}
       </div>
