@@ -21,23 +21,35 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { SignupForm } from "./validations/SignupForm";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function SignupFirst({ countries, gender }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
+  const router = useRouter();
   const [clicked, setClicked] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const handleSubmit = (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
-    console.log(data);
   };
 
-  console.log(confirm);
+  const getCodeHandler = async () => {
+    await form.handleSubmit(async (data) => {
+      if (!form.formState.isValid) {
+        setClicked(true);
+      }
+    })();
+  };
 
-  let lang = "KA";
-  let phoneLang = "KA";
-  const labels = phoneLang === "KA" ? ge.ge : undefined;
+  const submitHandler = async () => {
+    await form.handleSubmit(async (data) => {
+      if (!form.formState.isValid) {
+        console.log("congrats");
+      }
+    })();
+  };
+  const labels = router.locale === "ka" ? ge.ge : undefined;
 
   return (
     <>
@@ -107,12 +119,14 @@ export default function SignupFirst({ countries, gender }) {
                       <SelectContent>
                         {countries.map((item) => {
                           const translation = item.translations.find(
-                            (t) => t.lang === lang
+                            (t) =>
+                              t.lang.toLowerCase() ===
+                              router.locale.toLowerCase()
                           );
                           if (translation) {
                             return (
                               <SelectItem
-                                key={item.id}
+                                key={`${item.id}-${translation.name}`} // Unique key // must check key errors/warnings
                                 value={translation.name}
                               >
                                 {translation.name}
@@ -145,7 +159,9 @@ export default function SignupFirst({ countries, gender }) {
                       <SelectContent>
                         {gender.map((item) => {
                           const translation = item.translations.find(
-                            (t) => t.lang === lang.toLowerCase()
+                            (t) =>
+                              t.lang.toLowerCase() ===
+                              router.locale.toLowerCase()
                           );
                           if (translation) {
                             return (
@@ -201,6 +217,50 @@ export default function SignupFirst({ countries, gender }) {
               />
               <FormField
                 control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("Password")}</FormLabel>
+                    <FormControl>
+                      <BaseInput
+                        placeholder={t("Password")}
+                        {...field}
+                        hasError={!!form.formState.errors.password}
+                        isSuccess={
+                          !form.formState.errors.password &&
+                          form.formState.touchedFields.password &&
+                          field.value !== ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("PasswordRepeat")}</FormLabel>
+                    <FormControl>
+                      <BaseInput
+                        placeholder={t("PasswordRepeat")}
+                        {...field}
+                        hasError={!!form.formState.errors.confirmPassword}
+                        isSuccess={
+                          !form.formState.errors.confirmPassword &&
+                          form.formState.touchedFields.confirmPassword &&
+                          field.value !== ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
@@ -235,33 +295,19 @@ export default function SignupFirst({ countries, gender }) {
                   type="number"
                   placeholder="შეიყვანე კოდი"
                   disabled={!clicked}
-                  hasButton={clicked}
+                  getCode={!clicked}
+                  confirmButton={clicked}
+                  onGetCodeClick={getCodeHandler}
                 />
                 <FormMessage></FormMessage>
               </div>
-
-              <Button
-                variant="default"
-                size="default"
-                onClick={async () => {
-                  await form.handleSubmit(async (data) => {
-                    // At this point, the form values are updated and errors are checked.
-                    if (!form.formState.errors.phone) {
-                      console.log("lado");
-                      setClicked(true);
-                    }
-                  })();
-                }}
-              >
-                {t("SMSsent")}
-              </Button>
             </div>
-
             <Button
               className="mt-4"
               variant="default"
               size="default"
               type="submit"
+              onClick={submitHandler}
             >
               {t("next")}
             </Button>
