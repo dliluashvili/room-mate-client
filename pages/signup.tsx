@@ -8,10 +8,12 @@ export async function getServerSideProps() {
   query ExampleQuery {
     getQuestions {
       id
+      ui_field_info
       translations {
         id
         lang
         title
+        
       }
       answers {
         id
@@ -52,6 +54,7 @@ export async function getServerSideProps() {
 }
 
 export default function signup({ data }) {
+  console.log(data);
   return (
     <>
       <SignupFirst

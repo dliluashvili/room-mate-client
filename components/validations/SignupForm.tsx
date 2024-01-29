@@ -21,7 +21,7 @@ export function SignupForm() {
         message: t("incorrectFormat"),
       }),
     mail: z.string().optional(),
-    password: z.string().min(4),
+    password: z.string().min(6, { message: t("minpass") }),
     confirmPassword: z
       .string()
       .refine((value) => value === form.getValues().password, {

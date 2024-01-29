@@ -10,10 +10,10 @@ export interface InputProps
   hasError?: boolean;
   isSuccess?: boolean;
   getCode?: boolean;
-  confirm?: boolean;
-  confirmButton?: boolean;
-  setConfirm?: (value: boolean) => void;
-  onGetCodeClick?: () => void; // Add this line
+  resend?: boolean;
+  setResend?: (value: boolean) => void;
+  resendButton?: boolean;
+  onGetCodeClick?: () => void;
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -24,14 +24,35 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       hasError,
       isSuccess,
       getCode,
-      confirm,
-      setConfirm,
-      confirmButton,
-      onGetCodeClick, // Add this
+      resend,
+      setResend,
+      resendButton,
+      onGetCodeClick,
       ...props
     },
     ref
   ) => {
+    const [isDisabled, setIsDisabled] = React.useState(false);
+    const [countdown, setCountdown] = React.useState(30);
+
+    React.useEffect(() => {
+      if (resend) {
+        setIsDisabled(true);
+        setCountdown(30);
+        const timer = setInterval(() => {
+          setCountdown((prevCountdown) => prevCountdown - 1);
+        }, 1000);
+        const timeout = setTimeout(() => {
+          setIsDisabled(false);
+          clearInterval(timer);
+        }, 30000);
+        return () => {
+          clearTimeout(timeout);
+          clearInterval(timer);
+        };
+      }
+    }, [resend]);
+
     return (
       <div className="relative flex items-center ">
         <input
@@ -62,7 +83,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
           <div className="absolute right-4">
             <Button
               onClick={() => {
-                setConfirm(true);
+                setResend(true);
                 if (onGetCodeClick) {
                   onGetCodeClick();
                 }
@@ -72,14 +93,29 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
             </Button>
           </div>
         )}
-        {confirmButton && (
+        {resendButton && (
           <div className="absolute right-4">
             <Button
+              disabled={isDisabled}
               onClick={() => {
-                setConfirm(true);
+                setResend(true);
+                setIsDisabled(true);
+                setCountdown(30);
+                const timer = setInterval(() => {
+                  setCountdown((prevCountdown) => prevCountdown - 1);
+                }, 1000);
+                const timeout = setTimeout(() => {
+                  setIsDisabled(false);
+                  clearInterval(timer);
+                }, 30000);
+              }}
+              style={{
+                background: `linear-gradient(90deg, #19A463 ${
+                  ((30 - countdown) * 100) / 30
+                }%, #70a38b ${((30 - countdown) * 100) / 30}%`,
               }}
             >
-              Confrim
+              Resend
             </Button>
           </div>
         )}
