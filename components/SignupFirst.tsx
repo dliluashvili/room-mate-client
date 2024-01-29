@@ -28,24 +28,16 @@ export default function SignupFirst({ countries, gender }) {
   const form = SignupForm();
   const router = useRouter();
   const [clicked, setClicked] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [resend, setResend] = useState(false);
   const handleSubmit = (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
   };
 
   const getCodeHandler = async () => {
-    await form.handleSubmit(async (data) => {
+    await form.handleSubmit(async () => {
       if (!form.formState.isValid) {
         setClicked(true);
-      }
-    })();
-  };
-
-  const submitHandler = async () => {
-    await form.handleSubmit(async (data) => {
-      if (!form.formState.isValid) {
-        console.log("congrats");
       }
     })();
   };
@@ -53,10 +45,10 @@ export default function SignupFirst({ countries, gender }) {
 
   return (
     <>
-      <main className="flex flex-col p-20 items-center   ">
+      <main className="flex flex-col p-20 items-center">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="grid  lg:grid-cols-2  gap-x-8 gap-y-8 mb-3 items-start justify-center  ">
+            <div className="grid lg:grid-cols-2  gap-x-2 gap-y-2 mb-3 items-start justify-center  ">
               <FormField
                 control={form.control}
                 name="name"
@@ -116,7 +108,7 @@ export default function SignupFirst({ countries, gender }) {
                           <SelectValue placeholder={t("country")} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent >
                         {countries.map((item) => {
                           const translation = item.translations.find(
                             (t) =>
@@ -267,6 +259,7 @@ export default function SignupFirst({ countries, gender }) {
                     <FormLabel>{t("Phonenumber")}</FormLabel>
                     <FormControl>
                       <PhoneInput
+                        {...field}
                         labels={labels}
                         inputComponent={BaseInput}
                         defaultCountry="GE"
@@ -276,27 +269,22 @@ export default function SignupFirst({ countries, gender }) {
                         onChange={(phone) => {
                           form.setValue("phone", phone);
                         }}
-                        hasError={!!form.formState.touchedFields.phone}
                       />
                     </FormControl>
-                    {form.formState.errors.phone && (
-                      <FormMessage>
-                        {form.formState.errors.phone.message}
-                      </FormMessage>
-                    )}
+                    <FormMessage />
                   </FormItem>
                 )}
               />
               <div>
                 <label className="mb-2 text-sm">შეიყვანე კოდი</label>
                 <BaseInput
-                  confirm={confirm}
-                  setConfirm={setConfirm}
+                  resend={resend}
+                  setResend={setResend}
                   type="number"
                   placeholder="შეიყვანე კოდი"
                   disabled={!clicked}
                   getCode={!clicked}
-                  confirmButton={clicked}
+                  resendButton={clicked}
                   onGetCodeClick={getCodeHandler}
                 />
                 <FormMessage></FormMessage>
@@ -307,7 +295,6 @@ export default function SignupFirst({ countries, gender }) {
               variant="default"
               size="default"
               type="submit"
-              onClick={submitHandler}
             >
               {t("next")}
             </Button>
