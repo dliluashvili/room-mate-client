@@ -36,9 +36,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const [isDisabled, setIsDisabled] = React.useState(false);
     const [countdown, setCountdown] = React.useState(30);
-    if (formState) {
-      console.log(formState.isValid);
-    }
+
     React.useEffect(() => {
       if (resend) {
         setIsDisabled(true);
