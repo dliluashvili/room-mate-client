@@ -22,29 +22,50 @@ import PhoneInput from "react-phone-number-input";
 import { SignupForm } from "./validations/SignupForm";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function SignupFirst({ countries, gender }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
   const router = useRouter();
+
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
-  const handleSubmit = (data: any) => {
+
+  const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
-    if (!form.formState.isValid) {
-      console.log("doneee");
-    }
+    // const checkResponse = await axios.post(
+    //   "https://api.roommategeorgia.ge/sms-api/check",
+    //   {
+    //     phone: "555135856",
+    //     code: 71856,
+    //   }
+    // );
+    // if (checkResponse.data) {
+    //   router.push("/");
+    // } else {
+    //   alert("STOP, Incorrect");
+    // }
   };
 
   const getCodeHandler = async () => {
-    await form.handleSubmit(async () => {
+    await form.handleSubmit(async (data) => {
       if (form.formState.errors) {
         setClicked(true);
         setResend(true);
+        // const response = await axios.post(
+        //   "https://api.roommategeorgia.ge/sms-api/send",
+
+        //   {
+        //     phone: "555135856",
+        //   }
+        // );
+        // console.log(response);
       }
     })();
   };
+
   const labels = router.locale === "ka" ? ge.ge : undefined;
 
   return (
