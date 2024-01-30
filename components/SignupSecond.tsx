@@ -33,20 +33,24 @@ import { format } from "date-fns/format";
 
 export default function SignupSecond({ questions }) {
   const router = useRouter();
+  console.log("heyyy", questions);
   const inputFormSchema = z.object(
     questions.reduce((acc, item) => {
-      acc[item.id] = z.string().min(1);
+      acc[item.id] = item.ui_field_info.required
+        ? z.string().min(1, { message: "Field is required" })
+        : z.string().optional(); // Use optional for non-required fields
       return acc;
     }, {})
   );
 
   const selectFormSchema = z.object(
     questions.reduce((acc, item) => {
-      acc[`${item.id}_select`] = z.string().min(1);
+      acc[`${item.id}_select`] = item.ui_field_info.required
+        ? z.string().min(1, { message: "Field is required" })
+        : z.string().optional();
       return acc;
     }, {})
   );
-
   // Combine the two schemas
   const formSchema = inputFormSchema.and(selectFormSchema);
 
