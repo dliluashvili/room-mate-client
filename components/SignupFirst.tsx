@@ -32,12 +32,16 @@ export default function SignupFirst({ countries, gender }) {
   const handleSubmit = (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
+    if (!form.formState.isValid) {
+      console.log("doneee");
+    }
   };
 
   const getCodeHandler = async () => {
     await form.handleSubmit(async () => {
-      if (!form.formState.isValid) {
+      if (form.formState.errors) {
         setClicked(true);
+        setResend(true);
       }
     })();
   };
@@ -108,7 +112,7 @@ export default function SignupFirst({ countries, gender }) {
                           <SelectValue placeholder={t("country")} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent >
+                      <SelectContent>
                         {countries.map((item) => {
                           const translation = item.translations.find(
                             (t) =>
@@ -286,6 +290,7 @@ export default function SignupFirst({ countries, gender }) {
                   getCode={!clicked}
                   resendButton={clicked}
                   onGetCodeClick={getCodeHandler}
+                  formState={form.formState.errors.name}
                 />
                 <FormMessage></FormMessage>
               </div>

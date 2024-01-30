@@ -14,6 +14,7 @@ export interface InputProps
   setResend?: (value: boolean) => void;
   resendButton?: boolean;
   onGetCodeClick?: () => void;
+  formState?: any;
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -28,13 +29,16 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       setResend,
       resendButton,
       onGetCodeClick,
+      formState,
       ...props
     },
     ref
   ) => {
     const [isDisabled, setIsDisabled] = React.useState(false);
     const [countdown, setCountdown] = React.useState(30);
-
+    if (formState) {
+      console.log(formState.isValid);
+    }
     React.useEffect(() => {
       if (resend) {
         setIsDisabled(true);
@@ -83,7 +87,6 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
           <div className="absolute right-4">
             <Button
               onClick={() => {
-                setResend(true);
                 if (onGetCodeClick) {
                   onGetCodeClick();
                 }
