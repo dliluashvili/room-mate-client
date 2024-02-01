@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-export default function SignupFirst({ countries, gender }) {
+export default function SignupFirst({ countries, gender, setStep }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
   const router = useRouter();
@@ -35,6 +35,8 @@ export default function SignupFirst({ countries, gender }) {
   const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
+    setStep(2);
+    console.log(data);
     // const checkResponse = await axios.post(
     //   "https://api.roommategeorgia.ge/sms-api/check",
     //   {
@@ -70,7 +72,7 @@ export default function SignupFirst({ countries, gender }) {
 
   return (
     <>
-      <main className="flex flex-col p-20 items-center">
+      <main className="flex flex-col p-2 items-center">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className="grid lg:grid-cols-2  gap-x-2 gap-y-2 mb-3 items-start justify-center  ">
@@ -134,12 +136,13 @@ export default function SignupFirst({ countries, gender }) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries.map((item) => {
+                        {countries?.map((item) => {
                           const translation = item.translations.find(
                             (t) =>
                               t.lang.toLowerCase() ===
                               router.locale.toLowerCase()
                           );
+
                           if (translation) {
                             return (
                               <SelectItem
@@ -174,7 +177,7 @@ export default function SignupFirst({ countries, gender }) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender.map((item) => {
+                        {gender?.map((item) => {
                           const translation = item.translations.find(
                             (t) =>
                               t.lang.toLowerCase() ===
@@ -182,7 +185,7 @@ export default function SignupFirst({ countries, gender }) {
                           );
                           if (translation) {
                             return (
-                              <SelectItem key={item.id} value={translation.sex}>
+                              <SelectItem key={item.id} value={translation.id}>
                                 {translation.sex}
                               </SelectItem>
                             );
@@ -311,9 +314,8 @@ export default function SignupFirst({ countries, gender }) {
                   getCode={!clicked}
                   resendButton={clicked}
                   onGetCodeClick={getCodeHandler}
-                  formState={form.formState.errors.name}
                 />
-                <FormMessage></FormMessage>
+                <FormMessage />
               </div>
             </div>
             <Button
