@@ -11,6 +11,23 @@ import SignupSecond from "./SignupSecond";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({});
+  const updateFormData = (newData) => {
+    setFormData((prevData) => ({ ...prevData, ...newData }));
+  };
+
+  // const updateFormData = (newData) => {
+  //   return new Promise((resolve) => {
+  //     setFormData((prevData) => {
+  //       resolve();
+  //       return { ...prevData, ...newData };
+  //     });
+  //   });
+  // };
+
+  const submitForm = () => {
+    alert(Object.values(formData).map((item) => item));
+  };
 
   return (
     <>
@@ -27,12 +44,17 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   countries={countries}
                   gender={gender}
                   setStep={setStep}
+                  updateFormData={updateFormData}
                 />
               </div>
             )}
             {step === 2 && (
               <div>
-                <SignupSecond questions={questions} />
+                <SignupSecond
+                  questions={questions}
+                  updateFormData={updateFormData}
+                  submitForm={submitForm}
+                />
                 <button onClick={() => setStep(1)}>Back</button>
               </div>
             )}

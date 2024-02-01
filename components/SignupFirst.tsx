@@ -24,7 +24,12 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-export default function SignupFirst({ countries, gender, setStep }) {
+export default function SignupFirst({
+  countries,
+  gender,
+  setStep,
+  updateFormData,
+}) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
   const router = useRouter();
@@ -36,7 +41,8 @@ export default function SignupFirst({ countries, gender, setStep }) {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
     setStep(2);
-    console.log(data);
+
+    updateFormData(data);
     // const checkResponse = await axios.post(
     //   "https://api.roommategeorgia.ge/sms-api/check",
     //   {

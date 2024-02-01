@@ -30,17 +30,34 @@ import { cn } from "../@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns/format";
 
-export default function SignupSecond({ questions }) {
+export default function SignupSecond({
+  questions,
+  updateFormData,
+  submitForm,
+}) {
   const router = useRouter();
+
+  // Create a mapping of item IDs to valid variable names:
+
+  // Build the Zod schema using the valid names:
+  // const formSchema = z.object(
+  //   questions.reduce((acc, item) => {
+  //     acc[item.id] = z.string().optional();
+
+  //     return acc;
+  //   }, {})
+  // );
+
   const formSchema = z.object(
     questions.reduce((acc, item) => {
       acc[item.id] = item.uiFieldInfo.required
-        ? z.string().min(1, { message: "Field is required" })
+        ? z.string().min(1, { message: "error" })
         : z.string().optional();
       return acc;
     }, {})
   );
 
+  // Use the valid names in the defaultValues and form:
   const defaultValues = {
     ...questions.reduce((acc, item) => {
       acc[item.id] = "";
@@ -53,10 +70,8 @@ export default function SignupSecond({ questions }) {
     defaultValues: defaultValues,
   });
 
-  const handleSubmit = (data) => {
-    console.log(form.formState.errors);
-    console.log("123");
-    console.log(data);
+  const handleSubmit = async (data) => {
+    updateFormData(data);
   };
 
   return (
@@ -75,12 +90,13 @@ export default function SignupSecond({ questions }) {
                     {item.uiFieldInfo.input_type.type === "text" && (
                       <FormField
                         control={form.control}
-                        name={item.id}
+                        name={item.id} //
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>{translation.title}</FormLabel>
                             <FormControl>
                               <BaseInput
+                                onChange={field.onChange}
                                 type="text"
                                 {...field}
                                 placeholder={translation.title}
@@ -142,7 +158,7 @@ export default function SignupSecond({ questions }) {
                     {item.uiFieldInfo.input_type.type === "button" && (
                       <FormField
                         control={form.control}
-                        name="dob"
+                        name={item.id}
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel>
@@ -175,7 +191,10 @@ export default function SignupSecond({ questions }) {
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
-                                  onSelect={field.onChange}
+                                  onSelect={(date) => {
+                                    const dateString = date.toISOString(); // convert date to string
+                                    field.onChange(dateString);
+                                  }}
                                   disabled={(date) =>
                                     date > new Date() ||
                                     date < new Date("1900-01-01")
@@ -198,6 +217,11 @@ export default function SignupSecond({ questions }) {
               variant="default"
               size="default"
               type="submit"
+              onClick={() => {
+                if (form.formState.isValid) {
+                  submitForm();
+                }
+              }}
             >
               Submit
             </Button>
