@@ -12,10 +12,11 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-primaryBeta p-[12px] hover:bg-hoverBeta focus:bg-pressedBeta text-whiteTextBeta text-xs lg:text-base",
+        calendar:
+          "bg-[#a699a0] p-[12px] hover:bg-hoverBeta focus:bg-pressedBeta text-whiteTextBeta text-xs lg:text-base",
       },
       size: {
         default: "w-full h-10 ",
-        
       },
     },
     defaultVariants: {

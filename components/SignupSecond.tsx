@@ -12,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,36 +30,37 @@ import { cn } from "../@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns/format";
 
-export default function SignupSecond({ questions }) {
+export default function SignupSecond({
+  questions,
+  updateFormData,
+  submitForm,
+}) {
   const router = useRouter();
-  console.log("heyyy", questions);
-  const inputFormSchema = z.object(
-    questions.reduce((acc, item) => {
-      acc[item.id] = item.ui_field_info.required
-        ? z.string().min(1, { message: "Field is required" })
-        : z.string().optional(); // Use optional for non-required fields
-      return acc;
-    }, {})
-  );
 
-  const selectFormSchema = z.object(
+  // Create a mapping of item IDs to valid variable names:
+
+  // Build the Zod schema using the valid names:
+  // const formSchema = z.object(
+  //   questions.reduce((acc, item) => {
+  //     acc[item.id] = z.string().optional();
+
+  //     return acc;
+  //   }, {})
+  // );
+
+  const formSchema = z.object(
     questions.reduce((acc, item) => {
-      acc[`${item.id}_select`] = item.ui_field_info.required
-        ? z.string().min(1, { message: "Field is required" })
+      acc[item.id] = item.uiFieldInfo.required
+        ? z.string().min(1, { message: "error" })
         : z.string().optional();
       return acc;
     }, {})
   );
-  // Combine the two schemas
-  const formSchema = inputFormSchema.and(selectFormSchema);
 
+  // Use the valid names in the defaultValues and form:
   const defaultValues = {
     ...questions.reduce((acc, item) => {
       acc[item.id] = "";
-      return acc;
-    }, {}),
-    ...questions.reduce((acc, item) => {
-      acc[`${item.id}_select`] = "";
       return acc;
     }, {}),
   };
@@ -70,13 +70,13 @@ export default function SignupSecond({ questions }) {
     defaultValues: defaultValues,
   });
 
-  const handleSubmit = (data) => {
-    console.log("ggg", data);
+  const handleSubmit = async (data) => {
+    updateFormData(data);
   };
 
   return (
     <>
-      <main className="flex flex-col  p-24 items-center">
+      <main className="flex flex-col  p-2 items-center">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             {questions.map((item) => {
@@ -86,19 +86,20 @@ export default function SignupSecond({ questions }) {
 
               return (
                 <>
-                  <div className="mt-4">
-                    {item.ui_field_info.input_type.type === "text" && (
+                  <div className="mt-4 mb-4">
+                    {item.uiFieldInfo.input_type.type === "text" && (
                       <FormField
                         control={form.control}
-                        name={item.id}
+                        name={item.id} //
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>{translation.title}</FormLabel>
                             <FormControl>
                               <BaseInput
+                                onChange={field.onChange}
                                 type="text"
-                                placeholder={translation.title}
                                 {...field}
+                                placeholder={translation.title}
                                 hasError={!!form.formState.errors[item.id]}
                                 isSuccess={
                                   !form.formState.errors[item.id] &&
@@ -113,10 +114,10 @@ export default function SignupSecond({ questions }) {
                       />
                     )}
                   </div>
-                  {item.ui_field_info.input_type.type === "select" && (
+                  {item.uiFieldInfo.input_type.type === "select" && (
                     <FormField
                       control={form.control}
-                      name={`${item.id}_select`} // Append '_select' to the name property
+                      name={item.id} // Append '_select' to the name property
                       render={({ field }) => (
                         <FormItem>
                           <Select
@@ -154,18 +155,21 @@ export default function SignupSecond({ questions }) {
                     />
                   )}
                   <>
-                    {item.ui_field_info.input_type.sub_type === "calendar" && (
+                    {item.uiFieldInfo.input_type.type === "button" && (
                       <FormField
                         control={form.control}
-                        name="dob"
+                        name={item.id}
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
-                            <FormLabel>Date of birth</FormLabel>
+                            <FormLabel>
+                              მონიშნე თარიღი, როცა გინდა ოთახის მეზობლის მოძიება
+                              ან ბინაში გადასვლა?
+                            </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
                                   <Button
-                                    variant={"default"}
+                                    variant="calendar"
                                     className={cn(
                                       "w-[240px] pl-3 text-left font-normal",
                                       !field.value && "text-muted-foreground"
@@ -174,7 +178,7 @@ export default function SignupSecond({ questions }) {
                                     {field.value ? (
                                       format(field.value, "PPP")
                                     ) : (
-                                      <span>Pick a date</span>
+                                      <span>Select date</span>
                                     )}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
@@ -187,7 +191,10 @@ export default function SignupSecond({ questions }) {
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
-                                  onSelect={field.onChange}
+                                  onSelect={(date) => {
+                                    const dateString = date.toISOString(); // convert date to string
+                                    field.onChange(dateString);
+                                  }}
                                   disabled={(date) =>
                                     date > new Date() ||
                                     date < new Date("1900-01-01")
@@ -196,9 +203,6 @@ export default function SignupSecond({ questions }) {
                                 />
                               </PopoverContent>
                             </Popover>
-                            <FormDescription>
-                              Your date of birth is used to calculate your age.
-                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -213,9 +217,13 @@ export default function SignupSecond({ questions }) {
               variant="default"
               size="default"
               type="submit"
-              onClick={handleSubmit}
+              onClick={() => {
+                if (form.formState.isValid) {
+                  submitForm();
+                }
+              }}
             >
-              clickkkkk
+              Submit
             </Button>
           </form>
         </Form>

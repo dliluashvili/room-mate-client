@@ -1,14 +1,13 @@
 import React from "react";
 import axios from "axios";
-import SignupFirst from "../components/SignupFirst";
-import SignupSecond from "../components/SignupSecond";
+import MultiStepCard from "../components/MultiStepCard";
 
 export async function getServerSideProps() {
   const query = `
   query ExampleQuery {
     getQuestions {
       id
-      ui_field_info
+      uiFieldInfo
       translations {
         id
         lang
@@ -54,14 +53,14 @@ export async function getServerSideProps() {
 }
 
 export default function signup({ data }) {
-  console.log(data);
+ 
   return (
     <>
-      <SignupFirst
+      <MultiStepCard
         countries={data.data.findAllCountry}
         gender={data.data.findAllGender}
+        questions={data.data.getQuestions}
       />
-      <SignupSecond questions={data.data.getQuestions} />
     </>
   );
 }

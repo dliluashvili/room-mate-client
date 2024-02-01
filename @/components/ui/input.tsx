@@ -14,7 +14,7 @@ export interface InputProps
   setResend?: (value: boolean) => void;
   resendButton?: boolean;
   onGetCodeClick?: () => void;
-  formState?: any;
+
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -29,7 +29,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       setResend,
       resendButton,
       onGetCodeClick,
-      formState,
+   
       ...props
     },
     ref
