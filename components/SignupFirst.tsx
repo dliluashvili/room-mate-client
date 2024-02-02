@@ -33,15 +33,18 @@ export default function SignupFirst({
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
   const router = useRouter();
-
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
   const [code, setCode] = useState(null);
+  const [sms, setSms] = useState(true);
 
   const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
+    data.gender = Number(data.gender);
+    data.country = Number(data.country);
     updateFormData(data);
+    console.log(data);
     try {
       const checkResponse = await axios.post(
         "https://test-api.roommategeorgia.ge/graphql",
@@ -60,13 +63,10 @@ export default function SignupFirst({
           },
         }
       );
-      console.log(checkResponse);
       if (checkResponse.data.data.checkCode === "VALID") {
         setStep(2);
-      } else if (checkResponse.data.data.checkCode === "INVALID") {
-        alert(checkResponse.data.data.checkCode);
       } else {
-        alert(checkResponse.data.data.checkCode);
+        setSms(false);
       }
     } catch (error) {
       console.error(error);
@@ -177,12 +177,13 @@ export default function SignupFirst({
                               t.lang.toLowerCase() ===
                               router.locale.toLowerCase()
                           );
+                          console.log(translation);
 
                           if (translation) {
                             return (
                               <SelectItem
                                 key={`${item.id}-${translation.name}`} // Unique key // must check key errors/warnings
-                                value={translation.name}
+                                value={translation.id}
                               >
                                 {translation.name}
                               </SelectItem>
@@ -351,7 +352,9 @@ export default function SignupFirst({
                   resendButton={clicked}
                   onGetCodeClick={getCodeHandler}
                 />
-                <FormMessage />
+                <FormMessage style={{ marginTop: "8px" }}>
+                  {sms ? "" : "არასწორი კოდი"}
+                </FormMessage>
               </div>
             </div>
             <Button

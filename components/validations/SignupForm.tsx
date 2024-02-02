@@ -12,7 +12,7 @@ export function SignupForm() {
     name: z.string().min(2, { message: t("nameError") }),
     surname: z.string().min(2, { message: t("surnameError") }),
     gender: z.string().min(1, { message: t("genderError") }),
-    country: z.string().min(2, { message: t("selectCountry") }),
+    country: z.string().min(1, { message: t("selectCountry") }),
     age: z.string().min(1, { message: t("selectAge") }),
     phone: z
       .string()
