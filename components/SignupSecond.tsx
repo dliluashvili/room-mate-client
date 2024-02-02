@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "../@/components/ui/popover";
 import { cn } from "../@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { AwardIcon, CalendarIcon } from "lucide-react";
 import { format } from "date-fns/format";
 
 export default function SignupSecond({
@@ -217,7 +217,7 @@ export default function SignupSecond({
               variant="default"
               size="default"
               type="submit"
-              onClick={() => {
+              onClick={async () => {
                 if (form.formState.isValid) {
                   submitForm();
                 }

@@ -36,44 +36,73 @@ export default function SignupFirst({
 
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
+  const [code, setCode] = useState(null);
 
   const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
-    setStep(2);
-
     updateFormData(data);
-    // const checkResponse = await axios.post(
-    //   "https://api.roommategeorgia.ge/sms-api/check",
-    //   {
-    //     phone: "555135856",
-    //     code: 71856,
-    //   }
-    // );
-    // if (checkResponse.data) {
-    //   router.push("/");
-    // } else {
-    //   alert("STOP, Incorrect");
-    // }
+    try {
+      const checkResponse = await axios.post(
+        "https://test-api.roommategeorgia.ge/graphql",
+        {
+          query: `
+          mutation Mutation($input: CheckSmsCodeDto!) {
+            checkCode(input: $input)
+          }
+          
+          `,
+          variables: {
+            input: {
+              phone: form.watch("phone"),
+              code: code,
+            },
+          },
+        }
+      );
+      console.log(checkResponse);
+      if (checkResponse.data.data.checkCode === "VALID") {
+        setStep(2);
+      } else if (checkResponse.data.data.checkCode === "INVALID") {
+        alert(checkResponse.data.data.checkCode);
+      } else {
+        alert(checkResponse.data.data.checkCode);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  console.log(form.watch("phone"));
 
   const getCodeHandler = async () => {
     await form.handleSubmit(async (data) => {
       if (form.formState.errors) {
         setClicked(true);
         setResend(true);
-        // const response = await axios.post(
-        //   "https://api.roommategeorgia.ge/sms-api/send",
-
-        //   {
-        //     phone: "555135856",
-        //   }
-        // );
-        // console.log(response);
+        try {
+          const response = await axios.post(
+            "https://test-api.roommategeorgia.ge/graphql",
+            {
+              query: `
+                mutation SendCode($input: SendSmsCodeDto!) {
+                  sendCode(input: $input)
+                }
+              `,
+              variables: {
+                input: {
+                  phone: form.watch("phone"),
+                },
+              },
+            }
+          );
+          console.log(response);
+        } catch (error) {
+          console.error("GraphQL error:", error.response.data);
+        }
       }
     })();
   };
-
   const labels = router.locale === "ka" ? ge.ge : undefined;
 
   return (
@@ -315,6 +344,7 @@ export default function SignupFirst({
                   resend={resend}
                   setResend={setResend}
                   type="number"
+                  onChange={(e) => setCode(Number(e.target.value))}
                   placeholder="შეიყვანე კოდი"
                   disabled={!clicked}
                   getCode={!clicked}

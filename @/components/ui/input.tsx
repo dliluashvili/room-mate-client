@@ -14,7 +14,6 @@ export interface InputProps
   setResend?: (value: boolean) => void;
   resendButton?: boolean;
   onGetCodeClick?: () => void;
-
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -29,7 +28,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       setResend,
       resendButton,
       onGetCodeClick,
-   
+
       ...props
     },
     ref
@@ -102,6 +101,9 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
                 setResend(true);
                 setIsDisabled(true);
                 setCountdown(30);
+                if (onGetCodeClick) {
+                  onGetCodeClick();
+                }
                 const timer = setInterval(() => {
                   setCountdown((prevCountdown) => prevCountdown - 1);
                 }, 1000);
