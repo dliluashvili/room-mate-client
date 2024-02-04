@@ -23,6 +23,17 @@ import { SignupForm } from "./validations/SignupForm";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+interface Translation {
+  lang: string;
+  sex: string;
+  name: string;
+  id: string;
+}
+
+interface ItemType {
+  translations: Translation[];
+  id: string;
+}
 
 export default function SignupFirst({
   countries,
@@ -37,13 +48,12 @@ export default function SignupFirst({
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
   const [code, setCode] = useState(null);
-  const [sms, setSms] = useState(true);
-
+  const [sms, setSms] = useState("");
   const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
-    data.gender = Number(data.gender);
-    data.country = Number(data.country);
+    data.genderId = Number(data.genderId);
+    data.countryId = Number(data.countryId);
     updateFormData(data);
     try {
       const response = await axios.post(
@@ -65,12 +75,12 @@ export default function SignupFirst({
       );
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
-      } else {
-        setSms(false);
+      } else if (response.data.data.checkCode === "NOT_FOUND") {
+        setSms(t("incorrectCode"));
       }
     } catch (error) {
       console.error(error);
-      setSms(false);
+      setSms(t("fillCode"));
     }
   };
 
@@ -79,31 +89,35 @@ export default function SignupFirst({
       setClicked(true);
       setResend(true);
       try {
-        await axios.post("https://test-api.roommategeorgia.ge/graphql", {
-          query: `
+        const response = await axios.post(
+          "https://test-api.roommategeorgia.ge/graphql",
+          {
+            query: `
                 mutation SendCode($input: SendSmsCodeDto!) {
                   sendCode(input: $input)
                 }
               `,
-          variables: {
-            input: {
-              phone: form.watch("phone"),
+            variables: {
+              input: {
+                phone: form.watch("phone"),
+              },
             },
-          },
-        });
+          }
+        );
+        if (response.data.data.sendCode === "ALREADY_SENT") {
+          setSms("Already Sent");
+        }
+        console.log(response);
       } catch (error) {
         console.error("GraphQL error:", error.response.data);
       }
     })();
   };
 
-  const translateGender = (item, locale) => {
-    const translation = item.translations.find(
-      (t) => t.lang.toLowerCase() === locale.toLowerCase()
-    );
-
-    return translation ? translation.sex : "";
-  };
+  function translateGender(item: ItemType, locale: string): string | undefined {
+    const translation = item.translations.find((t) => t.lang === locale);
+    return translation?.sex;
+  }
 
   return (
     <>
@@ -162,10 +176,8 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
                     <Select
-                      onValueChange={(value) =>
-                        form.setValue("countryId", value)
-                      }
-                      defaultValue={form.getValues("countryId")}
+                      onValueChange={(value) => field.onChange(value)}
+                      defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -173,13 +185,10 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries?.map((item) => {
+                        {countries?.map((item: ItemType) => {
                           const translation = item.translations.find(
-                            (t) =>
-                              t.lang.toLowerCase() ===
-                              router.locale.toLowerCase()
+                            (t) => t.lang === router.locale
                           );
-
                           if (translation) {
                             return (
                               <SelectItem
@@ -193,7 +202,6 @@ export default function SignupFirst({
                               </SelectItem>
                             );
                           }
-
                           return null;
                         })}
                       </SelectContent>
@@ -202,7 +210,6 @@ export default function SignupFirst({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="genderId"
@@ -219,7 +226,7 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender?.map((item) => (
+                        {gender?.map((item: ItemType) => (
                           <SelectItem
                             key={`${item.id}-${translateGender(
                               item,
@@ -341,20 +348,18 @@ export default function SignupFirst({
                 )}
               />
               <div>
-                <label className="mb-2 text-sm">შეიყვანე კოდი</label>
+                <label className="mb-2 text-sm">{t("fillCode")}</label>
                 <BaseInput
                   resend={resend}
                   setResend={setResend}
                   type="number"
                   onChange={(e) => setCode(Number(e.target.value))}
-                  placeholder="შეიყვანე კოდი"
+                  placeholder={t("fillCode")}
                   getCode={!clicked}
                   resendButton={clicked}
                   onGetCodeClick={getCodeHandler}
                 />
-                <FormMessage style={{ marginTop: "8px" }}>
-                  {sms ? "" : "არასწორი კოდი"}
-                </FormMessage>
+                <FormMessage style={{ marginTop: "8px" }}>{sms}</FormMessage>
               </div>
             </div>
             <Button
