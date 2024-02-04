@@ -30,9 +30,10 @@ export default function SignupFirst({
   setStep,
   updateFormData,
 }) {
-  let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupForm();
   const router = useRouter();
+  let { t } = useTranslation("common") as { t: (key: string) => string };
+  const labels = router.locale === "ka" ? ge.ge : undefined;
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
   const [code, setCode] = useState(null);
@@ -44,9 +45,8 @@ export default function SignupFirst({
     data.gender = Number(data.gender);
     data.country = Number(data.country);
     updateFormData(data);
-    console.log(data);
     try {
-      const checkResponse = await axios.post(
+      const response = await axios.post(
         "https://test-api.roommategeorgia.ge/graphql",
         {
           query: `
@@ -63,57 +63,57 @@ export default function SignupFirst({
           },
         }
       );
-      if (checkResponse.data.data.checkCode === "VALID") {
+      if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else {
         setSms(false);
       }
     } catch (error) {
       console.error(error);
+      setSms(false);
     }
   };
 
-  console.log(form.watch("phone"));
-
   const getCodeHandler = async () => {
-    await form.handleSubmit(async (data) => {
-      if (form.formState.errors) {
-        setClicked(true);
-        setResend(true);
-        try {
-          const response = await axios.post(
-            "https://test-api.roommategeorgia.ge/graphql",
-            {
-              query: `
+    await form.handleSubmit(async () => {
+      setClicked(true);
+      setResend(true);
+      try {
+        await axios.post("https://test-api.roommategeorgia.ge/graphql", {
+          query: `
                 mutation SendCode($input: SendSmsCodeDto!) {
                   sendCode(input: $input)
                 }
               `,
-              variables: {
-                input: {
-                  phone: form.watch("phone"),
-                },
-              },
-            }
-          );
-          console.log(response);
-        } catch (error) {
-          console.error("GraphQL error:", error.response.data);
-        }
+          variables: {
+            input: {
+              phone: form.watch("phone"),
+            },
+          },
+        });
+      } catch (error) {
+        console.error("GraphQL error:", error.response.data);
       }
     })();
   };
-  const labels = router.locale === "ka" ? ge.ge : undefined;
+
+  const translateGender = (item, locale) => {
+    const translation = item.translations.find(
+      (t) => t.lang.toLowerCase() === locale.toLowerCase()
+    );
+
+    return translation ? translation.sex : "";
+  };
 
   return (
     <>
-      <main className="flex flex-col p-2 items-center">
+      <main className="flex flex-col p-2 items-center ">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="grid lg:grid-cols-2  gap-x-2 gap-y-2 mb-3 items-start justify-center  ">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className=" w-full">
+            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 mb-3 items-start lg:justify-center">
               <FormField
                 control={form.control}
-                name="name"
+                name="firstname"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("name")}</FormLabel>
@@ -135,7 +135,7 @@ export default function SignupFirst({
               />
               <FormField
                 control={form.control}
-                name="surname"
+                name="lastname"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("surname")}</FormLabel>
@@ -157,13 +157,15 @@ export default function SignupFirst({
               />
               <FormField
                 control={form.control}
-                name="country"
+                name="countryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      defaultValue={field.value}
+                      onValueChange={(value) =>
+                        form.setValue("countryId", value)
+                      }
+                      defaultValue={form.getValues("countryId")}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -177,18 +179,21 @@ export default function SignupFirst({
                               t.lang.toLowerCase() ===
                               router.locale.toLowerCase()
                           );
-                          console.log(translation);
 
                           if (translation) {
                             return (
                               <SelectItem
-                                key={`${item.id}-${translation.name}`} // Unique key // must check key errors/warnings
+                                key={`${item.id}-${translation.name}`}
                                 value={translation.id}
+                                onClick={() =>
+                                  form.setValue("countryId", translation.id)
+                                }
                               >
                                 {translation.name}
                               </SelectItem>
                             );
                           }
+
                           return null;
                         })}
                       </SelectContent>
@@ -197,9 +202,10 @@ export default function SignupFirst({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name="gender"
+                name="genderId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("gender")}</FormLabel>
@@ -213,22 +219,17 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender?.map((item) => {
-                          const translation = item.translations.find(
-                            (t) =>
-                              t.lang.toLowerCase() ===
-                              router.locale.toLowerCase()
-                          );
-                          if (translation) {
-                            return (
-                              <SelectItem key={item.id} value={translation.id}>
-                                {translation.sex}
-                              </SelectItem>
-                            );
-                          }
-
-                          return null;
-                        })}
+                        {gender?.map((item) => (
+                          <SelectItem
+                            key={`${item.id}-${translateGender(
+                              item,
+                              router.locale
+                            )}`}
+                            value={item.id}
+                          >
+                            {translateGender(item, router.locale)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -260,7 +261,7 @@ export default function SignupFirst({
               />
               <FormField
                 control={form.control}
-                name="mail"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("mail")}</FormLabel>
@@ -347,7 +348,6 @@ export default function SignupFirst({
                   type="number"
                   onChange={(e) => setCode(Number(e.target.value))}
                   placeholder="შეიყვანე კოდი"
-                  disabled={!clicked}
                   getCode={!clicked}
                   resendButton={clicked}
                   onGetCodeClick={getCodeHandler}

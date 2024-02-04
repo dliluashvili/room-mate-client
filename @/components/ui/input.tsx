@@ -55,7 +55,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
     }, [resend]);
 
     return (
-      <div className="relative flex items-center ">
+      <div className="relative flex items-center w-full">
         <input
           type={type}
           className={cn(

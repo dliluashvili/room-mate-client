@@ -9,10 +9,10 @@ export function SignupForm() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
 
   const formSchema = z.object({
-    name: z.string().min(2, { message: t("nameError") }),
-    surname: z.string().min(2, { message: t("surnameError") }),
-    gender: z.string().min(1, { message: t("genderError") }),
-    country: z.string().min(1, { message: t("selectCountry") }),
+    firstname: z.string().min(2, { message: t("nameError") }),
+    lastname: z.string().min(2, { message: t("surnameError") }),
+    genderId: z.string().min(1, { message: t("genderError") }),
+    countryId: z.string().min(1, { message: t("selectCountry") }),
     age: z.string().min(1, { message: t("selectAge") }),
     phone: z
       .string()
@@ -20,7 +20,7 @@ export function SignupForm() {
       .refine((value) => isValidPhoneNumber(value), {
         message: t("incorrectFormat"),
       }),
-    mail: z.string().optional(),
+    email: z.string().optional(),
     password: z.string().min(6, { message: t("minpass") }),
     confirmPassword: z
       .string()
@@ -32,12 +32,12 @@ export function SignupForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      surname: "",
-      gender: "",
-      country: "",
+      firstname: "",
+      lastname: "",
+      genderId: "",
+      countryId: "",
       age: "",
-      mail: "",
+      email: "",
       phone: "",
       password: "",
       confirmPassword: "",
