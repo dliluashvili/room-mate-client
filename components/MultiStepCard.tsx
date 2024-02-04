@@ -8,6 +8,7 @@ import {
 } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
+import Header from "./Header";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -31,8 +32,8 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
   return (
     <>
-      <div className="w-full  py-10 flex justify-center items-center">
-        <Card className="bg-[#e3e3de] ">
+      <div className="w-full min-h-screen flex justify-center items-center lg:py-10 lg:px-[25%]">
+        <Card>
           <CardHeader>
             <CardTitle>Register</CardTitle>
             <CardDescription>Roommate register form</CardDescription>

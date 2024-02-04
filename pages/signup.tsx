@@ -53,7 +53,7 @@ export async function getServerSideProps() {
 }
 
 export default function signup({ data }) {
- 
+  console.log(data);
   return (
     <>
       <MultiStepCard
