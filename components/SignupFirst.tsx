@@ -47,13 +47,12 @@ export default function SignupFirst({
   const labels = router.locale === "ka" ? ge.ge : undefined;
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
-  const [code, setCode] = useState(null);
-  const [sms, setSms] = useState("");
   const handleSubmit = async (data: any) => {
     data.phone = Number(data.phone);
     data.age = Number(data.age);
     data.genderId = Number(data.genderId);
     data.countryId = Number(data.countryId);
+    data.code = Number(data.code);
     updateFormData(data);
     try {
       const response = await axios.post(
@@ -68,19 +67,20 @@ export default function SignupFirst({
           variables: {
             input: {
               phone: form.watch("phone"),
-              code: code,
+              code: parseInt(form.watch("code")),
             },
           },
         }
       );
+      console.log(response);
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "NOT_FOUND") {
-        setSms(t("incorrectCode"));
+        form.setError("code", { message: t("incorrectCode") });
       }
     } catch (error) {
       console.error(error);
-      setSms(t("fillCode"));
+      form.setError("code", { message: t("fillCode") });
     }
   };
 
@@ -105,7 +105,7 @@ export default function SignupFirst({
           }
         );
         if (response.data.data.sendCode === "ALREADY_SENT") {
-          setSms("Already Sent");
+          form.setError("code", { message: t("codeAlreadySent") });
         }
         console.log(response);
       } catch (error) {
@@ -287,6 +287,7 @@ export default function SignupFirst({
                     <FormLabel>{t("Password")}</FormLabel>
                     <FormControl>
                       <BaseInput
+                        type="password"
                         placeholder={t("Password")}
                         {...field}
                         hasError={!!form.formState.errors.password}
@@ -309,6 +310,7 @@ export default function SignupFirst({
                     <FormLabel>{t("PasswordRepeat")}</FormLabel>
                     <FormControl>
                       <BaseInput
+                        type="password"
                         placeholder={t("PasswordRepeat")}
                         {...field}
                         hasError={!!form.formState.errors.confirmPassword}
@@ -347,20 +349,28 @@ export default function SignupFirst({
                   </FormItem>
                 )}
               />
-              <div>
-                <label className="mb-2 text-sm">{t("fillCode")}</label>
-                <BaseInput
-                  resend={resend}
-                  setResend={setResend}
-                  type="number"
-                  onChange={(e) => setCode(Number(e.target.value))}
-                  placeholder={t("fillCode")}
-                  getCode={!clicked}
-                  resendButton={clicked}
-                  onGetCodeClick={getCodeHandler}
-                />
-                <FormMessage style={{ marginTop: "8px" }}>{sms}</FormMessage>
-              </div>
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fillCode")}</FormLabel>
+                    <FormControl>
+                      <BaseInput
+                        type="number"
+                        {...field}
+                        resend={resend}
+                        setResend={setResend}
+                        placeholder={t("fillCode")}
+                        getCode={!clicked}
+                        resendButton={clicked}
+                        onGetCodeClick={getCodeHandler}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <Button
               className="mt-4"
