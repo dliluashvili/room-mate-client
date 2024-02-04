@@ -28,7 +28,6 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
       setResend,
       resendButton,
       onGetCodeClick,
-
       ...props
     },
     ref

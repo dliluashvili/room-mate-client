@@ -60,7 +60,7 @@
   "passwordMatchError": "Password does not match",
   "PasswordError": "Password is required",
   "passwordChangeSuccess": "Password changed successfully",
-  "next": "next",
+  "next": "Next",
   "previous": "previous",
   "registerSussess": "Congratulations, you have successfully registered",
   "filsRequire": "This field is required",
@@ -165,5 +165,9 @@
   "age": "Age",
   "selectAge": "Please provide age",
   "mailProvide": "Please provide your email address",
-  "incorrectFormat": "Incorrect format"
+  "incorrectFormat": "Incorrect format",
+  "incorrectCode": "Incorrect Code",
+  "codeAlreadySent": "Code is sent",
+  "fillCode": "Enter code",
+  "passwordValidationError": "The password must contain one number and one symbol"
 }

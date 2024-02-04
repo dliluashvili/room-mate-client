@@ -21,7 +21,12 @@ export function SignupForm() {
         message: t("incorrectFormat"),
       }),
     email: z.string().optional(),
-    password: z.string().min(6, { message: t("minpass") }),
+    password: z
+    .string()
+    .min(6, { message: t("minpass") })
+    .refine(value => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$/.test(value), {
+      message: t("passwordValidationError"),
+    }),
     confirmPassword: z
       .string()
       .refine((value) => value === form.getValues().password, {

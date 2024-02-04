@@ -172,5 +172,9 @@
   "age": "ასაკი",
   "selectAge": "მიუთითე ასაკი",
   "mailProvide": "დაგვიტოვე შენი მეილი",
-  "incorrectFormat": "არასწორი ფორმატი"
+  "incorrectFormat": "არასწორი ფორმატი",
+  "incorrectCode": "არასწორი კოდი",
+  "codeAlreadySent": "კოდი გამოგზავნილია",
+  "fillCode": "ჩაწერე კოდი",
+  "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს"
 }
