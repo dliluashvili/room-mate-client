@@ -163,7 +163,7 @@
   "savedApartments": "შენახული ბინები",
   "mdebareoba": "აგილმდებარეობა",
   "gender": "სქესი",
-  "genderError": "ეს ველი აუცილებელია",
+  "requiredError": "ეს ველი აუცილებელია",
   "men": "კაცი",
   "women": "ქალი",
   "selectGender": "აირჩიე სქესი",

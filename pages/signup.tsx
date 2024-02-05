@@ -24,6 +24,7 @@ export async function getServerSideProps() {
       }
     }
     findAllCountry {
+      id
       translations {
         lang
         name
@@ -53,7 +54,6 @@ export async function getServerSideProps() {
 }
 
 export default function signup({ data }) {
-  console.log(data);
   return (
     <>
       <MultiStepCard

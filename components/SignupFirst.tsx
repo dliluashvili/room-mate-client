@@ -19,7 +19,7 @@ import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import { SignupForm } from "./validations/SignupForm";
+import { SignupStepOne } from "./validations/SignupStepOne";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -41,19 +41,22 @@ export default function SignupFirst({
   setStep,
   updateFormData,
 }) {
-  const form = SignupForm();
+  const form = SignupStepOne();
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const labels = router.locale === "ka" ? ge.ge : undefined;
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
+
   const handleSubmit = async (data: any) => {
-    data.phone = Number(data.phone);
-    data.age = Number(data.age);
-    data.genderId = Number(data.genderId);
-    data.countryId = Number(data.countryId);
-    data.code = Number(data.code);
-    updateFormData(data);
+    let clonedData = {
+      ...data,
+      age: Number(data.age),
+      genderId: Number(data.genderId),
+      countryId: Number(data.countryId),
+      code: Number(data.code),
+    };
+    updateFormData(clonedData);
     try {
       const response = await axios.post(
         "https://test-api.roommategeorgia.ge/graphql",
@@ -62,17 +65,16 @@ export default function SignupFirst({
           mutation Mutation($input: CheckSmsCodeDto!) {
             checkCode(input: $input)
           }
-          
           `,
           variables: {
             input: {
-              phone: form.watch("phone"),
-              code: parseInt(form.watch("code")),
+              phone: clonedData.phone,
+              code: clonedData.code,
             },
           },
         }
       );
-      console.log(response);
+      setStep(2);
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "NOT_FOUND") {
@@ -107,17 +109,27 @@ export default function SignupFirst({
         if (response.data.data.sendCode === "ALREADY_SENT") {
           form.setError("code", { message: t("codeAlreadySent") });
         }
-        console.log(response);
       } catch (error) {
-        console.error("GraphQL error:", error.response.data);
+        console.error("GraphQL error:", error);
       }
     })();
   };
 
-  function translateGender(item: ItemType, locale: string): string | undefined {
+  const translateGender = (
+    item: ItemType,
+    locale: string
+  ): string | undefined => {
     const translation = item.translations.find((t) => t.lang === locale);
     return translation?.sex;
-  }
+  };
+
+  const translateCountry = (
+    item: ItemType,
+    locale: string
+  ): string | undefined => {
+    const translation = item.translations.find((t) => t.lang === locale);
+    return translation?.name;
+  };
 
   return (
     <>
@@ -133,7 +145,6 @@ export default function SignupFirst({
                     <FormLabel>{t("name")}</FormLabel>
                     <FormControl>
                       <BaseInput
-                        placeholder={t("name")}
                         {...field}
                         hasError={!!form.formState.errors.name}
                         isSuccess={
@@ -155,7 +166,6 @@ export default function SignupFirst({
                     <FormLabel>{t("surname")}</FormLabel>
                     <FormControl>
                       <BaseInput
-                        placeholder={t("surname")}
                         {...field}
                         hasError={!!form.formState.errors.surname}
                         isSuccess={
@@ -181,29 +191,21 @@ export default function SignupFirst({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t("country")} />
+                          <SelectValue placeholder="აირჩიე ველი" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries?.map((item: ItemType) => {
-                          const translation = item.translations.find(
-                            (t) => t.lang === router.locale
-                          );
-                          if (translation) {
-                            return (
-                              <SelectItem
-                                key={`${item.id}-${translation.name}`}
-                                value={translation.id}
-                                onClick={() =>
-                                  form.setValue("countryId", translation.id)
-                                }
-                              >
-                                {translation.name}
-                              </SelectItem>
-                            );
-                          }
-                          return null;
-                        })}
+                        {countries?.map((item: ItemType) => (
+                          <SelectItem
+                            key={`${item.id}-${translateCountry(
+                              item,
+                              router.locale
+                            )}`}
+                            value={item.id}
+                          >
+                            {translateCountry(item, router.locale)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -222,7 +224,7 @@ export default function SignupFirst({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={t("gender")} />
+                          <SelectValue placeholder="აირჩიე ველი" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -252,7 +254,6 @@ export default function SignupFirst({
                     <FormControl>
                       <BaseInput
                         type="number"
-                        placeholder={t("age")}
                         {...field}
                         hasError={!!form.formState.errors.age}
                         isSuccess={
@@ -273,7 +274,7 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("mail")}</FormLabel>
                     <FormControl>
-                      <BaseInput placeholder={t("mailProvide")} {...field} />
+                      <BaseInput {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -288,7 +289,6 @@ export default function SignupFirst({
                     <FormControl>
                       <BaseInput
                         type="password"
-                        placeholder={t("Password")}
                         {...field}
                         hasError={!!form.formState.errors.password}
                         isSuccess={
@@ -311,7 +311,6 @@ export default function SignupFirst({
                     <FormControl>
                       <BaseInput
                         type="password"
-                        placeholder={t("PasswordRepeat")}
                         {...field}
                         hasError={!!form.formState.errors.confirmPassword}
                         isSuccess={
@@ -338,7 +337,6 @@ export default function SignupFirst({
                         inputComponent={BaseInput}
                         defaultCountry="GE"
                         international
-                        placeholder="Enter phone number"
                         value={field.value}
                         onChange={(phone) => {
                           form.setValue("phone", phone);
@@ -361,7 +359,6 @@ export default function SignupFirst({
                         {...field}
                         resend={resend}
                         setResend={setResend}
-                        placeholder={t("fillCode")}
                         getCode={!clicked}
                         resendButton={clicked}
                         onGetCodeClick={getCodeHandler}

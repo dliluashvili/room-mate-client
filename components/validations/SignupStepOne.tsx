@@ -5,7 +5,7 @@ import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
 import { isValidPhoneNumber } from "react-phone-number-input";
 
-export function SignupForm() {
+export function SignupStepOne() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
 
   const formSchema = z.object({
