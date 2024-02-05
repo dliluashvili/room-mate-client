@@ -8,7 +8,6 @@ import {
 } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
-import Header from "./Header";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -16,15 +15,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const updateFormData = (newData) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
-
-  // const updateFormData = (newData) => {
-  //   return new Promise((resolve) => {
-  //     setFormData((prevData) => {
-  //       resolve();
-  //       return { ...prevData, ...newData };
-  //     });
-  //   });
-  // };
 
   const submitForm = () => {
     alert(Object.values(formData).map((item) => item));

@@ -156,7 +156,7 @@
   "savedApartments": "saved apartments",
   "mdebareoba": "location",
   "gender": "Gender",
-  "genderError": "This field is required",
+  "requiredError": "This field is required",
   "men": "Men",
   "women": "Women",
   "selectGender": "Select gender",
