@@ -171,10 +171,12 @@
   "selectCountry": "აირჩიე ქვეყანა",
   "age": "ასაკი",
   "selectAge": "მიუთითე ასაკი",
+  "ageRangeError": "ასაკი უნდა იყოს 18-100 შუალედში",
   "mailProvide": "დაგვიტოვე შენი მეილი",
   "incorrectFormat": "არასწორი ფორმატი",
   "incorrectCode": "არასწორი კოდი",
   "codeAlreadySent": "კოდი გამოგზავნილია",
   "fillCode": "ჩაწერე კოდი",
-  "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს"
+  "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს",
+  "selectField": "აირჩიე ველი"
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MultiStepCard from "../components/MultiStepCard";
+import { BASE_URL_NEW } from "../services/api";
 
 export async function getServerSideProps() {
   const query = `
@@ -42,12 +43,9 @@ export async function getServerSideProps() {
   }
   `;
 
-  const response = await axios.post(
-    "https://test-api.roommategeorgia.ge/graphql",
-    {
-      query: query,
-    }
-  );
+  const response = await axios.post(BASE_URL_NEW, {
+    query: query,
+  });
 
   const data = response.data;
   return { props: { data } };

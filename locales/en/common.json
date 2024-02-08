@@ -164,10 +164,12 @@
   "selectCountry": "Select country",
   "age": "Age",
   "selectAge": "Please provide age",
+  "ageRangeError": "Age must be in 18-100 range",
   "mailProvide": "Please provide your email address",
   "incorrectFormat": "Incorrect format",
   "incorrectCode": "Incorrect Code",
   "codeAlreadySent": "Code is sent",
   "fillCode": "Enter code",
-  "passwordValidationError": "The password must contain one number and one symbol"
+  "passwordValidationError": "The password must contain one number and one symbol",
+  "selectField": "Select field"
 }
