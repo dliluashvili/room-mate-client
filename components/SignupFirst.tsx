@@ -23,58 +23,47 @@ import { SignupStepOne } from "./validations/SignupStepOne";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-interface Translation {
-  lang: string;
-  sex: string;
-  name: string;
-  id: string;
-}
-
-interface ItemType {
-  translations: Translation[];
-  id: string;
-}
+import { BASE_URL_NEW } from "../services/api";
+import {
+  FormDataType,
+  QuestionItemType,
+  TranslatableItem,
+} from "./types/types";
 
 export default function SignupFirst({
   countries,
   gender,
   setStep,
   updateFormData,
+  formData,
 }) {
-  const form = SignupStepOne();
+  const form = SignupStepOne({ formData });
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const labels = router.locale === "ka" ? ge.ge : undefined;
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
 
-  const handleSubmit = async (data: any) => {
-    let clonedData = {
+  const handleSubmit = async (data: FormDataType) => {
+    let modifiedFormData = {
       ...data,
-      age: Number(data.age),
-      genderId: Number(data.genderId),
-      countryId: Number(data.countryId),
       code: Number(data.code),
     };
-    updateFormData(clonedData);
+    updateFormData(data);
     try {
-      const response = await axios.post(
-        "https://test-api.roommategeorgia.ge/graphql",
-        {
-          query: `
+      const response = await axios.post(BASE_URL_NEW, {
+        query: `
           mutation Mutation($input: CheckSmsCodeDto!) {
             checkCode(input: $input)
           }
           `,
-          variables: {
-            input: {
-              phone: clonedData.phone,
-              code: clonedData.code,
-            },
+        variables: {
+          input: {
+            phone: data.phone,
+            code: modifiedFormData.code,
           },
-        }
-      );
-      setStep(2);
+        },
+      });
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "NOT_FOUND") {
@@ -91,21 +80,19 @@ export default function SignupFirst({
       setClicked(true);
       setResend(true);
       try {
-        const response = await axios.post(
-          "https://test-api.roommategeorgia.ge/graphql",
-          {
-            query: `
+        const response = await axios.post(BASE_URL_NEW, {
+          query: `
                 mutation SendCode($input: SendSmsCodeDto!) {
                   sendCode(input: $input)
                 }
               `,
-            variables: {
-              input: {
-                phone: form.watch("phone"),
-              },
+          variables: {
+            input: {
+              phone: form.watch("phone"),
             },
-          }
-        );
+          },
+        });
+        console.log(response);
         if (response.data.data.sendCode === "ALREADY_SENT") {
           form.setError("code", { message: t("codeAlreadySent") });
         }
@@ -114,9 +101,8 @@ export default function SignupFirst({
       }
     })();
   };
-
   const translateGender = (
-    item: ItemType,
+    item: TranslatableItem,
     locale: string
   ): string | undefined => {
     const translation = item.translations.find((t) => t.lang === locale);
@@ -124,13 +110,12 @@ export default function SignupFirst({
   };
 
   const translateCountry = (
-    item: ItemType,
+    item: TranslatableItem,
     locale: string
   ): string | undefined => {
     const translation = item.translations.find((t) => t.lang === locale);
     return translation?.name;
   };
-
   return (
     <>
       <main className="flex flex-col p-2 items-center ">
@@ -146,10 +131,10 @@ export default function SignupFirst({
                     <FormControl>
                       <BaseInput
                         {...field}
-                        hasError={!!form.formState.errors.name}
+                        hasError={form.formState.errors.firstname}
                         isSuccess={
-                          !form.formState.errors.name &&
-                          form.formState.touchedFields.name &&
+                          !form.formState.errors.firstname &&
+                          form.formState.touchedFields.firstname &&
                           field.value !== ""
                         }
                       />
@@ -167,10 +152,10 @@ export default function SignupFirst({
                     <FormControl>
                       <BaseInput
                         {...field}
-                        hasError={!!form.formState.errors.surname}
+                        hasError={form.formState.errors.lastname}
                         isSuccess={
-                          !form.formState.errors.surname &&
-                          form.formState.touchedFields.surname &&
+                          !form.formState.errors.lastname &&
+                          form.formState.touchedFields.lastname &&
                           field.value !== ""
                         }
                       />
@@ -191,11 +176,11 @@ export default function SignupFirst({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="აირჩიე ველი" />
+                          <SelectValue placeholder={t("selectField")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries?.map((item: ItemType) => (
+                        {countries?.map((item: QuestionItemType) => (
                           <SelectItem
                             key={`${item.id}-${translateCountry(
                               item,
@@ -224,11 +209,11 @@ export default function SignupFirst({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="აირჩიე ველი" />
+                          <SelectValue placeholder={t("selectField")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender?.map((item: ItemType) => (
+                        {gender?.map((item: QuestionItemType) => (
                           <SelectItem
                             key={`${item.id}-${translateGender(
                               item,
@@ -255,7 +240,7 @@ export default function SignupFirst({
                       <BaseInput
                         type="number"
                         {...field}
-                        hasError={!!form.formState.errors.age}
+                        hasError={form.formState.errors.age}
                         isSuccess={
                           !form.formState.errors.age &&
                           form.formState.touchedFields.age &&
@@ -290,7 +275,7 @@ export default function SignupFirst({
                       <BaseInput
                         type="password"
                         {...field}
-                        hasError={!!form.formState.errors.password}
+                        hasError={form.formState.errors.password}
                         isSuccess={
                           !form.formState.errors.password &&
                           form.formState.touchedFields.password &&

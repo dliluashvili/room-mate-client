@@ -8,17 +8,65 @@ import {
 } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
+import axios from "axios";
+import { FormDataType } from "./types/types";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
-  const updateFormData = (newData) => {
+  const [formData, setFormData] = useState({ answeredQuestions: [] });
+
+  const updateFormData = (newData: FormDataType) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
+  const submit = async () => {
+    const modifiedFormData: any = {
+      ...formData,
+      answeredQuestions: formData.answeredQuestions.map((question) => {
+        let modifiedQuestion: {
+          questionId: number;
+          answerId?: number;
+          data?: any;
+        } = { questionId: parseInt(question.questionId) };
+        if (question.answerId) {
+          modifiedQuestion.answerId = parseInt(question.answerId);
+        } else if (question.data) {
+          modifiedQuestion.data = question.data;
+        }
+        return modifiedQuestion;
+      }),
+    };
+    delete modifiedFormData.code;
+    const requestBody = {
+      query: `mutation Mutation($input: SignUpAndAnswerQuestionsDto!) {
+        signUpAndAnswerQuestion(input: $input) {
+          accessToken
+        }
+      }`,
+      variables: {
+        input: modifiedFormData,
+      },
+    };
 
-  const submitForm = () => {
-    alert(Object.values(formData).map((item) => item));
+    if (step === 2) {
+      try {
+        console.log("Sending request with payload:", requestBody);
+        const response = await axios.post(
+          "https://test-api.roommategeorgia.ge/graphql",
+          requestBody,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error("Error:", error.response.data);
+      }
+    }
   };
+
+  console.log(formData);
 
   return (
     <>
@@ -35,6 +83,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   countries={countries}
                   gender={gender}
                   setStep={setStep}
+                  formData={formData}
                   updateFormData={updateFormData}
                 />
               </div>
@@ -44,7 +93,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                 <SignupSecond
                   questions={questions}
                   updateFormData={updateFormData}
-                  submitForm={submitForm}
+                  submit={submit}
                 />
                 <button onClick={() => setStep(1)}>Back</button>
               </div>

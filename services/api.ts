@@ -1,4 +1,5 @@
 export const BASE_URL = "https://api.roommategeorgia.ge";
+export const BASE_URL_NEW = "https://test-api.roommategeorgia.ge/graphql";
 // export const BASE_URL = "http://localhost:3000";
 
 // eslint-disable-next-line no-useless-escape
