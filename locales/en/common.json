@@ -171,5 +171,7 @@
   "codeAlreadySent": "Code is sent",
   "fillCode": "Enter code",
   "passwordValidationError": "The password must contain one number and one symbol",
-  "selectField": "Select field"
+  "selectField": "Select field",
+  "roommateFind": "Find a roommate",
+  "rentApartment": "Rent an apartment"
 }

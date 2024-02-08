@@ -162,6 +162,7 @@
   "RentAnApartment": "იქირავე ბინა",
   "savedApartments": "შენახული ბინები",
   "mdebareoba": "აგილმდებარეობა",
+
   "gender": "სქესი",
   "requiredError": "ეს ველი აუცილებელია",
   "men": "კაცი",
@@ -178,5 +179,7 @@
   "codeAlreadySent": "კოდი გამოგზავნილია",
   "fillCode": "ჩაწერე კოდი",
   "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს",
-  "selectField": "აირჩიე ველი"
+  "selectField": "აირჩიე ველი",
+  "roommateFind": "იპოვე ოთახის მეზობელი",
+  "rentApartment": "იქირავე ბინა"
 }
