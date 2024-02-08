@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+  important: true,
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -19,6 +20,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        mainBg: "hsl(var(--main-bg))",
         primaryBeta: "hsl(var(--primary-beta))",
         hoverBeta: "hsl(var(--hover-beta))",
         pressedBeta: "hsl(var(--pressed-beta))",

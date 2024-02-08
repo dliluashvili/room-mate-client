@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --main-bg: 0, 0%, 98%;
+
     --primary-beta: 152, 73%, 43%, 1;
     --hover-beta: 152, 73%, 35%, 1;
     --pressed-beta: 152, 73%, 26%, 1;
@@ -81,5 +83,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+
 
 
