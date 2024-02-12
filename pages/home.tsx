@@ -4,15 +4,17 @@ import Banner from "../components/homeComponents/Banner";
 import Features from "../components/homeComponents/Features";
 import NewsCarousel from "../components/homeComponents/NewsCarousel";
 import Contact from "../components/homeComponents/Contact";
+import WhyUs from "../components/homeComponents/WhyUs";
 
 export default function home() {
   return (
     <>
       <NewHeader />
-      <main className="flex flex-col w-full min-h-screen px-6 py-4 bg-mainBg md:py-6 md:px-24">
-        <Banner />
+      <main className="flex flex-col w-full min-h-screen  py-4 bg-mainBg md:py-6 ">
+        {/* <Banner /> */}
         <Features />
         <NewsCarousel />
+        <WhyUs />
         <Contact />
       </main>
     </>

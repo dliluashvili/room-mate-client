@@ -9,7 +9,7 @@ import { useMediaQuery } from "react-responsive";
 export default function Contact() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   return (
-    <main className="w-full flex flex-col items-center md:flex-row ">
+    <main className="w-full flex flex-col items-center px-6 md:flex-row md:px-24 ">
       <div className="w-full md:w-[30%] ">
         <h1 className="text-[#484848] text-2xl md:text-3xl">კონტაქტი</h1>
         <p className="text-xs text-[#484848] mt-2 md:text-base">
