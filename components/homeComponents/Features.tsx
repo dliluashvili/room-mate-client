@@ -49,7 +49,7 @@ export default function Features() {
             src={media ? RateStar : RateStars}
             alt="Bank Icon"
             width={media ? 32 : 120}
-            height={media ? 32 : 20}
+            height={media ? 32 : 32}
           />
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] md:text-[#484848] md:text-lg md:text-left md:font-semibold">
