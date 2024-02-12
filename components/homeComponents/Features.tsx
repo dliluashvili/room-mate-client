@@ -9,7 +9,7 @@ export default function Features() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <>
-      <main className="w-full flex justify-between   md:grid  md:grid-flow-col  md:grid-cols-4 gap-x-14  md:gap-x-20 mt-12 md:mt-24">
+      <main className="w-full flex justify-between px-6  md:grid  md:grid-flow-col  md:grid-cols-4 gap-x-14  md:gap-x-20 mt-12 md:mt-24 md:px-24">
         <div className="flex flex-col items-center w-16 md:w-full md:items-start">
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
@@ -45,12 +45,20 @@ export default function Features() {
           </div>
         </div>
         <div className="flex flex-col items-center w-16 md:w-full md:items-start">
-          <Image
-            src={media ? RateStar : RateStars}
-            alt="Bank Icon"
-            width={media ? 32 : 120}
-            height={media ? 32 : 32}
-          />
+          <div
+            style={{
+              height: media ? "32px" : "32px",
+              width: media ? "32px" : "120px",
+            }}
+            className="relative"
+          >
+            <Image
+              src={media ? RateStar : RateStars}
+              alt="Bank Icon"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] md:text-[#484848] md:text-lg md:text-left md:font-semibold">
               5.9
