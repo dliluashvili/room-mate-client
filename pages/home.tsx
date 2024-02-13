@@ -8,6 +8,8 @@ import WhyUs from "../components/homeComponents/WhyUs";
 import Apartments from "../components/homeComponents/Apartments";
 import axios from "axios";
 import Partners from "../components/homeComponents/Partners";
+import Reviews from "../components/homeComponents/Reviews";
+import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 
 export async function getServerSideProps() {
   const response = await axios.get("https://api.roommategeorgia.ge/flats");
@@ -25,8 +27,10 @@ export default function Home({ flats }) {
         <NewsCarousel />
         <WhyUs />
         <Apartments flats={flats.data} />
-        <Contact />
         <Partners />
+        <Contact />
+        <Reviews />
+        <AccordionQuestions />
       </main>
     </>
   );

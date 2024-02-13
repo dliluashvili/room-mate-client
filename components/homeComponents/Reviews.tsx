@@ -12,6 +12,8 @@ import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
+import Avatar from "../../public/newImages/avatar.svg";
+import RateStar from "../../public/newImages/rate-star.svg";
 
 const data = [
   {
@@ -32,12 +34,18 @@ const data = [
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
+  {
+    header: "სათაური",
+    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    image: CarouselBgMen,
+    buttonText: "ღილაკი",
+  },
 ];
 
-export default function NewsCarousel() {
+export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   return (
-    <main className="w-full flex flex-col px-6 items-start my-12 md:my-24 md:px-24">
+    <main className="w-full flex flex-col px-6 items-start my-12 md:px-24 ">
       <h1 className="text-2xl text-[#484848]">სათაური</h1>
       <h2 className="mt-2 text-xs text-[#484848]">
         შემთხვევით გენერირებული ტექსტი
@@ -47,19 +55,35 @@ export default function NewsCarousel() {
         opts={{
           align: "start",
         }}
-        className="w-full mt-6 p-0 "
+        className="w-full mt-6 p-0"
       >
-        <CarouselContent className="pr-10 md:pr-16">
+        <CarouselContent className="pr-10 md:pr-20 ml-1 gap-4">
           {data.map((item, index) => (
-            <CarouselItem key={index} className="w-full md:basis-1/2 ">
-              <div className="w-full pl-6 pt-6 pb-10 pr-24 flex flex-col relative md:pb-10 md:pt-8 md:pl-8 md:pr-[226px] rounded-xl bg-[#c0dbfc] ">
-                <span className="text-base font-semibold">{item.header}</span>
-                <span className="text-xs ">{item.text}</span>
-
-                <Button className="mt-6 w-32">{item.buttonText}</Button>
-                <div className="absolute right-0 bottom-[-10px]  md:right-4">
-                  <Image width={128} height={158} src={item.image} />
+            <CarouselItem
+              key={index}
+              className="w-full md:basis-1/2 lg:basis-1/3 bg-[#FFFFFF]  rounded-xl border border-gray-300 "
+            >
+              <div className="w-full py-6 px-4 flex flex-col">
+                <div className="w-full flex flex-row items-center">
+                  <div className="w-14 h-14 relative">
+                    <Image src={Avatar} layout="fill" objectFit="cover" />
+                  </div>
+                  <p className="ml-4 text-xs font-semibold text-[#484848]">
+                    სახელი გვარი
+                  </p>
+                  <div className="flex flex-row ml-14 items-center">
+                    <div className="w-4 h-4 relative">
+                      <Image src={RateStar} layout="fill" objectFit="cover" />
+                    </div>
+                    <p className="ml-1 text-[#484848] text-[14px] font-semibold">
+                      4.9
+                    </p>
+                  </div>
                 </div>
+                <p className="mt-4 text-[ #484848] text-xs">
+                  შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
+                  ტიპოგრაფიული ნაწარმის შემქმნელებს
+                </p>
               </div>
             </CarouselItem>
           ))}

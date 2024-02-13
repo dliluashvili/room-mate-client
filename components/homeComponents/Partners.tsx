@@ -18,12 +18,12 @@ export default function Partners() {
           backgroundPosition: "50%",
         }}
       >
-        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 md:relative md:bg-[#f2f5ff] flex flex-row justify-between items-center md:pl-12 md:py-4 md:pr-4">
-          <div className="w-full  flex flex-col items-start justify-center md:pr-14 ">
+        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl   p-10 md:relative md:bg-[#f2f5ff] flex flex-row justify-between items-center md:pl-12 md:py-4 md:pr-4">
+          <div className="md:w-1/2 flex flex-col items-start justify-center md:pr-14 overflow-hidden   ">
             <h1 className="z-50  text-[#fff] md:text-[#484848] md:text-2xl  font-semibold">
               ოთახის მეზობელი
             </h1>
-            <p className="text-xs z-50 mt-4 text-[#fff] md:text-[#484848] md:text-base ">
+            <p className="text-xs z-50 mt-4 text-[#fff] md:text-[#484848] md:text-base  ">
               შემთხვევითადგენერირებული ტექსტი ეხმარება დიზაინერებს და
               ტიპოგრაფიული ნაწარმის
             </p>
@@ -31,7 +31,8 @@ export default function Partners() {
               გახდი ჩვენი პარტნიორი
             </Button>
           </div>
-          <div className="w-full h-full relative rounded-lg overflow-hidden">
+
+          <div className="w-1/2 hidden md:block">
             <Image src={FirstBG} layout="responsive" objectFit="cover" />
           </div>
         </div>
@@ -46,11 +47,11 @@ export default function Partners() {
         }}
       >
         <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 md:relative md:bg-[#f2f5ff] flex flex-row justify-between items-center md:pl-12 md:py-4 md:pr-4">
-          <div className="w-full  flex flex-col items-start justify-center md:pr-14 ">
+          <div className="md:w-1/2  flex flex-col items-start justify-center md:pr-14  overflow-hidden ">
             <h1 className="z-50  text-[#fff] md:text-[#484848] md:text-2xl   font-semibold">
               ოთახის მეზობელი
             </h1>
-            <p className="text-xs z-50 mt-4 text-[#fff] md:text-[#484848] md:text-base ">
+            <p className="text-xs z-50 mt-4 text-[#fff] md:text-[#484848] md:text-base overflow-auto ">
               შემთხვევითადგენერირებული ტექსტი ეხმარება დიზაინერებს და
               ტიპოგრაფიული ნაწარმის
             </p>
@@ -58,8 +59,7 @@ export default function Partners() {
               გახდი ჩვენი პარტნიორი
             </Button>
           </div>
-
-          <div className="w-full h-full relative rounded-lg overflow-hidden">
+          <div className="w-1/2 hidden md:block">
             <Image src={SecondBG} layout="responsive" objectFit="cover" />
           </div>
         </div>
