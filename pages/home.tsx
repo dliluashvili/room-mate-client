@@ -7,6 +7,7 @@ import Contact from "../components/homeComponents/Contact";
 import WhyUs from "../components/homeComponents/WhyUs";
 import Apartments from "../components/homeComponents/Apartments";
 import axios from "axios";
+import Partners from "../components/homeComponents/Partners";
 
 export async function getServerSideProps() {
   const response = await axios.get("https://api.roommategeorgia.ge/flats");
@@ -25,6 +26,7 @@ export default function Home({ flats }) {
         <WhyUs />
         <Apartments flats={flats.data} />
         <Contact />
+        <Partners />
       </main>
     </>
   );
