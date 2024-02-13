@@ -19,6 +19,7 @@ module.exports = {
       },
     },
     extend: {
+     
       colors: {
         mainBg: "hsl(var(--main-bg))",
         primaryBeta: "hsl(var(--primary-beta))",
@@ -84,3 +85,5 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
+
+import fr from "./public/newImages/firstBG.svg";

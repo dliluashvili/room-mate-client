@@ -19,7 +19,7 @@ export default function Apartments({ flats }) {
       <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 md:px-24 md:pt-12 md:pb-7 ">
         იქირავე ბინა
       </h1>
-      <main className="w-full flex flex-col  items-start  pb-8 pl-6 md:px-48">
+      <main className="w-full flex flex-col  items-start  pb-8 pl-6 md:px-44">
         <Carousel
           opts={{
             align: "start",
@@ -44,14 +44,14 @@ export default function Apartments({ flats }) {
                       </div>
                     </div>
 
-                    <div className="pl-4 mr-6 pt-8 pb-4">
-                      <h1 className="text-semibold text-2xl text-[#484848]">
+                    <div className="pl-4  pt-7 pb-4">
+                      <h1 className="text-semibold text-xl text-[#484848]">
                         2987 ₾/თვეში
                       </h1>
-                      <p className="mt-4 text-[14px] text-[#484848]">
+                      <p className="mt-3 text-xs text-[#484848]">
                         3 საძინებელი, ფართი - 85 მ 2
                       </p>
-                      <p className="mt-1 text-[14px] text-[#484848]">
+                      <p className="mt-1 text-xs text-[#484848]">
                         საბურთალო: მერაბ კოსტავა #34
                       </p>
                     </div>
