@@ -22,7 +22,7 @@ export default function Home({ flats }) {
     <>
       <NewHeader />
       <main className="flex flex-col w-full min-h-screen  py-4 bg-mainBg md:py-6  ">
-        <Banner />
+        {/* <Banner /> */}
         <Features />
         <NewsCarousel />
         <WhyUs />
