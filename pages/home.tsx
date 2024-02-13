@@ -25,8 +25,8 @@ export default function Home({ flats }) {
         <NewsCarousel />
         <WhyUs />
         <Apartments flats={flats.data} />
-        <Contact />
         <Partners />
+        <Contact />
       </main>
     </>
   );
