@@ -12,26 +12,26 @@ import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 
 export default function Apartments({ flats }) {
-  const media = useMediaQuery({ query: "(max-width: 768px)" });
+  const media = useMediaQuery({ query: "(max-width: 1024px)" });
 
   return (
     <>
-      <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 md:px-24 md:pt-12 md:pb-7 ">
+      <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 sm:px-16 md:px-20 lg:px-24 lg:pt-12 lg:pb-7 ">
         იქირავე ბინა
       </h1>
-      <main className="w-full flex flex-col  items-start  pb-8 pl-6 md:px-44">
+      <main className="w-full flex flex-col  items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24">
         <Carousel
           opts={{
             align: "start",
           }}
-          className="w-full p-0  md:px-4  "
+          className="w-full p-0   "
         >
-          <CarouselContent className=" pr-14 md:pr-36 gap-2 ">
+          <CarouselContent className=" pr-10 lg:pr-16">
             {flats.map((item) => (
               <Link href={`house/${item.id}`}>
                 <CarouselItem
                   key={item}
-                  className="w-full  md:basis-1/3 pointer"
+                  className="w-full sm:basis-1/2  lg:basis-1/3 pointer"
                 >
                   <div className="w-full  flex flex-col justify-start rounded-xl  items-start  border-1 ">
                     <div className="w-full  rounded-t-xl overflow-hidden">

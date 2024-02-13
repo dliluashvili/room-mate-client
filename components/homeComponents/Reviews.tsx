@@ -17,25 +17,25 @@ import RateStar from "../../public/newImages/rate-star.svg";
 
 const data = [
   {
-    header: "სათაური",
+    header: "სახელი გვარი",
     text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
   {
-    header: "სათაური",
+    header: "სახელი გვარი",
     text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
     image: CarouselBgWomen,
     buttonText: "ღილაკი",
   },
   {
-    header: "სათაური",
+    header: "სახელი გვარი",
     text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
   {
-    header: "სათაური",
+    header: "სახელი გვარი",
     text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
@@ -43,9 +43,9 @@ const data = [
 ];
 
 export default function Reviews() {
-  const media = useMediaQuery({ query: "(max-width: 768px)" });
+  const media = useMediaQuery({ query: "(max-width: 1024px)" });
   return (
-    <main className="w-full flex flex-col px-6 items-start my-12 md:px-24 ">
+    <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 lg:px-24 ">
       <h1 className="text-2xl text-[#484848]">სათაური</h1>
       <h2 className="mt-2 text-xs text-[#484848]">
         შემთხვევით გენერირებული ტექსტი
@@ -57,7 +57,7 @@ export default function Reviews() {
         }}
         className="w-full mt-6 p-0"
       >
-        <CarouselContent className="pr-10 md:pr-20 ml-1 gap-4">
+        <CarouselContent className="pr-10 lg:pr-20 ml-1 gap-4 ">
           {data.map((item, index) => (
             <CarouselItem
               key={index}
@@ -69,7 +69,7 @@ export default function Reviews() {
                     <Image src={Avatar} layout="fill" objectFit="cover" />
                   </div>
                   <p className="ml-4 text-xs font-semibold text-[#484848]">
-                    სახელი გვარი
+                    {item.header}
                   </p>
                   <div className="flex flex-row ml-14 items-center">
                     <div className="w-4 h-4 relative">
@@ -80,10 +80,7 @@ export default function Reviews() {
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-[ #484848] text-xs">
-                  შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
-                  ტიპოგრაფიული ნაწარმის შემქმნელებს
-                </p>
+                <p className="mt-4 text-[ #484848] text-xs">{item.text}</p>
               </div>
             </CarouselItem>
           ))}
