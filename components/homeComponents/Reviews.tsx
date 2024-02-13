@@ -10,7 +10,6 @@ import {
 import CarouselBgMen from "../../public/newImages/CarouselBgMen.svg";
 import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
-import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import Avatar from "../../public/newImages/avatar.svg";
 import RateStar from "../../public/newImages/rate-star.svg";

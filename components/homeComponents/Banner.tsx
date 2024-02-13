@@ -1,6 +1,5 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import BannerMobile from "../../public/newImages/banner-mobile.svg";
 import BannerDesktop from "../../public/newImages/banner-desktop.svg";
 import Image from "next/image";
 
