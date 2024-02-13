@@ -49,7 +49,7 @@ export function AccordionQuestions() {
             style={{ backgroundColor: bgColor(item.value) }}
             onClick={() => handleClick(item.value)}
           >
-            <div className="flex flex-row items-center border rounded-lg border-gray-500 my-4">
+            <div className="flex flex-row items-center border rounded-lg border-gray-300 my-4">
               <div className="w-5 h-5 mr-3 relative">
                 <Image src={QeustionIcon} layout="fill" objectFit="cover" />
               </div>
