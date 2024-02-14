@@ -31,7 +31,7 @@ export default function Apartments({ flats }) {
               <Link href={`house/${item.id}`}>
                 <CarouselItem
                   key={item}
-                  className="w-full sm:basis-1/2  lg:basis-1/3 pointer"
+                  className="w-full sm:basis-1/2  md:basis-1/3 xl:basis-1/4 pointer"
                 >
                   <div className="w-full  flex flex-col justify-start rounded-xl  items-start  border-1 ">
                     <div className="w-full  rounded-t-xl overflow-hidden">

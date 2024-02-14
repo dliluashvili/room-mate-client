@@ -8,8 +8,6 @@ import {
 import BankIcon from "../../public/newImages/bank.svg";
 import Image from "next/image";
 
-import { useMediaQuery } from "react-responsive";
-
 const data = [
   {
     header: "სათაური",
@@ -38,7 +36,6 @@ const data = [
 ];
 
 export default function WhyUs() {
-  const media = useMediaQuery({ query: "(max-width: 768px)" });
   return (
     <main className="w-full flex flex-col bg-[#F2F5FF] p-6 sm:px-16 md:px-20 lg:px-24 items-start lg:py-12 lg:flex-row lg:items-center">
       <div className="flex flex-col items-start lg:w-2/3 ">
