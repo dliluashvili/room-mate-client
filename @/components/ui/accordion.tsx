@@ -5,7 +5,8 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 
 import { cn } from "../../lib/utils";
-
+import Image from "next/image";
+import QuestionIcon from "../../../public/newImages/question-icon.svg";
 const Accordion = AccordionPrimitive.Root;
 
 const AccordionItem = React.forwardRef<
@@ -14,7 +15,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b", className)}
+    className={cn("border", className)}
     {...props}
   />
 ));
@@ -28,16 +29,20 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between font-medium transition-all  [&[data-state=open]>svg]:rotate-180 ",
+        "flex flex-1 items-center justify-between font-medium transition-all p-4 rounded-lg  [&[data-state=open]>svg]:rotate-180 ",
         className
       )}
       {...props}
     >
-      {children}
+      <div className="w-5 h-5 mr-3 relative">
+        <Image src={QuestionIcon} layout="fill" objectFit="cover" />
+      </div>
+      <div className="flex-1">{children}</div>
       <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ));
+
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionContent = React.forwardRef<
