@@ -180,6 +180,24 @@
   "fillCode": "ჩაწერე კოდი",
   "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს",
   "selectField": "აირჩიე ველი",
+
+  "rentApartment": "იქირავე ბინა",
   "roommateFind": "იპოვე ოთახის მეზობელი",
-  "rentApartment": "იქირავე ბინა"
+  "roommateFindText": "დარეგისტრირდი, შექმენი პროფილი, ამოარჩიე ოთახის მეზობელი და გამოიყენე ჩეთის ფუნქცინალი მისი უკეთ გასაცნობად",
+  "roommateMatching": "იპოვე ხელმისაწვდომი ბინა",
+  "roommateMatchingText": "შეარჩიე სასურველი ბინა და გამოიყენე რუმმეითის პლატფორმა ბინის მეპატრონესთან მოლაპარაკებისთვის",
+  "support": "24/7 მხარდაჭერა",
+  "supportText": "მოგვწერე ნებისმიერ დროს პრობლემის არსებობის შემთხვევაში",
+  "rate": "5000-მდე ადამიანი უკვე იყენებს ჩვენს პლატფორმას წარმატებით",
+  "whyUs": "რატომ ჩვენთან ?",
+  "whyUsHassleH": "Hassle",
+  "whyUsRoommatesH": "Roommates",
+  "whyUsHomeListingH": "Home Listing",
+  "whyUsSearchH": "Search",
+  "whyUsHassle": "free negotiation   with landlords.",
+  "whyUsRoommates": "Find homes half-price by sharing with a roommate.",
+  "whyUsHomeListnig": " Lots of options from single rooms to shared places.",
+  "whyUsSearch": "Choose where, how much, and what you want.",
+  "contactUs": "კონტაქტი",
+  "contactUsText": "Have a question or feedback? We'd love to hear from you!"
 }

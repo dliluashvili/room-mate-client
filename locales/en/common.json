@@ -172,6 +172,24 @@
   "fillCode": "Enter code",
   "passwordValidationError": "The password must contain one number and one symbol",
   "selectField": "Select field",
+
+  "rentApartment": "Rent an apartment",
   "roommateFind": "Find a roommate",
-  "rentApartment": "Rent an apartment"
+  "roommateFindText": "Explore available rooms and potential roommates based on your criteria.",
+  "roommateMatching": "Matching",
+  "roommateMatchingText": "Reach out to potential roommates and landlords to discuss further details.",
+  "support": "24/7 Support",
+  "supportText": "24/7 support available for all your needs.",
+  "rate": "We've assisted 5000 users in finding roommates, prioritizing your safety.",
+  "whyUs": "Why pick us ?",
+  "whyUsHassleH": "Hassle",
+  "whyUsRoommatesH": "Roommates",
+  "whyUsHomeListingH": "Home Listing",
+  "whyUsSearchH": "Search",
+  "whyUsHassle": "Free negotiation   with landlords.",
+  "whyUsRoommates": "Find homes half-price by sharing with a roommate.",
+  "whyUsHomeListnig": " Lots of options from single rooms to shared places.",
+  "whyUsSearch": "Choose where, how much, and what you want.",
+  "contactUs": "Contact us",
+  "contactUsText": "Have a question or feedback? We'd love to hear from you!"
 }
