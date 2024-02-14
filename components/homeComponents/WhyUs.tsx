@@ -7,43 +7,37 @@ import {
 } from "../../@/components/ui/carousel";
 import BankIcon from "../../public/newImages/bank.svg";
 import Image from "next/image";
-
-const data = [
-  {
-    header: "სათაური",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
-    image: BankIcon,
-    buttonText: "ღილაკი",
-  },
-  {
-    header: "სათაური",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
-    image: BankIcon,
-    buttonText: "ღილაკი",
-  },
-  {
-    header: "სათაური",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
-    image: BankIcon,
-    buttonText: "ღილაკი",
-  },
-  {
-    header: "სათაური",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
-    image: BankIcon,
-    buttonText: "ღილაკი",
-  },
-];
+import useTranslation from "next-translate/useTranslation";
 
 export default function WhyUs() {
+  let { t } = useTranslation("common") as { t: (key: string) => string };
+
+  const data = [
+    {
+      header: t("whyUsHassleH"),
+      text: t("whyUsHassle"),
+      image: BankIcon,
+    },
+    {
+      header: t("whyUsRoommatesH"),
+      text: t("whyUsRoommates"),
+      image: BankIcon,
+    },
+    {
+      header: t("whyUsHomeListingH"),
+      text: t("whyUsHomeListnig"),
+      image: BankIcon,
+    },
+    {
+      header: t("whyUsSearchH"),
+      text: t("whyUsSearch"),
+      image: BankIcon,
+    },
+  ];
   return (
     <main className="w-full flex flex-col bg-[#F2F5FF] p-6 sm:px-16 md:px-20 lg:px-24 items-start lg:py-12 lg:flex-row lg:items-center">
       <div className="flex flex-col items-start lg:w-2/3 ">
-        <h1 className="text-2xl text-[#484848] lg:text-3xl">რატომ ჩვენთან</h1>
-        <p className="mt-2 text-xs text-[#484848] text-left lg:text-base lg:mt-4 xl:pr-5">
-          შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული
-          ნაწარმის
-        </p>
+        <h1 className="text-2xl text-[#484848] lg:text-3xl">{t("whyUs")}</h1>
       </div>
 
       <Carousel

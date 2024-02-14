@@ -72,10 +72,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
     <>
       <div className="w-full min-h-screen flex justify-center items-center lg:py-10 lg:px-[25%]">
         <Card>
-          <CardHeader>
-            <CardTitle>Register</CardTitle>
-            <CardDescription>Roommate register form</CardDescription>
-          </CardHeader>
           <CardContent>
             {step === 1 && (
               <div>

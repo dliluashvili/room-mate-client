@@ -4,9 +4,11 @@ import RateStar from "../../public/newImages/rate-star.svg";
 import RateStars from "../../public/newImages/rate-stars.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Features() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <>
       <main className="w-full flex justify-between px-6 gap-x-14 mt-12 sm:px-16 md:px-20 lg:grid  lg:grid-flow-col  lg:grid-cols-4 lg:gap-x-20 lg:mt-24 lg:px-24">
@@ -14,11 +16,10 @@ export default function Features() {
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {media ? "ოთახის მეზობელი" : "იპოვე ოთახის მეზობელი"}
+              {t("roommateFind")}
             </span>
             <p className="hidden lg:block text-[#484848] text-base font-normal mt-2">
-              შეარჩიე სასურველი ბინა და გამოიყენე რუმმეითის პლატფორმა ბინის
-              მეპატრონესთან მოლაპარაკებისთვის
+              {t("roommateFindText")}
             </p>
           </div>
         </div>
@@ -26,10 +27,10 @@ export default function Features() {
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {media ? "იპოვე" : "იპოვე ხელმისაწვდომი ბინა"}
+              {t("roommateMatching")}
             </span>
             <p className="hidden lg:block text-[#484848] text-base mt-2">
-              მოგვწერე ნებისმიერ დროს პრობლემის არსებობის შემთხვევაში
+              {t("roommateMatchingText")}
             </p>
           </div>
         </div>
@@ -37,10 +38,10 @@ export default function Features() {
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {media ? "24/7" : "24/7 მხარდაჭერა"}
+              {t("support")}
             </span>
             <p className="hidden lg:block text-[#484848] text-base mt-2">
-              მოგვწერე ნებისმიერ დროს პრობლემის არსებობის შემთხვევაში
+              {t("supportText")}
             </p>
           </div>
         </div>
@@ -61,10 +62,10 @@ export default function Features() {
           </div>
           <div className="flex flex-col mt-4">
             <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              5.9
+              4.9
             </span>
             <p className="hidden lg:block text-[#484848] text-base mt-2">
-              5000-მდე ადამიანი უკვე იყენებს ჩვენს პლატფორმას წარმატებით
+              {t("rate")}
             </p>
           </div>
         </div>
