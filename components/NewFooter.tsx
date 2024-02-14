@@ -66,7 +66,7 @@ export default function NewFooter() {
         </div>
         <div className="h-[1px] w-full bg-[#7D7D7D] mt-8 px-7 lg:hidden "></div>
         <div className="mt-3  flex flex-row justify-between items-center ">
-          <p className="text-xs font-bold">გადახდის მეთოდი:</p>
+          <p className="text-xs font-bold lg:hidden">გადახდის მეთოდი:</p>
           <div className="flex flex-row gap-x-2">
             <Image src={Visa} width={34} height={24} />
             <Image src={MasterCard} width={34} height={24} />
