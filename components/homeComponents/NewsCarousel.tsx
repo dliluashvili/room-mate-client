@@ -7,7 +7,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../@/components/ui/carousel";
-import CarouselBgMen from "../../public/newImages/CarouselBgMen.svg";
+
+import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
 import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
