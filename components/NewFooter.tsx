@@ -55,7 +55,7 @@ export default function NewFooter() {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row">
-        <div className="flex flex-col mt-8">
+        <div className="flex flex-col mt-8 lg:mt-0">
           <h1 className="text-xs font-semibold lg:hidden">გამოგვყევით</h1>
           <div className="flex flex-row mt-4 gap-x-6">
             <Image src={Facebook} width={32} height={32} />
@@ -64,7 +64,8 @@ export default function NewFooter() {
             <Image src={Linkedin} width={32} height={32} />
           </div>
         </div>
-        <div className="h-[1px] w-full bg-[#7D7D7D] mt-8 px-7 lg:hidden "></div>
+
+        <div className="h-[1px] w-full bg-[#7D7D7D] mt-8 px-7 lg:hidden lg:mt-0 "></div>
         <div className="mt-3  flex flex-row justify-between items-center ">
           <p className="text-xs font-bold lg:hidden">გადახდის მეთოდი:</p>
           <div className="flex flex-row gap-x-2">
