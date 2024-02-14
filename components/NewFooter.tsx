@@ -25,29 +25,29 @@ export default function NewFooter() {
         <div className="flex flex-col gap-y-4  mt-8 md:mt-0">
           <p className="text-xs font-semibold ">მთავარი</p>
           <div className="grid lg:grid-cols-2 gap-y-4 lg:gap-x-20">
-            <p className="text-xs">იპოვე ოთახის მეზობელი</p>
-            <p className="text-xs">იპოვე ბინა</p>
-            <p className="text-xs">გახდი ჩვენი პარტნიორი</p>
-            <p className="text-xs">ხშირად დასმული შეკითხვები</p>
-            <p className="text-xs">როგორ მუშაობს</p>
+            <p className="text-xs pointer">იპოვე ოთახის მეზობელი</p>
+            <p className="text-xs pointer">იპოვე ბინა</p>
+            <p className="text-xs pointer">გახდი ჩვენი პარტნიორი</p>
+            <p className="text-xs pointer">ხშირად დასმული შეკითხვები</p>
+            <p className="text-xs pointer">როგორ მუშაობს</p>
           </div>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 ">
           <h1 className="font-semibold text-xs">კონტაქტი</h1>
           <div className="grid grid-cols-2  gap-4 mt-4 md:grid-cols-1 ">
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center">
+            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={FooterPhone} width={16} height={16} />
               <p className="ml-2 text-xs">555 12 22 23</p>
             </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center">
+            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={Footeremail} width={16} height={16} />
               <p className="ml-2 text-xs">info@roommate.ge</p>
             </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center">
+            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={FooterMessanger} width={16} height={16} />
               <p className="ml-2 text-xs">roommate</p>
             </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center">
+            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={FooterLiveChat} width={16} height={16} />
               <p className="ml-2 text-xs">live chat</p>
             </div>
@@ -57,17 +57,17 @@ export default function NewFooter() {
       <div className="h-[1px] w-full bg-[#7D7D7D]  lg:block hidden mt-6  "></div>
       <div className="flex flex-col lg:flex-row px-7 sm:px-16 md:px-20 lg:justify-between lg:items-center md:py-4">
         <div className=" flex-row gap-x-4 hidden lg:flex">
-          <p className=" text-xs">წესები და პირობები </p>
+          <p className=" text-xs pointer">წესები და პირობები </p>
           <div className="w-[1px] h-3 bg-[#7D7D7D]"></div>
-          <p className=" text-xs">კონფიდენციალურობის პოლიტიკა </p>
+          <p className=" text-xs pointer">კონფიდენციალურობის პოლიტიკა </p>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 lg:order-2 ">
           <h1 className="text-xs font-semibold lg:hidden">გამოგვყევით</h1>
           <div className="flex flex-row mt-4 lg:mt-0 gap-x-6">
-            <Image src={Facebook} width={32} height={32} />
-            <Image src={Instagram} width={32} height={32} />
-            <Image src={Whatsapp} width={32} height={32} />
-            <Image src={Linkedin} width={32} height={32} />
+            <Image className="pointer" src={Facebook} width={32} height={32} />
+            <Image className="pointer" src={Instagram} width={32} height={32} />
+            <Image className="pointer" src={Whatsapp} width={32} height={32} />
+            <Image className="pointer" src={Linkedin} width={32} height={32} />
           </div>
         </div>
 
@@ -84,9 +84,11 @@ export default function NewFooter() {
       <div className="bg-[#F2F5FF] px-7 flex flex-row  mt-4 py-4 items-center justify-around sm:px-16 md:px-20 lg:justify-center ">
         <p className=" text-[8px]">Copyrighyt 2022</p>
         <div className="w-[1px] h-3 bg-[#7D7D7D] lg:hidden"></div>
-        <p className=" text-[8px] lg:hidden">წესები და პირობები </p>
+        <p className=" text-[8px] lg:hidden pointer">წესები და პირობები </p>
         <div className="w-[1px] h-3 bg-[#7D7D7D] lg:hidden"></div>
-        <p className=" text-[8px] lg:hidden">კონფიდენციალურობის პოლიტიკა </p>
+        <p className=" text-[8px] lg:hidden pointer">
+          კონფიდენციალურობის პოლიტიკა
+        </p>
       </div>
     </main>
   );
