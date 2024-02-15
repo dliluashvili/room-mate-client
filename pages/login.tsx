@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
 
 interface ILoginForm {
   password: string;
@@ -32,7 +33,7 @@ const Login = () => {
     control,
     watch,
     getValues,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ILoginForm>();
 
   let { t } = useTranslation("common");
@@ -63,7 +64,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
+            progress: undefined,
           });
         } else {
           toast.error(e?.response?.data?.message, {
@@ -73,7 +74,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
+            progress: undefined,
           });
         }
       } else {
@@ -84,7 +85,7 @@ const Login = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined
+          progress: undefined,
         });
       }
     }
@@ -96,7 +97,8 @@ const Login = () => {
     <div className="login">
       <ToastContainer />
 
-      <Header />
+      {/* <Header /> */}
+      <NewHeader />
 
       <div className="container loginSection w-25 mt-5">
         <div className="loginSection_container">
@@ -133,7 +135,7 @@ const Login = () => {
                   hasError={!!errors?.phone}
                   useRef={register("phone")}
                   {...register("phone", {
-                    required: "მოობილური აუცილებელია"
+                    required: "მოობილური აუცილებელია",
                   })}
                 />
               </FormGroup>
@@ -156,7 +158,7 @@ const Login = () => {
                   hasError={!!errors?.password}
                   placeholder="password"
                   {...register("password", {
-                    required: "პაროლი აუცილებელია"
+                    required: "პაროლი აუცილებელია",
                   })}
                 />
               </FormGroup>

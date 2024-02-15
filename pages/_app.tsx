@@ -9,6 +9,7 @@ import { SearchProvider } from "../components/pages/search/context/searchContext
 import { HouseSearchProvider } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { hotjar } from "react-hotjar";
+import NewHeader from "../components/NewHeader";
 
 // import { Html } from "next/document";
 
