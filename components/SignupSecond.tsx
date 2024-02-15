@@ -206,7 +206,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
               size="default"
               type="submit"
             >
-              Submit
+              Send
             </Button>
           </form>
         </Form>

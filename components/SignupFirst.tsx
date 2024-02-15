@@ -64,6 +64,7 @@ export default function SignupFirst({
           },
         },
       });
+      setStep(2);
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "NOT_FOUND") {
@@ -118,10 +119,10 @@ export default function SignupFirst({
   };
   return (
     <>
-      <main className="flex flex-col p-2 items-center ">
+      <main className="flex flex-col  items-center ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className=" w-full">
-            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 mb-3 items-start lg:justify-center">
+            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-3 items-start lg:justify-center">
               <FormField
                 control={form.control}
                 name="firstname"

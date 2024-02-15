@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../@/components/ui/card";
+import { Card, CardContent } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
 import axios from "axios";
 import { FormDataType } from "./types/types";
+import SignupStepsHeader from "./SignupStepsHeader";
+import NewHeader from "./NewHeader";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -59,20 +55,18 @@ export default function MultiStepCard({ countries, gender, questions }) {
             },
           }
         );
-        console.log("Response:", response.data);
       } catch (error) {
         console.error("Error:", error.response.data);
       }
     }
   };
 
-  console.log(formData);
-
   return (
     <>
       <div className="w-full min-h-screen flex justify-center items-center lg:py-10 lg:px-[25%]">
         <Card>
-          <CardContent>
+          <SignupStepsHeader step={step} />
+          <CardContent className="bg-white pt-8 pb-16 px-20">
             {step === 1 && (
               <div>
                 <SignupFirst
