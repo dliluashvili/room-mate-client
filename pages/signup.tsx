@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import MultiStepCard from "../components/MultiStepCard";
 import { BASE_URL_NEW } from "../services/api";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 export async function getServerSideProps() {
   const query = `
@@ -54,11 +56,13 @@ export async function getServerSideProps() {
 export default function signup({ data }) {
   return (
     <>
+      <NewHeader />
       <MultiStepCard
         countries={data.data.findAllCountry}
         gender={data.data.findAllGender}
         questions={data.data.getQuestions}
       />
+      <NewFooter />
     </>
   );
 }

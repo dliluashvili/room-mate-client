@@ -27,6 +27,8 @@ import useTranslation from "next-translate/useTranslation";
 import TextSearch from "../components/pages/houseSearch/houseSearchComponets/testField";
 
 import HouseCard from "../components/pages/houseSearch/houseCard";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 const Search = () => {
   useCheckAuth(false);
@@ -48,7 +50,7 @@ const Search = () => {
 
   useEffect(() => {
     Flats.getFlatFilters({
-      lang: router.locale
+      lang: router.locale,
     })
       .then((res) => {
         setSearchParams(res.data.filter((el) => el.type !== "chies"));
@@ -68,7 +70,7 @@ const Search = () => {
     Flats.getFlats({
       ...searchObject,
       page: router.query.page ? router.query.page : 1,
-      locale: router.locale
+      locale: router.locale,
     })
       .then((res) => {
         setMeta(res.data.meta);
@@ -88,8 +90,8 @@ const Search = () => {
     router.push("/houseSearch", {
       query: {
         ...searchObject,
-        page: 1
-      }
+        page: 1,
+      },
     });
 
     setSearchObjectFromQuery(searchObject);
@@ -121,7 +123,7 @@ const Search = () => {
 
   return (
     <div className="">
-      <Header />
+      <NewHeader />
       {/* <SearchProvider> */}
       {openPayModal ? (
         <PayModal
@@ -136,7 +138,7 @@ const Search = () => {
         <div className="container d-flex pt-5">
           <div
             className={classNames("search_sideBar", {
-              openSearchMenu: openSearchMenu
+              openSearchMenu: openSearchMenu,
             })}
           >
             {searchParams.map((el) => {
@@ -292,7 +294,7 @@ const Search = () => {
                             }
 
                             return item;
-                          })
+                          }),
                         ]);
                       }}
                       key={el.id}
@@ -312,7 +314,8 @@ const Search = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
+      <NewFooter />
     </div>
   );
 };
