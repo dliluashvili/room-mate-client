@@ -38,19 +38,23 @@ export default function NewHeader() {
             {t("rentApartment")}
           </span>
         </Link>
-        <div className="bg-[#cff1e6] p-2 mr-2 flex items-center rounded-lg xl:px-3 xl:py-2 xl:mr-4 pointer">
-          <span className="mr-2 text-xs xl:text-base xl:mr-3">
-            {t("status")}
-          </span>
-          <div className="w-3 h-3 xl:w-5 xl:h-5 relative pointer">
-            <Image
-              src={StatusIcon}
-              alt="StatusIcon"
-              layout="fill"
-              objectFit="cover"
-            />
+        <Link href={user ? "/profile" : "login"}>
+          <div className="bg-[#cff1e6] p-2 mr-2 flex items-center rounded-lg xl:px-3 xl:py-2 xl:mr-4 pointer">
+            <div className="w-3 h-3 xl:w-5 xl:h-5 relative pointer">
+              <Image
+                src={UserIcon}
+                alt="UserIcon"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+
+            <span className="ml-2 text-xs xl:text-base xl:mr-3">
+              {user ? user.firstname : "ავტორიზაცია"}
+            </span>
           </div>
-        </div>
+        </Link>
+
         {router.locales.map((lang) => {
           if (router.locale === lang) return null;
           return (
@@ -69,20 +73,6 @@ export default function NewHeader() {
           className="hidden lg:block lg:bg-[#f2f5ff]  relative rounded-lg px-2 pb-1 pt-2 md:px-3 lg:mr-4"
         >
           <Image src={Bell} alt="Bell Icon" className="pointer" />
-        </div>
-        <div
-          id="userDiv"
-          className="hidden bg-[#cff1e6] md:flex items-center justify-center rounded-lg py-2 px-3 pointer"
-        >
-          <div className="w-4 h-4 relative mr-2 ">
-            <Image
-              src={UserIcon}
-              alt="UserIcon"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <span className="md:text-xs xl:text-base">ირაკლი</span>
         </div>
       </div>
     </main>

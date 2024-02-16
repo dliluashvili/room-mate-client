@@ -13,12 +13,14 @@ import { useCheckAuth } from "../../components/hooks/useCheckAuth";
 import { useTypedSelector } from "../../components/hooks/useTypeSelector";
 import Head from "next/head";
 import Linkify from "linkify-react";
+import NewHeader from "../../components/NewHeader";
+import NewFooter from "../../components/NewFooter";
 
 // access remote data
 export async function getServerSideProps(context) {
   const { id } = context.params;
   const lang = context.locale;
-  
+
   const response = await Flats.getById({
     lang,
     id: Number(id),
@@ -142,20 +144,39 @@ function House(props) {
     <>
       <Head>
         {props?.title && <title>{props?.title}</title>}
-        {props?.description && <meta name="description" content={props?.description} key="description"/>}
-        {props?.title && <meta property="og:title" content={props?.title} key="og:title"/>}
-        {props?.description && <meta property="og:description" content={props?.description} key="og:description"/>}
-        {props?.images[0]?.original && 
+        {props?.description && (
+          <meta
+            name="description"
+            content={props?.description}
+            key="description"
+          />
+        )}
+        {props?.title && (
+          <meta property="og:title" content={props?.title} key="og:title" />
+        )}
+        {props?.description && (
+          <meta
+            property="og:description"
+            content={props?.description}
+            key="og:description"
+          />
+        )}
+        {props?.images[0]?.original && (
           <>
-            <meta property="og:image" content={props?.images[0].original} key="og:image" />
+            <meta
+              property="og:image"
+              content={props?.images[0].original}
+              key="og:image"
+            />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
           </>
-        }
+        )}
         <meta property="og:type" content="website" />
       </Head>
       <div>
-        <Header />
+        {/* <Header /> */}
+        <NewHeader />
         <div className="houseStatement ">
           <Carousel
             renderThumbs={renderThumbs}
@@ -645,7 +666,8 @@ function House(props) {
           ) : null}
         </div>
 
-        <Footer />
+        {/* <Footer /> */}
+        <NewFooter />
       </div>
     </>
   );
