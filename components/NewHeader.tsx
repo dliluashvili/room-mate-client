@@ -8,6 +8,7 @@ import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTypedSelector } from "./hooks/useTypeSelector";
+import BurgerMenu from "./BurgerMenu";
 
 export default function NewHeader() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -75,6 +76,7 @@ export default function NewHeader() {
           <Image src={Bell} alt="Bell Icon" className="pointer" />
         </div>
       </div>
+      <BurgerMenu />
     </main>
   );
 }

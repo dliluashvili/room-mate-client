@@ -12,8 +12,11 @@ import Linkedin from "../public/newImages/social-linkedin.svg";
 import Visa from "../public/newImages/Visa.svg";
 import MasterCard from "../public/newImages/Mastercard.svg";
 import Paypal from "../public/newImages/PayPal.svg";
+import { useTypedSelector } from "./hooks/useTypeSelector";
+import Link from "next/link";
 
 export default function NewFooter() {
+  const { user } = useTypedSelector((state) => state.profile);
   return (
     <main className="flex flex-col w-full h-full pt-12">
       <div className="flex flex-col px-7 sm:px-16 md:px-20 md:flex-row md:justify-between md:items-start">
@@ -23,12 +26,20 @@ export default function NewFooter() {
           </div>
         </div>
         <div className="flex flex-col gap-y-4  mt-8 md:mt-0">
-          <p className="text-xs font-semibold ">მთავარი</p>
+          <Link href="/">
+            <p className="text-xs font-semibold ">მთავარი</p>
+          </Link>
           <div className="grid lg:grid-cols-2 gap-y-4 lg:gap-x-20">
-            <p className="text-xs pointer">იპოვე ოთახის მეზობელი</p>
-            <p className="text-xs pointer">იპოვე ბინა</p>
+            <Link href={user ? "/search" : "/signup"}>
+              <p className="text-xs pointer">იპოვე ოთახის მეზობელი</p>
+            </Link>
+            <Link href="/houseSearch">
+              <p className="text-xs pointer">იპოვე ბინა</p>
+            </Link>
             <p className="text-xs pointer">გახდი ჩვენი პარტნიორი</p>
-            <p className="text-xs pointer">ხშირად დასმული შეკითხვები</p>
+            <Link href="https://roommate.blog/">
+              <p className="text-xs pointer">ბლოგი</p>
+            </Link>
             <p className="text-xs pointer">როგორ მუშაობს</p>
           </div>
         </div>

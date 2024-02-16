@@ -11,23 +11,39 @@ import Partners from "../components/homeComponents/Partners";
 import Reviews from "../components/homeComponents/Reviews";
 import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 import NewFooter from "../components/NewFooter";
+import queryString from "query-string";
+// Example code (adapt based on your actual requirements)
 
-export async function getServerSideProps() {
-  const response = await axios.get("https://api.roommategeorgia.ge/flats");
-  console.log(response.data);
-  return { props: { flats: response.data } };
+export async function getServerSideProps(searchParams) {
+  try {
+    const response = await axios.get(
+      `https://api.roommategeorgia.ge/flats?${queryString.stringify(
+        searchParams
+      )}`,
+      {
+        // Add any necessary authentication headers here
+      }
+    );
+
+    return { props: { flats: response.data } };
+  } catch (error) {
+    // Handle API errors gracefully
+    return { props: { errorMessage: error.message } }; // Return a string message
+  }
 }
 
 export default function Home({ flats }) {
+  console.log(flats);
+
   return (
     <>
-      <NewHeader />
-      <main className="flex flex-col w-full min-h-screen  py-4 bg-mainBg md:py-6  ">
+      <main className="flex  flex-col w-full min-h-screen  pb-4 bg-mainBg md:pb-6">
+        <NewHeader />
         {/* <Banner /> */}
         <Features />
         <NewsCarousel />
         <WhyUs />
-        <Apartments flats={flats.data} />
+        <Apartments flats={flats?.data} />
         <Partners />
         <Contact />
         <Reviews />
