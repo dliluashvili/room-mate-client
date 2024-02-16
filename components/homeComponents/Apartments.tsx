@@ -37,10 +37,18 @@ export default function Apartments({ flats }) {
                     <div className="w-full  flex flex-col justify-start rounded-xl  items-start  border-1 ">
                       <div className="w-full  rounded-t-xl overflow-hidden">
                         <div style={{ height: "214px", position: "relative" }}>
-                          <Image
+                          {/* <Image
                             src={item.images[0].original}
                             layout="fill"
                             objectFit="cover"
+                          /> */}
+                          <img
+                            src={item.images[0].original}
+                            style={{
+                              objectFit: "cover",
+                              width: "100%",
+                              height: "100%",
+                            }}
                           />
                         </div>
                       </div>
