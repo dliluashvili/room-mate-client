@@ -24,11 +24,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { BASE_URL_NEW } from "../services/api";
-import {
-  FormDataType,
-  QuestionItemType,
-  TranslatableItem,
-} from "./types/types";
+import { FormDataType } from "./types/types";
 
 export default function SignupFirst({
   countries,
@@ -93,7 +89,6 @@ export default function SignupFirst({
             },
           },
         });
-        console.log(response);
         if (response.data.data.sendCode === "ALREADY_SENT") {
           form.setError("code", { message: t("codeAlreadySent") });
         }
@@ -102,21 +97,7 @@ export default function SignupFirst({
       }
     })();
   };
-  const translateGender = (
-    item: TranslatableItem,
-    locale: string
-  ): string | undefined => {
-    const translation = item.translations.find((t) => t.lang === locale);
-    return translation?.sex;
-  };
 
-  const translateCountry = (
-    item: TranslatableItem,
-    locale: string
-  ): string | undefined => {
-    const translation = item.translations.find((t) => t.lang === locale);
-    return translation?.name;
-  };
   return (
     <>
       <main className="flex flex-col  items-center ">
@@ -181,17 +162,16 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries?.map((item: QuestionItemType) => (
-                          <SelectItem
-                            key={`${item.id}-${translateCountry(
-                              item,
-                              router.locale
-                            )}`}
-                            value={item.id}
-                          >
-                            {translateCountry(item, router.locale)}
-                          </SelectItem>
-                        ))}
+                        {countries
+                          .flatMap((country) => country.translations)
+                          .map((translation) => (
+                            <SelectItem
+                              key={translation.id}
+                              value={translation.id}
+                            >
+                              {translation.name}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -214,17 +194,16 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender?.map((item: QuestionItemType) => (
-                          <SelectItem
-                            key={`${item.id}-${translateGender(
-                              item,
-                              router.locale
-                            )}`}
-                            value={item.id}
-                          >
-                            {translateGender(item, router.locale)}
-                          </SelectItem>
-                        ))}
+                        {gender
+                          .flatMap((country) => country.translations)
+                          .map((translation) => (
+                            <SelectItem
+                              key={translation.id}
+                              value={translation.id}
+                            >
+                              {translation.sex}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -9,8 +9,8 @@ export default function SignupStepTwo({ questions }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
 
   const formSchema = z.object(
-    questions.reduce((acc: Question, item: Question) => {
-      acc[item.id] = item.uiFieldInfo.required
+    questions.reduce((acc: any, item: any) => {
+      acc[item.id] = item.uiFieldInfo && item.uiFieldInfo.input.type
         ? z.string().min(1, { message: t("requiredError") })
         : z.string().optional();
       return acc;
