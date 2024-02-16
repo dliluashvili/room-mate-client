@@ -1,52 +1,35 @@
 import React from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../@/components/ui/sheet";
-import { Button } from "../@/components/ui/button";
-import { Label } from "../@/components/ui/label";
-import { BaseInput } from "../@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "../@/components/ui/sheet";
+
 import Image from "next/image";
 import BurgerIcon from "../public/newImages/burger-menu.svg";
+import Link from "next/link";
+import { useTypedSelector } from "./hooks/useTypeSelector";
 
 export default function BurgerMenu() {
+  const { user } = useTypedSelector((state) => state.profile);
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Image src={BurgerIcon} />
       </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <BaseInput id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <BaseInput id="username" value="@peduarte" className="col-span-3" />
-          </div>
+      <SheetContent className="px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-72">
+        <p className="text-base">en</p>
+        <div className="flex flex-col gap-y-6 mt-16 text-xs">
+          <Link href="/">
+            <p>მთავარი</p>
+          </Link>
+          <Link href={user ? "/search" : "/signup"}>
+            <p>იპოვე ოთახის მეზობელი</p>
+          </Link>
+          <Link href="/houseSearch">
+            <p>იპოვე ბინა</p>
+          </Link>
+
+          <p>გახდი ჩვენი პარტნიორი</p>
+          <p>ხშირად დასმული შეკითხვები</p>
+          <p>როგორ მუშაობს</p>
         </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
