@@ -17,6 +17,7 @@ import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
 
 const Search = () => {
   useCheckAuth();
@@ -37,7 +38,7 @@ const Search = () => {
 
   useEffect(() => {
     Questions.getQuestions({
-      lang: router.locale
+      lang: router.locale,
     })
       .then((res) => {
         setSearchParams(res.data.filter((el) => el.is_searchable));
@@ -69,7 +70,7 @@ const Search = () => {
     ProfileService.search({
       filters: cleanUpSearchObject,
       page: router.query.page ? router.query.page : 1,
-      locale: router.locale
+      locale: router.locale,
     })
       .then((res) => {
         // debugger;
@@ -103,8 +104,8 @@ const Search = () => {
     router.push("/search", {
       query: {
         filter: JSON.stringify(cleanUpSearchObject),
-        page: 1
-      }
+        page: 1,
+      },
     });
   };
 
@@ -135,7 +136,8 @@ const Search = () => {
 
   return (
     <div className="">
-      <Header />
+      {/* <Header /> */}
+      <NewHeader />
       {/* <SearchProvider> */}
       {openPayModal ? (
         <PayModal
@@ -151,7 +153,7 @@ const Search = () => {
         <div className="container d-flex pt-5">
           <div
             className={classNames("search_sideBar", {
-              openSearchMenu: openSearchMenu
+              openSearchMenu: openSearchMenu,
             })}
           >
             {searchParams.map((el) => {
@@ -308,7 +310,8 @@ const Search = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
+      <NewHeader />
     </div>
   );
 };

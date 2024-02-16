@@ -11,7 +11,7 @@ export default function Features() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <>
-      <main className="w-full flex justify-between px-6 gap-x-14 mt-12 sm:px-16 md:px-20 lg:grid  lg:grid-flow-col  lg:grid-cols-4 lg:gap-x-20 lg:mt-24 lg:px-24">
+      <main className="w-full flex justify-between px-6  mt-12 sm:px-16 md:px-20 lg:grid  lg:grid-flow-col  lg:grid-cols-4 lg:gap-x-20 lg:mt-24 lg:px-24">
         <div className="flex flex-col items-center w-16 lg:w-full lg:items-start">
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
