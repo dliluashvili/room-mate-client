@@ -15,6 +15,7 @@ import queryString from "query-string";
 // Example code (adapt based on your actual requirements)
 
 export async function getServerSideProps(searchParams) {
+
   try {
     const response = await axios.get(
       `https://api.roommategeorgia.ge/flats?${queryString.stringify(
@@ -24,6 +25,7 @@ export async function getServerSideProps(searchParams) {
         // Add any necessary authentication headers here
       }
     );
+    // Get the value of the 'locale' parameter from the search params
 
     return { props: { flats: response.data } };
   } catch (error) {

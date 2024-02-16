@@ -10,7 +10,8 @@ import NewHeader from "./NewHeader";
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ answeredQuestions: [] });
-
+  console.log(formData);
+  console.log(questions.map((item) => item.id));
   const updateFormData = (newData: FormDataType) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
