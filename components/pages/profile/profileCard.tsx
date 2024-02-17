@@ -23,10 +23,10 @@ const ProfileCard: React.FC<IProps> = ({
     cardInfo,
     updateAddRemove,
 }) => {
-    console.log({ cardInfo });
     const addRemoveFromFavorites = () => {
         let requestId = favourite_id ? favourite_id : id;
-        ProfileService.addRemoveFavorites(requestId)
+
+        ProfileService.addRemoveFavorites(Number(requestId))
             .then((res) => {
                 updateAddRemove(requestId, isFavourite);
             })

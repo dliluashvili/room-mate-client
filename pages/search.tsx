@@ -25,6 +25,7 @@ const Search = () => {
     const router = useRouter();
 
     const getSearchResults = async () => {
+        const token = localStorage.getItem('token');
         const query = `
             query FilterUsers($offset: Int!, $limit: Int!, $input: [FilterInput!]) {
                 filterUsers(offset: $offset, limit: $limit, input: $input) {
@@ -39,6 +40,7 @@ const Search = () => {
                         id
                         firstname
                         age
+                        isFavourite
                         cardInfo {
                             bio
                             districtsName
@@ -49,16 +51,26 @@ const Search = () => {
             }
         `;
 
-        const response = await axios.post(BASE_URL_NEW, {
-            query: query,
-            variables: {
-                input: [],
-                offset: !pageInfo ? 0 : pageInfo.page * pageInfo.limit,
-                limit: 10,
+        const response = await axios.post(
+            BASE_URL_NEW,
+            {
+                query: query,
+                variables: {
+                    input: [],
+                    offset: !pageInfo ? 0 : pageInfo.page * pageInfo.limit,
+                    limit: 10,
+                },
             },
-        });
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-        if (response.data?.data) {
+        console.log({ response });
+
+        if (!response.data?.errors) {
             setSearchResults(response.data.data.filterUsers.data);
             setPageInfo(response.data.data.filterUsers.pageInfo);
         }
