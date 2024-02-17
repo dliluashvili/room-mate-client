@@ -1,6 +1,7 @@
-export const BASE_URL = "https://api.roommategeorgia.ge";
-export const BASE_URL_NEW = "https://test-api.roommategeorgia.ge/graphql";
-// export const BASE_URL = "http://localhost:3000";
+// export const BASE_URL = "https://api.roommategeorgia.ge";
+// export const BASE_URL_NEW = "https://test-api.roommategeorgia.ge/graphql";
+export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL_NEW = 'http://localhost:3000/graphql';
 
 // eslint-disable-next-line no-useless-escape
 // const domain = document.domain.match(/[^\.]*\.[^.]*$/);
@@ -8,9 +9,9 @@ export const BASE_URL_NEW = "https://test-api.roommategeorgia.ge/graphql";
 // export const COOKIE_DOMAIN =
 //   parseDomain === "localhost" ? parseDomain : `.${parseDomain}`;
 export const axiosHeaderConfig = () => {
-  return {
-    headers: {
-      token: `Bearer ${localStorage.getItem("token")}`,
-    },
-  };
+    return {
+        headers: {
+            token: `Bearer ${localStorage.getItem('token')}`,
+        },
+    };
 };
