@@ -92,11 +92,7 @@ const Search = () => {
         }
 
         getSearchResults();
-        // router.query.page
-        // router.locale
-
-        // TODO: need to refetch data when page, or locale changes
-    }, [router.query, router.locale]);
+    }, [router.locale]);
 
     const updateAddRemove = (id: number, saveId: boolean) => {
         const updatedSearchResults = searchResults.map((el) => {

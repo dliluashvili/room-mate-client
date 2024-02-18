@@ -79,8 +79,10 @@ class _ProfileService {
         });
     };
 
-    getUserById = (id: string): AxiosPromise<IUserProfile> => {
-        return axiosWithToken.get(backEndRoutes.profile.getUserById(id));
+    getUserById = (id: string, locale: string): AxiosPromise<IUserProfile> => {
+        return axiosWithToken.get(
+            backEndRoutes.profile.getUserById(id, locale)
+        );
     };
 
     getFavorites = ({
