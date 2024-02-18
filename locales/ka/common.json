@@ -208,9 +208,19 @@
   "blogText3": "გაეცანი ჩვენი კლიენტების ისტორიებს და მათ გამოცდილებებს",
   "blogButton": "ბლოგი",
   "blogMainHead": "დაიწყეთ ცხოვრება სათანადოდ",
-  "partnersHead1": "დაიწყე ძიება ახლა!",
+  "partnersHead1": "აღმოაჩინე ოთახის მეზობელი!",
   "partnersText1": "აღმოაჩინე ოთახის მეზობელი, ხელმისაწვდომი ბინა და გაიყავი ბინის ქირა",
   "partnersHead2": "ბინის მეპატრონეებისთვის",
   "partnersText2": "გააქირავეთ თქვენი ბინა ორ თვიანი ბინის ქირის დაზღვევით და თავიდან აიცილეთ ქონების დაზიანება",
-  "reviewsHead": "მომხმარებელთა შეფასებები"
+  "reviewsHead": "მომხმარებელთა შეფასებები",
+  "startSearch": "დაიწყე ძიება ახლა!",
+  "question1": "How do I create a profile?",
+  "answer1": "Simply sign up with your email and fill out the necessary information to create your profile.",
+  "question2": "Is it safe to use Roommate.ge?",
+  "answer2": "We prioritize user safety and security. Our platform includes verification processes and user reviews to ensure a trustworthy community",
+  "question3": "Can I search for roommates based on specific criteria?",
+  "answer3": "Yes! Use our advanced search filters to narrow down your options based on location, budget, lifestyle preferences, and more.",
+  "questionsHead": "ხშირად დასმული შეკითხვები",
+  "becomePartner": "გახდი ჩვენი პარტნიორი",
+  "payMethods": "გადახდის მეთოდები"
 }

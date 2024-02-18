@@ -40,7 +40,7 @@ export default function Home({ flats }) {
     <>
       <main className="flex  flex-col w-full min-h-screen  pb-4 bg-mainBg md:pb-6">
         <NewHeader />
-        {/* <Banner /> */}
+        <Banner />
         <Features />
         <NewsCarousel />
         <WhyUs />

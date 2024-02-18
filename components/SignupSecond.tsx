@@ -38,6 +38,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
       answerId?: any;
       data?: any;
     }[] = [];
+
     questions.forEach((question: any) => {
       if (question.uiFieldInfo) {
         let answerData: { answerId?: string; data?: any };
@@ -59,7 +60,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
       }
     });
 
-    let result = answeredQuestions.flatMap((item) => {
+    let result = answeredQuestions.flatMap((item: any) => {
       if (Array.isArray(item.answerId)) {
         return item.answerId.map((answer) => ({
           questionId: item.questionId,
@@ -73,13 +74,12 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
       } else {
         return {
           questionId: item.questionId,
-          answerId: item.data,
+          data: item.data,
         };
       }
     });
 
-    await updateFormData({ answeredQuestions: result });
-    submit();
+    updateFormData({ answeredQuestions: result });
   };
 
   return (
@@ -161,6 +161,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                               {item.translations[0].title}
                             </FormLabel>
                             <Select
+                              className="text-xs"
                               {...field}
                               isMulti={
                                 item.uiFieldInfo.input.variant === "multiple"

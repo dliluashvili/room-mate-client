@@ -5,36 +5,33 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../@/components/ui/accordion";
-
-
-const items = [
-  {
-    value: "item-1",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-  {
-    value: "item-2",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-  {
-    value: "item-3",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-];
+import useTranslation from "next-translate/useTranslation";
 
 export function AccordionQuestions() {
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   const [openItems, setOpenItems] = useState({});
+  const items = [
+    {
+      value: "item-1",
+      question: t("question1"),
+      answer: t("answer1"),
+    },
+    {
+      value: "item-2",
+      question: t("question2"),
+      answer: t("answer2"),
+    },
+    {
+      value: "item-3",
+      question: t("question3"),
+      answer: t("answer3"),
+    },
+  ];
 
   const handleClick = (value) => {
     setOpenItems((prevOpenItems) => ({
       ...prevOpenItems,
-      [value]: !prevOpenItems[value], // Toggle the state of the clicked item
+      [value]: !prevOpenItems[value],
     }));
   };
 
@@ -42,7 +39,7 @@ export function AccordionQuestions() {
 
   return (
     <main className="px-6 pt-6 pb-12 bg-[#f2f5ff] sm:px-16 md:px-20 lg:px-24 ">
-      <h1 className="text-xl font-semibold">ხშირად დასმული კითხვები</h1>
+      <h1 className="text-xl font-semibold">{t("questionsHead")}</h1>
       {items.map((item) => (
         <Accordion
           type="single"

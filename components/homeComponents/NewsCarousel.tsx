@@ -59,7 +59,7 @@ export default function NewsCarousel() {
                 <div className="flex h-full  flex-col justify-between mt-4">
                   <span className="text-xs ">{item.text}</span>
 
-                  <Button className="mt-4 w-32 bottom-0">
+                  <Button className="mt-4 w-32 bottom-0 text-xs">
                     {item.buttonText}
                   </Button>
                 </div>
