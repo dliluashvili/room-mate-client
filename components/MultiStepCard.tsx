@@ -27,8 +27,11 @@ export default function MultiStepCard({ countries, gender, questions }) {
     if (modifiedFormData.genderId) {
       modifiedFormData.genderId = Number(modifiedFormData.genderId);
     }
+    if (modifiedFormData.email === "") {
+      delete modifiedFormData.email;
+    }
 
-    console.log(modifiedFormData);
+    console.log("thisis", modifiedFormData);
     const requestBody = {
       query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
         signUpAndAnswerQuestion(input: $input) {
@@ -51,12 +54,12 @@ export default function MultiStepCard({ countries, gender, questions }) {
             },
           }
         );
-        if (response.data.errors[0].message) {
-          alert(response.data.errors[0].message);
+        if (response?.data?.errors) {
+          alert(response.data.errors);
         }
         console.log(response);
       } catch (error) {
-        console.error("Error:", error.response.data);
+        console.error("Error:", error);
       }
     }
   };

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
@@ -16,7 +15,6 @@ import {
 } from "../@/components/ui/form";
 import { BaseInput } from "../@/components/ui/input";
 import { Button } from "../@/components/ui/button";
-import { useRouter } from "next/router";
 import { Calendar } from "../@/components/ui/calendar";
 import {
   Popover,
@@ -28,6 +26,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns/format";
 import useTranslation from "next-translate/useTranslation";
 import SignupStepTwo from "./validations/SignupStepTwo";
+import Select from "react-select";
 
 export default function SignupSecond({ questions, updateFormData, submit }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -36,7 +35,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
   const handleSubmit = async (data: any) => {
     const answeredQuestions: {
       questionId: string;
-      answerId?: string;
+      answerId?: any;
       data?: any;
     }[] = [];
     questions.forEach((question: any) => {
@@ -60,7 +59,26 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
       }
     });
 
-    await updateFormData({ answeredQuestions: answeredQuestions });
+    let result = answeredQuestions.flatMap((item) => {
+      if (Array.isArray(item.answerId)) {
+        return item.answerId.map((answer) => ({
+          questionId: item.questionId,
+          answerId: answer.value,
+        }));
+      } else if (typeof item.answerId === "object" && item.answerId !== null) {
+        return {
+          questionId: item.questionId,
+          answerId: item.answerId.value,
+        };
+      } else {
+        return {
+          questionId: item.questionId,
+          answerId: item.data,
+        };
+      }
+    });
+
+    await updateFormData({ answeredQuestions: result });
     submit();
   };
 
@@ -142,28 +160,21 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                             <FormLabel className="leading-5 ">
                               {item.translations[0].title}
                             </FormLabel>
-
                             <Select
-                              onValueChange={(value) => field.onChange(value)}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder={t("selectField")} />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {item.answers.map((answer, answerIndex) => (
-                                  <SelectItem
-                                    key={answerIndex}
-                                    value={answer.id}
-                                  >
-                                    {answer.translations[0].title}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-
+                              {...field}
+                              isMulti={
+                                item.uiFieldInfo.input.variant === "multiple"
+                              }
+                              options={item.answers.map((answer) => ({
+                                questionId: item.id,
+                                value: answer.id, // Unique identifier for the option
+                                label: answer.translations[0].title,
+                              }))}
+                              onChange={(value) => {
+                                console.log(value);
+                                field.onChange(value);
+                              }}
+                            />
                             <FormMessage />
                           </FormItem>
                         )}
@@ -220,7 +231,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                             <FormMessage />
                           </FormItem>
                         )}
-                      /> 
+                      />
                     )}
                 </>
               );
