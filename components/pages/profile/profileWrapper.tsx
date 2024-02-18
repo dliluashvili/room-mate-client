@@ -8,6 +8,8 @@ import Loader from "../../common/loader";
 import classnames from "classnames";
 import SideBar from "./components/sideBar";
 import { IUserProfile } from ".../../../services/profile/profile.http";
+import NewHeader from "../../NewHeader";
+import NewFooter from "../../NewFooter";
 
 interface IProps {
   consumerPage?: "edit" | "balance" | "profile";
@@ -19,7 +21,7 @@ const ProfileWrapper: React.FC<IProps> = ({
   children,
   consumerPage,
   userProfile,
-  myProfile = true
+  myProfile = true,
 }) => {
   useCheckAuth();
   const { user } = useTypedSelector((state: any) => state.profile);
@@ -37,10 +39,11 @@ const ProfileWrapper: React.FC<IProps> = ({
   }
   return (
     <div>
-      <Header type="profile" />
+      {/* <Header type="profile" /> */}
+      <NewHeader />
       <div
         className={classnames("profile_wrapper", {
-          [consumerPage]: consumerPage
+          [consumerPage]: consumerPage,
         })}
       >
         {!myProfile ? (
