@@ -51,7 +51,7 @@ export default function NewHeader() {
             </div>
 
             <span className="ml-2 text-xs xl:text-base xl:mr-3">
-              {user ? user.firstname : "ავტორიზაცია"}
+              {user ? user.firstname : t("auth")}
             </span>
           </div>
         </Link>

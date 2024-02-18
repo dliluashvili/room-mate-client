@@ -3,38 +3,34 @@ import { Card, CardContent } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
 import axios from "axios";
-import { FormDataType } from "./types/types";
 import SignupStepsHeader from "./SignupStepsHeader";
-import NewHeader from "./NewHeader";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ answeredQuestions: [] });
-  console.log(formData);
-  console.log(questions.map((item) => item.id));
-  const updateFormData = (newData: FormDataType) => {
+
+  const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
   const submit = async () => {
     const modifiedFormData: any = {
       ...formData,
-      answeredQuestions: formData.answeredQuestions.map((question) => {
-        let modifiedQuestion: {
-          questionId: number;
-          answerId?: number;
-          data?: any;
-        } = { questionId: parseInt(question.questionId) };
-        if (question.answerId) {
-          modifiedQuestion.answerId = parseInt(question.answerId);
-        } else if (question.data) {
-          modifiedQuestion.data = question.data;
-        }
-        return modifiedQuestion;
-      }),
     };
     delete modifiedFormData.code;
+
+    if (modifiedFormData.age) {
+      modifiedFormData.age = Number(modifiedFormData.age);
+    }
+    if (modifiedFormData.countryId) {
+      modifiedFormData.countryId = Number(modifiedFormData.countryId);
+    }
+    if (modifiedFormData.genderId) {
+      modifiedFormData.genderId = Number(modifiedFormData.genderId);
+    }
+
+    console.log(modifiedFormData);
     const requestBody = {
-      query: `mutation Mutation($input: SignUpAndAnswerQuestionsDto!) {
+      query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
         signUpAndAnswerQuestion(input: $input) {
           accessToken
         }
@@ -46,7 +42,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
     if (step === 2) {
       try {
-        console.log("Sending request with payload:", requestBody);
         const response = await axios.post(
           "https://test-api.roommategeorgia.ge/graphql",
           requestBody,
@@ -56,6 +51,10 @@ export default function MultiStepCard({ countries, gender, questions }) {
             },
           }
         );
+        if (response.data.errors[0].message) {
+          alert(response.data.errors[0].message);
+        }
+        console.log(response);
       } catch (error) {
         console.error("Error:", error.response.data);
       }

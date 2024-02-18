@@ -62,11 +62,11 @@ export default function WhyUs() {
       <div className="w-full  grid-cols-2 gap-6 hidden lg:grid ">
         {data.map((item, index) => (
           <div
-            className="py-8 pl-8 pr-14 bg-[#fff] rounded-xl flex flex-col items-start"
+            className="py-8 pl-8 pr-14 bg-[#fff] rounded-xl flex flex-col items-start justify-start"
             key={index}
           >
             <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
-            <h1 className="mt-6 text-left">{item.header}</h1>
+            <h1 className="mt-6 text-left font-semibold">{item.header}</h1>
             <h2 className="mt-2 text-left">{item.text}</h2>
           </div>
         ))}
