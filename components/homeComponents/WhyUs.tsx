@@ -49,7 +49,7 @@ export default function WhyUs() {
         <CarouselContent className="pr-10 lg:pr-16">
           {data.map((item, index) => (
             <CarouselItem key={index} className="w-full lg:w-1/2 md:basis-1/2">
-              <div className="w-full pl-4 py-4 pr-8 flex flex-col items-start rounded-xl bg-[#c0dbfc]">
+              <div className="w-full h-full pl-4 py-4 pr-8 flex flex-col items-start rounded-xl bg-[#c0dbfc]">
                 <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
                 <p className="text-xs font-semibold mt-4">{item.header}</p>
                 <p className="text-xs mt-2">{item.text}</p>

@@ -1,8 +1,8 @@
 import React from "react";
-import FirstBG from "../../public/newImages/firstBG.svg";
+
+import FirstBG from "../../public/newImages/bgFirst.svg";
 import SecondBG from "../../public/newImages/secondBG.svg";
 import { Button } from "../../@/components/ui/button";
-import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 
@@ -17,7 +17,7 @@ export default function Partners() {
         ></div>
         <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
           <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
-            <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-2xl   font-semibold">
+            <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-xl   font-semibold">
               {t("partnersHead1")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
@@ -39,7 +39,7 @@ export default function Partners() {
         ></div>
         <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
           <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
-            <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-2xl   font-semibold">
+            <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-xl   font-semibold">
               {t("partnersHead2")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">

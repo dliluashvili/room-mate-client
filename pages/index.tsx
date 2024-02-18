@@ -15,7 +15,6 @@ import queryString from "query-string";
 // Example code (adapt based on your actual requirements)
 
 export async function getServerSideProps(searchParams) {
-
   try {
     const response = await axios.get(
       `https://api.roommategeorgia.ge/flats?${queryString.stringify(
@@ -50,8 +49,8 @@ export default function Home({ flats }) {
         <Contact />
         <Reviews />
         <AccordionQuestions />
+        <NewFooter />
       </main>
-      <NewFooter />
     </>
   );
 }

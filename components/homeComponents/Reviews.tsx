@@ -13,29 +13,30 @@ import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import Avatar from "../../public/newImages/avatar.svg";
 import RateStar from "../../public/newImages/rate-star.svg";
+import useTranslation from "next-translate/useTranslation";
 
 const data = [
   {
     header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
   {
     header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
     image: CarouselBgWomen,
     buttonText: "ღილაკი",
   },
   {
     header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
   {
     header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
     image: CarouselBgMen,
     buttonText: "ღილაკი",
   },
@@ -43,13 +44,10 @@ const data = [
 
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 lg:px-24 ">
-      <h1 className="text-2xl text-[#484848]">სათაური</h1>
-      <h2 className="mt-2 text-xs text-[#484848]">
-        შემთხვევით გენერირებული ტექსტი
-      </h2>
-
+      <h1 className="text-2xl text-[#484848]">{t("reviewsHead")}</h1>
       <Carousel
         opts={{
           align: "start",

@@ -18,6 +18,7 @@ import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
 import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 const Search = () => {
   useCheckAuth();
@@ -311,7 +312,7 @@ const Search = () => {
         </div>
       </div>
       {/* <Footer /> */}
-      <NewHeader />
+     <NewFooter/>
     </div>
   );
 };
