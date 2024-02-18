@@ -30,39 +30,36 @@ import useTranslation from "next-translate/useTranslation";
 import SignupStepTwo from "./validations/SignupStepTwo";
 
 export default function SignupSecond({ questions, updateFormData, submit }) {
-  const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupStepTwo({ questions });
 
-  const handleSubmit = async (data: FormData) => {
+  const handleSubmit = async (data: any) => {
     const answeredQuestions: {
       questionId: string;
-      answerId?: number;
+      answerId?: string;
       data?: any;
     }[] = [];
     questions.forEach((question: any) => {
-      let answerData: { answerId?: number; data?: any };
-      if (
-        question.uiFieldInfo &&
-        question.uiFieldInfo.input.type === "select"
-      ) {
-        answerData = { answerId: data[question.id] };
-      } else if (
-        question.uiFieldInfo &&
-        question.uiFieldInfo.input.type === "text"
-      ) {
-        answerData = { data: data[question.id] };
-      } else if (
-        question.uiFieldInfo &&
-        question.uiFieldInfo.input.type === "button"
-      ) {
-        answerData = { data: data[question.id] };
+      if (question.uiFieldInfo) {
+        let answerData: { answerId?: string; data?: any };
+        if (question.uiFieldInfo.input.type === "select") {
+          answerData = { answerId: data[question.id] };
+        } else if (question.uiFieldInfo.input.type === "text") {
+          answerData = { data: data[question.id] };
+        } else if (question.uiFieldInfo.input.type === "numeric") {
+          answerData = { data: data[question.id] };
+        } else if (question.uiFieldInfo.input.type === "button") {
+          answerData = { data: data[question.id] };
+        }
+        if (answerData) {
+          answeredQuestions.push({
+            questionId: question.id,
+            ...answerData,
+          });
+        }
       }
-      answeredQuestions.push({
-        questionId: question.id,
-        ...answerData,
-      });
     });
+
     await updateFormData({ answeredQuestions: answeredQuestions });
     submit();
   };
@@ -105,6 +102,36 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                         />
                       )}
                   </div>
+                  <div className="mt-4 mb-4">
+                    {item.uiFieldInfo &&
+                      item.uiFieldInfo.input.type === "numeric" && (
+                        <FormField
+                          control={form.control}
+                          name={item.id}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="leading-5">
+                                {item.translations[0].title}
+                              </FormLabel>
+                              <FormControl>
+                                <BaseInput
+                                  onChange={field.onChange}
+                                  type="number"
+                                  {...field}
+                                  hasError={!!form.formState.errors[item.id]}
+                                  isSuccess={
+                                    !form.formState.errors[item.id] &&
+                                    form.formState.touchedFields[item.id] &&
+                                    field.value !== ""
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                  </div>
                   {item.uiFieldInfo &&
                     item.uiFieldInfo.input.type === "select" && (
                       <FormField
@@ -115,6 +142,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                             <FormLabel className="leading-5 ">
                               {item.translations[0].title}
                             </FormLabel>
+
                             <Select
                               onValueChange={(value) => field.onChange(value)}
                               defaultValue={field.value}
@@ -130,16 +158,18 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                                     key={answerIndex}
                                     value={answer.id}
                                   >
-                                    {item.translations[0].title}
+                                    {answer.translations[0].title}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
+
                             <FormMessage />
                           </FormItem>
                         )}
                       />
                     )}
+
                   {item.uiFieldInfo &&
                     item.uiFieldInfo.input.type === "button" && (
                       <FormField
@@ -190,7 +220,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
                             <FormMessage />
                           </FormItem>
                         )}
-                      />
+                      /> 
                     )}
                 </>
               );

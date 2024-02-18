@@ -43,9 +43,12 @@ export default function SignupFirst({
   const handleSubmit = async (data: FormDataType) => {
     let modifiedFormData = {
       ...data,
+    };
+    let modifedForCode = {
+      ...data,
       code: Number(data.code),
     };
-    updateFormData(data);
+    updateFormData(modifiedFormData);
     try {
       const response = await axios.post(BASE_URL_NEW, {
         query: `
@@ -55,14 +58,16 @@ export default function SignupFirst({
           `,
         variables: {
           input: {
-            phone: data.phone,
-            code: modifiedFormData.code,
+            phone: form.watch("phone"),
+            code: modifedForCode.code,
           },
         },
       });
-      setStep(2);
+
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
+      } else if (response.data.data.checkCode === "INVALID") {
+        form.setError("code", { message: t("კოდს გაუვიდა ვადა") });
       } else if (response.data.data.checkCode === "NOT_FOUND") {
         form.setError("code", { message: t("incorrectCode") });
       }

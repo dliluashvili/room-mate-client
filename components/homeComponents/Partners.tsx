@@ -4,9 +4,10 @@ import SecondBG from "../../public/newImages/secondBG.svg";
 import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Partners() {
-  const media = useMediaQuery({ query: "(max-width: 1280px)" });
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <main className="w-full flex flex-col md:flex-row px-6 mt-12 sm:px-16 md:px-20 lg:px-24 xl:px-24  xl:flex-row md:gap-10 ">
       <div className="w-full h-60 rounded-xl relative mt-4 xl:bg-[#f2f5ff] xl:h-full  xl:w-[90%] overflow-hidden">
@@ -17,11 +18,10 @@ export default function Partners() {
         <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
           <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
             <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-2xl   font-semibold">
-              ოთახის მეზობელი
+              {t("partnersHead1")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
-              შემთხვევითადგენერირებული ტექსტი ეხმარება დიზაინერებს და
-              ტიპოგრაფიული ნაწარმის
+              {t("partnersText1")}
             </p>
             <Button className="text-xs mt-7  xl:text-[14px] ">
               გახდი ჩვენი პარტნიორი
@@ -40,11 +40,10 @@ export default function Partners() {
         <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
           <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
             <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-2xl   font-semibold">
-              ოთახის მეზობელი
+              {t("partnersHead2")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
-              შემთხვევითადგენერირებული ტექსტი ეხმარება დიზაინერებს და
-              ტიპოგრაფიული ნაწარმის
+              {t("partnersText2")}
             </p>
             <Button className="text-xs mt-7  xl:text-[14px] ">
               გახდი ჩვენი პარტნიორი
