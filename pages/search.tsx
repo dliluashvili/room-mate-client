@@ -11,45 +11,55 @@ import useTranslation from 'next-translate/useTranslation';
 import axios from 'axios';
 import { BASE_URL_NEW } from '../services/api';
 import Pagination from '../components/common/pagination';
+import { LangEnum } from '../graphql';
 
 const Search = () => {
     useCheckAuth();
+
     const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
     const [pageInfo, setPageInfo] = useState<any>(null);
-    let { t } = useTranslation('common');
-
     const [openPayModal, setOpenPayModal] = useState(false);
 
     const { user } = useTypedSelector((state) => state.profile);
+
+    let { t } = useTranslation('common');
 
     const router = useRouter();
 
     const getSearchResults = async () => {
         const token = localStorage.getItem('token');
         const query = `
-            query FilterUsers($offset: Int!, $limit: Int!, $input: [FilterInput!]) {
-                filterUsers(offset: $offset, limit: $limit, input: $input) {
-                    pageInfo {
-                        hasNextPage
-                        hasPrevious
-                        offset
-                        limit
-                        total
+            query FilterUsers($input: [FilterInput!], $lang: LangEnum, $limit: Int, $offset: Int) {
+                filterUsers(input: $input, lang: $lang, limit: $limit, offset: $offset) {
+                pageInfo {
+                    hasNextPage
+                    hasPrevious
+                    offset
+                    limit
+                    total
+                    page
+                }
+                data {
+                    id
+                    firstname
+                    age
+                    isFavourite
+                    cardInfo {
+                    bio
+                    districtsName
+                    budget
                     }
-                    data {
-                        id
-                        firstname
-                        age
-                        isFavourite
-                        cardInfo {
-                            bio
-                            districtsName
-                            budget
-                        }
-                    }
+                }
                 }
             }
         `;
+
+        const limit = 10;
+        const offset = router.query.page
+            ? (Number(router.query.page) - 1) * limit
+            : 0;
+
+        console.log(LangEnum.En);
 
         const response = await axios.post(
             BASE_URL_NEW,
@@ -57,8 +67,9 @@ const Search = () => {
                 query: query,
                 variables: {
                     input: [],
-                    offset: !pageInfo ? 0 : pageInfo.page * pageInfo.limit,
-                    limit: 10,
+                    offset,
+                    limit,
+                    lang: router.locale === 'en' ? LangEnum.En : LangEnum.Ka,
                 },
             },
             {
@@ -67,8 +78,6 @@ const Search = () => {
                 },
             }
         );
-
-        console.log({ response });
 
         if (!response.data?.errors) {
             setSearchResults(response.data.data.filterUsers.data);
