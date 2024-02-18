@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
@@ -7,11 +7,18 @@ import SignupStepsHeader from "./SignupStepsHeader";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
+
   const [formData, setFormData] = useState({ answeredQuestions: [] });
 
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
+  useEffect(() => {
+    if (formData.answeredQuestions.length) {
+      submit();
+    }
+  }, [formData]);
+
   const submit = async () => {
     const modifiedFormData: any = {
       ...formData,
@@ -30,8 +37,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
     if (modifiedFormData.email === "") {
       delete modifiedFormData.email;
     }
-
-    console.log("thisis", modifiedFormData);
+    console.log(modifiedFormData, "0000000000000000000");
     const requestBody = {
       query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
         signUpAndAnswerQuestion(input: $input) {

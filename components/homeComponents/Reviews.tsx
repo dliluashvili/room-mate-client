@@ -17,28 +17,24 @@ import useTranslation from "next-translate/useTranslation";
 
 const data = [
   {
-    header: "სახელი გვარი",
-    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
+    header: "თამარი",
+    text: "დიდი მადლობა Roommate-ს პასუხისმგებლობიან და პროფესიონალ თანამშრომლებს. დამიჯერეთ, ამ კომპანიის სანდოობის მაღალი ხარისხი გაგიადვილებთ ბინის გაქირავების და გაქირავების შემდგომ პროცესებს",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
+    header: "დავითი",
+    text: "ძალიან სასარგებლო წამოწყებაა. დარწმუნებული ვარ, ბევრ ადამიანს დაეხმარება გაქირავებასთან დაკავშირებული პრობლემების გადაჭრაში. გისურვებთ წარმატებას",
     image: CarouselBgWomen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
+    header: "მანანა",
+    text: "Roommate Georgia-სთან თანამშრომლობამ ჩემი გაქირავების გამოცდილება საგრძნობლად გაამარტივა. თუ ჩემნაირად ნერვიულობთ გაქირავების შემდგომ თქვენი ბინის მდგომარეობაზე, ჩემი გამოცდილებით, Roommate Georgia ყველა დეტალის გათვალისწინებაში დაგეხმარებათ. ",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "qeglknqgqengqegmqengklqenmglkqenlgnqelgnqe",
+    header: "ზურა",
+    text: "დიდ რეკომენდაციას ვუწევ Rommate-ს. ამ გუნდში ძალიან საინტერესო იდეის გარშემო გაერთიანებული ადამიანები მუშაობენ, რაც მათი სამუშაოს ხარისხზე აისახება! წინსვლა და წარმატებები",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
 ];
 

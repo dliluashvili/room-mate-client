@@ -15,17 +15,15 @@ export default function Partners() {
           className="absolute inset-0 bg-cover bg-no-repeat bg-center  xl:hidden "
           style={{ backgroundImage: `url(${FirstBG.src})` }}
         ></div>
-        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
-          <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
+        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl h-full   p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between   items-center xl:items-end  xl:pl-12 xl:py-4 xl:pr-4">
+          <div className="xl:w-1/2 h-full flex flex-col items-start justify-center xl:pr-14  overflow-hidden xl:mb-20">
             <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-xl   font-semibold">
               {t("partnersHead1")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText1")}
             </p>
-            <Button className="text-xs mt-7  xl:text-[14px] ">
-              გახდი ჩვენი პარტნიორი
-            </Button>
+            <Button className="text-xs mt-7   ">{t("startSearch")}</Button>
           </div>
           <div className="w-1/2 hidden xl:block">
             <Image src={FirstBG} layout="responsive" objectFit="cover" />
@@ -37,17 +35,15 @@ export default function Partners() {
           className="absolute inset-0 bg-cover bg-no-repeat bg-center    xl:hidden"
           style={{ backgroundImage: `url(${SecondBG.src})` }}
         ></div>
-        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:pl-12 xl:py-4 xl:pr-4">
-          <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden ">
+        <div className="absolute inset-0 bg-[#5e666ebf] bg-opacity-50 rounded-xl  p-10 xl:relative xl:bg-[#f2f5ff] flex flex-row justify-between items-center xl:items-end xl:pl-12 xl:py-4 xl:pr-4">
+          <div className="xl:w-1/2  flex flex-col items-start justify-center xl:pr-14  overflow-hidden  xl:mb-20">
             <h1 className="z-50  text-[#fff] xl:text-[#484848] xl:text-xl   font-semibold">
               {t("partnersHead2")}
             </h1>
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText2")}
             </p>
-            <Button className="text-xs mt-7  xl:text-[14px] ">
-              გახდი ჩვენი პარტნიორი
-            </Button>
+            <Button className="text-xs mt-7">{t("startSearch")}</Button>
           </div>
           <div className="w-1/2 hidden xl:block">
             <Image src={SecondBG} layout="responsive" objectFit="cover" />
