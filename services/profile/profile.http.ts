@@ -135,12 +135,7 @@ class _ProfileService {
     };
 
     addContactRequest = (id: number): AxiosPromise<IUserProfile> => {
-        return axiosWithToken.post(
-            backEndRoutes.profile.addContactRequest(id),
-            {
-                favourite_id: id,
-            }
-        );
+        return axiosWithToken.post(backEndRoutes.profile.addContactRequest(id));
     };
 
     deleteContactRequest = (id: number): AxiosPromise<IUserProfile> => {

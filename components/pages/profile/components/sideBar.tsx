@@ -66,8 +66,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 setStatus(true);
             })
             .catch((err) => {
+                console.log({ err });
                 setStatus(false);
-
                 if (err?.response?.data?.message === 'Unauthorized') {
                     checkAuth();
                 }

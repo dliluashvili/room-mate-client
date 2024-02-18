@@ -24,8 +24,8 @@ export const backEndRoutes = {
         getReceivedNotifications: () => `${BASE_URL}/requests/received`,
         getAgents: () => `${BASE_URL}/estate-agents`,
         addRemoveFavorites: () => `${BASE_URL}/favourites/add-or-remove`,
-        addContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
-        removeContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
+        addContactRequest: (id: number) => `${BASE_URL}/requests/${id}`,
+        removeContactRequest: (id: number) => `${BASE_URL}/requests/${id}`,
         approveRejectContact: (id: number) =>
             `${BASE_URL}/requests/answer/${id}`,
         updateLockCommunication: () =>
