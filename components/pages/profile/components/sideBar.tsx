@@ -11,9 +11,8 @@ import { ProfileService } from '../../../../services/profile/profile.http';
 import { useTypedSelector } from '../../../hooks/useTypeSelector';
 import { setCurrentUser } from '../../../../redux/action-creators/index';
 import { useDispatch } from 'react-redux';
-import { AlertIcon, CheckIcon } from '../../../svg/statusIcon';
+import { AlertIcon } from '../../../svg/statusIcon';
 import { useCheckUnAuthResponse } from '../../../hooks/useCheckUnauthRespnse';
-import Fb from '../../../common/fbauth';
 
 interface ISidebar {
     firstname: string;
@@ -374,10 +373,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                             }}
                                             id="flexSwitchCheckDefault"
                                         />
-                                        <label
-                                            className="form-check-label"
-                                            htmlFor="flexSwitchCheckDefault"
-                                        >
+                                        <label className="form-check-label flex">
                                             {/* კონტაqტის ხილვადობა{" "} */}
                                             {t('contactVisibility')}
                                             <span className="pointer toltipWrapper ml-3">
@@ -404,21 +400,18 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                                 onChange={() => {
                                                     handleChangeAvailable();
                                                 }}
-                                                id="flexSwitchCheckDefault"
+                                                id="SearchingRoomateSwitch"
                                             />
-                                            <label
-                                                className="form-check-label"
-                                                htmlFor="flexSwitchCheckDefault"
-                                            >
+                                            <label className="form-check-label flex">
                                                 {/* კონტაqტის ხილვადობა{" "} */}
                                                 {t('findRoomate')}
 
-                                                <span className="pointer toltipWrapper ml-3">
+                                                <span className="pointer toltipWrapper ml-3 ">
                                                     <AlertIcon
                                                         stroke="blue"
                                                         fill="blue"
                                                     />
-                                                    <p>
+                                                    <p className="contact_view_tooltip">
                                                         {t('findRoomateHint')}
                                                     </p>
                                                 </span>
@@ -426,11 +419,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                         </div>
                                     </div>
                                 ) : null}
-                                {!user?.socials?.length ? (
-                                    <Fb>{t('connect')}</Fb>
-                                ) : (
-                                    <p>{t('connected')}</p>
-                                )}
                             </div>
                         ) : null}
 
@@ -448,33 +436,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                         fill="#5E666E"
                                     />
                                 </svg>
-                                {`+${props?.calling_code}${props?.phone}`}
+                                <span className="ml-2">{`+${props?.calling_code}${props?.phone}`}</span>
                             </div>
-                            {props?.social_network ? (
-                                <div>
-                                    <a
-                                        href={props?.social_network}
-                                        rel="noreferrer"
-                                        target="_blank"
-                                    >
-                                        <svg
-                                            width="8"
-                                            height="17"
-                                            viewBox="0 0 8 17"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M1.79631 17H5.21133V8.42146H7.59502L7.85456 5.55284H5.21133V3.92045C5.21133 3.23745 5.3411 2.9779 5.99678 2.9779H7.85456V0H5.4777C2.93009 0 1.78264 1.12013 1.78264 3.26476V5.55966H0V8.46243H1.78264L1.79631 17Z"
-                                                fill="#5E666E"
-                                            />
-                                        </svg>
-                                        {props?.firstname} {props?.lastname}
-                                    </a>
-                                </div>
-                            ) : (
-                                ''
-                            )}
                         </div>
                     </>
                 )}
@@ -547,16 +510,20 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                     </a>
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/profile/balance">
+                            {/* active link */}
+                            {/* <li>
+                                <Link href="#">
                                     <a
-                                        className={classnames('statusLink', {
-                                            active:
-                                                '/profile/balance' ===
-                                                router.asPath,
-                                        })}
+                                        className={classnames(
+                                            'statusLink flex items-center',
+                                            {
+                                                active:
+                                                    '/profile/balance' ===
+                                                    router.asPath,
+                                            }
+                                        )}
                                     >
-                                        <span>
+                                        <span className="flex items-center">
                                             <svg
                                                 width="16"
                                                 height="16"
@@ -603,7 +570,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                                         )}
                                     </a>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <a
                                     href="#"
