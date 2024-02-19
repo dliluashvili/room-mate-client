@@ -349,7 +349,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                             loading={status === 'load'}
                             disabled={!!status}
                             onClick={userContactRequest}
-                            className="btn btn-primary mb-4 w-100"
+                            className="btn btn-primary mb-4 w-100 bg-[#19a463]"
                         >
                             {status || props.isSentRequest
                                 ? t('sentContactRequest')
