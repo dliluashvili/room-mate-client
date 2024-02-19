@@ -14,6 +14,7 @@ import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 
 export default function NewsCarousel() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -22,19 +23,22 @@ export default function NewsCarousel() {
       header: t("blogHeader1"),
       text: t("blogText1"),
       image: CarouselBgMen,
-      buttonText: t("blogButton"),
+      buttonText: t("findMore"),
+      link: "https://www.roommate.blog/",
     },
     {
       header: t("blogHeader2"),
       text: t("blogText2"),
       image: CarouselBgWomen,
-      buttonText: t("blogButton"),
+      buttonText: t("findMore"),
+      link: "https://www.roommate.blog/post/a-comprehensive-guide-to-accommodation-options-and-prices-for-international-students-in-tbilisi-geo",
     },
     {
       header: t("blogHeader3"),
       text: t("blogText3"),
       image: CarouselBgMen,
-      buttonText: t("blogButton"),
+      buttonText: t("findMore"),
+      link: "https://www.roommate.blog/",
     },
   ];
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
@@ -58,10 +62,11 @@ export default function NewsCarousel() {
                 <span className="text-base font-semibold">{item.header}</span>
                 <div className="flex h-full  flex-col justify-between mt-4">
                   <span className="text-xs ">{item.text}</span>
-
-                  <Button className="mt-4 w-32 bottom-0 text-xs">
-                    {item.buttonText}
-                  </Button>
+                  <Link href={item.link}>
+                    <Button className="mt-4 w-32 bottom-0 text-xs">
+                      {item.buttonText}
+                    </Button>
+                  </Link>
                 </div>
                 <div className="absolute right-0 bottom-[-10px]  lg:right-4">
                   <Image width={128} height={158} src={item.image} />

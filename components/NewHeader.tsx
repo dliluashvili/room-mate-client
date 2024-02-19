@@ -14,8 +14,7 @@ export default function NewHeader() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const router = useRouter();
   const { user } = useTypedSelector((state) => state.profile);
-  console.log(user);
-  console.log("!23");
+
   return (
     <main className="bg-mainBg flex flex-row px-5 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
       <Link href="/">
