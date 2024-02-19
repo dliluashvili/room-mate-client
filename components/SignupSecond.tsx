@@ -1,11 +1,5 @@
 import React from "react";
 import {
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "../@/components/ui/select";
-import {
   Form,
   FormControl,
   FormField,
@@ -27,6 +21,8 @@ import { format } from "date-fns/format";
 import useTranslation from "next-translate/useTranslation";
 import SignupStepTwo from "./validations/SignupStepTwo";
 import Select from "react-select";
+import arroLeft from "../public/newImages/arrow-left.png";
+import Image from "next/image";
 
 export default function SignupSecond({ questions, updateFormData, setStep }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -162,7 +158,7 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                               {item.translations[0].title}
                             </FormLabel>
                             <Select
-                              className="text-xs"
+                              className="text-xs "
                               {...field}
                               isMulti={
                                 item.uiFieldInfo.input.variant === "multiple"
@@ -199,7 +195,7 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                   <Button
                                     variant="calendar"
                                     className={cn(
-                                      "w-[240px] pl-3 text-left font-normal",
+                                      "w-[200px] md:w-[240px] px-3 py-5  text-left font-normal flex justify-start",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -222,10 +218,6 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                   onSelect={(date) => {
                                     field.onChange(date.toISOString());
                                   }}
-                                  disabled={(date) =>
-                                    date > new Date() ||
-                                    date < new Date("1900-01-01")
-                                  }
                                   initialFocus
                                 />
                               </PopoverContent>
@@ -238,14 +230,15 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                 </>
               );
             })}
-            <Button
-              className="mt-4"
-              variant="default"
-              size="default"
-              type="submit"
-            >
-              Send
-            </Button>
+            <div className="flex flex-row justify-between items-center mt-4 gap-x-[50%]">
+              <Button onClick={() => setStep(1)}>
+                <Image src={arroLeft} width={25} height={25} />
+                <p className="ml-2 text-white text-base">Back</p>
+              </Button>
+              <Button variant="default" size="default" type="submit">
+                Send
+              </Button>
+            </div>
           </form>
         </Form>
       </main>
