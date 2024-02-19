@@ -4,10 +4,8 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { AuthService } from "../services/auth/auth.http";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../redux/action-creators/index";
 import Header from "../components/Header";
 import Footer from "../components/footer";
-import axios from "axios";
 import Router, { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -34,7 +32,7 @@ const PasswordReset = () => {
     control,
     watch,
     getValues,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ILoginForm>();
 
   //   const [errors, setErrors] = useState<IErrorMsg>({});
@@ -51,7 +49,7 @@ const PasswordReset = () => {
       const res = await AuthService.passwordRecover({
         code: data.code,
         password: data.password,
-        phone: router.query.phone as string
+        phone: router.query.phone as string,
       });
 
       // debugger
@@ -64,7 +62,7 @@ const PasswordReset = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
       });
       setTimeout(() => {
         Router.push("/login");
@@ -85,7 +83,7 @@ const PasswordReset = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined
+          progress: undefined,
         });
       }
     }
@@ -128,7 +126,7 @@ const PasswordReset = () => {
                   useRef={register("code")}
                   className="w-100"
                   {...register("code", {
-                    required: t("SMSCodeError")
+                    required: t("SMSCodeError"),
                   })}
                 />
               </FormGroup>
@@ -151,7 +149,7 @@ const PasswordReset = () => {
                   hasError={!!errors?.password}
                   placeholder="******"
                   {...register("password", {
-                    required: t("PasswordError")
+                    required: t("PasswordError"),
                   })}
                 />
               </FormGroup>
@@ -181,8 +179,8 @@ const PasswordReset = () => {
                   {...register("passwordRepeat", {
                     required: t("PasswordError"),
                     validate: {
-                      isMatch: (value) => value === watch("password")
-                    }
+                      isMatch: (value) => value === watch("password"),
+                    },
                   })}
                 />
               </FormGroup>

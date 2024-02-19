@@ -12,7 +12,6 @@ import Reviews from "../components/homeComponents/Reviews";
 import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 import NewFooter from "../components/NewFooter";
 import queryString from "query-string";
-import { useTypedSelector } from "../components/hooks/useTypeSelector";
 
 export async function getServerSideProps(searchParams) {
   try {

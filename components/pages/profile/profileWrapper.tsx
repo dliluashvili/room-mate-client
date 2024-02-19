@@ -3,13 +3,11 @@ import { useCheckAuth } from "../../hooks/useCheckAuth";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/action-creators";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
-import Header from "../../Header";
 import Loader from "../../common/loader";
 import classnames from "classnames";
 import SideBar from "./components/sideBar";
 import { IUserProfile } from ".../../../services/profile/profile.http";
 import NewHeader from "../../NewHeader";
-import NewFooter from "../../NewFooter";
 
 interface IProps {
   consumerPage?: "edit" | "balance" | "profile";

@@ -1,10 +1,7 @@
 import React from "react";
 import Radio from "./contentTypes/radio";
-import { Select } from "./contentTypes/select";
 import { TextField } from "./contentTypes/textField";
 import { PhoneField } from "./contentTypes/phone";
-import { NumberText } from "./contentTypes/numberField";
-import { PasswordField } from "./contentTypes/passwordField";
 import { IQuestions } from "../../../services/questions/questions.http";
 
 interface IContentProps {

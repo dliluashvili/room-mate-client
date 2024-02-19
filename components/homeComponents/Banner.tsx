@@ -1,8 +1,4 @@
 import React from "react";
-import { useMediaQuery } from "react-responsive";
-import BannerDesktop from "../../public/newImages/bg-girl.svg";
-
-import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
 

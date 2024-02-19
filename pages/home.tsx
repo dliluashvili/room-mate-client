@@ -2,27 +2,21 @@ import React from "react";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import useTranslation from "next-translate/useTranslation";
-import { useRouter } from "next/router";
-import Header from "../components/Header";
 import Faq from "../components/pages/home/faq";
-import Contact from "../components/pages/home/contact";
 import Footer from "../components/footer";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
-import Partners from "../components/pages/home/partners";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
+import NewHeader from "../components/NewHeader";
 
 const IndexPage = () => {
   useCheckAuth(false);
   let { t } = useTranslation("common");
-  const router = useRouter();
-
   const { user } = useTypedSelector((state) => state.profile);
 
-  // console.log(router.locales, "ttttttttt");
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <div className="mainBg">
-        <Header />
+        <NewHeader />
         <section className="mainSection">
           <div className="container">
             <div className="row align-items-center">

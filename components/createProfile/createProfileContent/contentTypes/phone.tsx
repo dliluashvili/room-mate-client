@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Checkbox } from "../components/checkbox";
 import { Heading } from "../components/heading";
 import {
   IQuestions,
-  Questions
+  Questions,
 } from "../../../../services/questions/questions.http";
 import { AuthService } from "../../../../services/auth/auth.http";
 import { Button } from "../../../common/form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { SmsCheckContext } from "../context/smsCheckContext";
 import useTranslation from "next-translate/useTranslation";
 
@@ -54,7 +53,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
+            progress: undefined,
           });
         } else {
           AuthService.sendResetCode(value[0]).then((r) => {
@@ -65,7 +64,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-              progress: undefined
+              progress: undefined,
             });
           });
 
@@ -91,7 +90,7 @@ export const PhoneField = ({ data, setData, values }: IContentProps) => {
               setValue([e.target.value]);
               setData({
                 question_id: data.id,
-                value: [e.target.value].filter(Boolean)
+                value: [e.target.value].filter(Boolean),
               });
             }}
             type={data.type === "password" ? "password" : "text"}
