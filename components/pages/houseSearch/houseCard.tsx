@@ -3,13 +3,14 @@ import ImgPreview from './imgsPreviev';
 import Link from 'next/link';
 import { Flats } from '../../../services/flats/flats.http';
 import useTranslation from 'next-translate/useTranslation';
+import classNames from 'classnames';
 
-const HouseCard = ({ data, isAuth, addRemoveFavorite }: any) => {
+const HouseCard = ({ data, isAuth, addRemoveFavorite, className }: any) => {
     let { t } = useTranslation('common');
 
     return (
         <Link href={'/house/' + data.id}>
-            <a className="houseCard_link">
+            <a className={classNames('houseCard_link', className)}>
                 <div className="houseCard">
                     <div className="houseCard_imageBLock">
                         <ImgPreview images={data.images} />

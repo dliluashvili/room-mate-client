@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Flats } from '../../../services/flats/flats.http';
 import HouseCard from './houseCard';
+import { useRouter } from 'next/router';
 
 const FavoriteFlats = () => {
     const [flatsList, setFlatsList] = useState([]);
+
+    const router = useRouter();
+
     useEffect(() => {
-        Flats.getFavoriteFlats()
+        Flats.getFavoriteFlats(router.locale)
             .then((res) => {
                 setFlatsList(
                     res.data.data.map((el) => {
@@ -17,17 +21,15 @@ const FavoriteFlats = () => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [router.locale]);
 
     return (
         <div className="d-flex flex-wrap mt-4 favourite_flat">
-            <div
-                //   style={max}
-                className="d-flex flex-wrap justify-content-center justify-content-md-start mr-3"
-            >
+            <div className="d-flex flex-wrap justify-content-center justify-content-md-start">
                 {flatsList.map((el, i) => {
                     return (
                         <HouseCard
+                            className="mr-3"
                             key={i}
                             data={el}
                             addRemoveFavorite={(flag, id) => {
