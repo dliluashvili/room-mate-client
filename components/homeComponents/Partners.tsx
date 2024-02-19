@@ -5,6 +5,7 @@ import SecondBG from "../../public/newImages/secondBG.svg";
 import { Button } from "../../@/components/ui/button";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 
 export default function Partners() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -23,7 +24,9 @@ export default function Partners() {
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText1")}
             </p>
-            <Button className="text-xs mt-7   ">{t("startSearch")}</Button>
+            <Link href="/houseSearch">
+              <Button className="text-xs mt-7   ">{t("startSearch")}</Button>
+            </Link>
           </div>
           <div className="w-1/2 hidden xl:block">
             <Image src={FirstBG} layout="responsive" objectFit="cover" />
@@ -43,7 +46,9 @@ export default function Partners() {
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText2")}
             </p>
-            <Button className="text-xs mt-7">{t("startSearch")}</Button>
+            <Link href="https://form.jotform.com/240432625356049">
+              <Button className="text-xs mt-7">{t("leaveFlat")}</Button>
+            </Link>
           </div>
           <div className="w-1/2 hidden xl:block">
             <Image src={SecondBG} layout="responsive" objectFit="cover" />

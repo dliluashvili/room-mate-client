@@ -63,7 +63,7 @@ export default function SignupFirst({
           },
         },
       });
-      setStep(2);
+
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "INVALID") {

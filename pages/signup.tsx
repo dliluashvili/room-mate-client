@@ -59,8 +59,6 @@ export async function getServerSideProps(searchParams) {
 }
 
 export default function signup({ data }) {
-  console.log(data.data.getQuestions);
-
   return (
     <>
       <NewHeader />

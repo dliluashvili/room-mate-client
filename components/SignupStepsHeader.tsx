@@ -45,12 +45,12 @@ export default function SignupStepsHeader({ step }) {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className={`w-full rounded-xl h-[3px] ${
             step >= 3 ? "bg-[#19A463]" : "bg-[#939AB6]"
           }`}
-        ></div>
-        <div
+        ></div> */}
+        {/* <div
           className={`w-fullrounded-xl h-[3px] ${
             step >= 3 ? "border-[#19A463]" : "bg-[#939AB6]"
           }`}
@@ -71,12 +71,12 @@ export default function SignupStepsHeader({ step }) {
               3
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-row justify-between items-center mt-2 pl-5">
         <p className="text-xs ">{t("step")}</p>
         <p className="text-xs ">{t("step")}</p>
-        <p className="text-xs ">{t("step")}</p>
+        {/* <p className="text-xs ">{t("step")}</p> */}
       </div>
     </div>
   );

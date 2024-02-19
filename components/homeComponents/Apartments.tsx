@@ -9,16 +9,16 @@ import {
 } from "../../@/components/ui/carousel";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Apartments({ flats }) {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
-  const router = useRouter();
+  let { t } = useTranslation("common") as { t: (key: string) => string };
 
   return (
     <>
       <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 sm:px-16 md:px-20 lg:px-24 lg:pt-12 lg:pb-7 ">
-        იქირავე ბინა
+        {t("findAffordable")}
       </h1>
       <main className="w-full flex flex-col  items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24">
         <Carousel
@@ -54,12 +54,12 @@ export default function Apartments({ flats }) {
                         </div>
                       </div>
 
-                      <div className="pl-4  pt-7 pb-4">
+                      <div className="px-4  pt-7 pb-4">
                         <h1 className="text-semibold text-xl text-[#484848]">
-                          {item.price} ₾/თვეში
+                          {item.price} ₾/ {t("InMonth")}
                         </h1>
                         <p className="mt-3 text-xs text-[#484848]">
-                          {item.title} ფართი - {item.area} მ 2
+                          {item.title} {t("space")} - {item.area} M 2
                         </p>
                       </div>
                     </div>

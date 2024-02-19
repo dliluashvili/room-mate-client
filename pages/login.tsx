@@ -5,13 +5,13 @@ import Link from "next/link";
 import { AuthService } from "../services/auth/auth.http";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/action-creators/index";
-import Header from "../components/Header";
-import Footer from "../components/footer";
 import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 interface ILoginForm {
   password: string;
@@ -89,13 +89,11 @@ const Login = () => {
     }
   });
 
-  console.log(errors);
-
   return (
     <div className="login">
       <ToastContainer />
 
-      <Header />
+      <NewHeader />
 
       <div className="container loginSection w-25 mt-5">
         <div className="loginSection_container">
@@ -166,7 +164,7 @@ const Login = () => {
               >
                 {t("enter")}
               </Button>
-              <Link href="/createProfile">
+              <Link href="/signup">
                 <a className="label">{t("register")} </a>
               </Link>
               <br />
@@ -177,7 +175,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <NewFooter />
     </div>
   );
 };

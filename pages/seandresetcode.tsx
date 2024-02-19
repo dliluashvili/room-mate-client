@@ -9,6 +9,8 @@ import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 interface ILoginForm {
   phone: string;
@@ -66,7 +68,7 @@ const SendResetCode = () => {
     <div className="login">
       <ToastContainer />
 
-      <Header />
+      <NewHeader />
 
       <div className="container loginSection w-25 mt-5">
         <div className="loginSection_container">
@@ -115,7 +117,7 @@ const SendResetCode = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <NewFooter />
     </div>
   );
 };
