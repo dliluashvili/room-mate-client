@@ -59,8 +59,6 @@ const Search = () => {
             ? (Number(router.query.page) - 1) * limit
             : 0;
 
-        console.log(LangEnum.En);
-
         const response = await axios.post(
             BASE_URL_NEW,
             {
@@ -92,7 +90,7 @@ const Search = () => {
         }
 
         getSearchResults();
-    }, [router.locale]);
+    }, [router.locale, router.query.page]);
 
     const updateAddRemove = (id: number, saveId: boolean) => {
         const updatedSearchResults = searchResults.map((el) => {
