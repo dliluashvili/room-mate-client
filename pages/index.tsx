@@ -12,30 +12,22 @@ import Reviews from "../components/homeComponents/Reviews";
 import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 import NewFooter from "../components/NewFooter";
 import queryString from "query-string";
-// Example code (adapt based on your actual requirements)
+import { useTypedSelector } from "../components/hooks/useTypeSelector";
 
 export async function getServerSideProps(searchParams) {
   try {
     const response = await axios.get(
       `https://api.roommategeorgia.ge/flats?${queryString.stringify(
         searchParams
-      )}`,
-      {
-        // Add any necessary authentication headers here
-      }
+      )}`
     );
-    // Get the value of the 'locale' parameter from the search params
-
     return { props: { flats: response.data } };
   } catch (error) {
-    // Handle API errors gracefully
-    return { props: { errorMessage: error.message } }; // Return a string message
+    return { props: { errorMessage: error.message } };
   }
 }
 
 export default function Home({ flats }) {
-  console.log(flats);
-
   return (
     <>
       <main className="flex  flex-col w-full min-h-screen  pb-4 bg-mainBg md:pb-6">

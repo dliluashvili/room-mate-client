@@ -11,7 +11,7 @@ export default function Banner() {
   return (
     <>
       <div className="w-full pt-6 pb-2 px-6 md:px-16 lg:px:20 xl:px-24">
-        <div className="flex h-[249px] md:h-[322px] bg-[#A6E2EC] rounded-xl overflow-hidden pl-4 pt-12 pb-32 pr-32 flex-col md:pb-14 md:pt-24 md:pl-8 md:pr-[400px] xl:pr-[800px]">
+        <div className="flex  bg-[#A6E2EC] rounded-xl overflow-hidden pl-4 pt-12 pb-32 pr-32 flex-col md:pb-14 md:pt-24 md:pl-8 md:pr-[400px] xl:pr-[800px]">
           <p className="text-xl text-[#FFFFFF] font-semibold lg:text-4xl ">
             იპოვე ოთახის მეზობელი და გაიყავი ბინის ქირა
           </p>

@@ -4,6 +4,7 @@ import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
 import axios from "axios";
 import SignupStepsHeader from "./SignupStepsHeader";
+import { Button } from "../@/components/ui/button";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -37,7 +38,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
     if (modifiedFormData.email === "") {
       delete modifiedFormData.email;
     }
-    console.log(modifiedFormData, "0000000000000000000");
+
     const requestBody = {
       query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
         signUpAndAnswerQuestion(input: $input) {
@@ -60,10 +61,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
             },
           }
         );
-        if (response?.data?.errors) {
-          alert(response.data.errors);
-        }
-        console.log(response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -94,7 +91,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   updateFormData={updateFormData}
                   setStep={setStep}
                 />
-                <button onClick={() => setStep(1)}>Back</button>
+            
               </div>
             )}
           </CardContent>
