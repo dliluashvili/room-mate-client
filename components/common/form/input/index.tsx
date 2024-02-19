@@ -1,4 +1,4 @@
-import React, { useRef as reactRef } from "react";
+import React from "react";
 import classnames from "classnames";
 
 interface IInput {

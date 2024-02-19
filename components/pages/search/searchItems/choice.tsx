@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { IQuestions } from "../../../../services/questions/questions.http";
 import classnames from "classnames";
 import { SearchContext } from "../context/searchContext";

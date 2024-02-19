@@ -3,13 +3,14 @@ import { FormGroup, Button, Input } from "../components/common/form";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { AuthService } from "../services/auth/auth.http";
-import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import Footer from "../components/footer";
 import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 interface ILoginForm {
   phone: string;
@@ -24,7 +25,7 @@ const SendResetCode = () => {
     register,
     handleSubmit,
 
-    formState: { errors }
+    formState: { errors },
   } = useForm<ILoginForm>();
 
   let { t } = useTranslation("common");
@@ -44,7 +45,7 @@ const SendResetCode = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
       });
       setTimeout(() => {
         Router.push(`/passwordReset?phone=${data.phone}`);
@@ -58,7 +59,7 @@ const SendResetCode = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
       });
     }
   });
@@ -67,7 +68,7 @@ const SendResetCode = () => {
     <div className="login">
       <ToastContainer />
 
-      <Header />
+      <NewHeader />
 
       <div className="container loginSection w-25 mt-5">
         <div className="loginSection_container">
@@ -94,14 +95,14 @@ const SendResetCode = () => {
                   useRef={register("phone")}
                   className="w-100"
                   {...register("phone", {
-                    required: t("PhonenumberError")
+                    required: t("PhonenumberError"),
                   })}
                 />
               </FormGroup>
 
               <Button
                 loading={load}
-                className="btn btn-primary w-100 mt-3 py-2 mb-3"
+                className="btn btn-primary w-100 mt-3 py-2 mb-3 bg-[#19a463]"
               >
                 {t("Send")}
               </Button>
@@ -116,7 +117,7 @@ const SendResetCode = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <NewFooter />
     </div>
   );
 };

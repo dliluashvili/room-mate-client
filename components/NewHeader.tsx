@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import Logo from "../public/newImages/logo.svg";
-import StatusIcon from "../public/newImages/status-icon.svg";
 import Bell from "../public/newImages/bell.svg";
 import UserIcon from "../public/newImages/user-icon.svg";
 import useTranslation from "next-translate/useTranslation";
@@ -9,8 +8,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTypedSelector } from "./hooks/useTypeSelector";
 import BurgerMenu from "./BurgerMenu";
+import { useCheckAuth } from "./hooks/useCheckAuth";
 
 export default function NewHeader() {
+  useCheckAuth(false);
+
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const router = useRouter();
   const { user } = useTypedSelector((state) => state.profile);

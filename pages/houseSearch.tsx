@@ -1,21 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/footer";
-import { Questions, IQuestions } from "../services/questions/questions.http";
 import { Flats } from "../services/flats/flats.http";
-import { ProfileService, ISearchItems } from "../services/profile/profile.http";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
-// import Choice from "../components/pages/search/searchItems/choice";
 import Choice from "../components/pages/houseSearch/houseSearchComponets/choice";
-
-import { SearchProvider } from "../components/pages/search/context/searchContext";
 import { HouseSearchContext } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
-import Link from "next/link";
-import ProfileCard from "../components/pages/profile/profileCard";
 import Range from "../components/pages/houseSearch/houseSearchComponets/range";
-import { Button } from "../components/common/form";
 import Checkbox from "../components/pages/houseSearch/houseSearchComponets/checkbox";
-import LocationSearch from "../components/pages/search/searchItems/locationSearch";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -24,7 +15,6 @@ import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
-import TextSearch from "../components/pages/houseSearch/houseSearchComponets/testField";
 
 import HouseCard from "../components/pages/houseSearch/houseCard";
 import NewHeader from "../components/NewHeader";
@@ -35,7 +25,6 @@ const Search = () => {
   const [searchParams, setSearchParams] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
-  // const [takosModali, setTakosModali] = useState(false);
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
 
@@ -176,7 +165,7 @@ const Search = () => {
               </button>
             </div>
           </div>
-          <div className="search_mainContent">
+          <div className="search_mainContent ml-5">
             <div className="d-flex ">
               <div
                 onClick={toggleSearchMenu}
@@ -314,7 +303,6 @@ const Search = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
       <NewFooter />
     </div>
   );

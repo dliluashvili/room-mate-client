@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { FormGroup, Button, Input } from "../../../components/common/form";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { AuthService } from "../../../services/auth/auth.http";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../../redux/action-creators/index";
-import Header from "../../../components/Header";
-import Footer from "../../../components/footer";
-import axios from "axios";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import Logo from "../../../components/svg/logo";
 import { useCheckUnAuthResponse } from "../../../components/hooks/useCheckUnauthRespnse";
 
 interface ILoginForm {
@@ -20,26 +13,16 @@ interface ILoginForm {
   currentPassword: string;
 }
 
-interface IErrorMsg {
-  currentPassword?: string | Array<string>;
-  passwordRepeat?: string | Array<string>;
-  password?: string | Array<string>;
-}
-
 const ResetPassword = () => {
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    control,
     watch,
-    getValues,
     formState: { errors },
   } = useForm<ILoginForm>();
 
   //   const [errors, setErrors] = useState<IErrorMsg>({});
 
-  const router = useRouter();
   const [load, setLoad] = useState(false);
   const checkUnAuth = useCheckUnAuthResponse();
   const submit = handleSubmit(async (data) => {
@@ -90,8 +73,6 @@ const ResetPassword = () => {
       }
     }
   });
-
-  console.log(errors);
 
   return (
     <div className="login resetPassword resetPassword_fromProfile">

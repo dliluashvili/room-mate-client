@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { FormGroup, Button, Input } from "../../common/form";
 import classnames from "classnames";
@@ -124,7 +123,8 @@ function Contact() {
           useRef={register("email")}
           {...register("email", {
             required: t("mailError"),
-            pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            pattern:
+              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           })}
         />
       </FormGroup>

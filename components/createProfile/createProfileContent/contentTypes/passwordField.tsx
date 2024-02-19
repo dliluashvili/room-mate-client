@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Checkbox } from "../components/checkbox";
 import { Heading } from "../components/heading";
 import { IQuestions } from "../../../../services/questions/questions.http";
 

@@ -1,7 +1,5 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/footer";
 import { Flats } from "../../services/flats/flats.http";
 import axios from "axios";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -45,7 +43,7 @@ const Specification = ({
   yes: boolean;
 }) => {
   return (
-    <div>
+    <div className="flex items-center">
       {yes ? (
         <svg
           width="18"
@@ -175,7 +173,6 @@ function House(props) {
         <meta property="og:type" content="website" />
       </Head>
       <div>
-        {/* <Header /> */}
         <NewHeader />
         <div className="houseStatement ">
           <Carousel
@@ -199,7 +196,7 @@ function House(props) {
               <div className="d-flex justify-content-between align-items-center mt-4 withBorderBottom firtLinetr">
                 <div className="d-flex align-items-center justify-content-between w-100">
                   <div className="d-flex">
-                    <div>
+                    <div className="flex items-center">
                       <svg
                         className="mr-3"
                         width="13"
@@ -646,12 +643,6 @@ function House(props) {
                     defaultZoom={defaultProps.zoom}
                     // marker
                   >
-                    {/* <AnyReactComponent
-                lat={59.955413}
-                lng={30.337844}
-                text="My Marker"
-              /> */}
-                    {/* // @ts-ignore: Unreachable code error */}
                     <img
                       // @ts-expect-error: Let's ignore a compile error like this unreachable code
                       lat={statementData?.coords?.lat}
@@ -666,7 +657,6 @@ function House(props) {
           ) : null}
         </div>
 
-        {/* <Footer /> */}
         <NewFooter />
       </div>
     </>
