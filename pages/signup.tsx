@@ -2,20 +2,25 @@ import React from "react";
 import axios from "axios";
 import MultiStepCard from "../components/MultiStepCard";
 import { BASE_URL_NEW } from "../services/api";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(searchParams) {
+  const lang = String(searchParams.locale).toUpperCase();
+
   const query = `
-  query ExampleQuery {
-    getQuestions {
-      id
-      uiFieldInfo
-      translations {
-        id
-        lang
-        title
-        
-      }
-      answers {
+    query CombinedQuery($lang: LangEnum) {
+      getQuestions(lang: $lang) {
+        answers {
+          id
+          questionId
+          translations {
+            id
+            lang
+            title
+          }
+        }
+        uiFieldInfo
         id
         translations {
           id
@@ -23,28 +28,30 @@ export async function getServerSideProps() {
           title
         }
       }
-    }
-    findAllCountry {
-      id
-      translations {
-        lang
-        name
-        id
+      findAllGender {
+      
+        translations(lang: $lang) {
+          id
+          lang
+          sex
+        }
+      }
+      findAllCountry {
+       
+        translations(lang: $lang) {
+          id
+          lang
+          name
+        }
       }
     }
-    findAllGender {
-      id
-      translations {
-        lang
-        sex
-        id
-      }
-    }
-  }
   `;
 
   const response = await axios.post(BASE_URL_NEW, {
-    query: query,
+    query,
+    variables: {
+      lang,
+    },
   });
 
   const data = response.data;
@@ -52,13 +59,17 @@ export async function getServerSideProps() {
 }
 
 export default function signup({ data }) {
+  console.log(data.data.getQuestions);
+
   return (
     <>
+      <NewHeader />
       <MultiStepCard
         countries={data.data.findAllCountry}
         gender={data.data.findAllGender}
         questions={data.data.getQuestions}
       />
+      <NewFooter />
     </>
   );
 }

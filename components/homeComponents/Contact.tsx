@@ -5,15 +5,17 @@ import Messanger from "../../public/newImages/messanger-icon.svg";
 import Email from "../../public/newImages/email-icon.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Contact() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <main className="w-full flex flex-col items-center px-6 md:flex-row sm:px-16 md:px-20 lg:px-24 mt-10 lg:mt-20">
       <div className="w-full lg:w-[30%] ">
-        <h1 className="text-[#484848] text-2xl lg:text-3xl">კონტაქტი</h1>
+        <h1 className="text-[#484848] text-2xl lg:text-xl">{t("contactUs")}</h1>
         <p className="text-xs text-[#484848] mt-2 lg:text-base">
-          შემთხვევით გენერირებული ტექსტი
+          {t("contactUsText")}
         </p>
       </div>
       <div

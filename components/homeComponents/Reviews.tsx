@@ -7,49 +7,43 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../@/components/ui/carousel";
-import CarouselBgMen from "../../public/newImages/CarouselBgMen.svg";
+import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
 import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import Avatar from "../../public/newImages/avatar.svg";
 import RateStar from "../../public/newImages/rate-star.svg";
+import useTranslation from "next-translate/useTranslation";
 
 const data = [
   {
-    header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    header: "თამარი",
+    text: "დიდი მადლობა Roommate-ს პასუხისმგებლობიან და პროფესიონალ თანამშრომლებს. დამიჯერეთ, ამ კომპანიის სანდოობის მაღალი ხარისხი გაგიადვილებთ ბინის გაქირავების და გაქირავების შემდგომ პროცესებს",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    header: "დავითი",
+    text: "ძალიან სასარგებლო წამოწყებაა. დარწმუნებული ვარ, ბევრ ადამიანს დაეხმარება გაქირავებასთან დაკავშირებული პრობლემების გადაჭრაში. გისურვებთ წარმატებას",
     image: CarouselBgWomen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    header: "მანანა",
+    text: "Roommate Georgia-სთან თანამშრომლობამ ჩემი გაქირავების გამოცდილება საგრძნობლად გაამარტივა. თუ ჩემნაირად ნერვიულობთ გაქირავების შემდგომ თქვენი ბინის მდგომარეობაზე, ჩემი გამოცდილებით, Roommate Georgia ყველა დეტალის გათვალისწინებაში დაგეხმარებათ. ",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
   {
-    header: "სახელი გვარი",
-    text: "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის",
+    header: "ზურა",
+    text: "დიდ რეკომენდაციას ვუწევ Rommate-ს. ამ გუნდში ძალიან საინტერესო იდეის გარშემო გაერთიანებული ადამიანები მუშაობენ, რაც მათი სამუშაოს ხარისხზე აისახება! წინსვლა და წარმატებები",
     image: CarouselBgMen,
-    buttonText: "ღილაკი",
   },
 ];
 
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 lg:px-24 ">
-      <h1 className="text-2xl text-[#484848]">სათაური</h1>
-      <h2 className="mt-2 text-xs text-[#484848]">
-        შემთხვევით გენერირებული ტექსტი
-      </h2>
-
+      <h1 className="text-2xl text-[#484848]">{t("reviewsHead")}</h1>
       <Carousel
         opts={{
           align: "start",

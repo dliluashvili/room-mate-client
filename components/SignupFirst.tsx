@@ -24,11 +24,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { BASE_URL_NEW } from "../services/api";
-import {
-  FormDataType,
-  QuestionItemType,
-  TranslatableItem,
-} from "./types/types";
+import { FormDataType } from "./types/types";
 
 export default function SignupFirst({
   countries,
@@ -47,9 +43,12 @@ export default function SignupFirst({
   const handleSubmit = async (data: FormDataType) => {
     let modifiedFormData = {
       ...data,
+    };
+    let modifedForCode = {
+      ...data,
       code: Number(data.code),
     };
-    updateFormData(data);
+    updateFormData(modifiedFormData);
     try {
       const response = await axios.post(BASE_URL_NEW, {
         query: `
@@ -59,13 +58,16 @@ export default function SignupFirst({
           `,
         variables: {
           input: {
-            phone: data.phone,
-            code: modifiedFormData.code,
+            phone: form.watch("phone"),
+            code: modifedForCode.code,
           },
         },
       });
+      setStep(2);
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
+      } else if (response.data.data.checkCode === "INVALID") {
+        form.setError("code", { message: t("codeExpired") });
       } else if (response.data.data.checkCode === "NOT_FOUND") {
         form.setError("code", { message: t("incorrectCode") });
       }
@@ -92,7 +94,6 @@ export default function SignupFirst({
             },
           },
         });
-        console.log(response);
         if (response.data.data.sendCode === "ALREADY_SENT") {
           form.setError("code", { message: t("codeAlreadySent") });
         }
@@ -101,27 +102,13 @@ export default function SignupFirst({
       }
     })();
   };
-  const translateGender = (
-    item: TranslatableItem,
-    locale: string
-  ): string | undefined => {
-    const translation = item.translations.find((t) => t.lang === locale);
-    return translation?.sex;
-  };
 
-  const translateCountry = (
-    item: TranslatableItem,
-    locale: string
-  ): string | undefined => {
-    const translation = item.translations.find((t) => t.lang === locale);
-    return translation?.name;
-  };
   return (
     <>
-      <main className="flex flex-col p-2 items-center ">
+      <main className="flex flex-col  items-center ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className=" w-full">
-            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2 mb-3 items-start lg:justify-center">
+            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-3 items-start lg:justify-center">
               <FormField
                 control={form.control}
                 name="firstname"
@@ -180,17 +167,16 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries?.map((item: QuestionItemType) => (
-                          <SelectItem
-                            key={`${item.id}-${translateCountry(
-                              item,
-                              router.locale
-                            )}`}
-                            value={item.id}
-                          >
-                            {translateCountry(item, router.locale)}
-                          </SelectItem>
-                        ))}
+                        {countries
+                          .flatMap((country) => country.translations)
+                          .map((translation) => (
+                            <SelectItem
+                              key={translation.id}
+                              value={translation.id}
+                            >
+                              {translation.name}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -213,17 +199,16 @@ export default function SignupFirst({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {gender?.map((item: QuestionItemType) => (
-                          <SelectItem
-                            key={`${item.id}-${translateGender(
-                              item,
-                              router.locale
-                            )}`}
-                            value={item.id}
-                          >
-                            {translateGender(item, router.locale)}
-                          </SelectItem>
-                        ))}
+                        {gender
+                          .flatMap((country) => country.translations)
+                          .map((translation) => (
+                            <SelectItem
+                              key={translation.id}
+                              value={translation.id}
+                            >
+                              {translation.sex}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

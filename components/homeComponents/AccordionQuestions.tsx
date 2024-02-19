@@ -5,48 +5,47 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../@/components/ui/accordion";
-import QeustionIcon from "../../public/newImages/question-icon.svg";
-import Image from "next/image";
-
-const items = [
-  {
-    value: "item-1",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-  {
-    value: "item-2",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-  {
-    value: "item-3",
-    question: "შემთხვევითად გენერირებული ტექსტი",
-    answer:
-      "შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს. შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს, შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და ტიპოგრაფიული ნაწარმის შემქმნელებს.",
-  },
-];
+import useTranslation from "next-translate/useTranslation";
 
 export function AccordionQuestions() {
-  const [selectedItem, setSelectedItem] = useState(null);
+  let { t } = useTranslation("common") as { t: (key: string) => string };
+  const [openItems, setOpenItems] = useState({});
+  const items = [
+    {
+      value: "item-1",
+      question: t("question1"),
+      answer: t("answer1"),
+    },
+    {
+      value: "item-2",
+      question: t("question2"),
+      answer: t("answer2"),
+    },
+    {
+      value: "item-3",
+      question: t("question3"),
+      answer: t("answer3"),
+    },
+  ];
 
   const handleClick = (value) => {
-    setSelectedItem(selectedItem === value ? null : value);
+    setOpenItems((prevOpenItems) => ({
+      ...prevOpenItems,
+      [value]: !prevOpenItems[value],
+    }));
   };
 
-  const bgColor = (value) => (selectedItem === value ? "#DFE6FC" : "#f2f5ff");
+  const bgColor = (value) => (openItems[value] ? "#DFE6FC" : "#f2f5ff");
 
   return (
     <main className="px-6 pt-6 pb-12 bg-[#f2f5ff] sm:px-16 md:px-20 lg:px-24 ">
-      <h1 className="text-xl font-semibold">ხშირად დასმული კითხვები</h1>
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full mt-6 order rounded-lg border-gray-300 "
-      >
-        {items.map((item) => (
+      <h1 className="text-xl font-semibold">{t("questionsHead")}</h1>
+      {items.map((item) => (
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full mt-6 order rounded-lg border-gray-300 "
+        >
           <AccordionItem
             key={item.value}
             value={item.value}
@@ -55,16 +54,10 @@ export function AccordionQuestions() {
           >
             <div
               onClick={() => handleClick(item.value)}
-              className="flex flex-row items-center b mt-4 p-4 w-full  rounded-lg border-gray-300 "
-              style={{
-                border: selectedItem === item.value ? "none" : "1px solid",
-              }}
+              className="flex flex-row items-center  w-full  rounded-lg border-gray-300  "
             >
-              <div className="w-5 h-5 mr-3 relative">
-                <Image src={QeustionIcon} layout="fill" objectFit="cover" />
-              </div>
-              <div className="w-full">
-                <AccordionTrigger className="text-left text-[14px]">
+              <div className="w-full ">
+                <AccordionTrigger className="text-left text-[14px] justify-start ">
                   {item.question}
                 </AccordionTrigger>
               </div>
@@ -73,8 +66,8 @@ export function AccordionQuestions() {
               {item.answer}
             </AccordionContent>
           </AccordionItem>
-        ))}
-      </Accordion>
+        </Accordion>
+      ))}
     </main>
   );
 }

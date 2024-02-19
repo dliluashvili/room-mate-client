@@ -710,12 +710,6 @@ function House(props) {
                                         defaultZoom={defaultProps.zoom}
                                         // marker
                                     >
-                                        {/* <AnyReactComponent
-                lat={59.955413}
-                lng={30.337844}
-                text="My Marker"
-              /> */}
-                                        {/* // @ts-ignore: Unreachable code error */}
                                         <img
                                             // @ts-expect-error: Let's ignore a compile error like this unreachable code
                                             lat={statementData?.coords?.lat}
