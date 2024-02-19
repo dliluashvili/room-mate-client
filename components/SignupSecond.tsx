@@ -76,7 +76,6 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
     });
 
     updateFormData({ answeredQuestions: result });
-    setStep(3);
   };
 
   return (

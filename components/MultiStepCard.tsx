@@ -4,10 +4,15 @@ import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
 import axios from "axios";
 import SignupStepsHeader from "./SignupStepsHeader";
-import { Button } from "../@/components/ui/button";
+import { setCurrentUser } from "../redux/action-creators";
+import { useDispatch } from "react-redux";
+
+import { useRouter } from "next/router";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [formData, setFormData] = useState({ answeredQuestions: [] });
 
@@ -61,6 +66,22 @@ export default function MultiStepCard({ countries, gender, questions }) {
             },
           }
         );
+
+        if (
+          response?.data?.data &&
+          response?.data?.data?.signUpAndAnswerQuestion.accessToken
+        ) {
+          dispatch(
+            setCurrentUser({
+              user: null,
+              token: response.data.data.signUpAndAnswerQuestion.accessToken,
+            })
+          );
+          router.push("/");
+        } else {
+          alert("Phone exist");
+        }
+        console.log(response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -91,7 +112,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   updateFormData={updateFormData}
                   setStep={setStep}
                 />
-            
               </div>
             )}
           </CardContent>
