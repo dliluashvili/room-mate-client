@@ -4,6 +4,7 @@ import errorIcon from "../../../public/imgs/Error.svg";
 import successIcon from "../../../public/imgs/Success.svg";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import useTranslation from "next-translate/useTranslation";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -52,7 +53,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
         };
       }
     }, [resend]);
-
+    let { t } = useTranslation("common") as { t: (key: string) => string };
     return (
       <div className="relative flex items-center w-full">
         <input
@@ -80,15 +81,16 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         {getCode && (
-          <div className="absolute right-4">
+          <div className="absolute right-4 ">
             <Button
+           
               onClick={() => {
                 if (onGetCodeClick) {
                   onGetCodeClick();
                 }
               }}
             >
-              Get Code
+              {t("getCode")}
             </Button>
           </div>
         )}

@@ -28,7 +28,7 @@ import useTranslation from "next-translate/useTranslation";
 import SignupStepTwo from "./validations/SignupStepTwo";
 import Select from "react-select";
 
-export default function SignupSecond({ questions, updateFormData, submit }) {
+export default function SignupSecond({ questions, updateFormData, setStep }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const form = SignupStepTwo({ questions });
 
@@ -80,6 +80,7 @@ export default function SignupSecond({ questions, updateFormData, submit }) {
     });
 
     updateFormData({ answeredQuestions: result });
+    setStep(3);
   };
 
   return (

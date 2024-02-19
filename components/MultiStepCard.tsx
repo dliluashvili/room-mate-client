@@ -92,7 +92,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                 <SignupSecond
                   questions={questions}
                   updateFormData={updateFormData}
-                  submit={submit}
+                  setStep={setStep}
                 />
                 <button onClick={() => setStep(1)}>Back</button>
               </div>
