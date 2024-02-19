@@ -214,5 +214,10 @@
   "answer3": "Yes! Use our advanced search filters to narrow down your options based on location, budget, lifestyle preferences, and more.",
   "questionsHead": "Frequently Asked Questions",
   "becomePartner": "Become our partner",
-  "payMethods": "Payment methods"
+  "payMethods": "Payment methods",
+  "getCode": "Get code",
+  "emailError": "Incorrect format",
+  "codeExpired": "Code has expired",
+  "step": "Step",
+  "registerForm": "Register form"
 }

@@ -222,5 +222,9 @@
   "answer3": "Yes! Use our advanced search filters to narrow down your options based on location, budget, lifestyle preferences, and more.",
   "questionsHead": "ხშირად დასმული შეკითხვები",
   "becomePartner": "გახდი ჩვენი პარტნიორი",
-  "payMethods": "გადახდის მეთოდები"
+  "payMethods": "გადახდის მეთოდები",
+  "getCode": "კოდის მიღება",
+  "emailError": "არასწორი ფორმატი",
+  "codeExpired": "კოდს გაუვიდა ვადა",
+  "registerForm": "სარეგისტრაციო ფორმა"
 }

@@ -29,7 +29,7 @@ export function SignupStepOne({ formData }) {
       .refine((value) => isValidPhoneNumber(value), {
         message: t("incorrectFormat"),
       }),
-    email: z.string().email().optional().or(z.literal("")),
+    email: z.string().email(t("emailError")).optional().or(z.literal("")),
     password: z
       .string()
       .min(6, { message: t("minpass") })
