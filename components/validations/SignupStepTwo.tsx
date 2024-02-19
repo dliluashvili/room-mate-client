@@ -16,32 +16,30 @@ export default function SignupStepTwo({ questions }) {
           fieldSchema = z
             .array(
               z.object({
-                questionId: z
-                  .string()
-                  .min(1, { message: "Question ID is required" }),
-                value: z.string().min(1, { message: "Value is required" }),
-                label: z.string().min(1, { message: "Label is required" }),
+                questionId: z.string().min(1, { message: t("filsRequire") }),
+                value: z.string().min(1, { message: t("filsRequire") }),
+                label: z.string().min(1, { message: t("filsRequire") }),
               })
             )
-            .min(1, { message: "At least one entry is required" });
+            .min(1, { message: t("filsRequire") });
         } else if (item.uiFieldInfo.input.variant === "single") {
           fieldSchema = z
             .object({
               questionId: z
                 .string()
-                .min(1, { message: "Question ID is required" })
+                .min(1, { message: t("filsRequire") })
                 .optional(),
               value: z
                 .string()
-                .min(1, { message: "Value is required" })
+                .min(1, { message: t("filsRequire") })
                 .optional(),
               label: z
                 .string()
-                .min(1, { message: "Label is required" })
+                .min(1, { message: t("filsRequire") })
                 .optional(),
             })
             .refine((obj) => Object.keys(obj).length >= 1, {
-              message: "Object must have at least one key-value pair",
+              message: t("filsRequire"),
             });
         } else if (
           item.uiFieldInfo.input.type === "button" ||
@@ -49,7 +47,7 @@ export default function SignupStepTwo({ questions }) {
           item.uiFieldInfo.input.type === "numeric"
         ) {
           if (item.uiFieldInfo.input.required === true) {
-            fieldSchema = z.string().min(1); // Require at least one character
+            fieldSchema = z.string().min(1, { message: t("filsRequire") }); // Require at least one character
           } else {
             fieldSchema = z.string().min(0); // Allow empty string
           }
