@@ -12,15 +12,24 @@ import Reviews from "../components/homeComponents/Reviews";
 import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 import NewFooter from "../components/NewFooter";
 import queryString from "query-string";
+import { Flats } from "../services/flats/flats.http";
 
-export async function getServerSideProps(searchParams) {
+export async function getServerSideProps(searchParams: any) {
+  console.log("🚀 ~ getServerSideProps ~ searchParams:", searchParams);
+
   try {
-    const response = await axios.get(
-      `https://api.roommategeorgia.ge/flats?${queryString.stringify(
-        searchParams
-      )}`
-    );
-    return { props: { flats: response.data } };
+    const response = await Flats.getFlats({
+      page: 1,
+      locale: searchParams.locale,
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
+
+    return { props: { flats: response } };
   } catch (error) {
     return { props: { errorMessage: error.message } };
   }

@@ -8,7 +8,7 @@ import { setCurrentUser } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
 
 import { useRouter } from "next/router";
-import { BASE_URL_NEW } from "../services/api";
+import { BASE_URL_GRAPHQL } from "../services/api";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -58,7 +58,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
     if (step === 2) {
       try {
-        const response = await axios.post(BASE_URL_NEW, requestBody, {
+        const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
           headers: {
             "Content-Type": "application/json",
           },

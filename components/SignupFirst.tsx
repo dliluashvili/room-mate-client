@@ -23,7 +23,7 @@ import { SignupStepOne } from "./validations/SignupStepOne";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { BASE_URL_NEW } from "../services/api";
+import { BASE_URL_GRAPHQL } from "../services/api";
 import { FormDataType } from "./types/types";
 
 export default function SignupFirst({
@@ -50,7 +50,7 @@ export default function SignupFirst({
     };
     updateFormData(modifiedFormData);
     try {
-      const response = await axios.post(BASE_URL_NEW, {
+      const response = await axios.post(BASE_URL_GRAPHQL, {
         query: `
           mutation Mutation($input: CheckSmsCodeDto!) {
             checkCode(input: $input)
@@ -82,7 +82,7 @@ export default function SignupFirst({
       setClicked(true);
       setResend(true);
       try {
-        const response = await axios.post(BASE_URL_NEW, {
+        const response = await axios.post(BASE_URL_GRAPHQL, {
           query: `
                 mutation SendCode($input: SendSmsCodeDto!) {
                   sendCode(input: $input)
