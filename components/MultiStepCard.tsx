@@ -14,7 +14,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
-
   const [formData, setFormData] = useState({ answeredQuestions: [] });
 
   const updateFormData = (newData: any) => {
@@ -78,7 +77,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
         } else {
           alert("Phone exist");
         }
-        console.log(response);
       } catch (error) {
         console.error("Error:", error);
       }

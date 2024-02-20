@@ -29,7 +29,7 @@ export async function getServerSideProps(searchParams) {
         }
       }
       findAllGender {
-      
+        id 
         translations(lang: $lang) {
           id
           lang
@@ -37,7 +37,7 @@ export async function getServerSideProps(searchParams) {
         }
       }
       findAllCountry {
-       
+       id
         translations(lang: $lang) {
           id
           lang

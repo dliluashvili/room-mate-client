@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import RegistrationLogo from "../public/newImages/registration-logo.svg";
-import LangEn from "../public/newImages/lang-en.svg";
 import useTranslation from "next-translate/useTranslation";
 
 export default function SignupStepsHeader({ step }) {
