@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MultiStepCard from "../components/MultiStepCard";
-import { BASE_URL_NEW } from "../services/api";
+import { BASE_URL_GRAPHQL } from "../services/api";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 
@@ -47,7 +47,7 @@ export async function getServerSideProps(searchParams) {
     }
   `;
 
-  const response = await axios.post(BASE_URL_NEW, {
+  const response = await axios.post(BASE_URL_GRAPHQL, {
     query,
     variables: {
       lang,

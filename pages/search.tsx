@@ -7,7 +7,7 @@ import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
 import axios from "axios";
-import { BASE_URL_NEW } from "../services/api";
+import { BASE_URL_GRAPHQL } from "../services/api";
 import Pagination from "../components/common/pagination";
 import { LangEnum } from "../graphql";
 import NewHeader from "../components/NewHeader";
@@ -60,7 +60,7 @@ const Search = () => {
       : 0;
 
     const response = await axios.post(
-      BASE_URL_NEW,
+      BASE_URL_GRAPHQL,
       {
         query: query,
         variables: {
