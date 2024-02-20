@@ -164,11 +164,10 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                               }
                               options={item.answers.map((answer) => ({
                                 questionId: item.id,
-                                value: answer.id, // Unique identifier for the option
+                                value: answer.id,
                                 label: answer.translations[0].title,
                               }))}
                               onChange={(value) => {
-                                console.log(value);
                                 field.onChange(value);
                               }}
                             />

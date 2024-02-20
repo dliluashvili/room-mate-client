@@ -6,11 +6,11 @@ import "react-phone-number-input/style.css";
 
 export default function SignupStepTwo({ questions }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  console.log(questions);
+
   const formSchema = z.object(
     questions.reduce((acc: any, item: any) => {
       if (item.uiFieldInfo) {
-        let fieldSchema; /// Default value
+        let fieldSchema;
 
         if (item.uiFieldInfo.input.variant === "multiple") {
           fieldSchema = z
@@ -47,7 +47,7 @@ export default function SignupStepTwo({ questions }) {
           item.uiFieldInfo.input.type === "numeric"
         ) {
           if (item.uiFieldInfo.input.required === true) {
-            fieldSchema = z.string().min(1, { message: t("filsRequire") }); // Require at least one character
+            fieldSchema = z.string().min(1, { message: t("filsRequire") });
           } else {
             fieldSchema = z.string().min(0); // Allow empty string
           }

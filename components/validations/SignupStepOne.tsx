@@ -21,7 +21,7 @@ export function SignupStepOne({ formData }) {
           const age = parseInt(value);
           return !isNaN(age) && age >= 18 && age <= 100;
         },
-        { message: t("ageRangeError") } // You need to define this error message
+        { message: t("ageRangeError") }
       ),
     phone: z
       .string()

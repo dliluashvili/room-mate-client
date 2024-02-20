@@ -8,13 +8,7 @@ import {
   FormMessage,
 } from "../@/components/ui/form";
 import { BaseInput } from "../@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../@/components/ui/select";
+import Select from "react-select";
 import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
@@ -24,7 +18,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { BASE_URL_GRAPHQL } from "../services/api";
-import { FormDataType } from "./types/types";
 
 export default function SignupFirst({
   countries,
@@ -40,7 +33,7 @@ export default function SignupFirst({
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
 
-  const handleSubmit = async (data: FormDataType) => {
+  const handleSubmit = async (data: any) => {
     let modifiedFormData = {
       ...data,
     };
@@ -102,7 +95,6 @@ export default function SignupFirst({
       }
     })();
   };
-
   return (
     <>
       <main className="flex flex-col  items-center ">
@@ -158,27 +150,18 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("selectField")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {countries
-                          .flatMap((country) => country.translations)
-                          .map((translation) => (
-                            <SelectItem
-                              key={translation.id}
-                              value={translation.id}
-                            >
-                              {translation.name}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
+                      className="text-xs"
+                      value={countries.find(
+                        (option) => option.id === field.value.value
+                      )}
+                      onChange={(option) => {
+                        field.onChange(option.value);
+                      }}
+                      options={countries.map((country) => ({
+                        value: country.id,
+                        label: country?.translations[0]?.name,
+                      }))}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -190,27 +173,18 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("gender")}</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t("selectField")} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {gender
-                          .flatMap((country) => country.translations)
-                          .map((translation) => (
-                            <SelectItem
-                              key={translation.id}
-                              value={translation.id}
-                            >
-                              {translation.sex}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
+                      className="text-xs"
+                      value={gender.find(
+                        (option) => option.id === field.value.value
+                      )}
+                      onChange={(option) => {
+                        field.onChange(option.value);
+                      }}
+                      options={gender.map((gender) => ({
+                        value: gender.id,
+                        label: gender?.translations[0].sex,
+                      }))}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}

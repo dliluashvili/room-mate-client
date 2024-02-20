@@ -6,17 +6,13 @@ import NewsCarousel from "../components/homeComponents/NewsCarousel";
 import Contact from "../components/homeComponents/Contact";
 import WhyUs from "../components/homeComponents/WhyUs";
 import Apartments from "../components/homeComponents/Apartments";
-import axios from "axios";
 import Partners from "../components/homeComponents/Partners";
 import Reviews from "../components/homeComponents/Reviews";
 import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
 import NewFooter from "../components/NewFooter";
-import queryString from "query-string";
 import { Flats } from "../services/flats/flats.http";
 
 export async function getServerSideProps(searchParams: any) {
-  console.log("🚀 ~ getServerSideProps ~ searchParams:", searchParams);
-
   try {
     const response = await Flats.getFlats({
       page: 1,
