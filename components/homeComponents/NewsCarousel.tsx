@@ -9,6 +9,9 @@ import {
 } from "../../@/components/ui/carousel";
 
 import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
+import blogFirst from "../../public/newImages/blog-first.svg";
+import blogSecond from "../../public/newImages/blog-second.svg";
+import blogThirth from "../../public/newImages/blog-thirth.svg";
 import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
@@ -22,21 +25,21 @@ export default function NewsCarousel() {
     {
       header: t("blogHeader1"),
       text: t("blogText1"),
-      image: CarouselBgMen,
+      image: blogFirst,
       buttonText: t("findMore"),
       link: "https://www.roommate.blog/",
     },
     {
       header: t("blogHeader2"),
       text: t("blogText2"),
-      image: CarouselBgWomen,
+      image: blogSecond,
       buttonText: t("findMore"),
       link: "https://www.roommate.blog/post/a-comprehensive-guide-to-accommodation-options-and-prices-for-international-students-in-tbilisi-geo",
     },
     {
       header: t("blogHeader3"),
       text: t("blogText3"),
-      image: CarouselBgMen,
+      image: blogThirth,
       buttonText: t("findMore"),
       link: "https://www.roommate.blog/",
     },
@@ -52,31 +55,29 @@ export default function NewsCarousel() {
         }}
         className="w-full mt-6 p-0 "
       >
-        <CarouselContent className="pr-10 lg:pr-16  ">
+        <CarouselContent className="   ">
           {data.map((item, index) => (
             <CarouselItem
               key={index}
               className="w-full md:basis-1/2 xl:basis-1/3   "
             >
-              <div className="w-full h-full pl-6 pt-6 pb-10 pr-24 flex flex-col justify-between   relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
+              <div className="w-full h-full pl-6 pt-6 pb-10 pr-20 flex flex-col justify-between   overflow-hidden relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
                 <span className="text-base font-semibold">{item.header}</span>
                 <div className="flex h-full  flex-col justify-between mt-4">
-                  <span className="text-xs ">{item.text}</span>
+                  <span className="text-xs z-50 ">{item.text}</span>
                   <Link href={item.link}>
-                    <Button className="mt-4 w-32 bottom-0 text-xs">
+                    <Button className="mt-4 w-32 bottom-0 text-xs z-50">
                       {item.buttonText}
                     </Button>
                   </Link>
                 </div>
-                <div className="absolute right-0 bottom-[-10px]  lg:right-4">
-                  <Image width={128} height={158} src={item.image} />
+                <div className="absolute w-[144px] h-[144px]  right-0 bottom-0 ">
+                  <Image layout="fill" objectFit="cover" src={item.image} />
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        {media ? null : <CarouselPrevious />}
-        {media ? null : <CarouselNext />}
       </Carousel>
     </main>
   );
