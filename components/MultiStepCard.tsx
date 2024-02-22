@@ -8,7 +8,6 @@ import { setCurrentUser } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
-import SignupThirth from "./SignupThirth";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
@@ -21,7 +20,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
   useEffect(() => {
-    if (formData.answeredQuestions.length && step === 4) {
+    if (formData.answeredQuestions.length) {
       submit();
     }
   }, [formData]);
@@ -56,7 +55,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       },
     };
 
-    if (step === 3) {
+    if (step === 2) {
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
           headers: {
@@ -111,7 +110,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                 />
               </div>
             )}
-            {step === 3 && (
+            {/* {step === 3 && (
               <div>
                 <SignupThirth
                   questions={questions}
@@ -120,7 +119,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   formData={formData}
                 />
               </div>
-            )}
+            )} */}
           </CardContent>
         </Card>
       </div>

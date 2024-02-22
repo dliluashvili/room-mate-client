@@ -2,20 +2,17 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
+import "react-phone-number-input/style.css";
 
 export default function SignupStepTwo({ questions }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
-
+  console.log(questions);
   const formSchema = z.object(
     questions.reduce((acc: any, item: any) => {
-      if (
-        item.uiFieldInfo &&
-        (item.uiFieldInfo.input.variant === "multiple" ||
-          item.uiFieldInfo.input.variant === "single")
-      ) {
-        let fieldSchema;
+      if (item.uiFieldInfo) {
+        let fieldSchema; /// Default value
 
-        if (item.uiFieldInfo.input.variant === "multiple") {
+        if (item.uiFieldInfo.input.variant === "multiple" &&  item.uiFieldInfo.input.step === 2   ) {
           fieldSchema = z
             .array(
               z.object({
@@ -44,6 +41,16 @@ export default function SignupStepTwo({ questions }) {
             .refine((obj) => Object.keys(obj).length >= 1, {
               message: t("filsRequire"),
             });
+        } else if (
+          item.uiFieldInfo.input.type === "button" ||
+          item.uiFieldInfo.input.type === "text" ||
+          item.uiFieldInfo.input.type === "numeric"
+        ) {
+          if (item.uiFieldInfo.input.required === true) {
+            fieldSchema = z.string().min(1, { message: t("filsRequire") }); // Require at least one character
+          } else {
+            fieldSchema = z.string().min(0); // Allow empty string
+          }
         }
 
         if (item.uiFieldInfo.input.required === false) {
@@ -65,6 +72,12 @@ export default function SignupStepTwo({ questions }) {
           acc[item.id] = [];
         } else if (item.uiFieldInfo.input.variant === "single") {
           acc[item.id] = {};
+        } else if (item.uiFieldInfo.input.type === "button") {
+          acc[item.id] = "";
+        } else if (item.uiFieldInfo.input.type === "text") {
+          acc[item.id] = "";
+        } else if (item.uiFieldInfo.input.type === "numeric") {
+          acc[item.id] = "";
         }
       }
       return acc;
