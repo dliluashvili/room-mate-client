@@ -61,7 +61,7 @@ export default function NewHeader() {
 
         <LangChoose
           className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer md:mr-4 lg:text-base lg:p-2"
-          spanClassname="text-base"
+          spanClassname="text-xs xl:text-base"
         />
         <div
           id="bell"
