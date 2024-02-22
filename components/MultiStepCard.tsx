@@ -6,21 +6,22 @@ import axios from "axios";
 import SignupStepsHeader from "./SignupStepsHeader";
 import { setCurrentUser } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
-
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
+import SignupThirth from "./SignupThirth";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({ answeredQuestions: [] });
+  console.log(formData);
 
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
   useEffect(() => {
-    if (formData.answeredQuestions.length) {
+    if (formData.answeredQuestions.length && step === 4) {
       submit();
     }
   }, [formData]);
@@ -55,7 +56,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       },
     };
 
-    if (step === 2) {
+    if (step === 3) {
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
           headers: {
@@ -74,6 +75,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
             })
           );
           router.push("/");
+          console.log(response);
         } else {
           alert("Phone exist");
         }
@@ -85,10 +87,10 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
   return (
     <>
-      <div className="w-full min-h-screen flex justify-center items-center lg:py-10 lg:px-[25%]">
+      <div className="w-full min-h-screen flex justify-center items-center  md:pt-20 md:pb-10 lg:pt-36 md:px-[10%] lg:px-[15%] xl:px-[334px]">
         <Card>
           <SignupStepsHeader step={step} />
-          <CardContent className="bg-white pt-8 pb-16 px-20">
+          <CardContent className="bg-white pt-8 pb-16  px-10  sm:px-28">
             {step === 1 && (
               <div>
                 <SignupFirst
@@ -106,6 +108,16 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   questions={questions}
                   updateFormData={updateFormData}
                   setStep={setStep}
+                />
+              </div>
+            )}
+            {step === 3 && (
+              <div>
+                <SignupThirth
+                  questions={questions}
+                  updateFormData={updateFormData}
+                  setStep={setStep}
+                  formData={formData}
                 />
               </div>
             )}

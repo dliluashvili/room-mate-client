@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useTypedSelector } from "./hooks/useTypeSelector";
 import BurgerMenu from "./BurgerMenu";
 import { useCheckAuth } from "./hooks/useCheckAuth";
+import LangChoose from "./LangChoose";
 
 export default function NewHeader() {
   useCheckAuth(false);
@@ -58,19 +59,10 @@ export default function NewHeader() {
           </div>
         </Link>
 
-        {router.locales.map((lang) => {
-          if (router.locale === lang) return null;
-          return (
-            <Link key={lang} href={router.asPath} locale={lang}>
-              <div
-                id="lang"
-                className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer md:mr-4 lg:text-base lg:p-2"
-              >
-                <span>{lang === "ka" ? "GEO" : "ENG"}</span>
-              </div>
-            </Link>
-          );
-        })}
+        <LangChoose
+          className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer md:mr-4 lg:text-base lg:p-2"
+          spanClassname="text-base"
+        />
         <div
           id="bell"
           className="hidden lg:block lg:bg-[#f2f5ff]  relative rounded-lg px-2 pb-1 pt-2 md:px-3 lg:mr-4"
