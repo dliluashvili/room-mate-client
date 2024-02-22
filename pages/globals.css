@@ -83,3 +83,41 @@
     @apply bg-background text-foreground;
   }
 }
+
+.css-13cymwt-control {
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  outline: none !important;
+  border-color: 214.3 31.8% 91.4% !important;
+}
+
+.css-b62m3t-container {
+  outline: none !important;
+}
+
+.css-1jqq78o-placeholder {
+  margin: 0px !important;
+  color: "red" !important;
+}
+
+.css-1fdsijx-ValueContainer {
+  padding: 0px !important;
+}
+.css-qbdosj-Input {
+  margin: 0px !important;
+  padding: 0px !important;
+  height: 30px !important;
+}
+
+.css-1xc3v61-indicatorContainer {
+  padding: 0px !important;
+}
+
+.css-t3ipsp-control {
+  padding: 8px 12px 8px 12px !important;
+}
+
+.css-15lsz6c-indicatorContainer {
+  padding: 0px !important;
+}

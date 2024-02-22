@@ -56,7 +56,7 @@ export default function SignupFirst({
           },
         },
       });
-
+      setStep(2);
       if (response.data.data.checkCode === "VALID") {
         setStep(2);
       } else if (response.data.data.checkCode === "INVALID") {
@@ -95,12 +95,20 @@ export default function SignupFirst({
       }
     })();
   };
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      boxShadow: "none",
+      // You can also use state.isFocused to conditionally style based on the focus state
+    }),
+  };
+
   return (
     <>
       <main className="flex flex-col  items-center ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className=" w-full">
-            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-3 items-start lg:justify-center">
+            <div className="grid  grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-3 items-start lg:justify-center">
               <FormField
                 control={form.control}
                 name="firstname"
@@ -150,7 +158,7 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
                     <Select
-                      className="text-xs"
+                      className="text-sm rounded-lg"
                       value={countries.find(
                         (option) => option.id === field.value.value
                       )}
@@ -173,7 +181,7 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("gender")}</FormLabel>
                     <Select
-                      className="text-xs"
+                      className="text-sm rounded-lg "
                       value={gender.find(
                         (option) => option.id === field.value.value
                       )}

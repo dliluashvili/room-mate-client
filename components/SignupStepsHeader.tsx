@@ -2,15 +2,37 @@ import Image from "next/image";
 import React from "react";
 import RegistrationLogo from "../public/newImages/registration-logo.svg";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
+import LangChoose from "./LangChoose";
+import { useRouter } from "next/router";
+import EngIcon from "../public/newImages/eng.svg";
+import GeoIcon from "../public/newImages/geo.svg";
 
 export default function SignupStepsHeader({ step }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const router = useRouter();
   return (
-    <div className="bg-[##F2F5FF] px-20 pt-12 pb-8 flex flex-col">
+    <div className="bg-[##F2F5FF] px-8 sm:px-20 pt-12 pb-8 flex flex-col">
       <div className="flex flex-row justify-between items-start ">
         <div className="flex flex-col items-start">
-          <Image src={RegistrationLogo} width={197} height={24} />
+          <Link href="/">
+            <Image
+              className="pointer"
+              src={RegistrationLogo}
+              width={197}
+              height={24}
+            />
+          </Link>
           <p className="pl-5 mt-2 text-xs">{t("registerForm")}</p>
+        </div>
+        <div className="flex flex-row">
+          <Image
+            width={22}
+            height={16}
+            className=""
+            src={router.locale === "en" ? GeoIcon : EngIcon}
+          />
+          <LangChoose className="p-0 ml-2 pointer" spanClassname="text-xs" />
         </div>
       </div>
 
@@ -44,12 +66,12 @@ export default function SignupStepsHeader({ step }) {
             </div>
           </div>
         </div>
-        {/* <div
+        <div
           className={`w-full rounded-xl h-[3px] ${
             step >= 3 ? "bg-[#19A463]" : "bg-[#939AB6]"
           }`}
-        ></div> */}
-        {/* <div
+        ></div>
+        <div
           className={`w-fullrounded-xl h-[3px] ${
             step >= 3 ? "border-[#19A463]" : "bg-[#939AB6]"
           }`}
@@ -70,12 +92,12 @@ export default function SignupStepsHeader({ step }) {
               3
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
       <div className="flex flex-row justify-between items-center mt-2 pl-5">
         <p className="text-xs ">{t("step")}</p>
         <p className="text-xs ">{t("step")}</p>
-        {/* <p className="text-xs ">{t("step")}</p> */}
+        <p className="text-xs ">{t("step")}</p>
       </div>
     </div>
   );

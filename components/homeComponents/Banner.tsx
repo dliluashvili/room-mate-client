@@ -16,6 +16,7 @@ export default function Banner() {
             backgroundImage: `url(${cover.src})`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
+            backgroundPosition: "right",
           }}
           className="flex   rounded-xl overflow-hidden pl-4 pt-12 pb-32 pr-32 flex-col md:pb-14 md:pt-24 md:pl-8 md:pr-[400px] xl:pr-[800px]"
         >

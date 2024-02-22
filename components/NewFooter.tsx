@@ -15,10 +15,34 @@ import Paypal from "../public/newImages/PayPal.svg";
 import { useTypedSelector } from "./hooks/useTypeSelector";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
+export const Social = () => {
+  return (
+    <>
+      <div className="flex flex-row  gap-x-6">
+        <Image className="pointer" src={Facebook} width={32} height={32} />
+        <Image className="pointer" src={Instagram} width={32} height={32} />
+        <Image className="pointer" src={Whatsapp} width={32} height={32} />
+        <Image className="pointer" src={Linkedin} width={32} height={32} />
+      </div>
+    </>
+  );
+};
 
+export const Payments = () => {
+  return (
+    <>
+      <div className="flex flex-row gap-x-2">
+        <Image src={Visa} width={34} height={24} />
+        <Image src={MasterCard} width={34} height={24} />
+        <Image src={Paypal} width={34} height={24} />
+      </div>
+    </>
+  );
+};
 export default function NewFooter() {
   const { user } = useTypedSelector((state) => state.profile);
   let { t } = useTranslation("common") as { t: (key: string) => string };
+
   return (
     <main className="flex flex-col w-full h-full pt-12">
       <div className="flex flex-col px-7 sm:px-16 md:px-20 md:flex-row md:justify-between md:items-start">
@@ -75,22 +99,15 @@ export default function NewFooter() {
           <p className=" text-xs pointer">{t("confidencial")}</p>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 lg:order-2 ">
-          <div className="flex flex-row mt-4 lg:mt-0 gap-x-6">
-            <Image className="pointer" src={Facebook} width={32} height={32} />
-            <Image className="pointer" src={Instagram} width={32} height={32} />
-            <Image className="pointer" src={Whatsapp} width={32} height={32} />
-            <Image className="pointer" src={Linkedin} width={32} height={32} />
+          <div className="mt-4 lg:mt-0">
+            <Social />
           </div>
         </div>
 
         <div className="h-[1px] w-full bg-[#7D7D7D] mt-8 lg:hidden lg:mt-0 "></div>
         <div className="mt-3  flex flex-row justify-between items-center ">
           <p className="text-xs font-bold lg:hidden">{t("payMethods")}:</p>
-          <div className="flex flex-row gap-x-2">
-            <Image src={Visa} width={34} height={24} />
-            <Image src={MasterCard} width={34} height={24} />
-            <Image src={Paypal} width={34} height={24} />
-          </div>
+          <Payments />
         </div>
       </div>
       <div className="bg-[#F2F5FF] px-7 flex flex-row  mt-4 py-4 items-center justify-around sm:px-16 md:px-20 lg:justify-center ">

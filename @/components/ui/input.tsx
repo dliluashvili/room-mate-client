@@ -55,11 +55,11 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
     }, [resend]);
     let { t } = useTranslation("common") as { t: (key: string) => string };
     return (
-      <div className="relative flex items-center w-full">
+      <div className="relative flex items-center w-full  ">
         <input
           type={type}
           className={cn(
-            "h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inputFocusBeta disabled:cursor-not-allowed disabled:opacity-50",
+            "h-12 w-full  rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inputFocusBeta disabled:cursor-not-allowed disabled:opacity-50",
             className
           )}
           ref={ref}
@@ -81,9 +81,8 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         {getCode && (
-          <div className="absolute right-4 ">
+          <div className="absolute right-4  ">
             <Button
-           
               onClick={() => {
                 if (onGetCodeClick) {
                   onGetCodeClick();

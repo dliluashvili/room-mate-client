@@ -4,15 +4,11 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "../../@/components/ui/carousel";
 
-import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
 import blogFirst from "../../public/newImages/blog-first.svg";
 import blogSecond from "../../public/newImages/blog-second.svg";
 import blogThirth from "../../public/newImages/blog-thirth.svg";
-import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
