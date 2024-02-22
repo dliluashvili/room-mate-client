@@ -21,12 +21,18 @@ import { format } from "date-fns/format";
 import useTranslation from "next-translate/useTranslation";
 import SignupStepTwo from "./validations/SignupStepTwo";
 import Select from "react-select";
-import arroLeft from "../public/newImages/arrow-left.png";
+import arroLeft from "../public/newImages/arrow-left.svg";
 import Image from "next/image";
 
-export default function SignupSecond({ questions, updateFormData, setStep }) {
+export default function SignupSecond({
+  questions,
+  updateFormData,
+  setStep,
+  formData,
+  step,
+}) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  const form = SignupStepTwo({ questions });
+  const form = SignupStepTwo({ questions, formData });
 
   const handleSubmit = async (data: any) => {
     const answeredQuestions: {
@@ -34,6 +40,8 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
       answerId?: any;
       data?: any;
     }[] = [];
+
+    const prevData = formData.answeredQuestions || [];
 
     questions.forEach((question: any) => {
       if (question.uiFieldInfo) {
@@ -45,6 +53,8 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
         } else if (question.uiFieldInfo.input.type === "numeric") {
           answerData = { data: data[question.id] };
         } else if (question.uiFieldInfo.input.type === "button") {
+          answerData = { data: data[question.id] };
+        } else if (question.uiFieldInfo.input.type === "textarea") {
           answerData = { data: data[question.id] };
         }
         if (answerData) {
@@ -74,8 +84,9 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
         };
       }
     });
-
-    updateFormData({ answeredQuestions: result });
+    setStep(step + 1);
+    const updatedAnsweredQuestions = [...prevData, ...result];
+    updateFormData({ answeredQuestions: updatedAnsweredQuestions });
   };
 
   return (
@@ -110,7 +121,35 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                   }
                                 />
                               </FormControl>
-                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                  </div>
+                  <div className="mt-4 mb-4">
+                    {item.uiFieldInfo &&
+                      item.uiFieldInfo.input.type === "textarea" && (
+                        <FormField
+                          control={form.control}
+                          name={item.id}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="leading-5">
+                                {item.translations[0].title}
+                              </FormLabel>
+                              <FormControl>
+                                <BaseInput
+                                  onChange={field.onChange}
+                                  type="text"
+                                  {...field}
+                                  hasError={!!form.formState.errors[item.id]}
+                                  isSuccess={
+                                    !form.formState.errors[item.id] &&
+                                    form.formState.touchedFields[item.id] &&
+                                    field.value !== ""
+                                  }
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -140,7 +179,6 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                   }
                                 />
                               </FormControl>
-                              <FormMessage />
                             </FormItem>
                           )}
                         />
@@ -168,11 +206,9 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                 label: answer.translations[0].title,
                               }))}
                               onChange={(value) => {
-                                console.log(value);
                                 field.onChange(value);
                               }}
                             />
-                            <FormMessage />
                           </FormItem>
                         )}
                       />
@@ -221,7 +257,6 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                                 />
                               </PopoverContent>
                             </Popover>
-                            <FormMessage />
                           </FormItem>
                         )}
                       />
@@ -229,14 +264,17 @@ export default function SignupSecond({ questions, updateFormData, setStep }) {
                 </>
               );
             })}
-            <div className="flex flex-row justify-between items-center mt-4 gap-x-[50%]">
-              <Button onClick={() => setStep(1)}>
-                <Image src={arroLeft} width={25} height={25} />
-                <p className="ml-2 text-white text-base">Back</p>
-              </Button>
+            <div className="flex flex-col justify-between items-start mt-8 ">
               <Button variant="default" size="default" type="submit">
                 Send
               </Button>
+              <div
+                className="mt-6 flex flex-row items-center pointer text-base"
+                onClick={() => setStep(step - 1)}
+              >
+                <Image width={24} height={24} src={arroLeft} alt="Arrow back" />
+                <p className="ml-4 text-[#838CAC] leading-6">{t("back")}</p>
+              </div>
             </div>
           </form>
         </Form>

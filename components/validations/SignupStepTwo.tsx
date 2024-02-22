@@ -4,15 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
 
-export default function SignupStepTwo({ questions }) {
+export default function SignupStepTwo({ questions, formData }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  console.log(questions);
+
   const formSchema = z.object(
     questions.reduce((acc: any, item: any) => {
       if (item.uiFieldInfo) {
         let fieldSchema; /// Default value
 
-        if (item.uiFieldInfo.input.variant === "multiple" &&  item.uiFieldInfo.input.step === 2   ) {
+        if (item.uiFieldInfo.input.variant === "multiple") {
           fieldSchema = z
             .array(
               z.object({
@@ -44,7 +44,8 @@ export default function SignupStepTwo({ questions }) {
         } else if (
           item.uiFieldInfo.input.type === "button" ||
           item.uiFieldInfo.input.type === "text" ||
-          item.uiFieldInfo.input.type === "numeric"
+          item.uiFieldInfo.input.type === "numeric" ||
+          item.uiFieldInfo.input.type === "textarea"
         ) {
           if (item.uiFieldInfo.input.required === true) {
             fieldSchema = z.string().min(1, { message: t("filsRequire") }); // Require at least one character
@@ -78,12 +79,28 @@ export default function SignupStepTwo({ questions }) {
           acc[item.id] = "";
         } else if (item.uiFieldInfo.input.type === "numeric") {
           acc[item.id] = "";
+        } else if (item.uiFieldInfo.input.type === "textarea") {
+          acc[item.id] = "";
         }
       }
+
+      // Check if formData and answeredQuestions exist
+      if (formData && formData.answeredQuestions.length > 0) {
+        // Find the question in answeredQuestions
+        const answeredQuestion = formData.answeredQuestions.find(
+          (q: any) => q.questionId === item.id
+        );
+        if (answeredQuestion) {
+          // If found, set the default value
+          acc[item.id] = answeredQuestion.data || answeredQuestion.answerId;
+        }
+      }
+
       return acc;
     }, {}),
   };
 
+  console.log(defaultValues, " olaaaaaaaaaaaaaaaaaa");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
