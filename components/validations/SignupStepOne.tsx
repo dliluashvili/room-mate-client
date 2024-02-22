@@ -52,7 +52,7 @@ export function SignupStepOne({ formData }) {
       firstname: formData.firstname ? formData.firstname : "",
       lastname: formData.lastname ? formData.lastname : "",
       genderId: formData.genderId ? formData.genderId : "",
-      countryId: formData.countryId ? formData.countryId : "",
+      countryId: formData?.countryId ? formData?.countryId : "",
       age: formData.age ? formData.age : "",
       email: formData.email ? formData.email : "",
       phone: formData.phone ? formData.phone : "",

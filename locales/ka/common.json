@@ -244,5 +244,7 @@
   "findMore": "გაიგე მეტი",
   "leaveFlat": "დაგვიტოვე ბინა",
   "answer_edit_under_construction": "პასუხების რედაქტირება ჯერ არ არის ხელმისაწვდომი!",
-  "findAffordable": "იპოვე ხელმისაწვდომი ბინა"
+  "findAffordable": "იპოვე ხელმისაწვდომი ბინა",
+  "select": "აირჩიე",
+  "back": "უკან"
 }

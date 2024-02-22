@@ -14,13 +14,14 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({ answeredQuestions: [] });
-  console.log(formData);
+  let secondStep = questions.slice(0, 7);
+  let thirthStep = questions.slice(8, 13);
 
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
   useEffect(() => {
-    if (formData.answeredQuestions.length) {
+    if (formData.answeredQuestions.length > 7) {
       submit();
     }
   }, [formData]);
@@ -55,7 +56,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       },
     };
 
-    if (step === 2) {
+    if (step === 3) {
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
           headers: {
@@ -83,6 +84,9 @@ export default function MultiStepCard({ countries, gender, questions }) {
       }
     }
   };
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <>
@@ -98,28 +102,32 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   setStep={setStep}
                   formData={formData}
                   updateFormData={updateFormData}
+                  step={step}
                 />
               </div>
             )}
             {step === 2 && (
               <div>
                 <SignupSecond
-                  questions={questions}
-                  updateFormData={updateFormData}
-                  setStep={setStep}
-                />
-              </div>
-            )}
-            {/* {step === 3 && (
-              <div>
-                <SignupThirth
-                  questions={questions}
+                  questions={secondStep}
                   updateFormData={updateFormData}
                   setStep={setStep}
                   formData={formData}
+                  step={step}
                 />
               </div>
-            )} */}
+            )}
+            {step === 3 && (
+              <div>
+                <SignupSecond
+                  questions={thirthStep}
+                  updateFormData={updateFormData}
+                  setStep={setStep}
+                  formData={formData}
+                  step={step}
+                />
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

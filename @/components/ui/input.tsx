@@ -83,6 +83,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
         {getCode && (
           <div className="absolute right-4  ">
             <Button
+              className="bg-[#F2F5FF] text-[#484848] hover:bg-[#ced0d7]"
               onClick={() => {
                 if (onGetCodeClick) {
                   onGetCodeClick();

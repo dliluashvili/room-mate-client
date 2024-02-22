@@ -16,8 +16,10 @@ export async function getServerSideProps(searchParams) {
             id
             lang
             title
+          
           }
         }
+        position
         uiFieldInfo
         id
         translations {
@@ -40,6 +42,7 @@ export async function getServerSideProps(searchParams) {
           id
           lang
           name
+          
         }
       }
     }

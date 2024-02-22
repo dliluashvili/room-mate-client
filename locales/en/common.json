@@ -227,5 +227,7 @@
   "findMore": "Find more",
   "leaveFlat": "Leave us the apartment",
   "answer_edit_under_construction": "This answers edit is not available yet!",
-  "findAffordable": "Find an affordable apartment"
+  "findAffordable": "Find an affordable apartment",
+  "select": "Select",
+  "back": "Back"
 }

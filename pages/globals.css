@@ -38,7 +38,7 @@
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --input: 227 20% 59%;
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
@@ -85,39 +85,91 @@
 }
 
 .css-13cymwt-control {
-  padding: 8px 12px 8px 12px;
+  padding: 8px 12px 8px 12px !important;
   border-radius: 8px !important;
   cursor: pointer !important;
   outline: none !important;
   border-color: 214.3 31.8% 91.4% !important;
+  font-size: 14px !important;
 }
 
 .css-b62m3t-container {
   outline: none !important;
+  font-size: 14px !important;
 }
 
 .css-1jqq78o-placeholder {
   margin: 0px !important;
-  color: "red" !important;
+  font-size: 14px !important;
 }
 
 .css-1fdsijx-ValueContainer {
   padding: 0px !important;
+  font-size: 14px !important;
 }
 .css-qbdosj-Input {
   margin: 0px !important;
   padding: 0px !important;
   height: 30px !important;
+  font-size: 14px !important;
+}
+
+.css-166bipr-Input {
+  font-size: 14px !important;
 }
 
 .css-1xc3v61-indicatorContainer {
   padding: 0px !important;
+  font-size: 14px !important;
 }
 
 .css-t3ipsp-control {
   padding: 8px 12px 8px 12px !important;
+  font-size: 14px !important;
 }
 
 .css-15lsz6c-indicatorContainer {
   padding: 0px !important;
+  cursor: pointer !important;
+}
+
+.css-1p3m7a8-multiValue {
+  background-color: #f2f5ff !important;
+}
+
+.PhoneInput {
+  display: flex;
+  justify-content: center !important;
+  padding: 4px 12px 4px 12px !important;
+  height: 48px !important;
+  width: 100% !important;
+  border-radius: 8px !important;
+  border: 1px solid hsl(227, 20%, 59%) !important;
+  font-size: 14px !important;
+  color: #484848 !important;
+}
+
+.PhoneInput--focus {
+  outline: #c5758a auto !important;
+}
+
+.PhoneInputInput {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.PhoneInputCountrySelect {
+  color: #484848 !important;
+  font-size: 12px !important;
+  font-family: "Courier New", Courier, monospace !important;
+  padding: 10px 12px 10px 12px !important;
+}
+
+@media (min-width: 768px) {
+  .PhoneInput {
+    font-size: 14px !important;
+  }
+  .PhoneInputCountrySelect {
+    font-size: 14px !important;
+  }
 }
