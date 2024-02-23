@@ -23,6 +23,7 @@ import SignupStepTwo from "./validations/SignupStepTwo";
 import Select from "react-select";
 import arroLeft from "../public/newImages/arrow-left.svg";
 import Image from "next/image";
+import { DropdownIndicator, customStyles } from "./SelectUI";
 
 export default function SignupSecond({
   questions,
@@ -71,11 +72,13 @@ export default function SignupSecond({
         return item.answerId.map((answer) => ({
           questionId: item.questionId,
           answerId: answer.value,
+          answer: answer.label,
         }));
       } else if (typeof item.answerId === "object" && item.answerId !== null) {
         return {
           questionId: item.questionId,
           answerId: item.answerId.value,
+          answer: item.answerId.label,
         };
       } else {
         return {
@@ -121,6 +124,7 @@ export default function SignupSecond({
                                   }
                                 />
                               </FormControl>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
@@ -195,14 +199,16 @@ export default function SignupSecond({
                               {item.translations[0].title}
                             </FormLabel>
                             <Select
-                              className="text-xs "
+                              placeholder={t("select")}
+                              components={{ DropdownIndicator }}
+                              styles={customStyles}
                               {...field}
                               isMulti={
                                 item.uiFieldInfo.input.variant === "multiple"
                               }
                               options={item.answers.map((answer) => ({
                                 questionId: item.id,
-                                value: answer.id, // Unique identifier for the option
+                                value: answer.id,
                                 label: answer.translations[0].title,
                               }))}
                               onChange={(value) => {
