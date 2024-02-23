@@ -16,7 +16,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const [formData, setFormData] = useState({ answeredQuestions: [] });
   let secondStep = questions.slice(0, 7);
   let thirthStep = questions.slice(8, 13);
-
+  console.log(questions);
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
@@ -56,7 +56,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       },
     };
 
-    if (step === 3) {
+    if (step === 4) {
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
           headers: {
@@ -84,9 +84,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
       }
     }
   };
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
 
   return (
     <>
@@ -102,7 +99,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   setStep={setStep}
                   formData={formData}
                   updateFormData={updateFormData}
-                  step={step}
                 />
               </div>
             )}

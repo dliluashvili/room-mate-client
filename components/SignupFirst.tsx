@@ -8,16 +8,19 @@ import {
   FormMessage,
 } from "../@/components/ui/form";
 import { BaseInput } from "../@/components/ui/input";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { Button } from "../@/components/ui/button";
 import useTranslation from "next-translate/useTranslation";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { SignupStepOne } from "./validations/SignupStepOne";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { BASE_URL_GRAPHQL } from "../services/api";
+import { DropdownIndicator, customStyles } from "./SelectUI";
+
+
 
 export default function SignupFirst({
   countries,
@@ -25,30 +28,13 @@ export default function SignupFirst({
   setStep,
   updateFormData,
   formData,
-  step,
 }) {
   const form = SignupStepOne({ formData });
-
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const labels = router.locale === "ka" ? ge.ge : undefined;
   const [clicked, setClicked] = useState(false);
   const [resend, setResend] = useState(false);
-  const [selectedLabel, setSelectedLabel] = useState("");
-  const [selectedGenderLabel, setSelectedGenderLabel] = useState("");
-
-  useEffect(() => {
-    const savedLabel = localStorage.getItem("selectedLabel");
-    if (savedLabel) {
-      setSelectedLabel(savedLabel);
-    }
-    const savedGenderLabel = localStorage.getItem("selectedGenderLabel");
-    if (savedGenderLabel) {
-      setSelectedGenderLabel(savedGenderLabel);
-    }
-  }, [step]);
-
-  
 
   const handleSubmit = async (data: any) => {
     let modifiedFormData = {
@@ -168,23 +154,18 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("country")}</FormLabel>
                     <Select
-                      className="text-sm rounded-lg"
-                      placeholder={selectedLabel || t("selectCountry")}
-                      value={countries.find(
-                        (option) => option.id === field.value.value
-                      )}
-                      onChange={(option) => {
-                        field.onChange(option.value);
-                        setSelectedLabel(option.label); // Save the label when an option is selected
-                        localStorage.setItem("selectedLabel", option.label); // Save the label in local storage
-                    
+                      {...field}
+                      styles={customStyles}
+                      components={{ DropdownIndicator }}
+                      placeholder={t("selectCountry")}
+                      onChange={(value) => {
+                        field.onChange(value);
                       }}
                       options={countries.map((country) => ({
                         value: country.id,
                         label: country?.translations[0]?.name,
                       }))}
                     />
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -195,25 +176,18 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("gender")}</FormLabel>
                     <Select
-                      className="text-sm rounded-lg "
-                      placeholder={selectedGenderLabel || t("selectGender")}
-                      value={gender.find(
-                        (option) => option.id === field.value.value
-                      )}
-                      onChange={(option) => {
-                        field.onChange(option.value);
-                        setSelectedGenderLabel(option.label); // Save the label when an option is selected
-                        localStorage.setItem(
-                          "selectedGenderLabel",
-                          option.label
-                        ); // Save the label in local storage
+                      {...field}
+                      styles={customStyles}
+                      components={{ DropdownIndicator }}
+                      placeholder={t("selectGender")}
+                      onChange={(value) => {
+                        field.onChange(value);
                       }}
                       options={gender.map((gender) => ({
                         value: gender.id,
                         label: gender?.translations[0].sex,
                       }))}
                     />
-                    <FormMessage />
                   </FormItem>
                 )}
               />

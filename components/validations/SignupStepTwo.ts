@@ -10,8 +10,7 @@ export default function SignupStepTwo({ questions, formData }) {
   const formSchema = z.object(
     questions.reduce((acc: any, item: any) => {
       if (item.uiFieldInfo) {
-        let fieldSchema; /// Default value
-
+        let fieldSchema; 
         if (item.uiFieldInfo.input.variant === "multiple") {
           fieldSchema = z
             .array(
@@ -48,16 +47,14 @@ export default function SignupStepTwo({ questions, formData }) {
           item.uiFieldInfo.input.type === "textarea"
         ) {
           if (item.uiFieldInfo.input.required === true) {
-            fieldSchema = z.string().min(1, { message: t("filsRequire") }); // Require at least one character
+            fieldSchema = z.string().min(1, { message: t("filsRequire") });
           } else {
-            fieldSchema = z.string().min(0); // Allow empty string
+            fieldSchema = z.string().min(0);
           }
         }
-
         if (item.uiFieldInfo.input.required === false) {
           acc[item.id] = fieldSchema.optional();
         } else {
-          // This will catch 'true' and also 'undefined' or 'null'
           acc[item.id] = fieldSchema;
         }
       }
@@ -68,39 +65,38 @@ export default function SignupStepTwo({ questions, formData }) {
 
   const defaultValues = {
     ...questions.reduce((acc: any, item: any) => {
+      const savedAnswers = formData?.answeredQuestions.filter(
+        (q) => q.questionId === item.id
+      );
+
       if (item.uiFieldInfo) {
         if (item.uiFieldInfo.input.variant === "multiple") {
-          acc[item.id] = [];
+          acc[item.id] = savedAnswers
+            ? savedAnswers.map((k) => ({
+                label: k.answer,
+                questionId: k.questionId,
+                value: k.answerId,
+              }))
+            : [];
         } else if (item.uiFieldInfo.input.variant === "single") {
-          acc[item.id] = {};
-        } else if (item.uiFieldInfo.input.type === "button") {
-          acc[item.id] = "";
-        } else if (item.uiFieldInfo.input.type === "text") {
-          acc[item.id] = "";
-        } else if (item.uiFieldInfo.input.type === "numeric") {
-          acc[item.id] = "";
-        } else if (item.uiFieldInfo.input.type === "textarea") {
-          acc[item.id] = "";
+          const savedAnswersObj = savedAnswers ? savedAnswers[0] : null;
+          acc[item.id] = savedAnswersObj
+            ? {
+                label: savedAnswersObj.answer,
+                value: savedAnswersObj.answerId,
+                questionId: savedAnswersObj.questionId,
+              }
+            : null;
+        } else {
+          const data =
+            savedAnswers && savedAnswers[0] ? savedAnswers[0].data : "";
+          acc[item.id] = data ? data : "";
         }
       }
-
-      // Check if formData and answeredQuestions exist
-      if (formData && formData.answeredQuestions.length > 0) {
-        // Find the question in answeredQuestions
-        const answeredQuestion = formData.answeredQuestions.find(
-          (q: any) => q.questionId === item.id
-        );
-        if (answeredQuestion) {
-          // If found, set the default value
-          acc[item.id] = answeredQuestion.data || answeredQuestion.answerId;
-        }
-      }
-
       return acc;
     }, {}),
   };
 
-  console.log(defaultValues, " olaaaaaaaaaaaaaaaaaa");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
