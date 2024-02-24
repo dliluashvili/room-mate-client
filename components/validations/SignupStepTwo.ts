@@ -10,7 +10,7 @@ export default function SignupStepTwo({ questions, formData }) {
   const formSchema = z.object(
     questions.reduce((acc: any, item: any) => {
       if (item.uiFieldInfo) {
-        let fieldSchema; 
+        let fieldSchema;
         if (item.uiFieldInfo.input.variant === "multiple") {
           fieldSchema = z
             .array(
@@ -64,39 +64,22 @@ export default function SignupStepTwo({ questions, formData }) {
   );
 
   const defaultValues = {
-    ...questions.reduce((acc: any, item: any) => {
-      const savedAnswers = formData?.answeredQuestions.filter(
-        (q) => q.questionId === item.id
-      );
-
+    ...questions.reduce((acc, item) => {
       if (item.uiFieldInfo) {
         if (item.uiFieldInfo.input.variant === "multiple") {
-          acc[item.id] = savedAnswers
-            ? savedAnswers.map((k) => ({
-                label: k.answer,
-                questionId: k.questionId,
-                value: k.answerId,
-              }))
-            : [];
+          acc[item.id] = formData.answeredQuestions[item.id] || null;
         } else if (item.uiFieldInfo.input.variant === "single") {
-          const savedAnswersObj = savedAnswers ? savedAnswers[0] : null;
-          acc[item.id] = savedAnswersObj
-            ? {
-                label: savedAnswersObj.answer,
-                value: savedAnswersObj.answerId,
-                questionId: savedAnswersObj.questionId,
-              }
+          acc[item.id] = formData.answeredQuestions[item.id]
+            ? formData.answeredQuestions[item.id]
             : null;
         } else {
-          const data =
-            savedAnswers && savedAnswers[0] ? savedAnswers[0].data : "";
-          acc[item.id] = data ? data : "";
+          acc[item.id] = formData.answeredQuestions[item.id] || "";
         }
       }
       return acc;
     }, {}),
   };
-
+  console.log(defaultValues);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,

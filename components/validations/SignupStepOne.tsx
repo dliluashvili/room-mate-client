@@ -73,7 +73,6 @@ export function SignupStepOne({ formData }) {
     code: z.string().optional(),
   });
 
-  console.log(formData?.countryId?.label, formData?.countryId?.value);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
