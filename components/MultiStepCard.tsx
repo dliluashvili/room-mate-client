@@ -13,37 +13,69 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [formData, setFormData] = useState({ answeredQuestions: [] });
+  const [formData, setFormData] = useState({ answeredQuestions: {} });
   let secondStep = questions.slice(0, 7);
   let thirthStep = questions.slice(8, 13);
-  console.log(questions);
+
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
-  useEffect(() => {
-    if (formData.answeredQuestions.length > 7) {
-      submit();
-    }
-  }, [formData]);
 
   const submit = async () => {
     const modifiedFormData: any = {
       ...formData,
     };
+
+    // Delete the 'code' property
     delete modifiedFormData.code;
 
+    // Convert certain properties to numbers if they exist
     if (modifiedFormData.age) {
       modifiedFormData.age = Number(modifiedFormData.age);
     }
     if (modifiedFormData.countryId) {
-      modifiedFormData.countryId = Number(modifiedFormData.countryId);
+      modifiedFormData.countryId = Number(modifiedFormData.countryId.value);
     }
     if (modifiedFormData.genderId) {
-      modifiedFormData.genderId = Number(modifiedFormData.genderId);
+      modifiedFormData.genderId = Number(modifiedFormData.genderId.value);
     }
+
+    // Delete the 'email' property if it's an empty string
     if (modifiedFormData.email === "") {
       delete modifiedFormData.email;
     }
+
+    // Initialize an empty array for the answeredQuestions
+    let answeredQuestions = [];
+
+    // Iterate over each item in the answeredQuestions object
+    for (let key in modifiedFormData.answeredQuestions) {
+      let value = modifiedFormData.answeredQuestions[key];
+
+      // If the value is a string, add a new object to the array with "data" key
+      if (typeof value === "string") {
+        answeredQuestions.push({ questionId: key, data: value });
+      }
+      // If the value is an object, add a new object to the array with "answerId" key
+      else if (typeof value === "object" && !Array.isArray(value)) {
+        answeredQuestions.push({
+          questionId: value["questionId"],
+          answerId: value["value"],
+        });
+      }
+      // If the value is an array, add a new object to the array for each item with "answerId" key
+      else if (Array.isArray(value)) {
+        for (let item of value) {
+          answeredQuestions.push({
+            questionId: item["questionId"],
+            answerId: item["value"],
+          });
+        }
+      }
+    }
+
+    // Replace the original answeredQuestions object with the new array
+    modifiedFormData.answeredQuestions = answeredQuestions;
 
     const requestBody = {
       query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
@@ -56,32 +88,31 @@ export default function MultiStepCard({ countries, gender, questions }) {
       },
     };
 
-    if (step === 4) {
-      try {
-        const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    try {
+      const response = await axios.post(BASE_URL_GRAPHQL, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (
-          response?.data?.data &&
-          response?.data?.data?.signUpAndAnswerQuestion.accessToken
-        ) {
-          dispatch(
-            setCurrentUser({
-              user: null,
-              token: response.data.data.signUpAndAnswerQuestion.accessToken,
-            })
-          );
-          router.push("/");
-          console.log(response);
-        } else {
-          alert("Phone exist");
-        }
-      } catch (error) {
-        console.error("Error:", error);
+      if (
+        response?.data?.data &&
+        response?.data?.data?.signUpAndAnswerQuestion.accessToken
+      ) {
+        dispatch(
+          setCurrentUser({
+            user: null,
+            token: response.data.data.signUpAndAnswerQuestion.accessToken,
+          })
+        );
+        router.push("/");
+        console.log(response);
+      } else {
+        alert("Phone exist");
+        console.log(response);
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -107,9 +138,11 @@ export default function MultiStepCard({ countries, gender, questions }) {
                 <SignupSecond
                   questions={secondStep}
                   updateFormData={updateFormData}
+                  submit={submit}
                   setStep={setStep}
                   formData={formData}
                   step={step}
+                  next={"Next"}
                 />
               </div>
             )}
@@ -118,9 +151,11 @@ export default function MultiStepCard({ countries, gender, questions }) {
                 <SignupSecond
                   questions={thirthStep}
                   updateFormData={updateFormData}
+                  submit={submit}
                   setStep={setStep}
                   formData={formData}
                   step={step}
+                  next={"Finish"}
                 />
               </div>
             )}
