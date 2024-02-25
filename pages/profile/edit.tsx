@@ -5,7 +5,7 @@ import ProfileWrapper from "../../components/pages/profile/profileWrapper";
 import QuestionEdit from "../../components/pages/profile/questionEdit";
 import useTranslation from "next-translate/useTranslation";
 
-function Edit(props) {
+function Edit() {
   let { t } = useTranslation("common");
 
   const tabs = [
@@ -18,6 +18,7 @@ function Edit(props) {
       path: "/profile/resetpassword",
     },
   ];
+
   return (
     <ProfileWrapper consumerPage={"edit"}>
       <ProfileTab tabs={tabs} />

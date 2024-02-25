@@ -3,19 +3,22 @@ import ProfileTab from "../../components/pages/profile/components/profileTab";
 
 import ProfileWrapper from "../../components/pages/profile/profileWrapper";
 import ResetPassword from "../../components/pages/profile/resetPsswors";
+import useTranslation from "next-translate/useTranslation";
 
-const tabs = [
-  {
-    label: "პროფილის რედაქტირება",
-    path: "/profile/edit",
-  },
-  {
-    label: "პაროლის შეცვლა",
-    path: "/profile/resetpassword",
-  },
-];
+function Edit() {
+  let { t } = useTranslation("common");
 
-function Edit(props) {
+  const tabs = [
+    {
+      label: t("editProfile"),
+      path: "/profile/edit",
+    },
+    {
+      label: t("changePassword"),
+      path: "/profile/resetpassword",
+    },
+  ];
+
   return (
     <ProfileWrapper consumerPage={"edit"}>
       <ProfileTab tabs={tabs} />

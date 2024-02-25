@@ -97,6 +97,18 @@
     }
   }
 }
+.reset_pass.loginSection_container {
+  box-shadow: none !important;
+}
+.reset_pass {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  form {
+    width: 400px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .login .loginSection {
     width: 100%;
