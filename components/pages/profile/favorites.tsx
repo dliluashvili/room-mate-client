@@ -29,7 +29,6 @@ const Favorites = () => {
     setLoading(true);
     ProfileService.getFavorites({ lang: router.locale, limit, offset })
       .then((res: any) => {
-        // await new Promise((resolve) => setTimeout(resolve, 100000));
         const onlyUsersData = res.data.list.map((el) => el.favourite);
 
         setFavoritesList(onlyUsersData);
@@ -50,8 +49,6 @@ const Favorites = () => {
   useEffect(() => {
     fetchFavorites();
   }, [router.locale, router.query.page]);
-
-  console.log({ pageInfo });
 
   if (loading) {
     return <Loader className="mt-12 h-auto w-full ml-auto mr-auto static" />;
