@@ -228,7 +228,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
               onClick={() => {
                 fileRef?.current?.click();
               }}
-              // className="pointer"
               className="imgUploadWrapper pointer"
             >
               <img className="cameraIcon" src="/imgs/camera.png" />
@@ -287,13 +286,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
               />
             </span>
           ) : (
-            <span
-              // onClick={() => {
-              //   fileRef?.current?.click();
-              // }}
-              // className="pointer"
-              className="imgUploadWrapper pointer"
-            >
+            <span className="imgUploadWrapper pointer">
               <img
                 src={
                   props?.profile_image
@@ -312,12 +305,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
             {props?.firstname} {props?.lastname}
           </span>
         </div>
-
-        {/* <div className="profile_aboutMe">
-                    <div>{t('aboutMe')} </div>
-                    <p>{props?.about_me}</p>
-                </div> */}
-
         {!props.myProfile && !props.phone ? (
           <div className="profile_contacts">
             <p className="text-center mb-4">{t("seandContactRequest")}</p>
@@ -431,9 +418,9 @@ const SideBar: React.FC<ISidebar> = (props) => {
                   <a
                     className={classnames({
                       active:
-                        router.asPath.split("/")[2] === undefined ||
-                        router.asPath.split("/")[2] === "favorites" ||
-                        router.asPath.split("/")[2] === "flats",
+                        router.pathname.split("/")[2] === undefined ||
+                        router.pathname.split("/")[2] === "favorites" ||
+                        router.pathname.split("/")[2] === "flats",
                     })}
                   >
                     <svg
@@ -459,8 +446,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                   <a
                     className={classnames({
                       active:
-                        router.asPath.split("/")[2] === "edit" ||
-                        router.asPath.split("/")[2] === "resetpassword",
+                        router.pathname.split("/")[2] === "edit" ||
+                        router.pathname.split("/")[2] === "resetpassword",
                     })}
                   >
                     <svg
