@@ -12,6 +12,7 @@ import Pagination from "../components/common/pagination";
 import { LangEnum } from "../graphql";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
+import Loader from "../components/common/loader";
 
 const Search = () => {
   useCheckAuth();
@@ -19,6 +20,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [pageInfo, setPageInfo] = useState<any>(null);
   const [openPayModal, setOpenPayModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { user } = useTypedSelector((state) => state.profile);
 
@@ -59,6 +61,8 @@ const Search = () => {
       ? (Number(router.query.page) - 1) * limit
       : 0;
 
+    setLoading(true);
+
     const response = await axios.post(
       BASE_URL_GRAPHQL,
       {
@@ -78,6 +82,8 @@ const Search = () => {
         },
       }
     );
+
+    setLoading(false);
 
     if (!response.data?.errors) {
       setSearchResults(response.data.data.filterUsers.data);
@@ -120,36 +126,40 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage">
-        <div className="container d-flex pt-5">
-          <div className="search_mainContent">
-            {!searchResults.length ? (
-              <div className="text-center mt-5">{t("statementNotFound")}</div>
-            ) : (
-              searchResults?.map((el) => {
-                return (
-                  <ProfileCard
-                    setPayModal={() => {
-                      setOpenPayModal(true);
-                    }}
-                    key={el.id}
-                    {...el}
-                    updateAddRemove={updateAddRemove}
-                  />
-                );
-              })
-            )}
+      {loading ? (
+        <Loader className="static" />
+      ) : (
+        <div className="searchPage">
+          <div className="container d-flex pt-5">
+            <div className="search_mainContent">
+              {!searchResults.length ? (
+                <div className="text-center mt-5">{t("statementNotFound")}</div>
+              ) : (
+                searchResults?.map((el) => {
+                  return (
+                    <ProfileCard
+                      setPayModal={() => {
+                        setOpenPayModal(true);
+                      }}
+                      key={el.id}
+                      {...el}
+                      updateAddRemove={updateAddRemove}
+                    />
+                  );
+                })
+              )}
 
-            <Pagination
-              pagePath="/search"
-              maxPage={
-                pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1
-              }
-              maxItem={pageInfo?.limit}
-            />
+              <Pagination
+                pagePath="/search"
+                maxPage={
+                  pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1
+                }
+                maxItem={pageInfo?.limit}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <NewFooter />
     </div>
   );
