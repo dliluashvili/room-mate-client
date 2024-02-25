@@ -29,8 +29,8 @@ const Search = () => {
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
     const query = `
-            query FilterUsers($input: [FilterInput!], $lang: LangEnum, $limit: Int, $offset: Int) {
-                filterUsers(input: $input, lang: $lang, limit: $limit, offset: $offset) {
+            query FilterUsers($pagination: Pagination, $lang: LangEnum, $input: [FilterInput!]) {
+              filterUsers(pagination: $pagination, lang: $lang, input: $input) {
                 pageInfo {
                     hasNextPage
                     hasPrevious
@@ -45,13 +45,13 @@ const Search = () => {
                     age
                     isFavourite
                     cardInfo {
-                    bio
-                    districtsName
-                    budget
+                      bio
+                      districtNames
+                      budget
                     }
+                  }
                 }
-                }
-            }
+              }
         `;
 
     const limit = 10;
@@ -65,8 +65,10 @@ const Search = () => {
         query: query,
         variables: {
           input: [],
-          offset,
-          limit,
+          pagination: {
+            offset,
+            limit,
+          },
           lang: router.locale === "en" ? LangEnum.En : LangEnum.Ka,
         },
       },
