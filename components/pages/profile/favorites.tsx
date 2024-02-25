@@ -6,29 +6,56 @@ import {
 } from "../../../services/profile/profile.http";
 import PayModal from "../payModal";
 import { useRouter } from "next/router";
+import Pagination from "../../common/pagination";
+import Loader from "../../common/loader";
 
 const Favorites = () => {
   const [favoritesList, setFavoritesList] = useState<ISearchItems[] | null>(
     null
   );
   const [payModal, setPayModal] = useState(false);
+  const [pageInfo, setPageInfo] = useState<any>(null);
+
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  useEffect(() => {
-    ProfileService.getFavorites({ lang: router.locale })
-      .then((res) => {
-        setFavoritesList(res.data.data);
+  const fetchFavorites = () => {
+    const limit = 10;
+    const offset = router.query.page
+      ? (Number(router.query.page) - 1) * limit
+      : 0;
+
+    setLoading(true);
+    ProfileService.getFavorites({ lang: router.locale, limit, offset })
+      .then((res: any) => {
+        // await new Promise((resolve) => setTimeout(resolve, 100000));
+        const onlyUsersData = res.data.list.map((el) => el.favourite);
+
+        setFavoritesList(onlyUsersData);
+        setPageInfo(res.data.pageInfo);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, [router.locale]);
+  };
 
   const updateAddRemove = (id, saveId) => {
-    // debugger;
     setFavoritesList(favoritesList.filter((el) => el.favourite_id !== id));
   };
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [router.locale, router.query.page]);
+
+  console.log({ pageInfo });
+
+  if (loading) {
+    return <Loader className="mt-12 h-auto w-full ml-auto mr-auto static" />;
+  }
 
   return (
     <div className="mt-3">
@@ -46,13 +73,18 @@ const Favorites = () => {
             setPayModal={() => {
               setPayModal(true);
             }}
-            key={el.favourite_id}
+            key={el.id}
             {...el}
             isFavourite={true}
             updateAddRemove={updateAddRemove}
           />
         );
       })}
+      <Pagination
+        pagePath="/profile/favorites"
+        maxPage={pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1}
+        maxItem={pageInfo?.limit}
+      />
     </div>
   );
 };

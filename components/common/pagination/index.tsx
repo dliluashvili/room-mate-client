@@ -44,9 +44,10 @@ const Pagination: React.FC<IProps> = ({
   maxPage,
   next,
   prev,
-  pagePath
+  pagePath,
 }) => {
   const router = useRouter();
+
   const getPagination = useMemo(() => {
     let paginationList = [];
     let page = 1;
@@ -62,8 +63,8 @@ const Pagination: React.FC<IProps> = ({
               pathname: pagePath,
               query: {
                 ...router?.query,
-                page: index + 1
-              }
+                page: index + 1,
+              },
             }}
             index={index}
             page={page}
@@ -78,8 +79,8 @@ const Pagination: React.FC<IProps> = ({
               pathname: pagePath,
               query: {
                 ...router.query,
-                page: index + 1
-              }
+                page: index + 1,
+              },
             }}
             index={index}
             page={page}
@@ -96,6 +97,10 @@ const Pagination: React.FC<IProps> = ({
     return paginationList;
   }, [setLoad, maxItem, maxPage, router?.query]);
 
+  if (maxPage <= 1) {
+    return <></>;
+  }
+
   return (
     <div className="beks_pagination pagination">
       <GetButton
@@ -103,12 +108,14 @@ const Pagination: React.FC<IProps> = ({
           pathname: pagePath,
           query: {
             ...router?.query,
-            page: Number(router?.query?.page) - 1
-          }
+            page: Number(router?.query?.page) - 1,
+          },
         }}
         btnType="prev"
         btnClass={classnames("pagination_prevBtn", {
-          disabledLink: Number(router?.query?.page) <= 1
+          disabledLink: router?.query?.page
+            ? Number(router?.query?.page) <= 1
+            : true,
         })}
         buttonInner={prev}
       />
@@ -118,11 +125,11 @@ const Pagination: React.FC<IProps> = ({
           pathname: pagePath,
           query: {
             ...router?.query,
-            page: Number(router?.query?.page) + 1
-          }
+            page: Number(router?.query?.page) + 1,
+          },
         }}
         btnClass={classnames("pagination_nextBtn", {
-          disabledLink: Number(router?.query?.page) >= maxPage
+          disabledLink: Number(router?.query?.page) >= maxPage,
         })}
         buttonInner={next}
       />

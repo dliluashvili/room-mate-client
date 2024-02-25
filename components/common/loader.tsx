@@ -1,8 +1,13 @@
+import classNames from "classnames";
 import React from "react";
 
-function Loader() {
+type Props = {
+  className?: string;
+};
+
+function Loader({ className }: Props) {
   return (
-    <div className="loader_wrapper">
+    <div className={classNames("loader_wrapper", className)}>
       <div className="loader"></div>
     </div>
   );

@@ -140,7 +140,9 @@ const Search = () => {
 
             <Pagination
               pagePath="/search"
-              maxPage={pageInfo ? pageInfo.total / pageInfo.limit : 1}
+              maxPage={
+                pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1
+              }
               maxItem={pageInfo?.limit}
             />
           </div>
