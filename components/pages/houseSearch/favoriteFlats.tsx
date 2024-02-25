@@ -45,7 +45,7 @@ const FavoriteFlats = () => {
 
   return (
     <div className="d-flex flex-wrap flex-col mt-4 favourite_flat">
-      <div className="d-flex justify-content-center justify-content-md-start">
+      <div className="d-flex flex-wrap justify-content-center justify-content-md-start">
         {flatsList.map((el, i) => {
           return (
             <HouseCard
