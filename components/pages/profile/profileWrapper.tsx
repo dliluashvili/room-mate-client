@@ -28,7 +28,6 @@ const ProfileWrapper: React.FC<IProps> = ({
 
   const signOut = () => {
     dispatch(logout());
-    // router.push("/login");
     window.location.replace("/login");
   };
 

@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/footer";
 import { Flats } from "../services/flats/flats.http";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import Choice from "../components/pages/houseSearch/houseSearchComponets/choice";
@@ -71,7 +69,6 @@ const Search = () => {
           dispatch(logout());
           window.location.replace("/login");
         }
-        // debugger;
       });
   }, [router.query, router.locale]);
 
@@ -113,7 +110,7 @@ const Search = () => {
   return (
     <div className="">
       <NewHeader />
-      {/* <SearchProvider> */}
+
       {openPayModal ? (
         <PayModal
           isModal
