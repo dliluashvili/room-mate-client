@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "../@/components/ui/card";
 import SignupFirst from "./SignupFirst";
 import SignupSecond from "./SignupSecond";
@@ -18,6 +18,15 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const [formData, setFormData] = useState({ answeredQuestions: {} });
   let secondStep = questions.slice(0, 7);
   let thirthStep = questions.slice(8, 13);
+  const showErrorWithHelp = () => {
+    alert(t("serverError"));
+    if (confirm("Go to support")) {
+      window.open(
+        "https://www.facebook.com/share/E3WJ5xzYtAQ4itRd/?mibextid=WC7FNe",
+        "_blank"
+      );
+    }
+  };
 
   const updateFormData = (newData: any) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
@@ -114,7 +123,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
         alert(t("emailExist"));
       }
     } catch (error) {
-      console.error("Error:", error);
+      showErrorWithHelp();
     }
   };
 

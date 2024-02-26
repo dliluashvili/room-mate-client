@@ -11,12 +11,22 @@ export interface InputProps
   hasError?: boolean;
   isSuccess?: boolean;
   getCode?: boolean;
+  clicked?: boolean;
   onGetCodeClick?: () => void;
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, type, hasError, isSuccess, getCode, onGetCodeClick, ...props },
+    {
+      className,
+      type,
+      hasError,
+      isSuccess,
+      getCode,
+      onGetCodeClick,
+      clicked,
+      ...props
+    },
     ref
   ) => {
     let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -57,7 +67,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
                 }
               }}
             >
-              {t("getCode")}
+              {clicked ? t("resend") : t("getCode")}
             </Button>
           </div>
         )}

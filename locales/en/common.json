@@ -232,5 +232,14 @@
   "back": "Back",
   "resend": "Resend",
   "phoneExist": "An account already exists with this phone number.",
-  "emailExist": "An account already exists with this email."
+  "emailExist": "An account already exists with this email.",
+  "reviewName1": "Tamari",
+  "reviewText1": "Roommate.ge made finding affordable housing stress-free. Their negotiation with landlords saved me time and money!",
+  "reviewName2": "Eka",
+  "reviewText2": "Thanks to Roommate.ge, I found a great roommate and a budget-friendly home. Highly recommend it!",
+  "reviewName3": "Lasha",
+  "reviewText3": "Roommate.ge's platform is user-friendly and their team is incredibly helpful. They made finding affordable housing a breeze!",
+  "reviewName4": "Isabell",
+  "reviewText4": "Grateful to Roommate.ge for simplifying my housing search. Found a perfect roommate and place without breaking the bank!",
+  "serverError": "Server-side error. Please reach out to us using the link:"
 }

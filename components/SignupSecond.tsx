@@ -185,7 +185,6 @@ export default function SignupSecond({
                               onChange={(value) => {
                                 field.onChange(value);
                                 updateUseForm({ [item.id]: value });
-                              
                               }}
                             />
                           </FormItem>
@@ -211,16 +210,16 @@ export default function SignupSecond({
                                     value={field.value}
                                     variant="calendar"
                                     className={cn(
-                                      "w-[200px] md:w-[240px] px-3 py-5  text-left font-normal flex justify-start",
+                                      "w-full md:w-full px-3 py-5 border text-left font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
+                                    <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
                                     {field.value ? (
                                       format(field.value, "PPP")
                                     ) : (
                                       <span>Select date</span>
                                     )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>

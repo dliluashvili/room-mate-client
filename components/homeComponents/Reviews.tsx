@@ -15,32 +15,31 @@ import Avatar from "../../public/newImages/avatar.svg";
 import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
 
-const data = [
-  {
-    header: "თამარი",
-    text: "დიდი მადლობა Roommate-ს პასუხისმგებლობიან და პროფესიონალ თანამშრომლებს. დამიჯერეთ, ამ კომპანიის სანდოობის მაღალი ხარისხი გაგიადვილებთ ბინის გაქირავების და გაქირავების შემდგომ პროცესებს",
-    image: CarouselBgMen,
-  },
-  {
-    header: "დავითი",
-    text: "ძალიან სასარგებლო წამოწყებაა. დარწმუნებული ვარ, ბევრ ადამიანს დაეხმარება გაქირავებასთან დაკავშირებული პრობლემების გადაჭრაში. გისურვებთ წარმატებას",
-    image: CarouselBgWomen,
-  },
-  {
-    header: "მანანა",
-    text: "Roommate Georgia-სთან თანამშრომლობამ ჩემი გაქირავების გამოცდილება საგრძნობლად გაამარტივა. თუ ჩემნაირად ნერვიულობთ გაქირავების შემდგომ თქვენი ბინის მდგომარეობაზე, ჩემი გამოცდილებით, Roommate Georgia ყველა დეტალის გათვალისწინებაში დაგეხმარებათ. ",
-    image: CarouselBgMen,
-  },
-  {
-    header: "ზურა",
-    text: "დიდ რეკომენდაციას ვუწევ Rommate-ს. ამ გუნდში ძალიან საინტერესო იდეის გარშემო გაერთიანებული ადამიანები მუშაობენ, რაც მათი სამუშაოს ხარისხზე აისახება! წინსვლა და წარმატებები",
-    image: CarouselBgMen,
-  },
-];
-
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const data = [
+    {
+      header: t("reviewName1"),
+      text: t("reviewText1"),
+      image: CarouselBgMen,
+    },
+    {
+      header: t("reviewName2"),
+      text: t("reviewText2"),
+      image: CarouselBgWomen,
+    },
+    {
+      header: t("reviewName4"),
+      text: t("reviewText3"),
+      image: CarouselBgMen,
+    },
+    {
+      header: t("reviewName5"),
+      text: t("reviewText4"),
+      image: CarouselBgMen,
+    },
+  ];
   return (
     <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 lg:px-24 ">
       <h1 className="text-2xl text-[#484848]">{t("reviewsHead")}</h1>

@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import { DropdownIndicator, customStyles } from "./SelectUI";
+import { useState } from "react";
 
 export default function SignupFirst({
   countries,
@@ -30,6 +31,7 @@ export default function SignupFirst({
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const labels = router.locale === "ka" ? ge.ge : undefined;
+  const [clicked, setClicked] = useState(false);
 
   const handleSubmit = async (data: any) => {
     let modifiedFormData = {
@@ -69,6 +71,7 @@ export default function SignupFirst({
 
   const getCodeHandler = async () => {
     await form.handleSubmit(async () => {
+      setClicked(true);
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, {
           query: `
@@ -295,6 +298,7 @@ export default function SignupFirst({
                         type="number"
                         {...field}
                         getCode
+                        clicked={clicked}
                         onGetCodeClick={getCodeHandler}
                       />
                     </FormControl>
