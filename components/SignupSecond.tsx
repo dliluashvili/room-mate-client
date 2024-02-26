@@ -106,7 +106,9 @@ export default function SignupSecond({
                                 {item.translations[0].title}
                               </FormLabel>
                               <FormControl>
-                                <BaseInput
+                                <textarea
+                                  className="w-full py-2 px-3 text-sm border rounded-md border-[#828bab]  focus:outline-none focus:border-2 focus:border-[#c5758a]"
+                                  rows={4}
                                   {...field}
                                   onChange={(e) => {
                                     updateUseForm({
@@ -115,13 +117,6 @@ export default function SignupSecond({
                                     field.onChange(e);
                                   }}
                                   value={field.value}
-                                  type="text"
-                                  hasError={!!form.formState.errors[item.id]}
-                                  isSuccess={
-                                    !form.formState.errors[item.id] &&
-                                    form.formState.touchedFields[item.id] &&
-                                    field.value !== ""
-                                  }
                                 />
                               </FormControl>
                             </FormItem>
@@ -190,7 +185,7 @@ export default function SignupSecond({
                               onChange={(value) => {
                                 field.onChange(value);
                                 updateUseForm({ [item.id]: value });
-                                console.log({ [item.id]: value });
+                              
                               }}
                             />
                           </FormItem>

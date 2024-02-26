@@ -79,7 +79,7 @@ export default function SignupStepTwo({ questions, formData }) {
       return acc;
     }, {}),
   };
-  console.log(defaultValues);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,

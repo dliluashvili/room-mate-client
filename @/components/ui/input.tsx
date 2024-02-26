@@ -11,48 +11,14 @@ export interface InputProps
   hasError?: boolean;
   isSuccess?: boolean;
   getCode?: boolean;
-  resend?: boolean;
-  setResend?: (value: boolean) => void;
-  resendButton?: boolean;
   onGetCodeClick?: () => void;
 }
 
 const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      className,
-      type,
-      hasError,
-      isSuccess,
-      getCode,
-      resend,
-      setResend,
-      resendButton,
-      onGetCodeClick,
-      ...props
-    },
+    { className, type, hasError, isSuccess, getCode, onGetCodeClick, ...props },
     ref
   ) => {
-    const [isDisabled, setIsDisabled] = React.useState(false);
-    const [countdown, setCountdown] = React.useState(30);
-
-    React.useEffect(() => {
-      if (resend) {
-        setIsDisabled(true);
-        setCountdown(30);
-        const timer = setInterval(() => {
-          setCountdown((prevCountdown) => prevCountdown - 1);
-        }, 1000);
-        const timeout = setTimeout(() => {
-          setIsDisabled(false);
-          clearInterval(timer);
-        }, 30000);
-        return () => {
-          clearTimeout(timeout);
-          clearInterval(timer);
-        };
-      }
-    }, [resend]);
     let { t } = useTranslation("common") as { t: (key: string) => string };
     return (
       <div className="relative flex items-center w-full  ">
@@ -83,7 +49,8 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
         {getCode && (
           <div className="absolute right-4  ">
             <Button
-              className="bg-[#F2F5FF] text-[#484848] hover:bg-[#ced0d7]"
+              type="button"
+              className="bg-[#F2F5FF] text-[#484848] focus:bg-[#ced0d7] hover:bg-[#ced0d7]"
               onClick={() => {
                 if (onGetCodeClick) {
                   onGetCodeClick();
@@ -91,35 +58,6 @@ const BaseInput = React.forwardRef<HTMLInputElement, InputProps>(
               }}
             >
               {t("getCode")}
-            </Button>
-          </div>
-        )}
-        {resendButton && (
-          <div className="absolute right-4">
-            <Button
-              disabled={isDisabled}
-              onClick={() => {
-                setResend(true);
-                setIsDisabled(true);
-                setCountdown(30);
-                if (onGetCodeClick) {
-                  onGetCodeClick();
-                }
-                const timer = setInterval(() => {
-                  setCountdown((prevCountdown) => prevCountdown - 1);
-                }, 1000);
-                const timeout = setTimeout(() => {
-                  setIsDisabled(false);
-                  clearInterval(timer);
-                }, 30000);
-              }}
-              style={{
-                background: `linear-gradient(90deg, #19A463 ${
-                  ((30 - countdown) * 100) / 30
-                }%, #70a38b ${((30 - countdown) * 100) / 30}%`,
-              }}
-            >
-              Resend
             </Button>
           </div>
         )}

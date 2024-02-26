@@ -22,6 +22,9 @@ export const customStyles = {
     padding: state.isFocused ? "8px 12px 8px 12px" : "8px 12px 8px 12px",
     borderRadius: "8px",
     cursor: "pointer",
+    fontSize: "14px",
+    outline: "none",
+
     "&:hover": {
       borderColor: state.isFocused ? "#c5758a" : "#828bab",
     },
