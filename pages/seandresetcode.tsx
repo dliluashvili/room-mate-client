@@ -111,7 +111,7 @@ const SendResetCode = () => {
               </Link>
               <br />
               <Link href="/login">
-                <a className="label"> {t("login")}</a>
+                <a className="label"> {t("auth")}</a>
               </Link>
             </form>
           </div>
