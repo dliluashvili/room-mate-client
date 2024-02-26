@@ -84,16 +84,8 @@
   }
 }
 
-.css-13cymwt-control {
-  padding: 8px 12px 8px 12px !important;
-  border-radius: 8px !important;
-  cursor: pointer !important;
-  outline: none !important;
-  font-size: 14px !important;
-}
-
+/* react-select section start*/
 .css-b62m3t-container {
-  outline: none !important;
   font-size: 14px !important;
 }
 
@@ -106,36 +98,13 @@
   padding: 0px !important;
   font-size: 14px !important;
 }
-.css-qbdosj-Input {
-  margin: 0px !important;
-  padding: 0px !important;
-  height: 30px !important;
-  font-size: 14px !important;
-}
-
-.css-166bipr-Input {
-  font-size: 14px !important;
-}
 
 .css-1xc3v61-indicatorContainer {
   padding: 0px !important;
-  font-size: 14px !important;
 }
+/* react-select section start end*/
 
-.css-t3ipsp-control {
-  padding: 8px 12px 8px 12px !important;
-  font-size: 14px !important;
-}
-
-.css-15lsz6c-indicatorContainer {
-  padding: 0px !important;
-  cursor: pointer !important;
-}
-
-.css-1p3m7a8-multiValue {
-  background-color: #f2f5ff !important;
-}
-
+/* phone-input section start*/
 .PhoneInput {
   display: flex;
   justify-content: center !important;
@@ -172,3 +141,4 @@
     font-size: 14px !important;
   }
 }
+/* phone input section end*/

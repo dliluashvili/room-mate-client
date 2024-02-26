@@ -233,5 +233,8 @@
   "answer_edit_under_construction": "This answers edit is not available yet!",
   "findAffordable": "Find an affordable apartment",
   "select": "Select",
-  "back": "Back"
+  "back": "Back",
+  "resend": "Resend",
+  "phoneExist": "An account already exists with this phone number.",
+  "emailExist": "An account already exists with this email."
 }

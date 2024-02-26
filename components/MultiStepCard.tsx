@@ -8,8 +8,10 @@ import { setCurrentUser } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
+import useTranslation from "next-translate/useTranslation";
 
 export default function MultiStepCard({ countries, gender, questions }) {
+  let { t } = useTranslation("common") as { t: (key: string) => string };
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -106,10 +108,10 @@ export default function MultiStepCard({ countries, gender, questions }) {
           })
         );
         router.push("/");
-        console.log(response);
-      } else {
-        alert("Phone exist");
-        console.log(response);
+      } else if (response?.data?.errors[0]?.message === "PHONE_EXISTS") {
+        alert(t("phoneExist"));
+      } else if (response?.data?.errors[0]?.message === "EMAIL_EXISTS") {
+        alert(t("emailExist"));
       }
     } catch (error) {
       console.error("Error:", error);
@@ -118,7 +120,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
   return (
     <>
-      <div className="w-full min-h-screen flex justify-center items-center  md:pt-20 md:pb-10 lg:pt-36 md:px-[10%] lg:px-[15%] xl:px-[334px]">
+      <div className="w-full min-h-screen flex justify-center items-center  md:pt-20 md:pb-16 lg:pt-36 md:px-[10%] lg:px-[15%] xl:px-[334px]">
         <Card>
           <SignupStepsHeader step={step} />
           <CardContent className="bg-white pt-8 pb-16  px-10  sm:px-28">

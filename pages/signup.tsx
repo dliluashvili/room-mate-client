@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import MultiStepCard from "../components/MultiStepCard";
 import { BASE_URL_GRAPHQL } from "../services/api";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 export async function getServerSideProps(searchParams) {
   const lang = String(searchParams.locale).toUpperCase();
@@ -62,11 +64,13 @@ export async function getServerSideProps(searchParams) {
 export default function signup({ data }) {
   return (
     <>
+      <NewHeader />
       <MultiStepCard
         countries={data.data.findAllCountry}
         gender={data.data.findAllGender}
         questions={data.data.getQuestions}
       />
+      <NewFooter />
     </>
   );
 }
