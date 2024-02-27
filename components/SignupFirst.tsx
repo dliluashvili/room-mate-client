@@ -93,7 +93,7 @@ export default function SignupFirst({
       }
     })();
   };
-  console.log(countries);
+  
   return (
     <>
       <main className="flex flex-col  items-center ">
@@ -157,7 +157,7 @@ export default function SignupFirst({
                         field.onChange(value);
                       }}
                       // Sort countries directly, modifying the original array
-                      options={countries
+                      options={countries && countries
                         .sort((a, b) => {
                           if (a.position === 1) return -1;
                           if (b.position === 1) return 1;
@@ -202,7 +202,7 @@ export default function SignupFirst({
                       onChange={(value) => {
                         field.onChange(value);
                       }}
-                      options={gender.map((gender) => ({
+                      options={gender?.map((gender) => ({
                         value: gender.id,
                         label: gender?.translations[0].sex,
                       }))}
