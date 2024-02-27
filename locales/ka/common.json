@@ -182,7 +182,7 @@
   "incorrectCode": "არასწორი კოდი",
   "codeAlreadySent": "კოდი გამოგზავნილია",
   "fillCode": "ჩაწერე კოდი",
-  "passwordValidationError": "პაროლი უნდა შეიცავდეს ერთ ციფრს და ერთ სიმბოლოს",
+  "passwordValidationError": "უნდა შედგებოდეს მინიმუმ 1 ციფრისგან და ლათინური სიმბოლოებისგან",
   "selectField": "აირჩიე ველი",
 
   "rentApartment": "იქირავე ბინა",

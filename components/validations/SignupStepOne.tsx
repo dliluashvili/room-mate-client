@@ -56,12 +56,9 @@ export function SignupStepOne({ formData }) {
     password: z
       .string()
       .min(6, { message: t("minpass") })
-      .refine(
-        (value) => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,30}$/.test(value),
-        {
-          message: t("passwordValidationError"),
-        }
-      ),
+      .refine((value) => /(?=.*[0-9])(?=.*[^0-9]).{6,30}/.test(value), {
+        message: t("passwordValidationError"),
+      }),
     confirmPassword: z
       .string()
       .refine((value) => value === form.getValues().password, {

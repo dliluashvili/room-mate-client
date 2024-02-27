@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "../@/components/ui/card";
-import SignupFirst from "./SignupFirst";
-import SignupSecond from "./SignupSecond";
+import dynamic from "next/dynamic";
 import axios from "axios";
-import SignupStepsHeader from "./SignupStepsHeader";
+
 import { setCurrentUser } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import useTranslation from "next-translate/useTranslation";
+
+const SignupFirst = dynamic(() => import("./SignupFirst"), { ssr: false });
+const SignupSecond = dynamic(() => import("./SignupSecond"), { ssr: false });
+const SignupStepsHeader = dynamic(() => import("./SignupStepsHeader"), {
+  ssr: false,
+});
 
 export default function MultiStepCard({ countries, gender, questions }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -57,15 +62,12 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
       if (typeof value === "string") {
         answeredQuestions.push({ questionId: key, data: value });
-      }
- 
-      else if (typeof value === "object" && !Array.isArray(value)) {
+      } else if (typeof value === "object" && !Array.isArray(value)) {
         answeredQuestions.push({
           questionId: value["questionId"],
           answerId: value["value"],
         });
-      }
-      else if (Array.isArray(value)) {
+      } else if (Array.isArray(value)) {
         for (let item of value) {
           answeredQuestions.push({
             questionId: item["questionId"],
