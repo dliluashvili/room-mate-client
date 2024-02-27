@@ -1,4 +1,4 @@
-import * as ge from "../locales/country.json";
+import ge from "../locales/country.json";
 import {
   Form,
   FormControl,
@@ -19,6 +19,7 @@ import axios from "axios";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import { DropdownIndicator, customStyles } from "./SelectUI";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function SignupFirst({
   countries,
@@ -64,7 +65,6 @@ export default function SignupFirst({
         form.setError("code", { message: t("incorrectCode") });
       }
     } catch (error) {
-      console.error(error);
       form.setError("code", { message: t("fillCode") });
     }
   };
@@ -158,12 +158,29 @@ export default function SignupFirst({
                       }}
                       options={countries.map((country) => ({
                         value: country.id,
-                        label: country?.translations[0]?.name,
+                        label: (
+                          <div className="w-full flex items-center">
+                            <Image
+                              src={`https://flagcdn.com/${country.alpha2Code.toLowerCase()}.svg`}
+                              width={22}
+                              height={16}
+                              alt={country?.translations[0]?.name}
+                            />
+                            <span>&nbsp; &nbsp;</span>
+                            {country?.translations[0]?.name}
+                          </div>
+                        ),
                       }))}
+                      filterOption={(option: any, inputValue: string) =>
+                        option.label.props.children[2]
+                          .toLowerCase()
+                          .includes(inputValue.toLowerCase())
+                      }
                     />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="genderId"
