@@ -31,10 +31,7 @@ export function SignupStepOne({ formData }) {
           .string()
           .min(1, { message: t("selectCountry") })
           .optional(),
-        label: z
-          .string()
-          .min(1, { message: t("selectCountry") })
-          .optional(),
+        label: z.any().optional(),
       })
       .refine((obj) => Object.keys(obj).length >= 1, {
         message: t("selectCountry"),

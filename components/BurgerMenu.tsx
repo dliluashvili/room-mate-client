@@ -28,7 +28,7 @@ export default function BurgerMenu() {
         <Image src={BurgerIcon} />
       </SheetTrigger>
       <SheetContent className="px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-72 overflow-y-auto max-h-screen">
-        <div className="flex flex-col gap-y-6 mt-12 text-[14px]">
+        <div className="flex flex-col gap-y-6 mt-20 text-[14px]">
           <Link href="/">
             <p>{t("main")}</p>
           </Link>

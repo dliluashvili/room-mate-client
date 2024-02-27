@@ -37,10 +37,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       ...formData,
     };
 
-    // Delete the 'code' property
     delete modifiedFormData.code;
-
-    // Convert certain properties to numbers if they exist
     if (modifiedFormData.age) {
       modifiedFormData.age = Number(modifiedFormData.age);
     }
@@ -50,31 +47,24 @@ export default function MultiStepCard({ countries, gender, questions }) {
     if (modifiedFormData.genderId) {
       modifiedFormData.genderId = Number(modifiedFormData.genderId.value);
     }
-
-    // Delete the 'email' property if it's an empty string
     if (modifiedFormData.email === "") {
       delete modifiedFormData.email;
     }
-
-    // Initialize an empty array for the answeredQuestions
     let answeredQuestions = [];
 
-    // Iterate over each item in the answeredQuestions object
     for (let key in modifiedFormData.answeredQuestions) {
       let value = modifiedFormData.answeredQuestions[key];
 
-      // If the value is a string, add a new object to the array with "data" key
       if (typeof value === "string") {
         answeredQuestions.push({ questionId: key, data: value });
       }
-      // If the value is an object, add a new object to the array with "answerId" key
+ 
       else if (typeof value === "object" && !Array.isArray(value)) {
         answeredQuestions.push({
           questionId: value["questionId"],
           answerId: value["value"],
         });
       }
-      // If the value is an array, add a new object to the array for each item with "answerId" key
       else if (Array.isArray(value)) {
         for (let item of value) {
           answeredQuestions.push({
@@ -84,8 +74,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
         }
       }
     }
-
-    // Replace the original answeredQuestions object with the new array
     modifiedFormData.answeredQuestions = answeredQuestions;
 
     const requestBody = {
