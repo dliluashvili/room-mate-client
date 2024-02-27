@@ -41,6 +41,7 @@ export async function getServerSideProps(searchParams) {
       findAllCountry {
        id
        alpha2Code
+       position
         translations(lang: $lang) {
           id
           lang

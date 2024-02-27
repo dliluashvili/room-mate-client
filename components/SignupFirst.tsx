@@ -93,7 +93,7 @@ export default function SignupFirst({
       }
     })();
   };
-
+  console.log(countries);
   return (
     <>
       <main className="flex flex-col  items-center ">
@@ -156,21 +156,28 @@ export default function SignupFirst({
                       onChange={(value) => {
                         field.onChange(value);
                       }}
-                      options={countries.map((country) => ({
-                        value: country.id,
-                        label: (
-                          <div className="w-full flex items-center">
-                            <Image
-                              src={`https://flagcdn.com/${country.alpha2Code.toLowerCase()}.svg`}
-                              width={22}
-                              height={16}
-                              alt={country?.translations[0]?.name}
-                            />
-                            <span>&nbsp; &nbsp;</span>
-                            {country?.translations[0]?.name}
-                          </div>
-                        ),
-                      }))}
+                      // Sort countries directly, modifying the original array
+                      options={countries
+                        .sort((a, b) => {
+                          if (a.position === 1) return -1;
+                          if (b.position === 1) return 1;
+                          return 0;
+                        })
+                        .map((country) => ({
+                          value: country.id,
+                          label: (
+                            <div className="w-full flex items-center">
+                              <Image
+                                src={`https://flagcdn.com/${country.alpha2Code.toLowerCase()}.svg`}
+                                width={22}
+                                height={16}
+                                alt={country?.translations[0]?.name}
+                              />
+                              <span>&nbsp; &nbsp;</span>
+                              {country?.translations[0]?.name}
+                            </div>
+                          ),
+                        }))}
                       filterOption={(option: any, inputValue: string) =>
                         option.label.props.children[2]
                           .toLowerCase()
