@@ -7,7 +7,7 @@ import {
 } from "../../@/components/ui/accordion";
 import useTranslation from "next-translate/useTranslation";
 
-export function AccordionQuestions() {
+export default function AccordionQuestions() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const [openItems, setOpenItems] = useState({});
   const items = [

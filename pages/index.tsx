@@ -1,16 +1,23 @@
 import React from "react";
-import NewHeader from "../components/NewHeader";
-import Banner from "../components/homeComponents/Banner";
-import Features from "../components/homeComponents/Features";
-import NewsCarousel from "../components/homeComponents/NewsCarousel";
-import Contact from "../components/homeComponents/Contact";
-import WhyUs from "../components/homeComponents/WhyUs";
-import Apartments from "../components/homeComponents/Apartments";
-import Partners from "../components/homeComponents/Partners";
-import Reviews from "../components/homeComponents/Reviews";
-import { AccordionQuestions } from "../components/homeComponents/AccordionQuestions";
-import NewFooter from "../components/NewFooter";
 import { Flats } from "../services/flats/flats.http";
+import dynamic from "next/dynamic";
+const NewHeader = dynamic(() => import("../components/NewHeader"));
+const Banner = dynamic(() => import("../components/homeComponents/Banner"));
+const Features = dynamic(() => import("../components/homeComponents/Features"));
+const NewsCarousel = dynamic(
+  () => import("../components/homeComponents/NewsCarousel")
+);
+const Contact = dynamic(() => import("../components/homeComponents/Contact"));
+const WhyUs = dynamic(() => import("../components/homeComponents/WhyUs"));
+const Apartments = dynamic(
+  () => import("../components/homeComponents/Apartments")
+);
+const Partners = dynamic(() => import("../components/homeComponents/Partners"));
+const Reviews = dynamic(() => import("../components/homeComponents/Reviews"));
+const AccordionQuestions = dynamic(
+  () => import("../components/homeComponents/AccordionQuestions")
+);
+const NewFooter = dynamic(() => import("../components/NewFooter"));
 
 export async function getServerSideProps(searchParams: any) {
   try {
