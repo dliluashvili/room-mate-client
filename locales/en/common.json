@@ -170,7 +170,7 @@
   "incorrectCode": "Incorrect Code",
   "codeAlreadySent": "Code is sent",
   "fillCode": "Enter code",
-  "passwordValidationError": "The password must contain one number and one symbol",
+  "passwordValidationError": "The password must contain minimum one number and one latin symbols",
   "selectField": "Select field",
 
   "rentApartment": "Rent an apartment",

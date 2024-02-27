@@ -24,7 +24,7 @@ export default function Partners() {
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText1")}
             </p>
-            <Link href="/houseSearch">
+            <Link href="/signup">
               <Button className="text-xs mt-7   ">{t("startSearch")}</Button>
             </Link>
           </div>
