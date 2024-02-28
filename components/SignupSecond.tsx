@@ -24,8 +24,6 @@ import arroLeft from "../public/newImages/arrow-left.svg";
 import Image from "next/image";
 import { DropdownIndicator, customStyles } from "./SelectUI";
 
-
-
 export default function SignupSecond({
   questions,
   setStep,
