@@ -92,11 +92,17 @@ export default function NewHeader() {
         <div
           id="bell"
           className="hidden relative lg:block lg:bg-[#f2f5ff]  rounded-lg px-2 pb-1 pt-2 md:px-3 lg:mr-4 pointer"
+          onClick={(e) => {
+            const href = user ? "/profile" : "login";
+            handleLinkClick(e, href);
+          }}
         >
           <Image src={Bell} alt="Bell Icon" />
-          <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
-            22
-          </div>
+          {!!user.notifications && (
+            <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
+              {user.notifications}
+            </div>
+          )}
         </div>
         <div className="block ml-2 md:hidden">
           <BurgerMenu />

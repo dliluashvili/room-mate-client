@@ -22,7 +22,6 @@ function Header({ type }: IProps) {
   const dispatch = useDispatch();
 
   const { user } = useTypedSelector((state) => state.profile);
-  console.log(user);
 
   const signOut = () => {
     dispatch(logout());

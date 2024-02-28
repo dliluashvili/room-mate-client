@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import {
-  ProfileService
-} from "../../../services/profile/profile.http";
+import { ProfileService } from "../../../services/profile/profile.http";
 import classNames from "classnames";
 import ReceiveNotification from "./components/receiveNotification";
 import SentNotification from "./components/sentNotification";
@@ -27,7 +25,7 @@ const Notifications = () => {
             setCurrentUser({
               user: {
                 ...user,
-                notifications: 1,
+                notifications: 0,
               },
             })
           );

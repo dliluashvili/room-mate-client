@@ -105,7 +105,7 @@
   "sent": "გაგზავნილი",
   "needSeeYourProfile": "{{name}} {{lastname}} - გიგზავნის ოთახის მეზობლობის მოთხოვნას ⭐️",
   "youApproveuserToSee": "დათანხმების შემდეგ შენ უკვე შეგიძლია {{name}} {{lastname}}-ს დაუკავშირდე, ამისთვის ეწვიე მის პროფილს ⭐️",
-  "youRejectuserToSee": "თქვენ უარი თქვით {{name}} {{lastname}} - მა ნახოს თქვენი კონტაქტი",
+  "youRejectuserToSee": "თქვენ უარი თქვით {{name}} {{lastname}} - მ ნახოს თქვენი კონტაქტი",
   "reject": "უარყოფა",
   "rejectUser": "მომხმარებელი უარყოფილია",
   "approve": "დათანხმება",
