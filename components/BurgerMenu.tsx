@@ -55,12 +55,20 @@ export default function BurgerMenu() {
           <p onClick={(e) => handleLinkClick(e, "/houseSearch")}>
             {t("RentAnApartment")}
           </p>
-          {!user ? (
-            <div className="flex flex-row relative">
+          {!!user ? (
+            <div
+              className="flex flex-row relative"
+              onClick={(e) => {
+                const href = user ? "/profile" : "login";
+                handleLinkClick(e, href);
+              }}
+            >
               <p className="">{t("notifications")}</p>
-              <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
-                10
-              </div>
+              {!!user.notifications && (
+                <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
+                  {user.notifications}
+                </div>
+              )}
             </div>
           ) : null}
 
