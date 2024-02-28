@@ -54,21 +54,13 @@ const ReceiveNotification = () => {
 
     ProfileService.approveRejectContact(data.id, requestBody)
       .then((res) => {
-        setSentNotifications(
-          sentNotifications.map((el) => {
-            if (data.id === el.id) {
-              if (flag === "approve") {
-                return { ...el, status: 2 };
-              } else {
-                return { ...el, status: 3 };
-              }
-            }
-            return el;
-          })
-        );
-        toast.success(
-          flag === "reject" ? t("requestRejected") : t("requestApproved"),
-          {
+        console.log(res);
+        if (res.data === "REQUEST_DELETED") {
+          setSentNotifications(
+            sentNotifications.filter((el) => el.id !== data.id)
+          );
+
+          toast.error(t("requestCacneled"), {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -76,8 +68,33 @@ const ReceiveNotification = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          }
-        );
+          });
+        } else {
+          setSentNotifications(
+            sentNotifications.map((el) => {
+              if (data.id === el.id) {
+                if (flag === "approve") {
+                  return { ...el, status: 2 };
+                } else {
+                  return { ...el, status: 3 };
+                }
+              }
+              return el;
+            })
+          );
+          toast.success(
+            flag === "reject" ? t("requestRejected") : t("requestApproved"),
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            }
+          );
+        }
       })
       .catch((err) => {
         console.log(err);
