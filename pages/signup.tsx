@@ -5,10 +5,21 @@ import { BASE_URL_GRAPHQL } from "../services/api";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import { useRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Signup() {
   const [data, setData] = useState(null);
   const router = useRouter();
+
+  const [locale, setLocale] = useState(router.locale);
+  let { t } = useTranslation("common") as { t: (key: string) => string };
+
+  useEffect(() => {
+    if (router.locale !== locale) {
+      setLocale(router.locale);
+      window.location.reload();
+    }
+  }, [router.locale]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +83,7 @@ export default function Signup() {
 
     fetchData();
   }, []);
- 
+
   return (
     <>
       <NewHeader />

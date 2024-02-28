@@ -156,7 +156,7 @@
   "Numberofrooms": "number of rooms",
   "RentAmountPerPerson": "rent amount per person",
   "totalRent": "total rent",
-  "RentAnApartment": "rent an apartment",
+  "RentAnApartment": "Rent an apartment",
   "savedApartments": "saved apartments",
   "mdebareoba": "location",
   "gender": "Gender",
@@ -174,7 +174,7 @@
   "incorrectCode": "Incorrect Code",
   "codeAlreadySent": "Code is sent",
   "fillCode": "Enter code",
-  "passwordValidationError": "The password must contain minimum one number and one latin symbols",
+  "passwordValidationError": "The password must contain minimum one number and one latin symbol",
   "selectField": "Select field",
 
   "rentApartment": "Rent an apartment",
@@ -245,5 +245,7 @@
   "reviewText3": "Roommate.ge's platform is user-friendly and their team is incredibly helpful. They made finding affordable housing a breeze!",
   "reviewName4": "Isabell",
   "reviewText4": "Grateful to Roommate.ge for simplifying my housing search. Found a perfect roommate and place without breaking the bank!",
-  "serverError": "Server-side error. Please reach out to us using the link:"
+  "serverError": "Server-side error. Please reach out to us using the link:",
+  "leavePageQuestion": "Considering leaving the page?",
+  "leavingPageAlert": "Any changes you've made won't be saved."
 }

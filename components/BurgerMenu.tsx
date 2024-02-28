@@ -1,9 +1,7 @@
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../@/components/ui/sheet";
-
 import Image from "next/image";
 import BurgerIcon from "../public/newImages/burger-menu.svg";
-import Link from "next/link";
 import { useTypedSelector } from "./hooks/useTypeSelector";
 import LogoutIcon from "../public/newImages/logout.svg";
 import useTranslation from "next-translate/useTranslation";
@@ -12,15 +10,29 @@ import { useDispatch } from "react-redux";
 import Phone from "../public/newImages/footer-phone.svg";
 import Email from "../public/newImages/footer-email.svg";
 import { Payments, Social } from "./NewFooter";
+import { useRouter } from "next/router";
 
 export default function BurgerMenu() {
   const { user } = useTypedSelector((state) => state.profile);
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const signOut = () => {
     dispatch(logout());
     window.location.replace("/login");
+  };
+
+  const handleLinkClick = (e, href) => {
+    if (router.pathname === "/signup") {
+      e.preventDefault();
+      const leave = window.confirm("Are you sure you want to leave this page?");
+      if (leave) {
+        router.push(href);
+      }
+    } else {
+      router.push(href);
+    }
   };
   return (
     <Sheet>
@@ -29,15 +41,20 @@ export default function BurgerMenu() {
       </SheetTrigger>
       <SheetContent className="px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-72 overflow-y-auto max-h-screen">
         <div className="flex flex-col gap-y-6 mt-20 text-[14px]">
-          <Link href="/">
-            <p>{t("main")}</p>
-          </Link>
-          <Link href={user ? "/search" : "/signup"}>
-            <p>{t("search")}</p>
-          </Link>
-          <Link href="/houseSearch">
-            <p>{t("RentAnApartment")}</p>
-          </Link>
+          <p onClick={(e) => handleLinkClick(e, "/")}>{t("main")}</p>
+
+          <p
+            onClick={(e) => {
+              const href = user ? "/search" : "/signup";
+              handleLinkClick(e, href);
+            }}
+          >
+            {t("search")}
+          </p>
+
+          <p onClick={(e) => handleLinkClick(e, "/houseSearch")}>
+            {t("RentAnApartment")}
+          </p>
 
           <p>{t("becomePartner")}</p>
           <p>{t("faq")}</p>
