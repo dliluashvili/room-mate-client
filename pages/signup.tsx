@@ -84,12 +84,6 @@ export default function Signup() {
     fetchData();
   }, []);
 
-  if (typeof window !== "undefined") {
-    window.onbeforeunload = function () {
-      return t("leavePageQuestion") + "\n" + t("leavingPageAlert");
-    };
-  }
-
   return (
     <>
       <NewHeader />

@@ -174,7 +174,7 @@
   "incorrectCode": "Incorrect Code",
   "codeAlreadySent": "Code is sent",
   "fillCode": "Enter code",
-  "passwordValidationError": "The password must contain minimum one number and one latin symbols",
+  "passwordValidationError": "The password must contain minimum one number and one latin symbol",
   "selectField": "Select field",
 
   "rentApartment": "Rent an apartment",
