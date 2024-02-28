@@ -98,7 +98,7 @@ export default function NewHeader() {
           }}
         >
           <Image src={Bell} alt="Bell Icon" />
-          {!!user.notifications && (
+          {!!user?.notifications && (
             <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
               {user.notifications}
             </div>

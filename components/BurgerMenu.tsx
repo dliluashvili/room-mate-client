@@ -64,7 +64,7 @@ export default function BurgerMenu() {
               }}
             >
               <p className="">{t("notifications")}</p>
-              {!!user.notifications && (
+              {!!user?.notifications && (
                 <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
                   {user.notifications}
                 </div>
