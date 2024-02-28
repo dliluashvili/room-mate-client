@@ -247,5 +247,6 @@
   "reviewText4": "Grateful to Roommate.ge for simplifying my housing search. Found a perfect roommate and place without breaking the bank!",
   "serverError": "Server-side error. Please reach out to us using the link:",
   "leavePageQuestion": "Considering leaving the page?",
-  "leavingPageAlert": "Any changes you've made won't be saved."
+  "leavingPageAlert": "Any changes you've made won't be saved.",
+  "notifications": "Notifications"
 }

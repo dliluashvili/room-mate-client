@@ -55,6 +55,14 @@ export default function BurgerMenu() {
           <p onClick={(e) => handleLinkClick(e, "/houseSearch")}>
             {t("RentAnApartment")}
           </p>
+          {!user ? (
+            <div className="flex flex-row relative">
+              <p className="">{t("notifications")}</p>
+              <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
+                10
+              </div>
+            </div>
+          ) : null}
 
           <p>{t("becomePartner")}</p>
           <p>{t("faq")}</p>
