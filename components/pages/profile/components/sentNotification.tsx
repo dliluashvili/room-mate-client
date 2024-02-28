@@ -72,7 +72,7 @@ const SentNotification = () => {
       {sentNotifications?.map((el, i) => {
         return (
           <div key={i} className="flex flex-wrap">
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <NotificationsCard
               className="mr-3"
               text={
@@ -130,10 +130,11 @@ const SentNotification = () => {
                   onClick={() => {
                     router.push("/user/" + el.receiver_id);
                   }}
+                  disabled
                   // onClick={() => handleRemoveRequest(el.receiver_id)}
-                  className="btn btn-danger w-100"
+                  className="btn btn-danger w-100 bg-[#dc3545]"
                 >
-                  {t("seeProfile")}
+                  {t("requestRejected")}
                 </Button>
               ) : null}
             </NotificationsCard>

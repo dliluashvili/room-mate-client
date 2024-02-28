@@ -96,7 +96,7 @@ const ReceiveNotification = () => {
       {sentNotifications?.map((el, i) => {
         return (
           <div key={i} className="flex flex-wrap">
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <NotificationsCard
               className="mr-3"
               type="receive"
@@ -150,7 +150,7 @@ const ReceiveNotification = () => {
                   {t("approveUser")}
                 </Button>
               ) : (
-                <Button className="btn btn-danger w-100">
+                <Button className="btn btn-danger w-100 bg-[#dc3545]" disabled>
                   {t("rejectUser")}
                 </Button>
               )}

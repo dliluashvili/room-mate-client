@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import classnames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import { setCurrentUser } from "../../../../redux/action-creators/index";
 import { useDispatch } from "react-redux";
 import { AlertIcon } from "../../../svg/statusIcon";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
+import classNames from "classnames";
 
 interface ISidebar {
   firstname: string;
@@ -25,7 +26,7 @@ interface ISidebar {
   profile_image?: string;
   calling_code?: string;
   is_locked_communication?: boolean;
-  isSentRequest?: boolean;
+  isSentRequest?: number;
   id?: number;
 }
 
@@ -155,6 +156,18 @@ const SideBar: React.FC<ISidebar> = (props) => {
         setLoadReports(false);
       });
   };
+
+  const sendStatus = useMemo(() => {
+    if (props.isSentRequest === 3) {
+      return "REJECTED";
+    }
+
+    if (props.isSentRequest === 1 || status === true) {
+      return "SENT";
+    }
+
+    return "NOT_SENT";
+  }, [props.isSentRequest, status]);
 
   return (
     <>
@@ -307,15 +320,27 @@ const SideBar: React.FC<ISidebar> = (props) => {
         </div>
         {!props.myProfile && !props.phone ? (
           <div className="profile_contacts">
-            <p className="text-center mb-4">{t("seandContactRequest")}</p>
+            {sendStatus === "SENT" || sendStatus === "REJECTED" ? (
+              ""
+            ) : (
+              <p className="text-center mb-4">{t("seandContactRequest")}</p>
+            )}
             <Button
               loading={status === "load"}
-              disabled={!!status}
+              disabled={
+                !!status || sendStatus === "SENT" || sendStatus === "REJECTED"
+              }
               onClick={userContactRequest}
-              className="btn btn-primary mb-4 w-100 bg-[#19a463]"
+              className={classNames("btn w-100", {
+                "btn-primary bg-[#19a463]":
+                  sendStatus === "SENT" || sendStatus === "NOT_SENT",
+                "btn-danger bg-[#dc3545] h-[43px]": sendStatus === "REJECTED",
+              })}
             >
-              {status || props.isSentRequest
+              {sendStatus === "SENT"
                 ? t("sentContactRequest")
+                : sendStatus === "REJECTED"
+                ? t("requestRejected")
                 : t("contactRequest")}
             </Button>
           </div>
