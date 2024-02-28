@@ -15,9 +15,11 @@ function Calendar({
   showOutsideDays = false,
   ...props
 }: CalendarProps) {
+  const today = new Date();
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      fromDate={today}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
@@ -48,7 +50,7 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        
+
         ...classNames,
       }}
       components={{

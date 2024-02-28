@@ -8,11 +8,9 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import useTranslation from "next-translate/useTranslation";
-
 const SignupFirst = dynamic(() => import("./SignupFirst"));
 const SignupSecond = dynamic(() => import("./SignupSecond"));
 const SignupStepsHeader = dynamic(() => import("./SignupStepsHeader"));
-import { Suspense } from "react";
 
 export default function MultiStepCard({ countries, gender, questions }) {
   let { t } = useTranslation("common") as { t: (key: string) => string };
