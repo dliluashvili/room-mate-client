@@ -60,7 +60,7 @@ const Notifications = () => {
           {t("sent")}
         </span>
       </div>
-      <div className="container notificationsContainer p-0">
+      <div className="container notificationsContainer p-0 justify-start">
         {notificationType === "receive" ? (
           <ReceiveNotification />
         ) : (
