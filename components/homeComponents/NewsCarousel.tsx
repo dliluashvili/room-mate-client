@@ -4,6 +4,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "../../@/components/ui/carousel";
 
 import blogFirst from "../../public/newImages/blog-first.svg";
@@ -40,7 +42,12 @@ export default function NewsCarousel() {
       link: "https://www.roommate.blog/",
     },
   ];
-  const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  const media = useMediaQuery({
+    query: "(min-width: 768px) and (max-width: 1280px)",
+  });
+  const dragMedia = useMediaQuery({
+    query: "(min-width: 0px) and (max-width: 1280px)",
+  });
   return (
     <main className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 lg:px-24">
       <h1 className="text-2xl text-[#484848]">{t("blogMainHead")}</h1>
@@ -48,6 +55,7 @@ export default function NewsCarousel() {
       <Carousel
         opts={{
           align: "start",
+          watchDrag: dragMedia ? true : false,
         }}
         className="w-full mt-6 p-0 "
       >
@@ -74,6 +82,8 @@ export default function NewsCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        {media ? <CarouselPrevious /> : null}
+        {media ? <CarouselNext /> : null}
       </Carousel>
     </main>
   );

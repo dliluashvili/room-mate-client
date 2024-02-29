@@ -62,7 +62,7 @@ export default function WhyUs() {
       <div className="w-full  grid-cols-2 gap-6 hidden lg:grid ">
         {data.map((item, index) => (
           <div
-            className="py-8 pl-8 pr-14 bg-[#fff] rounded-xl flex flex-col items-start justify-start"
+            className="py-8 pl-8 pr-14 bg-[#fff] rounded-xl flex flex-col items-start justify-start  border-b-[3px] border-[#7D9BFD]"
             key={index}
           >
             <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
