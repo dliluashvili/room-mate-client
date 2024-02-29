@@ -55,15 +55,14 @@ export default function NewsCarousel() {
       <Carousel
         opts={{
           align: "start",
-          watchDrag: dragMedia ? true : false,
         }}
-        className="w-full mt-6 p-0 "
+        className="w-full mt-6 p-0  "
       >
-        <CarouselContent className="   ">
+        <CarouselContent className="  pr-16  ">
           {data.map((item, index) => (
             <CarouselItem
               key={index}
-              className="w-full md:basis-1/2 xl:basis-1/3   "
+              className="w-full md:basis-1/2 xl:basis-1/3"
             >
               <div className="w-full h-full pl-6 pt-6 pb-10 pr-20 flex flex-col justify-between   overflow-hidden relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
                 <span className="text-base font-semibold">{item.header}</span>

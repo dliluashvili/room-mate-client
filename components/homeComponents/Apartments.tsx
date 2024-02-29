@@ -20,7 +20,7 @@ export default function Apartments({ flats }) {
       <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 sm:px-16 md:px-20 lg:px-24 lg:pt-12 lg:pb-7 ">
         {t("findAffordable")}
       </h1>
-      <main className="w-full flex flex-col  items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24 relative">
+      <main className="w-full flex flex-col   items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24 relative">
         <Carousel
           opts={{
             align: "start",
