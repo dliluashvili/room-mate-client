@@ -4,6 +4,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "../../@/components/ui/carousel";
 
 import blogFirst from "../../public/newImages/blog-first.svg";
@@ -40,7 +42,12 @@ export default function NewsCarousel() {
       link: "https://www.roommate.blog/",
     },
   ];
-  const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  const media = useMediaQuery({
+    query: "(min-width: 768px) and (max-width: 1280px)",
+  });
+  const dragMedia = useMediaQuery({
+    query: "(min-width: 0px) and (max-width: 1280px)",
+  });
   return (
     <main className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 lg:px-24">
       <h1 className="text-2xl text-[#484848]">{t("blogMainHead")}</h1>
@@ -49,13 +56,13 @@ export default function NewsCarousel() {
         opts={{
           align: "start",
         }}
-        className="w-full mt-6 p-0 "
+        className="w-full mt-6 p-0  "
       >
-        <CarouselContent className="   ">
+        <CarouselContent className="  pr-16  ">
           {data.map((item, index) => (
             <CarouselItem
               key={index}
-              className="w-full md:basis-1/2 xl:basis-1/3   "
+              className="w-full md:basis-1/2 xl:basis-1/3"
             >
               <div className="w-full h-full pl-6 pt-6 pb-10 pr-20 flex flex-col justify-between   overflow-hidden relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
                 <span className="text-base font-semibold">{item.header}</span>
@@ -74,6 +81,8 @@ export default function NewsCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        {media ? <CarouselPrevious /> : null}
+        {media ? <CarouselNext /> : null}
       </Carousel>
     </main>
   );

@@ -11,7 +11,7 @@ export default function Contact() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
-    <main className="w-full flex flex-col items-center px-6 md:flex-row sm:px-16 md:px-20 lg:px-24 mt-10 lg:mt-20">
+    <main className="w-full flex flex-col bg-[#F2F5FF] py-5 md:py-10 items-center px-6 md:flex-row sm:px-16 md:px-20 lg:px-24 mt-10 lg:mt-10">
       <div className="w-full lg:w-[30%] ">
         <h1 className="text-[#484848] text-2xl lg:text-xl">{t("contactUs")}</h1>
         <p className="text-xs text-[#484848] mt-2 lg:text-base">

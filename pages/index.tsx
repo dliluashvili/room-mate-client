@@ -41,7 +41,7 @@ export async function getServerSideProps(searchParams: any) {
 export default function Home({ flats }) {
   return (
     <>
-      <main className="flex  flex-col w-full min-h-screen  pb-4 bg-mainBg md:pb-6">
+      <main className="flex  flex-col w-full min-h-screen bg-mainBg ">
         <NewHeader />
         <Banner />
         <Features />
