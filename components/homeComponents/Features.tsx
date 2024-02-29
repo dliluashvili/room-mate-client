@@ -69,7 +69,7 @@ export default function Features() {
           <div className="flex flex-col mt-4">
             <div className=" h-12  md:h-20 xl:h-12 w-full flex items-start">
               <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-                4.9
+                5.0
               </span>
             </div>
             <p className="hidden lg:block text-[#484848] text-base lg:mt-2 xl:mt-1">
