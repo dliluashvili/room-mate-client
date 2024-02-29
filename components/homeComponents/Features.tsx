@@ -11,14 +11,16 @@ export default function Features() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
     <>
-      <main className="w-full flex justify-between px-6  mt-12 sm:px-16 md:px-20 lg:grid  lg:grid-flow-col  lg:grid-cols-4 lg:gap-x-20 lg:mt-24 lg:px-24">
+      <main className="w-full flex justify-between px-6  mt-12 sm:px-16 md:px-20 lg:grid  lg:grid-flow-col  lg:grid-cols-4 lg:gap-x-12 lg:mt-24 lg:px-24">
         <div className="flex flex-col items-center w-16 lg:w-full lg:items-start">
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
-            <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {t("roommateFind")}
-            </span>
-            <p className="hidden lg:block text-[#484848] text-base font-normal mt-2">
+            <div className=" h-12 md:h-20  xl:h-12 w-full flex items-start">
+              <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
+                {t("roommateFind")}
+              </span>
+            </div>
+            <p className="hidden lg:block text-[#484848] text-base font-normal lg:mt-2 xl:mt-1">
               {t("roommateFindText")}
             </p>
           </div>
@@ -26,10 +28,12 @@ export default function Features() {
         <div className="flex flex-col items-center w-16 lg:w-full lg:items-start">
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
-            <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {t("roommateMatching")}
-            </span>
-            <p className="hidden lg:block text-[#484848] text-base mt-2">
+            <div className=" h-12  md:h-20 xl:h-12 w-full flex items-start">
+              <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
+                {t("roommateMatching")}
+              </span>
+            </div>
+            <p className="hidden lg:block text-[#484848] text-base lg:mt-2 xl:mt-1">
               {t("roommateMatchingText")}
             </p>
           </div>
@@ -37,10 +41,12 @@ export default function Features() {
         <div className="flex flex-col items-center w-16 lg:w-full lg:items-start">
           <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
           <div className="flex flex-col mt-4">
-            <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              {t("support")}
-            </span>
-            <p className="hidden lg:block text-[#484848] text-base mt-2">
+            <div className=" h-12 md:h-20  xl:h-12 w-full flex items-start">
+              <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
+                {t("support")}
+              </span>
+            </div>
+            <p className="hidden lg:block text-[#484848] text-base lg:mt-2 xl:mt-1">
               {t("supportText")}
             </p>
           </div>
@@ -61,10 +67,12 @@ export default function Features() {
             />
           </div>
           <div className="flex flex-col mt-4">
-            <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
-              4.9
-            </span>
-            <p className="hidden lg:block text-[#484848] text-base mt-2">
+            <div className=" h-12  md:h-20 xl:h-12 w-full flex items-start">
+              <span className="text-xs break-words text-center text-[#838cac] lg:text-[#484848] lg:text-lg lg:text-left lg:font-semibold">
+                5.0
+              </span>
+            </div>
+            <p className="hidden lg:block text-[#484848] text-base lg:mt-2 xl:mt-1">
               {t("rate")}
             </p>
           </div>

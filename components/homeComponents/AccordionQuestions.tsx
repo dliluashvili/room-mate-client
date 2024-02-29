@@ -57,12 +57,12 @@ export default function AccordionQuestions() {
               className="flex flex-row items-center  w-full  rounded-lg border-gray-300  "
             >
               <div className="w-full ">
-                <AccordionTrigger className="text-left text-[14px] justify-start ">
+                <AccordionTrigger className="text-left text-[14px] justify-start font-semibold  items-start">
                   {item.question}
                 </AccordionTrigger>
               </div>
             </div>
-            <AccordionContent className="text-left p-4 pt-0 text-xs  leading-5">
+            <AccordionContent className="text-left p-4 md:pl-12 pt-0 text-xs  leading-5">
               {item.answer}
             </AccordionContent>
           </AccordionItem>
