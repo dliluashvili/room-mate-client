@@ -12,7 +12,7 @@ import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 export default function Apartments({ flats }) {
-  const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
 
   return (
@@ -33,7 +33,7 @@ export default function Apartments({ flats }) {
                 <Link href={`house/${item.id}`}>
                   <CarouselItem
                     key={item}
-                    className="w-full sm:basis-1/2  md:basis-1/3 xl:basis-1/4 pointer"
+                    className="w-full sm:basis-1/2  md:basis-1/2 lg:basis-1/3 xl:basis-1/4 pointer"
                   >
                     <div className="w-full h-full  flex flex-col justify-start rounded-xl  items-start  border-1 ">
                       <div className="w-full  rounded-t-xl overflow-hidden">

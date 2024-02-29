@@ -16,7 +16,7 @@ import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
 
 export default function Reviews() {
-  const media = useMediaQuery({ query: "(max-width: 1024px)" });
+  const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const data = [
     {
