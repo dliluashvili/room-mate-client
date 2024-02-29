@@ -14,18 +14,26 @@ const Notifications = () => {
   );
   let { t } = useTranslation("common");
 
+  const backendNotificationType =
+    notificationType === "receive" ? "received_request" : "answer_to_request";
+
   const user = useTypedSelector((state) => state.profile.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.notifications) {
-      ProfileService.updateNotifications({})
+    if (user?.notifications?.length) {
+      ProfileService.updateNotifications({
+        type: backendNotificationType,
+      })
         .then((res) => {
           dispatch(
             setCurrentUser({
               user: {
                 ...user,
-                notifications: 0,
+                notifications: user.notifications.filter(
+                  (notification) =>
+                    notification.type !== backendNotificationType
+                ),
               },
             })
           );
@@ -34,7 +42,7 @@ const Notifications = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [notificationType]);
 
   return (
     <div className="d-flex flex-wrap mt-4 ">
