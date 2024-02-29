@@ -6,6 +6,8 @@ import {
   CarouselItem,
 } from "../../@/components/ui/carousel";
 import BankIcon from "../../public/newImages/bank.svg";
+import ShakeHands from "../../public/newImages/shake-hands.svg";
+import WebsiteIcon from "../../public/newImages/website-icon.svg";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 
@@ -16,7 +18,7 @@ export default function WhyUs() {
     {
       header: t("whyUsHassleH"),
       text: t("whyUsHassle"),
-      image: BankIcon,
+      image: ShakeHands,
     },
     {
       header: t("whyUsRoommatesH"),
@@ -26,7 +28,7 @@ export default function WhyUs() {
     {
       header: t("whyUsHomeListingH"),
       text: t("whyUsHomeListnig"),
-      image: BankIcon,
+      image: WebsiteIcon,
     },
     {
       header: t("whyUsSearchH"),
@@ -50,7 +52,12 @@ export default function WhyUs() {
           {data.map((item, index) => (
             <CarouselItem key={index} className="w-full lg:w-1/2 md:basis-1/2">
               <div className="w-full h-full pl-4 py-4 pr-8 flex flex-col items-start rounded-xl bg-[#c0dbfc]">
-                <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
+                <Image
+                  src={item.image}
+                  alt="Bank Icon"
+                  width={32}
+                  height={32}
+                />
                 <p className="text-xs font-semibold mt-4">{item.header}</p>
                 <p className="text-xs mt-2">{item.text}</p>
               </div>
@@ -65,7 +72,7 @@ export default function WhyUs() {
             className="py-8 pl-8 pr-14 bg-[#fff] rounded-xl flex flex-col items-start justify-start  border-b-[3px] border-[#7D9BFD]"
             key={index}
           >
-            <Image src={BankIcon} alt="Bank Icon" width={32} height={32} />
+            <Image src={item.image} alt="Bank Icon" width={48} height={48} />
             <h1 className="mt-6 text-left font-semibold">{item.header}</h1>
             <h2 className="mt-2 text-left">{item.text}</h2>
           </div>
