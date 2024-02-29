@@ -248,5 +248,6 @@
   "serverError": "Server-side error. Please reach out to us using the link:",
   "leavePageQuestion": "Considering leaving the page?",
   "leavingPageAlert": "Any changes you've made won't be saved.",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "viewAll": "View all"
 }

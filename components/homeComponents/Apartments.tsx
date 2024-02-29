@@ -20,14 +20,14 @@ export default function Apartments({ flats }) {
       <h1 className="text-2xl text-[#484848] pl-6 pt-12 pb-6 sm:px-16 md:px-20 lg:px-24 lg:pt-12 lg:pb-7 ">
         {t("findAffordable")}
       </h1>
-      <main className="w-full flex flex-col  items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24">
+      <main className="w-full flex flex-col  items-start pl-6  pb-8  sm:px-16 md:px-20  lg:px-24 relative">
         <Carousel
           opts={{
             align: "start",
           }}
           className="w-full p-0   "
         >
-          <CarouselContent className="  pr-10 lg:pr-16">
+          <CarouselContent className=" pr-10 lg:pr-16">
             {flats &&
               flats.map((item) => (
                 <Link href={`house/${item.id}`}>
@@ -66,6 +66,16 @@ export default function Apartments({ flats }) {
           {media ? null : <CarouselPrevious />}
           {media ? null : <CarouselNext />}
         </Carousel>
+        <Link href="/houseSearch">
+          <p className="hidden md:block text text-sm text-[#484848] underline absolute right-24 -bottom-5 pointer">
+            {t("viewAll")}
+          </p>
+        </Link>
+        <Link href="/houseSearch">
+          <div className="w-[92%] text-sm text-[#838CAC] py-2 border border-[#838CAC] rounded-md mt-6  flex items-center justify-center md:hidden">
+            {t("viewAll")}
+          </div>
+        </Link>
       </main>
     </>
   );
