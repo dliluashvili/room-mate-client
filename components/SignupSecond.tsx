@@ -146,6 +146,8 @@ export default function SignupSecond({
                                   }}
                                   value={field.value}
                                   type="number"
+                                  min="1"
+                                  inputMode="numeric"
                                   hasError={!!form.formState.errors[item.id]}
                                   isSuccess={
                                     !form.formState.errors[item.id] &&
