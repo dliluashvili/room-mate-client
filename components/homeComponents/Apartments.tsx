@@ -10,11 +10,16 @@ import {
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
+import Image from "next/image";
+import Door from "../../public/newImages/door.svg";
+import Square from "../../public/newImages/square.svg";
+import Location from "../../public/newImages/location.svg";
+import Cursor from "../../public/newImages/cursor.svg";
 
 export default function Apartments({ flats }) {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
-
+  console.log(flats);
   return (
     <>
       <section>
@@ -28,7 +33,7 @@ export default function Apartments({ flats }) {
             }}
             className="w-full p-0   "
           >
-            <CarouselContent className=" pr-10 lg:pr-16">
+            <CarouselContent className=" pr-12 lg:pr-16">
               {flats &&
                 flats.map((item) => (
                   <Link href={`house/${item.id}`}>
@@ -52,13 +57,37 @@ export default function Apartments({ flats }) {
                           </div>
                         </div>
 
-                        <div className="px-4  pt-7 pb-4">
-                          <h1 className="text-semibold text-xl text-[#484848]">
+                        <div className="px-4 relative  pt-7 pb-4 flex flex-col w-full">
+                          <h1 className=" font-bold text-xl text-[#484848]">
                             {item.price} ₾/ {t("InMonth")}
                           </h1>
-                          <p className="mt-3 text-xs text-[#484848]">
+                          <div className="flex flex-row  items-center mt-4">
+                            <div className="flex flex-row items-center">
+                              <Image src={Door} width={24} height={24} />
+                              <p className="text-sm ml-2 text-[#484848]">
+                                {t("room")}: {item.room}
+                              </p>
+                            </div>
+                            <div className="flex flex-row items-center ml-10">
+                              <Image src={Square} width={24} height={24} />
+                              <p className="text-sm ml-2 text-[#484848]">
+                                {t("area")} - {item.area}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-row items-center mt-2">
+                            <Image src={Location} width={24} height={24} />
+                            <p className="text-sm ml-2 text-[#484848]">
+                              {item?.district?.title}
+                            </p>
+                          </div>
+                          <div className="absolute -top-5 right-4">
+                            <Image src={Cursor} width={40} height={40} />
+                          </div>
+
+                          {/* <p className="mt-3 text-xs text-[#484848]">
                             {item.title} {t("space")} - {item.area} M 2
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </CarouselItem>
