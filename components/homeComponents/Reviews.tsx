@@ -7,11 +7,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../@/components/ui/carousel";
-import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
-import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
-import Avatar from "../../public/newImages/avatar.svg";
+
 import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
 import MaleAvatar from "../../public/newImages/male-avatar.webp";
@@ -61,7 +59,7 @@ export default function Reviews() {
                   <div className="w-14 h-14 relative rounded-full">
                     <Image
                       className="rounded-full"
-                      src={item.image}
+                      src={item?.image}
                       layout="fill"
                       objectFit="cover"
                     />
