@@ -249,5 +249,7 @@
   "leavePageQuestion": "Considering leaving the page?",
   "leavingPageAlert": "Any changes you've made won't be saved.",
   "notifications": "Notifications",
-  "viewAll": "View all"
+  "viewAll": "View all",
+  "room": "room",
+  "area": "area"
 }

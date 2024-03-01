@@ -49,12 +49,13 @@ export default function NewsCarousel() {
     query: "(min-width: 0px) and (max-width: 1280px)",
   });
   return (
-    <main className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 xl:px-24">
+    <section className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 xl:px-24">
       <h1 className="text-2xl text-[#484848]">{t("blogMainHead")}</h1>
 
       <Carousel
         opts={{
           align: "start",
+          watchDrag: dragMedia,
         }}
         className="w-full mt-6 p-0  "
       >
@@ -84,6 +85,6 @@ export default function NewsCarousel() {
         {media ? <CarouselPrevious /> : null}
         {media ? <CarouselNext /> : null}
       </Carousel>
-    </main>
+    </section>
   );
 }

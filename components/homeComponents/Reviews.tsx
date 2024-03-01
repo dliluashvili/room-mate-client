@@ -14,7 +14,8 @@ import { useMediaQuery } from "react-responsive";
 import Avatar from "../../public/newImages/avatar.svg";
 import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
-
+import MaleAvatar from "../../public/newImages/male-avatar.webp";
+import FemaleAvatar from "../../public/newImages/female-avatar.jpg";
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -22,26 +23,26 @@ export default function Reviews() {
     {
       header: t("reviewName1"),
       text: t("reviewText1"),
-      image: CarouselBgMen,
+      image: FemaleAvatar,
     },
     {
       header: t("reviewName2"),
       text: t("reviewText2"),
-      image: CarouselBgWomen,
+      image: FemaleAvatar,
+    },
+    {
+      header: t("reviewName3"),
+      text: t("reviewText3"),
+      image: MaleAvatar,
     },
     {
       header: t("reviewName4"),
-      text: t("reviewText3"),
-      image: CarouselBgMen,
-    },
-    {
-      header: t("reviewName5"),
       text: t("reviewText4"),
-      image: CarouselBgMen,
+      image: FemaleAvatar,
     },
   ];
   return (
-    <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 xl:px-24 ">
+    <section className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 xl:px-24 ">
       <h1 className="text-2xl text-[#484848]">{t("reviewsHead")}</h1>
       <Carousel
         opts={{
@@ -57,8 +58,13 @@ export default function Reviews() {
             >
               <div className="w-full py-6 px-4 flex flex-col">
                 <div className="w-full flex flex-row items-center">
-                  <div className="w-14 h-14 relative">
-                    <Image src={Avatar} layout="fill" objectFit="cover" />
+                  <div className="w-14 h-14 relative rounded-full">
+                    <Image
+                      className="rounded-full"
+                      src={item.image}
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </div>
                   <p className="ml-4 text-xs font-semibold text-[#484848]">
                     {item.header}
@@ -68,7 +74,7 @@ export default function Reviews() {
                       <Image src={RateStar} layout="fill" objectFit="cover" />
                     </div>
                     <p className="ml-1 text-[#484848] text-[14px] font-semibold">
-                      4.9
+                      5.0
                     </p>
                   </div>
                 </div>
@@ -80,6 +86,6 @@ export default function Reviews() {
         {media ? null : <CarouselPrevious />}
         {media ? null : <CarouselNext />}
       </Carousel>
-    </main>
+    </section>
   );
 }

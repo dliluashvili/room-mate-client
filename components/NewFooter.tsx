@@ -21,33 +21,41 @@ export const Social = () => {
   return (
     <>
       <div className="flex flex-row  gap-x-6">
-        <Image className="pointer" src={Facebook} width={32} height={32} />
-        <Image className="pointer" src={Instagram} width={32} height={32} />
-        <Image className="pointer" src={Whatsapp} width={32} height={32} />
-        <Image className="pointer" src={Linkedin} width={32} height={32} />
+        <Link href="https://www.facebook.com/RoommateGeorgia.ge">
+          <Image className="pointer" src={Facebook} width={32} height={32} />
+        </Link>
+        <Link href="https://www.instagram.com/roommate.ge?igsh=NHRseWl5MHgyaW1o&utm_source=qr">
+          <Image className="pointer" src={Instagram} width={32} height={32} />
+        </Link>
+        <Link href="https://wa.me/%2B995599976385">
+          <Image className="pointer" src={Whatsapp} width={32} height={32} />
+        </Link>
+        <Link href="https://www.linkedin.com/company/roommate-georgia/">
+          <Image className="pointer" src={Linkedin} width={32} height={32} />
+        </Link>
       </div>
     </>
   );
 };
 
-export const Payments = () => {
-  return (
-    <>
-      <div className="flex flex-row gap-x-2">
-        <Image src={Visa} width={34} height={24} />
-        <Image src={MasterCard} width={34} height={24} />
-        <Image src={Paypal} width={34} height={24} />
-      </div>
-    </>
-  );
-};
+// export const Payments = () => {
+//   return (
+//     <>
+//       <div className="flex flex-row gap-x-2">
+//         <Image src={Visa} width={34} height={24} />
+//         <Image src={MasterCard} width={34} height={24} />
+//         <Image src={Paypal} width={34} height={24} />
+//       </div>
+//     </>
+//   );
+// };
 export default function NewFooter() {
   const { user } = useTypedSelector((state) => state.profile);
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const router = useRouter();
 
   return (
-    <main className="flex flex-col w-full h-full pt-12">
+    <div className="flex flex-col w-full h-full pt-12">
       <div className="flex flex-col px-6 sm:px-16 md:px-20 xl:px-24 md:flex-row md:justify-between md:items-start">
         <div>
           <div className=" w-60 h-10  relative md:hidden">
@@ -59,56 +67,66 @@ export default function NewFooter() {
         </div>
         <div className="flex flex-col gap-y-4  mt-8 md:mt-0">
           <Link href="/">
-            <p className="text-xs font-semibold pointer hover:underline ">
-              {" "}
+            <p
+              className="text-xs  pointer hover:underline "
+              style={{ fontWeight: router.pathname === "/" ? "bold" : "" }}
+            >
               {t("main")}
             </p>
           </Link>
           <div className="grid lg:grid-cols-2 gap-y-4 lg:gap-x-20">
             <Link href={user ? "/search" : "/signup"}>
-              <p className="text-xs pointer hover:underline">
-                {" "}
+              <p
+                className="text-xs pointer hover:underline"
+                style={{
+                  fontWeight: router.pathname === "/search" ? "bold" : "",
+                }}
+              >
                 {t("roommateFind")}
               </p>
             </Link>
             <Link href="/houseSearch">
-              <p className="text-xs pointer hover:underline">
-                {" "}
+              <p
+                className="text-xs pointer hover:underline"
+                style={{
+                  fontWeight: router.pathname === "/houseSearch" ? "bold" : "",
+                }}
+              >
                 {t("rentApartment")}
               </p>
             </Link>
             <p className="text-xs pointer hover:underline">
-              {" "}
               {t("becomePartner")}
             </p>
             <Link href="https://roommate.blog/">
               <p className="text-xs pointer hover:underline"> {t("blog")}</p>
             </Link>
-            <p className="text-xs pointer hover:underline">
-              {" "}
-              {t("howItWorks")}
-            </p>
+            <p className="text-xs pointer hover:underline">{t("howItWorks")}</p>
           </div>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 ">
           <h1 className="font-semibold text-xs">{t("contact")}</h1>
           <div className="grid grid-cols-2  gap-4 mt-4 md:grid-cols-1 ">
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
-              <Image src={FooterPhone} width={16} height={16} />
-              <p className="ml-2 text-xs">555 12 22 23</p>
-            </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
-              <Image src={Footeremail} width={16} height={16} />
-              <p className="ml-2 text-xs">info@roommate.ge</p>
-            </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
+            <Link href="tel:+995599976385">
+              <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
+                <Image src={FooterPhone} width={16} height={16} />
+                <p className="ml-2 text-xs">599 976 385</p>
+              </div>
+            </Link>
+            <Link href="mailto:info@roommate.ge">
+              <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
+                <Image src={Footeremail} width={16} height={16} />
+                <p className="ml-2 text-xs">info@roommate.ge</p>
+              </div>
+            </Link>
+            {/* <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={FooterMessanger} width={16} height={16} />
               <p className="ml-2 text-xs">roommate</p>
-            </div>
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
+            </div> */}
+            {/* <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
               <Image src={FooterLiveChat} width={16} height={16} />
               <p className="ml-2 text-xs">live chat</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -154,6 +172,6 @@ export default function NewFooter() {
         <div className="w-[1px] h-3 bg-[#7D7D7D] lg:hidden"></div>
         <p className=" text-[8px] lg:hidden pointer">{t("confidencial")}</p>
       </div>
-    </main>
+    </div>
   );
 }
