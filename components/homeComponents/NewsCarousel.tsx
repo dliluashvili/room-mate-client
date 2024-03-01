@@ -55,6 +55,7 @@ export default function NewsCarousel() {
       <Carousel
         opts={{
           align: "start",
+          watchDrag: dragMedia,
         }}
         className="w-full mt-6 p-0  "
       >
