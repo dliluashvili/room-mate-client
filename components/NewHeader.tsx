@@ -36,7 +36,7 @@ export default function NewHeader() {
     <main className="bg-mainBg flex flex-row px-6 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
       <div
         id="logoIcon"
-        className="w-32 h-6 xl:w-52 xl:h-10 relative"
+        className="pointer hidden xl:flex items-center"
         onClick={(e) => {
           handleLinkClick(e, "/");
         }}
@@ -44,16 +44,28 @@ export default function NewHeader() {
         <Image
           src={Logo}
           alt="Page logo"
-          layout="fill"
-          objectFit="cover"
-          className="pointer hidden md:block"
+          width={199}
+          height={40}
+          onClick={(e) => {
+            handleLinkClick(e, "/");
+          }}
         />
+      </div>
+      <div
+        id="logoIcon"
+        className="pointer xl:hidden  flex items-center"
+        onClick={(e) => {
+          handleLinkClick(e, "/");
+        }}
+      >
         <Image
           src={MobileLogo}
           alt="Page logo"
-          layout="fill"
-          objectFit="cover"
-          className="pointer md:hidden"
+          width={121}
+          height={24}
+          onClick={(e) => {
+            handleLinkClick(e, "/");
+          }}
         />
       </div>
       <div id="headerContent" className="flex flex-row items-center">
@@ -99,7 +111,7 @@ export default function NewHeader() {
         />
         <div
           id="bell"
-          className="hidden relative lg:block lg:bg-[#f2f5ff]  rounded-lg px-2 pb-1 pt-2 md:px-3 lg:mr-4 pointer"
+          className="hidden relative lg:block lg:bg-[#f2f5ff]  rounded-lg px-2  pt-2  lg:mr-4 pointer"
           onClick={(e) => {
             const href = user ? "/profile" : "login";
             handleLinkClick(e, href);
