@@ -33,7 +33,7 @@ export default function NewHeader() {
   };
 
   return (
-    <main className="bg-mainBg flex flex-row px-5 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
+    <main className="bg-mainBg flex flex-row px-6 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
       <div
         id="logoIcon"
         className="w-32 h-6 xl:w-52 xl:h-10 relative"

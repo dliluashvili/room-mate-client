@@ -48,7 +48,7 @@ export default function NewFooter() {
 
   return (
     <main className="flex flex-col w-full h-full pt-12">
-      <div className="flex flex-col px-7 sm:px-16 md:px-20 md:flex-row md:justify-between md:items-start">
+      <div className="flex flex-col px-6 sm:px-16 md:px-20 xl:px-24 md:flex-row md:justify-between md:items-start">
         <div>
           <div className=" w-60 h-10  relative md:hidden">
             <Image src={FooterLogo} layout="fill" objectFit="cover" />
@@ -59,20 +59,35 @@ export default function NewFooter() {
         </div>
         <div className="flex flex-col gap-y-4  mt-8 md:mt-0">
           <Link href="/">
-            <p className="text-xs font-semibold pointer hover:underline "> {t("main")}</p>
+            <p className="text-xs font-semibold pointer hover:underline ">
+              {" "}
+              {t("main")}
+            </p>
           </Link>
           <div className="grid lg:grid-cols-2 gap-y-4 lg:gap-x-20">
             <Link href={user ? "/search" : "/signup"}>
-              <p className="text-xs pointer hover:underline"> {t("roommateFind")}</p>
+              <p className="text-xs pointer hover:underline">
+                {" "}
+                {t("roommateFind")}
+              </p>
             </Link>
             <Link href="/houseSearch">
-              <p className="text-xs pointer hover:underline"> {t("rentApartment")}</p>
+              <p className="text-xs pointer hover:underline">
+                {" "}
+                {t("rentApartment")}
+              </p>
             </Link>
-            <p className="text-xs pointer hover:underline"> {t("becomePartner")}</p>
+            <p className="text-xs pointer hover:underline">
+              {" "}
+              {t("becomePartner")}
+            </p>
             <Link href="https://roommate.blog/">
               <p className="text-xs pointer hover:underline"> {t("blog")}</p>
             </Link>
-            <p className="text-xs pointer hover:underline"> {t("howItWorks")}</p>
+            <p className="text-xs pointer hover:underline">
+              {" "}
+              {t("howItWorks")}
+            </p>
           </div>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 ">
@@ -98,7 +113,7 @@ export default function NewFooter() {
         </div>
       </div>
       <div className="h-[1px] w-full bg-[#7D7D7D]  lg:block hidden mt-6  "></div>
-      <div className="flex flex-col lg:flex-row px-7 sm:px-16 md:px-20 lg:justify-between lg:items-center md:py-4">
+      <div className="flex flex-col lg:flex-row px-6 sm:px-16 md:px-20 xl:px-24 lg:justify-between lg:items-center md:py-4">
         <div className=" flex-row gap-x-4 hidden lg:flex">
           <Link
             href={
@@ -132,7 +147,7 @@ export default function NewFooter() {
           <Payments />
         </div> */}
       </div>
-      <div className="bg-[#F2F5FF] px-7 flex flex-row  mt-4 py-4 items-center justify-around sm:px-16 md:px-20 lg:justify-center ">
+      <div className="bg-[#F2F5FF] px-6 flex flex-row  mt-4 py-4 items-center justify-around sm:px-16 md:px-20 xl:px-24 lg:justify-center ">
         <p className=" text-[8px]">Copyrighyt 2024</p>
         <div className="w-[1px] h-3 bg-[#7D7D7D] lg:hidden"></div>
         <p className=" text-[8px] lg:hidden pointer">{t("terms")}</p>

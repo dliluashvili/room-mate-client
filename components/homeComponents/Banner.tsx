@@ -10,7 +10,7 @@ export default function Banner() {
   const { user } = useTypedSelector((state) => state.profile);
   return (
     <>
-      <div className="w-full pt-6 pb-2 px-6 md:px-16 lg:px:20 xl:px-24">
+      <div className="w-full pt-6 pb-2 px-6  sm:px-16 md:px-20  xl:px-24">
         <div
           style={{
             backgroundImage: `url(${cover.src})`,

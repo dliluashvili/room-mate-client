@@ -37,7 +37,7 @@ export default function WhyUs() {
     },
   ];
   return (
-    <main className="w-full flex flex-col bg-[#F2F5FF] p-6 sm:px-16 md:px-20 lg:px-24 items-start lg:py-12 lg:flex-row lg:items-center">
+    <main className="w-full flex flex-col bg-[#F2F5FF] p-6 sm:px-16 md:px-20 xl:px-24 items-start lg:py-12 lg:flex-row lg:items-center">
       <div className="flex flex-col items-start lg:w-2/3 ">
         <h1 className="text-2xl text-[#484848] lg:text-3xl">{t("whyUs")}</h1>
       </div>
