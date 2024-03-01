@@ -9,8 +9,9 @@ import { logout } from "../redux/action-creators";
 import { useDispatch } from "react-redux";
 import Phone from "../public/newImages/footer-phone.svg";
 import Email from "../public/newImages/footer-email.svg";
-import { Payments, Social } from "./NewFooter";
+import { Social } from "./NewFooter";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function BurgerMenu() {
   const { user } = useTypedSelector((state) => state.profile);
@@ -82,18 +83,22 @@ export default function BurgerMenu() {
             </div>
           ) : null}
         </div>
-        <div className="mt-[150px] flex flex-row">
-          <Image src={Phone} width={16} height={16} />
-          <p className="text-[#484848] text-[14px] ml-3">599 123 456</p>
-        </div>
-        <div className="-mt-2 mb-2 flex flex-row">
-          <Image src={Email} width={16} height={16} />
-          <p className="text-[#484848]  text-[14px] ml-3">info@rommate.ge</p>
-        </div>
+        <Link href="tel:+995599976385">
+          <div className="mt-[150px] flex flex-row">
+            <Image src={Phone} width={16} height={16} />
+            <p className="text-[#484848] text-[14px] ml-3">599 976 385</p>
+          </div>
+        </Link>
+        <Link href="mailto:info@roommate.ge">
+          <div className="-mt-2 mb-2 flex flex-row">
+            <Image src={Email} width={16} height={16} />
+            <p className="text-[#484848]  text-[14px] ml-3">info@rommate.ge</p>
+          </div>
+        </Link>
         <Social />
         <div className="bg-[#DADDE7] w-full h-[2px]"></div>
         <div className="flex flex-row w-full justify-end">
-          <Payments />
+          {/* <Payments /> */}
         </div>
       </SheetContent>
     </Sheet>
