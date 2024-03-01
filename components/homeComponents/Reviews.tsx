@@ -41,7 +41,7 @@ export default function Reviews() {
     },
   ];
   return (
-    <main className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 xl:px-24 ">
+    <section className="w-full flex flex-col px-6 items-start sm:px-16 md:px-20 my-12 xl:px-24 ">
       <h1 className="text-2xl text-[#484848]">{t("reviewsHead")}</h1>
       <Carousel
         opts={{
@@ -80,6 +80,6 @@ export default function Reviews() {
         {media ? null : <CarouselPrevious />}
         {media ? null : <CarouselNext />}
       </Carousel>
-    </main>
+    </section>
   );
 }

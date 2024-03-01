@@ -47,7 +47,7 @@ export default function NewFooter() {
   const router = useRouter();
 
   return (
-    <main className="flex flex-col w-full h-full pt-12">
+    <footer className="flex flex-col w-full h-full pt-12">
       <div className="flex flex-col px-6 sm:px-16 md:px-20 xl:px-24 md:flex-row md:justify-between md:items-start">
         <div>
           <div className=" w-60 h-10  relative md:hidden">
@@ -154,6 +154,6 @@ export default function NewFooter() {
         <div className="w-[1px] h-3 bg-[#7D7D7D] lg:hidden"></div>
         <p className=" text-[8px] lg:hidden pointer">{t("confidencial")}</p>
       </div>
-    </main>
+    </footer>
   );
 }
