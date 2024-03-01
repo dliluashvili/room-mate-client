@@ -46,6 +46,7 @@ export default function NewHeader() {
           alt="Page logo"
           width={199}
           height={40}
+          layout="fixed"
           onClick={(e) => {
             handleLinkClick(e, "/");
           }}
@@ -63,6 +64,7 @@ export default function NewHeader() {
           alt="Page logo"
           width={121}
           height={24}
+          layout="fixed"
           onClick={(e) => {
             handleLinkClick(e, "/");
           }}
