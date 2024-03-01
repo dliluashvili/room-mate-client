@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Logo from "../public/newImages/logo.svg";
+import MobileLogo from "../public/newImages/mobile-header-logo.svg";
 import Bell from "../public/newImages/bell.svg";
 import UserIcon from "../public/newImages/user-icon.svg";
 import useTranslation from "next-translate/useTranslation";
@@ -32,7 +33,7 @@ export default function NewHeader() {
   };
 
   return (
-    <main className="bg-mainBg flex flex-row px-5 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
+    <main className="bg-mainBg flex flex-row px-6 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
       <div
         id="logoIcon"
         className="w-32 h-6 xl:w-52 xl:h-10 relative"
@@ -45,7 +46,14 @@ export default function NewHeader() {
           alt="Page logo"
           layout="fill"
           objectFit="cover"
-          className="pointer"
+          className="pointer hidden md:block"
+        />
+        <Image
+          src={MobileLogo}
+          alt="Page logo"
+          layout="fill"
+          objectFit="cover"
+          className="pointer md:hidden"
         />
       </div>
       <div id="headerContent" className="flex flex-row items-center">

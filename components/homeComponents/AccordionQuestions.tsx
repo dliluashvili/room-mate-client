@@ -38,7 +38,7 @@ export default function AccordionQuestions() {
   const bgColor = (value) => (openItems[value] ? "#DFE6FC" : "#f2f5ff");
 
   return (
-    <main className="px-6 pt-6 pb-12 bg-[#f2f5ff] sm:px-16 md:px-20 lg:px-24 ">
+    <main className="px-6 pt-6 pb-12 bg-[#f2f5ff] sm:px-16 md:px-20 xl:px-24 ">
       <h1 className="text-xl font-semibold">{t("questionsHead")}</h1>
       {items.map((item) => (
         <Accordion

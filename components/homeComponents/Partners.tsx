@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function Partners() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
   return (
-    <main className="w-full flex flex-col md:flex-row px-6 mt-12 sm:px-16 md:px-20 lg:px-24 xl:px-24  xl:flex-row md:gap-10 ">
+    <main className="w-full flex flex-col md:flex-row px-6 mt-12 sm:px-16 md:px-20  xl:px-24  xl:flex-row md:gap-10 ">
       <div className="w-full h-60 rounded-xl relative mt-4 xl:bg-[#f2f5ff] xl:h-full  xl:w-[90%] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-no-repeat bg-center  xl:hidden "

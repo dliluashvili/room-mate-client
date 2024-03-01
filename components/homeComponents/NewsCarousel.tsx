@@ -49,7 +49,7 @@ export default function NewsCarousel() {
     query: "(min-width: 0px) and (max-width: 1280px)",
   });
   return (
-    <main className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 lg:px-24">
+    <main className="w-full h-full flex flex-col px-6 items-start my-12 sm:px-16 md:px-20 lg:my-24 xl:px-24">
       <h1 className="text-2xl text-[#484848]">{t("blogMainHead")}</h1>
 
       <Carousel
@@ -58,13 +58,13 @@ export default function NewsCarousel() {
         }}
         className="w-full mt-6 p-0  "
       >
-        <CarouselContent className="  pr-16  ">
+        <CarouselContent className="  pr-10  lg:pr-16 xl:pr-0">
           {data.map((item, index) => (
             <CarouselItem
               key={index}
               className="w-full md:basis-1/2 xl:basis-1/3"
             >
-              <div className="w-full h-full pl-6 pt-6 pb-10 pr-20 flex flex-col justify-between   overflow-hidden relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
+              <div className="w-full h-full pl-6 pt-4 pb-10 pr-20 flex flex-col justify-between   overflow-hidden relative lg:pb-10 lg:pt-8 lg:pl-8 lg:pr-[140px] rounded-xl bg-[#c0dbfc] ">
                 <span className="text-base font-semibold">{item.header}</span>
                 <div className="flex h-full  flex-col justify-between mt-4">
                   <span className="text-xs z-50 ">{item.text}</span>
