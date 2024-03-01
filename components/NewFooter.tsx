@@ -67,45 +67,51 @@ export default function NewFooter() {
         </div>
         <div className="flex flex-col gap-y-4  mt-8 md:mt-0">
           <Link href="/">
-            <p className="text-xs font-semibold pointer hover:underline ">
-              {" "}
+            <p
+              className="text-xs  pointer hover:underline "
+              style={{ fontWeight: router.pathname === "/" ? "bold" : "" }}
+            >
               {t("main")}
             </p>
           </Link>
           <div className="grid lg:grid-cols-2 gap-y-4 lg:gap-x-20">
             <Link href={user ? "/search" : "/signup"}>
-              <p className="text-xs pointer hover:underline">
-                {" "}
+              <p
+                className="text-xs pointer hover:underline"
+                style={{
+                  fontWeight: router.pathname === "/search" ? "bold" : "",
+                }}
+              >
                 {t("roommateFind")}
               </p>
             </Link>
             <Link href="/houseSearch">
-              <p className="text-xs pointer hover:underline">
-                {" "}
+              <p
+                className="text-xs pointer hover:underline"
+                style={{
+                  fontWeight: router.pathname === "/houseSearch" ? "bold" : "",
+                }}
+              >
                 {t("rentApartment")}
               </p>
             </Link>
             <p className="text-xs pointer hover:underline">
-              {" "}
               {t("becomePartner")}
             </p>
             <Link href="https://roommate.blog/">
               <p className="text-xs pointer hover:underline"> {t("blog")}</p>
             </Link>
-            <p className="text-xs pointer hover:underline">
-              {" "}
-              {t("howItWorks")}
-            </p>
+            <p className="text-xs pointer hover:underline">{t("howItWorks")}</p>
           </div>
         </div>
         <div className="flex flex-col mt-8 md:mt-0 ">
           <h1 className="font-semibold text-xs">{t("contact")}</h1>
           <div className="grid grid-cols-2  gap-4 mt-4 md:grid-cols-1 ">
-          <Link href="tel:+995599976385">
-            <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
-              <Image src={FooterPhone} width={16} height={16} />
-              <p className="ml-2 text-xs">599 976 385</p>
-            </div>
+            <Link href="tel:+995599976385">
+              <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">
+                <Image src={FooterPhone} width={16} height={16} />
+                <p className="ml-2 text-xs">599 976 385</p>
+              </div>
             </Link>
             <Link href="mailto:info@roommate.ge">
               <div className="py-3 px-2  bg-[#F2F5FF] rounded-lg flex flex-row items-center pointer">

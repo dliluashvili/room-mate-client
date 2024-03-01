@@ -42,9 +42,17 @@ export default function BurgerMenu() {
       </SheetTrigger>
       <SheetContent className="px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-72 overflow-y-auto max-h-screen">
         <div className="flex flex-col gap-y-6 mt-20 text-[14px]">
-          <p onClick={(e) => handleLinkClick(e, "/")}>{t("main")}</p>
+          <p
+            className="text-xs"
+            style={{ fontWeight: router.pathname === "/" ? "bold" : "" }}
+            onClick={(e) => handleLinkClick(e, "/")}
+          >
+            {t("main")}
+          </p>
 
           <p
+            className="text-xs"
+            style={{ fontWeight: router.pathname === "/search" ? "bold" : "" }}
             onClick={(e) => {
               const href = user ? "/search" : "/signup";
               handleLinkClick(e, href);
@@ -53,7 +61,13 @@ export default function BurgerMenu() {
             {t("search")}
           </p>
 
-          <p onClick={(e) => handleLinkClick(e, "/houseSearch")}>
+          <p
+            className="text-xs"
+            style={{
+              fontWeight: router.pathname === "/houseSearch" ? "bold" : "",
+            }}
+            onClick={(e) => handleLinkClick(e, "/houseSearch")}
+          >
             {t("RentAnApartment")}
           </p>
           {!!user ? (
@@ -64,7 +78,7 @@ export default function BurgerMenu() {
                 handleLinkClick(e, href);
               }}
             >
-              <p className="">{t("notifications")}</p>
+              <p className="text-xs">{t("notifications")}</p>
               {!!user?.notifications?.length && (
                 <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
                   {user.notifications.length}
@@ -73,9 +87,9 @@ export default function BurgerMenu() {
             </div>
           ) : null}
 
-          <p>{t("becomePartner")}</p>
-          <p>{t("faq")}</p>
-          <p>{t("howItWorks")}</p>
+          <p className="text-xs">{t("becomePartner")}</p>
+          <p className="text-xs">{t("faq")}</p>
+          <p className="text-xs">{t("howItWorks")}</p>
           {user ? (
             <div className="flex flex-row" onClick={signOut}>
               <Image src={LogoutIcon} width={24} height={24} />
