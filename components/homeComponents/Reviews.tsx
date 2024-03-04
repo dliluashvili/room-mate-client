@@ -12,8 +12,8 @@ import { useMediaQuery } from "react-responsive";
 
 import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
-import MaleAvatar from "../../public/newImages/male-avatar.webp";
-import FemaleAvatar from "../../public/newImages/female-avatar.jpg";
+import MaleAvatar from "../../public/newImages/male-avatar.svg";
+import FemaleAvatar from "../../public/newImages/female-avatar.svg";
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
@@ -59,7 +59,7 @@ export default function Reviews() {
                   <div className="w-14 h-14 relative rounded-full">
                     <Image
                       className="rounded-full"
-                      src={item?.image}
+                      src={item.image}
                       layout="fill"
                       objectFit="cover"
                     />
