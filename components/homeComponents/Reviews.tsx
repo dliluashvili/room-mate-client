@@ -7,15 +7,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../@/components/ui/carousel";
-import CarouselBgMen from "../../public/newImages/CarouselBg.svg";
-import CarouselBgWomen from "../../public/newImages/CarouselBgWomen.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
-import Avatar from "../../public/newImages/avatar.svg";
+
 import RateStar from "../../public/newImages/rate-star.svg";
 import useTranslation from "next-translate/useTranslation";
-import MaleAvatar from "../../public/newImages/male-avatar.webp";
-import FemaleAvatar from "../../public/newImages/female-avatar.jpg";
+import MaleAvatar from "../../public/newImages/male-avatar.svg";
+import FemaleAvatar from "../../public/newImages/female-avatar.svg";
 export default function Reviews() {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
