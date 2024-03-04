@@ -19,7 +19,6 @@ import Cursor from "../../public/newImages/cursor.svg";
 export default function Apartments({ flats }) {
   const media = useMediaQuery({ query: "(max-width: 768px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  console.log(flats);
   return (
     <>
       <section>
@@ -41,7 +40,7 @@ export default function Apartments({ flats }) {
                       key={item}
                       className="w-full sm:basis-1/2  md:basis-1/2 lg:basis-1/3 xl:basis-1/4 pointer"
                     >
-                      <div className="w-full h-full  flex flex-col justify-start rounded-xl  items-start  border-1 ">
+                      <div className="w-full  flex flex-col justify-start rounded-xl  items-start  border-1 overflow-auto text-ellipsis  whitespace-nowrap ">
                         <div className="w-full  rounded-t-xl overflow-hidden">
                           <div
                             style={{ height: "214px", position: "relative" }}
@@ -84,10 +83,6 @@ export default function Apartments({ flats }) {
                           <div className="absolute -top-5 right-4">
                             <Image src={Cursor} width={40} height={40} />
                           </div>
-
-                          {/* <p className="mt-3 text-xs text-[#484848]">
-                            {item.title} {t("space")} - {item.area} M 2
-                          </p> */}
                         </div>
                       </div>
                     </CarouselItem>
