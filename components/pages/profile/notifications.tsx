@@ -44,6 +44,10 @@ const Notifications = () => {
     }
   }, [notificationType]);
 
+  const sentNotifications = user?.notifications?.filter(
+    (notification) => notification.type === "answer_to_request"
+  );
+
   return (
     <div className="d-flex flex-wrap mt-4 ">
       <div className="d-flex m-3">
@@ -61,11 +65,16 @@ const Notifications = () => {
           onClick={() => {
             setNotificationType("sent");
           }}
-          className={classNames("btn btn-light  ", {
+          className={classNames("btn btn-light relative", {
             ["active"]: notificationType !== "sent",
           })}
         >
           {t("sent")}
+          {!!sentNotifications?.length && (
+            <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
+              {sentNotifications.length}
+            </div>
+          )}
         </span>
       </div>
       <div className="container notificationsContainer p-0 justify-start">
