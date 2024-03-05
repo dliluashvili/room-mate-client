@@ -13,6 +13,7 @@ import { LangEnum } from "../graphql";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import Loader from "../components/common/loader";
+import UserFilter from "../components/UserFilter";
 
 const Search = () => {
   useCheckAuth();
@@ -21,6 +22,8 @@ const Search = () => {
   const [pageInfo, setPageInfo] = useState<any>(null);
   const [openPayModal, setOpenPayModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+  const [search, setSearch] = useState(false);
 
   const { user } = useTypedSelector((state) => state.profile);
 
@@ -41,7 +44,7 @@ const Search = () => {
                     total
                     page
                 }
-                data {
+                list {
                     id
                     firstname
                     age
@@ -68,7 +71,7 @@ const Search = () => {
       {
         query: query,
         variables: {
-          input: [],
+          input: filterData !== null ? filterData : [],
           pagination: {
             offset,
             limit,
@@ -86,7 +89,7 @@ const Search = () => {
     setLoading(false);
 
     if (!response.data?.errors) {
-      setSearchResults(response.data.data.filterUsers.data);
+      setSearchResults(response.data.data.filterUsers.list);
       setPageInfo(response.data.data.filterUsers.pageInfo);
     }
   };
@@ -98,7 +101,7 @@ const Search = () => {
     }
 
     getSearchResults();
-  }, [router.locale, router.query.page]);
+  }, [router.locale, router.query.page, search]);
 
   const updateAddRemove = (id: number, saveId: boolean) => {
     const updatedSearchResults = searchResults.map((el) => {
@@ -114,6 +117,8 @@ const Search = () => {
     setSearchResults(updatedSearchResults);
   };
 
+  console.log(filterData);
+
   return (
     <div className="">
       <NewHeader />
@@ -126,13 +131,19 @@ const Search = () => {
         />
       ) : null}
 
-      {loading ? (
-        <Loader className="static" />
-      ) : (
-        <div className="searchPage">
-          <div className="container d-flex pt-5">
-            <div className="search_mainContent">
-              {!searchResults.length ? (
+      <div className="searchPage">
+        <div className="flex  items-start justify-start w-full pl-32 pt-10 pr-[200px]">
+          <UserFilter
+            setFilterData={setFilterData}
+            filterData={filterData}
+            search={search}
+            setSearch={setSearch}
+          />
+          {loading ? (
+            <Loader className="static w-full search_mainContent  ml-12" />
+          ) : (
+            <div className="search_mainContent w-full ml-12">
+              {!searchResults?.length ? (
                 <div className="text-center mt-5">{t("statementNotFound")}</div>
               ) : (
                 searchResults?.map((el) => {
@@ -157,9 +168,10 @@ const Search = () => {
                 maxItem={pageInfo?.limit}
               />
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
+
       <NewFooter />
     </div>
   );
