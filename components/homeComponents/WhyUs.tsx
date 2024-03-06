@@ -4,15 +4,19 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "../../@/components/ui/carousel";
 import BankIcon from "../../public/newImages/bank.svg";
 import ShakeHands from "../../public/newImages/shake-hands.svg";
 import WebsiteIcon from "../../public/newImages/website-icon.svg";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
+import { useMediaQuery } from "react-responsive";
 
 export default function WhyUs() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const media = useMediaQuery({ query: "(max-width: 768px)" });
 
   const data = [
     {
@@ -64,6 +68,8 @@ export default function WhyUs() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        {media ? null : <CarouselPrevious />}
+        {media ? null : <CarouselNext />}
       </Carousel>
 
       <div className="w-full  grid-cols-2 gap-6 hidden lg:grid ">

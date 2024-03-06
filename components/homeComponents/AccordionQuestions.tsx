@@ -44,17 +44,17 @@ export default function AccordionQuestions() {
         <Accordion
           type="single"
           collapsible
-          className="w-full mt-6 order rounded-lg border-gray-300 "
+          className="w-full mt-6  rounded-lg  "
         >
           <AccordionItem
             key={item.value}
             value={item.value}
             style={{ backgroundColor: bgColor(item.value) }}
-            className="rounded-lg border-gray-300"
+            className="rounded-lg "
           >
             <div
               onClick={() => handleClick(item.value)}
-              className="flex flex-row items-center  w-full  rounded-lg border-gray-300  "
+              className="flex flex-row items-center  w-full  rounded-lg   "
             >
               <div className="w-full ">
                 <AccordionTrigger className="text-left text-[14px] justify-start font-semibold  items-start">

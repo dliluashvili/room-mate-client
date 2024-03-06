@@ -14,6 +14,8 @@ import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import Loader from "../components/common/loader";
 import UserFilter from "../components/UserFilter";
+import { Button } from "../@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "../@/components/ui/sheet";
 
 const Search = () => {
   useCheckAuth();
@@ -132,17 +134,37 @@ const Search = () => {
       ) : null}
 
       <div className="searchPage">
-        <div className="flex  items-start justify-start w-full pl-32 pt-10 pr-[200px]">
-          <UserFilter
-            setFilterData={setFilterData}
-            filterData={filterData}
-            search={search}
-            setSearch={setSearch}
-          />
+        <div className="flex flex-col md:flex-row  items-start justify-start px-10 w-full md:pl-32 pt-10 md:pr-[200px]">
+          <div className="hidden md:flex">
+            <UserFilter
+              setFilterData={setFilterData}
+              filterData={filterData}
+              search={search}
+              setSearch={setSearch}
+            />
+          </div>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="md:hidden">Filter</Button>
+            </SheetTrigger>
+            <SheetContent
+              side="bottom"
+              className=" px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-full overflow-y-auto min-h-screen"
+            >
+              <UserFilter
+                setFilterData={setFilterData}
+                filterData={filterData}
+                search={search}
+                setSearch={setSearch}
+              />
+            </SheetContent>
+          </Sheet>
+
           {loading ? (
             <Loader className="static w-full search_mainContent  ml-12" />
           ) : (
-            <div className="search_mainContent w-full ml-12">
+            <div className="search_mainContent w-full md:ml-12">
               {!searchResults?.length ? (
                 <div className="text-center mt-5">{t("statementNotFound")}</div>
               ) : (
