@@ -66,7 +66,7 @@ export default function UserFilter({
 
   return (
     <>
-      <div className="w-[370px] flex flex-col gap-y-6 ">
+      <div className="w-full lg:w-[370px] flex flex-col gap-y-6 ">
         {questions
           ?.sort((a, b) => {
             if (a.uiFieldInfo.input.type === "numeric") return 1;
