@@ -18,6 +18,10 @@ const Slider = React.forwardRef<
 
   return (
     <div>
+      <div className="flex flex-row justify-between items-center mb-3 -mt-2">
+        <div>{sliderValues[0]} $</div>
+        <div>{sliderValues[1]} $</div>
+      </div>
       <SliderPrimitive.Root
         ref={ref}
         className={cn(
@@ -57,14 +61,13 @@ const Slider = React.forwardRef<
         defaultValue={[100, 500]}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+        <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-[#D9D9D9] pointer">
           <SliderPrimitive.Range className="absolute h-full bg-primary" />
         </SliderPrimitive.Track>
-        <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
-        <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+
+        <SliderPrimitive.Thumb className="block h-5 w-5 pointer rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none  disabled:pointer-events-none disabled:opacity-50" />
+        <SliderPrimitive.Thumb className="block h-5 w-5 pointer rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none  disabled:pointer-events-none disabled:opacity-50" />
       </SliderPrimitive.Root>
-      <div>First Value: {sliderValues[0]}</div>
-      <div>Second Value: {sliderValues[1]}</div>
     </div>
   );
 });

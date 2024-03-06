@@ -40,7 +40,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
               "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
             )}
           >
-            <div className="h-[48px] items-center justify-center flex p flex-row text-xs">
+            <div className="h-[48px] items-center justify-center flex p flex-row text-sm">
               <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
               {date?.from ? (
                 date.to ? (
@@ -64,7 +64,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
             defaultMonth={new Date()}
             selected={date}
             onSelect={(newDate) => {
-              if (newDate.from && newDate.to) {
+              if (newDate?.from && newDate?.to) {
                 const filtered = {
                   questionId: id,
                   dataRange: [
