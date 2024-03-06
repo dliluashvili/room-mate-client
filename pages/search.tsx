@@ -16,6 +16,8 @@ import Loader from "../components/common/loader";
 import UserFilter from "../components/UserFilter";
 import { Button } from "../@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../@/components/ui/sheet";
+import Image from "next/image";
+import FilterIcon from "../public/newImages/filter-search.svg";
 
 const Search = () => {
   useCheckAuth();
@@ -133,9 +135,9 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage">
-        <div className="flex flex-col md:flex-row  items-start justify-start px-10 w-full md:pl-32 pt-10 md:pr-[200px]">
-          <div className="hidden md:flex">
+      <div className="searchPage  ">
+        <div className="flex flex-col lg:flex-row    px-6 w-full lg:pl-32 pt-4 lg:pt-10 ">
+          <div className="hidden lg:flex">
             <UserFilter
               setFilterData={setFilterData}
               filterData={filterData}
@@ -146,11 +148,17 @@ const Search = () => {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button className="md:hidden">Filter</Button>
+              <div
+                id="butt"
+                className="lg:hidden bg-[#F2F5FF]  w-[140px]  flex flex-row py-3 px-4 rounded-lg  mb-4  "
+              >
+                <Image src={FilterIcon} width={24} height={24} />
+                <p className="text-sm ml-3 text-[#838CAC] pointer">ფილტრი</p>
+              </div>
             </SheetTrigger>
             <SheetContent
-              side="bottom"
-              className=" px-6 pt-3 pb-14 bg-[#F2F5FF] flex flex-col items-start w-full overflow-y-auto min-h-screen"
+              side="left"
+              className="  px-6 pt-20 pb-14 bg-[#F2F5FF] flex flex-col   w-full overflow-y-auto min-h-screen"
             >
               <UserFilter
                 setFilterData={setFilterData}
@@ -164,31 +172,35 @@ const Search = () => {
           {loading ? (
             <Loader className="static w-full search_mainContent  ml-12" />
           ) : (
-            <div className="search_mainContent w-full md:ml-12">
-              {!searchResults?.length ? (
-                <div className="text-center mt-5">{t("statementNotFound")}</div>
-              ) : (
-                searchResults?.map((el) => {
-                  return (
-                    <ProfileCard
-                      setPayModal={() => {
-                        setOpenPayModal(true);
-                      }}
-                      key={el.id}
-                      {...el}
-                      updateAddRemove={updateAddRemove}
-                    />
-                  );
-                })
-              )}
+            <div className="w-full flex justify-center lg:justify-start items-center lg:ml-12">
+              <div className="search_mainContent w-full mx-0 lg:ml-12 ">
+                {!searchResults?.length ? (
+                  <div className="text-center mt-5">
+                    {t("statementNotFound")}
+                  </div>
+                ) : (
+                  searchResults?.map((el) => {
+                    return (
+                      <ProfileCard
+                        setPayModal={() => {
+                          setOpenPayModal(true);
+                        }}
+                        key={el.id}
+                        {...el}
+                        updateAddRemove={updateAddRemove}
+                      />
+                    );
+                  })
+                )}
 
-              <Pagination
-                pagePath="/search"
-                maxPage={
-                  pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1
-                }
-                maxItem={pageInfo?.limit}
-              />
+                <Pagination
+                  pagePath="/search"
+                  maxPage={
+                    pageInfo ? Math.floor(pageInfo.total / pageInfo.limit) : 1
+                  }
+                  maxItem={pageInfo?.limit}
+                />
+              </div>
             </div>
           )}
         </div>

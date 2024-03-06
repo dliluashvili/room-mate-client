@@ -72,7 +72,7 @@ export default function NewHeader() {
       </div>
       <div id="headerContent" className="flex flex-row items-center">
         <span
-          className="hidden md:block md:text-xs xl:text-base mr-4 pointer bg-[#F2F5FF] px-3 py-2 rounded-lg"
+          className="hidden md:block md:text-xs xl:text-base mr-4 pointer  rounded-lg"
           onClick={(e) => {
             const href = user ? "/search" : "/signup";
             router.push(href);
@@ -82,7 +82,7 @@ export default function NewHeader() {
         </span>
 
         <span
-          className="hidden md:block md:text-xs xl:text-base mr-4 pointer bg-[#F2F5FF] px-3 py-2 rounded-lg"
+          className="hidden md:block md:text-xs xl:text-base mr-4 pointer rounded-lg"
           onClick={(e) => handleLinkClick(e, "/houseSearch")}
         >
           {t("rentApartment")}
