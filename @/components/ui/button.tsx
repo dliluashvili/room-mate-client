@@ -13,7 +13,7 @@ const buttonVariants = cva(
         default:
           "bg-primaryBeta p-[12px] hover:bg-hoverBeta  focus:bg-pressedBeta text-whiteTextBeta text-xs lg:text-base",
         calendar:
-          "bg-primaryBeta border-2 border-[#838CAC rounded-xl  text-[black] p-[12px]   text-xs ",
+          "bg-white border-2 border-[#838CAC rounded-xl  text-[black] p-[12px]   text-xs ",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -22,9 +22,6 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        
-        calendarDay:
-          "bg-[white] hover:bg-[#ced2dc]   rounded-xl focus:bg-[#19A463] focus:text-[black] rounded-[50%] ",
       },
       size: {
         default: "w-full h-10 ",
