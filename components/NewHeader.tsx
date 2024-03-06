@@ -72,7 +72,7 @@ export default function NewHeader() {
       </div>
       <div id="headerContent" className="flex flex-row items-center">
         <span
-          className="hidden md:block md:text-xs xl:text-base mr-4 pointer"
+          className="hidden md:block md:text-xs xl:text-base mr-4 pointer bg-[#F2F5FF] px-3 py-2 rounded-lg"
           onClick={(e) => {
             const href = user ? "/search" : "/signup";
             router.push(href);
@@ -82,13 +82,13 @@ export default function NewHeader() {
         </span>
 
         <span
-          className="hidden md:block md:text-xs xl:text-base mr-4 pointer"
+          className="hidden md:block md:text-xs xl:text-base mr-4 pointer bg-[#F2F5FF] px-3 py-2 rounded-lg"
           onClick={(e) => handleLinkClick(e, "/houseSearch")}
         >
           {t("rentApartment")}
         </span>
         <div
-          className="bg-[#cff1e6] p-2 mr-2 flex items-center rounded-lg xl:px-3 xl:py-2 xl:mr-4 pointer"
+          className=" p-2 mr-2 flex items-center rounded-lg bg-[#F2F5FF]  xl:px-3 xl:py-2 xl:mr-4 pointer"
           onClick={(e) => {
             const href = user ? "/profile" : "login";
             handleLinkClick(e, href);
@@ -108,12 +108,12 @@ export default function NewHeader() {
         </div>
 
         <LangChoose
-          className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer md:mr-4 lg:text-base lg:p-2"
+          className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer  md:mr-2 lg:mr-4 lg:text-base lg:p-2"
           spanClassname="text-xs xl:text-base"
         />
         <div
           id="bell"
-          className="hidden relative lg:block lg:bg-[#f2f5ff]  rounded-lg px-2  pt-2  lg:mr-4 pointer"
+          className="hidden relative w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff]  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
           onClick={(e) => {
             const href = user ? "/profile" : "login";
             handleLinkClick(e, href);
