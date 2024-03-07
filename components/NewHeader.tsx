@@ -10,6 +10,8 @@ import { useTypedSelector } from "./hooks/useTypeSelector";
 import BurgerMenu from "./BurgerMenu";
 import { useCheckAuth } from "./hooks/useCheckAuth";
 import LangChoose from "./LangChoose";
+import { Progress } from "../@/components/ui/progress";
+import { Skeleton } from "../@/components/ui/skeleton";
 
 export default function NewHeader() {
   useCheckAuth(false);
@@ -103,7 +105,13 @@ export default function NewHeader() {
             />
           </div>
           <span className="ml-2 text-xs xl:text-base xl:mr-3">
-            {user?.firstname ? user.firstname : t("auth")}
+            {!user || !user.firstname ? (
+              <span className="placeholder-text">
+             <Skeleton className="w-[30px] h-[20px] rounded-full" />
+              </span>
+            ) : (
+              <span>{user.firstname}</span>
+            )}
           </span>
         </div>
 
