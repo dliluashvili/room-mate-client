@@ -148,4 +148,8 @@
     font-size: 14px !important;
   }
 }
+
+.slide-in {
+  transition: transform 0.3s ease; /* Adjust duration and easing as needed */
+}
 /* phone input section end*/

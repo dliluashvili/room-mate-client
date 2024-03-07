@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primaryBeta p-[12px] hover:bg-hoverBeta  focus:bg-pressedBeta text-whiteTextBeta text-xs lg:text-base",
+          "bg-primaryBeta p-[12px] hover:bg-hoverBeta  focus:bg-pressedBeta text-whiteTextBeta text-sm lg:text-base",
         calendar:
           "bg-white border-2 border-[#838CAC rounded-xl  text-[black] p-[12px]   text-xs ",
         destructive:
