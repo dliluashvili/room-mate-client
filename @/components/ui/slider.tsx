@@ -15,7 +15,7 @@ const Slider = React.forwardRef<
   SliderProps
 >(({ className, id, filterData, setFilterData, ...props }, ref) => {
   const [sliderValues, setSliderValues] = React.useState([100, 500]);
-
+  console.log(filterData);
   return (
     <div>
       <div className="flex flex-row justify-between items-center mb-3 -mt-2">

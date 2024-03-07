@@ -170,7 +170,7 @@ export default function UserFilter({
           ))}
         <Button
           variant="default"
-          className="mt-2"
+          className="mt-6 "
           onClick={() => setSearch(!search)}
         >
           {t("searchBtn")}

@@ -15,7 +15,7 @@ import NewFooter from "../components/NewFooter";
 import Loader from "../components/common/loader";
 import UserFilter from "../components/UserFilter";
 import { Button } from "../@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "../@/components/ui/sheet";
+import CloseIcone from "../public/newImages/close-circle.svg";
 import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
 
@@ -28,6 +28,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData] = useState([]);
   const [search, setSearch] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
 
   const { user } = useTypedSelector((state) => state.profile);
 
@@ -124,7 +125,7 @@ const Search = () => {
   console.log(filterData);
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -135,8 +136,8 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage  ">
-        <div className="flex flex-col lg:flex-row    px-6 w-full lg:pl-32 pt-4 lg:pt-10 ">
+      <div className="searchPage   ">
+        <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
               setFilterData={setFilterData}
@@ -145,35 +146,46 @@ const Search = () => {
               setSearch={setSearch}
             />
           </div>
+          <div
+            onClick={() => setShowFilter(!showFilter)}
+            id="butt"
+            className="lg:hidden bg-[#F2F5FF] w-[140px] flex flex-row py-3 px-4  rounded-lg ml-6 md:ml-24 mt-4 mb-4"
+          >
+            <Image src={FilterIcon} width={24} height={24} />
+            <p className="text-sm ml-3 text-[#838CAC] pointer">ფილტრი</p>
+          </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <div
-                id="butt"
-                className="lg:hidden bg-[#F2F5FF]  w-[140px]  flex flex-row py-3 px-4 rounded-lg  mb-4  "
-              >
-                <Image src={FilterIcon} width={24} height={24} />
-                <p className="text-sm ml-3 text-[#838CAC] pointer">ფილტრი</p>
-              </div>
-            </SheetTrigger>
-            <SheetContent
-              side="left"
-              className="  px-6 pt-20 pb-14 bg-[#F2F5FF] flex flex-col   w-full overflow-y-auto min-h-screen"
-            >
+          <div
+            className={
+              "absolute top-1 z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
+            }
+            style={{
+              transform: showFilter ? "translateX(0)" : "translateX(-120%)",
+            }}
+          >
+            <div className="flex flex-row justify-end">
+              <Image
+                width={28}
+                height={28}
+                src={CloseIcone}
+                onClick={() => setShowFilter(!showFilter)}
+              />
+            </div>
+            <div className="mt-6">
               <UserFilter
                 setFilterData={setFilterData}
                 filterData={filterData}
                 search={search}
                 setSearch={setSearch}
               />
-            </SheetContent>
-          </Sheet>
+            </div>
+          </div>
 
           {loading ? (
             <Loader className="static w-full search_mainContent  ml-12" />
           ) : (
-            <div className="w-full flex justify-center lg:justify-start items-center lg:ml-12">
-              <div className="search_mainContent w-full mx-0 lg:ml-12 ">
+            <div className="w-full flex px-6 justify-center lg:justify-start items-center lg:items-start lg:ml-6 xl:ml-12 ">
+              <div className="search_mainContent w-full mx-0 ">
                 {!searchResults?.length ? (
                   <div className="text-center mt-5">
                     {t("statementNotFound")}
