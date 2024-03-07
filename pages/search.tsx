@@ -144,6 +144,8 @@ const Search = () => {
               filterData={filterData}
               search={search}
               setSearch={setSearch}
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
             />
           </div>
           <div
@@ -177,6 +179,8 @@ const Search = () => {
                 filterData={filterData}
                 search={search}
                 setSearch={setSearch}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
               />
             </div>
           </div>
