@@ -15,6 +15,8 @@ export default function UserFilter({
   filterData,
   setSearch,
   search,
+  showFilter,
+  setShowFilter,
 }) {
   const router = useRouter();
   const [questions, setQuestions] = useState(null);
@@ -171,7 +173,9 @@ export default function UserFilter({
         <Button
           variant="default"
           className="mt-6 "
-          onClick={() => setSearch(!search)}
+          onClick={() => {
+            setSearch(!search), setShowFilter(!showFilter);
+          }}
         >
           {t("searchBtn")}
         </Button>
