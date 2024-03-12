@@ -13,6 +13,7 @@ const SignupSecond = dynamic(() => import("./SignupSecond"));
 const SignupStepsHeader = dynamic(() => import("./SignupStepsHeader"));
 
 export default function MultiStepCard({ countries, gender, questions }) {
+  console.log(countries);
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();

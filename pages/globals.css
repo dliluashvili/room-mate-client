@@ -153,3 +153,6 @@
   transition: transform 0.3s ease; /* Adjust duration and easing as needed */
 }
 /* phone input section end*/
+.searchPage.blurred {
+  backdrop-filter: blur(5px); /* Adjust the blur intensity as needed */
+}

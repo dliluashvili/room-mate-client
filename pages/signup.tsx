@@ -24,42 +24,24 @@ export default function Signup() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const lang = router.locale.toLocaleUpperCase(); // Set your desired language here
-
+        const lang = router.locale.toLocaleLowerCase(); // Set your desired language here
+        const getGendersLang2 = router.locale.toLocaleLowerCase();
         const query = `
-          query CombinedQuery($lang: LangEnum) {
-            getQuestions(lang: $lang) {
-              answers {
-                id
-                questionId
-                translations {
-                  id
-                  lang
-                  title
-                }
-              }
-              position
-              uiFieldInfo
+          query CombinedQuery($lang: Language, $getGendersLang2: Language) {
+           
+            getGenders(lang: $getGendersLang2) {
               id
               translations {
-                id
-                lang
-                title
-              }
-            }
-            findAllGender {
-              id
-              translations(lang: $lang) {
                 id
                 lang
                 sex
               }
             }
-            findAllCountry {
+            getCountries(lang: $lang){
               id
               alpha2Code
               position
-              translations(lang: $lang) {
+              translations {
                 id
                 lang
                 name
@@ -72,8 +54,10 @@ export default function Signup() {
           query,
           variables: {
             lang,
+            getGendersLang2,
           },
         });
+        console.log(response);
 
         setData(response.data);
       } catch (error) {
@@ -83,13 +67,13 @@ export default function Signup() {
 
     fetchData();
   }, []);
-
+  console.log(data);
   return (
     <>
       <NewHeader />
       <MultiStepCard
-        countries={data?.data?.findAllCountry}
-        gender={data?.data?.findAllGender}
+        countries={data?.data?.getCountries}
+        gender={data?.data?.getGenders}
         questions={data?.data?.getQuestions}
       />
       <NewFooter />

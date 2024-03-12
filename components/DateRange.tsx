@@ -13,6 +13,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../@/components/ui/popover";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../@/components/ui/drawer";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   setFilterData?: any;
   id?: string;
@@ -29,18 +39,90 @@ export const DatePickerWithRange: React.FC<Props> = ({
     from: null,
     to: null,
   });
+
   return (
-    <div className={cn("grid gap-2", className)}>
-      <Popover>
-        <PopoverTrigger asChild>
+    <>
+      <div className={cn(" gap-2 hidden md:grid", className)}>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              id="date"
+              variant={"outline"}
+              className={cn(
+                "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
+              )}
+            >
+              <div className="h-[48px] items-center justify-center flex p flex-row text-sm">
+                <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
+                {date?.from ? (
+                  date.to ? (
+                    <>
+                      {format(date.from, "LLL dd, y")} -{" "}
+                      {format(date.to, "LLL dd, y")}
+                    </>
+                  ) : (
+                    format(date.from, "LLL dd, y")
+                  )
+                ) : (
+                  <span>Pick a date</span>
+                )}
+              </div>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              numberOfMonths={2}
+              mode="range"
+              pagedNavigation
+              defaultMonth={new Date()}
+              selected={date}
+              onSelect={(newDate) => {
+                if (newDate?.from && newDate?.to) {
+                  const filtered = {
+                    questionId: id,
+                    dataRange: [
+                      format(newDate.from, "yyyy-MM-dd"),
+                      format(newDate.to, "yyyy-MM-dd"),
+                    ],
+                  };
+
+                  // Create a new array based on the current filterData
+                  let newFilterData = [...filterData];
+
+                  // Find the index of the item with the same questionId
+                  const index = newFilterData.findIndex(
+                    (item) => item.questionId === id
+                  );
+
+                  if (index !== -1) {
+                    // Replace the existing item
+                    newFilterData[index] = filtered;
+                  } else {
+                    // Add the new item
+                    newFilterData.push(filtered);
+                  }
+
+                  // Update the state
+                  setFilterData(newFilterData);
+                }
+                setDate(newDate);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <Drawer>
+        <DrawerTrigger className="w-full mt-2">
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
+              "w-full md:hidden md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
             )}
           >
-            <div className="h-[48px] items-center justify-center flex p flex-row text-sm">
+            <div className="h-[48px]   items-center justify-center flex p flex-row text-sm">
               <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
               {date?.from ? (
                 date.to ? (
@@ -56,11 +138,14 @@ export const DatePickerWithRange: React.FC<Props> = ({
               )}
             </div>
           </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        </DrawerTrigger>
+        <DrawerContent>
           <Calendar
+            className="flex flex-row justify-center"
             initialFocus
+            numberOfMonths={2}
             mode="range"
+            pagedNavigation
             defaultMonth={new Date()}
             selected={date}
             onSelect={(newDate) => {
@@ -94,10 +179,14 @@ export const DatePickerWithRange: React.FC<Props> = ({
               }
               setDate(newDate);
             }}
-            numberOfMonths={2}
           />
-        </PopoverContent>
-      </Popover>
-    </div>
+          <DrawerClose>
+            <Button variant="default" className="w-4/5">
+              Submit
+            </Button>
+          </DrawerClose>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 };
