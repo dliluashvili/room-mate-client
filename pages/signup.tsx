@@ -47,6 +47,25 @@ export default function Signup() {
                 name
               }
             }
+            getQuestions(lang: $lang) {
+              answers {
+                id
+                questionId
+                translations {
+                  id
+                  lang
+                  title
+                }
+              }
+              position
+              uiFieldInfo
+              id
+              translations {
+                id
+                lang
+                title
+              }
+            }
           }
         `;
 
@@ -58,7 +77,6 @@ export default function Signup() {
           },
         });
         console.log(response);
-
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

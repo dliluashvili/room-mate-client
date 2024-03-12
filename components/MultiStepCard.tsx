@@ -19,6 +19,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({ answeredQuestions: {} });
+  console.log("this00", questions);
   let secondStep = questions?.slice(0, 7);
   let thirthStep = questions?.slice(8, 13);
   const showErrorWithHelp = () => {
