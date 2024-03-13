@@ -209,7 +209,7 @@ export default function SignupSecond({
                             </FormLabel>
                             <DatePickerWithRangeRegistration
                               id={item.id}
-                              upd={updateUseForm}
+                              updateUseForm={updateUseForm}
                               field={field}
                             />
                             <FormMessage />

@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
-
 import { cn } from "../@/lib/utils";
 import { Button } from "../@/components/ui/button";
 import { Calendar } from "../@/components/ui/calendar";
@@ -17,15 +16,11 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "../@/components/ui/drawer";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   setFilterData?: any;
-  upd?: any;
+  updateUseForm?: any;
   field?: any;
   id?: string;
   filterData?: any; // Assuming setFilterData can be of any type
@@ -33,7 +28,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export const DatePickerWithRangeRegistration: React.FC<Props> = ({
   className,
-  upd,
+  updateUseForm,
   field,
   id,
 }: Props) => {
@@ -41,8 +36,6 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
     from: null,
     to: null,
   });
-
-  console.log(date);
 
   return (
     <>
@@ -81,7 +74,22 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
               pagedNavigation
               defaultMonth={new Date()}
               selected={date}
-              onSelect={setDate}
+              onSelect={(newDate) => {
+                if (newDate?.from && newDate?.to) {
+                  field.onChange([
+                    format(newDate.from, "yyyy-MM-dd"),
+                    format(newDate.to, "yyyy-MM-dd"),
+                  ]);
+                  updateUseForm({
+                    [id]: [
+                      format(newDate.from, "yyyy-MM-dd"),
+                      format(newDate.to, "yyyy-MM-dd"),
+                    ],
+                  });
+                }
+
+                setDate(newDate);
+              }}
             />
           </PopoverContent>
         </Popover>
@@ -128,7 +136,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
                   format(newDate.from, "yyyy-MM-dd"),
                   format(newDate.to, "yyyy-MM-dd"),
                 ]);
-                upd({
+                updateUseForm({
                   [id]: [
                     format(newDate.from, "yyyy-MM-dd"),
                     format(newDate.to, "yyyy-MM-dd"),
