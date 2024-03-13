@@ -24,7 +24,6 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@shadcn/ui": "^0.0.4",
     "@types/react-phone-number-input": "^3.0.17",
-    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^0.27.2",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.1",

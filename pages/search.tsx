@@ -24,7 +24,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "../@/components/ui/sheet";
-import { useLockBodyScroll } from "@uidotdev/usehooks";
+import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
 
 const Search = () => {
   useCheckAuth();

@@ -24,7 +24,7 @@ interface ISidebar {
   signOut?: () => void;
   myProfile?: boolean;
   profile_image?: string;
-  calling_code?: string;
+  callingCode?: string;
   is_locked_communication?: boolean;
   isSentRequest?: number;
   id?: number;
@@ -415,7 +415,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                     fill="#5E666E"
                   />
                 </svg>
-                <span className="ml-2">{`+${props?.calling_code}${props?.phone}`}</span>
+                <span className="ml-2">{`+${props?.callingCode} ${props?.phone}`}</span>
               </div>
             </div>
           </>

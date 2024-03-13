@@ -50,7 +50,7 @@ const Notifications = () => {
 
   return (
     <div className="d-flex flex-wrap mt-4 ">
-      <div className="d-flex m-3">
+      <div className="d-flex m-3 w-full">
         <span
           onClick={() => {
             setNotificationType("receive");
