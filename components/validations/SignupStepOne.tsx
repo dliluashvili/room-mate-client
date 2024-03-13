@@ -37,6 +37,7 @@ export function SignupStepOne({ formData }) {
         message: t("selectCountry"),
       }),
     birthDate: z.string().min(1, { message: t("selectAge") }),
+
     phone: z
       .string()
       .min(1, t("PhonenumberError"))
@@ -65,7 +66,7 @@ export function SignupStepOne({ formData }) {
       lastname: formData.lastname ? formData.lastname : "",
       genderId: formData.genderId ? formData.genderId : null,
       countryId: formData?.countryId ? formData.countryId : null,
-      age: formData.age ? formData.age : "",
+      birthDate: formData.birthDate ? formData.birthDate : "",
       email: formData.email ? formData.email : "",
       phone: formData.phone ? formData.phone : "",
       password: formData.password ? formData.password : "",

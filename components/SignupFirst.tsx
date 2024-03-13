@@ -20,6 +20,7 @@ import { BASE_URL_GRAPHQL } from "../services/api";
 import { DropdownIndicator, customStyles } from "./SelectUI";
 import { useState } from "react";
 import Image from "next/image";
+import { BirthDatePicker } from "./BirthDatePicker";
 
 export default function SignupFirst({
   countries,
@@ -219,16 +220,7 @@ export default function SignupFirst({
                   <FormItem>
                     <FormLabel>{t("age")}</FormLabel>
                     <FormControl>
-                      <BaseInput
-                        type="string"
-                        {...field}
-                        hasError={form.formState.errors.age}
-                        isSuccess={
-                          !form.formState.errors.age &&
-                          form.formState.touchedFields.age &&
-                          field.value !== ""
-                        }
-                      />
+                      <BirthDatePicker field={field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

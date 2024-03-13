@@ -41,10 +41,13 @@ export default function MultiStepCard({ countries, gender, questions }) {
     };
 
     delete modifiedFormData.code;
-    
+
     if (modifiedFormData.countryId) {
       modifiedFormData.countryId = Number(modifiedFormData.countryId.value);
     }
+    // if (modifiedFormData.birthDate) {
+    //   modifiedFormData.birthDate = Number(modifiedFormData.birthDate.value);
+    // }
     if (modifiedFormData.genderId) {
       modifiedFormData.genderId = Number(modifiedFormData.genderId.value);
     }
@@ -102,10 +105,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       });
 
       console.log(response);
-      if (
-        response?.data?.data &&
-        response?.data?.data?.signUp.accessToken
-      ) {
+      if (response?.data?.data && response?.data?.data?.signUp.accessToken) {
         dispatch(
           setCurrentUser({
             user: null,
