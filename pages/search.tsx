@@ -24,11 +24,9 @@ import {
   SheetContent,
   SheetTrigger,
 } from "../@/components/ui/sheet";
-import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
 
 const Search = () => {
   useCheckAuth();
-  useLockBodyScroll();
 
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [pageInfo, setPageInfo] = useState<any>(null);
