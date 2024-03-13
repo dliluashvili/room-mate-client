@@ -13,13 +13,12 @@ const SignupSecond = dynamic(() => import("./SignupSecond"));
 const SignupStepsHeader = dynamic(() => import("./SignupStepsHeader"));
 
 export default function MultiStepCard({ countries, gender, questions }) {
-  console.log(countries);
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({ answeredQuestions: {} });
-  console.log("this00", questions);
+
   let secondStep = questions?.slice(0, 7);
   let thirthStep = questions?.slice(8, 13);
   const showErrorWithHelp = () => {
@@ -42,9 +41,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
     };
 
     delete modifiedFormData.code;
-    if (modifiedFormData.age) {
-      modifiedFormData.age = Number(modifiedFormData.age);
-    }
+    
     if (modifiedFormData.countryId) {
       modifiedFormData.countryId = Number(modifiedFormData.countryId.value);
     }
@@ -61,25 +58,34 @@ export default function MultiStepCard({ countries, gender, questions }) {
 
       if (typeof value === "string") {
         answeredQuestions.push({ questionId: key, data: value });
+      } else if (Array.isArray(value)) {
+        if (typeof value[0] === "object") {
+          // Array of objects
+          let questionId = value[0]["questionId"];
+          let answerIds = value.map((item) => item["value"]);
+          answeredQuestions.push({
+            questionId: questionId,
+            answerIds: answerIds,
+          });
+        } else {
+          answeredQuestions.push({
+            questionId: key,
+            dataRange: value,
+          });
+        }
       } else if (typeof value === "object" && !Array.isArray(value)) {
         answeredQuestions.push({
           questionId: value["questionId"],
-          answerId: value["value"],
+          answerIds: [value["value"]],
         });
-      } else if (Array.isArray(value)) {
-        for (let item of value) {
-          answeredQuestions.push({
-            questionId: item["questionId"],
-            answerId: item["value"],
-          });
-        }
       }
     }
-    modifiedFormData.answeredQuestions = answeredQuestions;
 
+    modifiedFormData.answeredQuestions = answeredQuestions;
+    console.log("olla", modifiedFormData);
     const requestBody = {
-      query: `mutation Mutation($input: SignUpAndAnswerQuestionsInput!) {
-        signUpAndAnswerQuestion(input: $input) {
+      query: `mutation SignUp($input: UserAndAnsweredQuestionsInput!) {
+        signUp(input: $input) {
           accessToken
         }
       }`,
@@ -95,14 +101,15 @@ export default function MultiStepCard({ countries, gender, questions }) {
         },
       });
 
+      console.log(response);
       if (
         response?.data?.data &&
-        response?.data?.data?.signUpAndAnswerQuestion.accessToken
+        response?.data?.data?.signUp.accessToken
       ) {
         dispatch(
           setCurrentUser({
             user: null,
-            token: response.data.data.signUpAndAnswerQuestion.accessToken,
+            token: response.data.data.signUp.accessToken,
           })
         );
         router.push("/");
@@ -113,6 +120,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       }
     } catch (error) {
       showErrorWithHelp();
+      console.log(error);
     }
   };
 

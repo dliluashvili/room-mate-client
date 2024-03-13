@@ -214,13 +214,13 @@ export default function SignupFirst({
               />
               <FormField
                 control={form.control}
-                name="age"
+                name="birthDate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("age")}</FormLabel>
                     <FormControl>
                       <BaseInput
-                        type="number"
+                        type="string"
                         {...field}
                         hasError={form.formState.errors.age}
                         isSuccess={

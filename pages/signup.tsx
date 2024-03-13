@@ -76,7 +76,7 @@ export default function Signup() {
             getGendersLang2,
           },
         });
-        console.log(response);
+        
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -40,8 +40,11 @@ export default function SignupStepTwo({ questions, formData }) {
             .refine((obj) => Object.keys(obj).length >= 1, {
               message: t("filsRequire"),
             });
+        } else if (item.uiFieldInfo.input.variant === "calendar") {
+          fieldSchema = z
+            .array(z.string())
+            .min(1, { message: t("filsRequire") });
         } else if (
-          item.uiFieldInfo.input.type === "button" ||
           item.uiFieldInfo.input.type === "text" ||
           item.uiFieldInfo.input.type === "numeric" ||
           item.uiFieldInfo.input.type === "textarea"
@@ -72,6 +75,10 @@ export default function SignupStepTwo({ questions, formData }) {
           acc[item.id] = formData.answeredQuestions[item.id]
             ? formData.answeredQuestions[item.id]
             : null;
+        } else if (item.uiFieldInfo.input.variant === "calendar") {
+          acc[item.id] = formData.answeredQuestions[item.id]
+            ? formData.answeredQuestions[item.id]
+            : [];
         } else {
           acc[item.id] = formData.answeredQuestions[item.id] || "";
         }
@@ -79,7 +86,7 @@ export default function SignupStepTwo({ questions, formData }) {
       return acc;
     }, {}),
   };
-
+ 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,

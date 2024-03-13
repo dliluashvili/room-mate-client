@@ -36,16 +36,7 @@ export function SignupStepOne({ formData }) {
       .refine((obj) => Object.keys(obj).length >= 1, {
         message: t("selectCountry"),
       }),
-    age: z
-      .string()
-      .min(1, { message: t("selectAge") })
-      .refine(
-        (value) => {
-          const age = parseInt(value);
-          return !isNaN(age) && age >= 18 && age <= 100;
-        },
-        { message: t("ageRangeError") }
-      ),
+    birthDate: z.string().min(1, { message: t("selectAge") }),
     phone: z
       .string()
       .min(1, t("PhonenumberError"))
