@@ -20,14 +20,18 @@ export function BirthDatePicker({ field }) {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"calendar"}
+          variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-full md:hidden md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
             !date && "text-muted-foreground"
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "yyyy-MM-dd") : <span>Pick a date</span>}
+          <CalendarIcon className="mr-2 h-4 w-4 " />
+          {date ? (
+            format(date, "yyyy-MM-dd")
+          ) : (
+            <span className="text-muted-foreground">Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
