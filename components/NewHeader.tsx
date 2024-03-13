@@ -105,9 +105,11 @@ export default function NewHeader() {
             />
           </div>
           <span className="ml-2 text-xs xl:text-base xl:mr-3">
-            {!user || !user.firstname ? (
+            {user === undefined ? (
+              <span>{t("auth")}</span>
+            ) : user === null ? (
               <span className="placeholder-text">
-             <Skeleton className="w-[30px] h-[20px] rounded-full" />
+                <Skeleton className="w-[30px] h-[20px] rounded-full" />
               </span>
             ) : (
               <span>{user.firstname}</span>

@@ -15,6 +15,8 @@ export default function UserFilter({
   filterData,
   setSearch,
   search,
+
+  setShowFilter,
 }) {
   const router = useRouter();
   const [questions, setQuestions] = useState(null);
@@ -22,9 +24,8 @@ export default function UserFilter({
 
   const getFilterQuestions = async () => {
     try {
-      const lang = router.locale.toLocaleUpperCase();
       const query = `
-            query GetQuestions($getFor: QuestionsWithAnswersFor, $lang: LangEnum) {
+            query GetQuestions($getFor: QuestionsWithAnswersFor, $lang: Language) {
                 getQuestions(getFor: $getFor, lang: $lang) {
                     id
                     uiFieldInfo
@@ -49,7 +50,7 @@ export default function UserFilter({
       const response = await axios.post(BASE_URL_GRAPHQL, {
         query,
         variables: {
-          lang,
+          lang: router.locale === "en" ? "en" : "ka",
           getFor: "FILTER",
         },
       });
@@ -62,16 +63,14 @@ export default function UserFilter({
 
   useEffect(() => {
     getFilterQuestions();
-  }, []);
+  }, [router.locale]);
 
   return (
     <>
       <div className="w-full lg:w-[370px] flex flex-col gap-y-6">
-        {!questions ? (
-          <span>Loading...</span>
-        ) : (
+        {questions &&
           questions
-            ?.sort((a, b) => {
+            .sort((a, b) => {
               if (a.uiFieldInfo.input.type === "numeric") return 1;
               if (b.uiFieldInfo.input.type === "numeric") return -1;
               return 0;
@@ -165,9 +164,17 @@ export default function UserFilter({
                   </>
                 )}
               </div>
-            ))
-        )}
-       
+            ))}
+        <Button
+          variant="default"
+          className="mt-6 "
+          onClick={() => {
+            setSearch(!search);
+            setShowFilter(false);
+          }}
+        >
+          {t("searchBtn")}
+        </Button>
       </div>
     </>
   );

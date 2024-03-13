@@ -24,6 +24,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "../@/components/ui/sheet";
+import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
 
 const Search = () => {
   useCheckAuth();
@@ -35,6 +36,7 @@ const Search = () => {
   const [filterData, setFilterData] = useState([]);
   const [search, setSearch] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  useLockBodyScroll(showFilter);
 
   const { user } = useTypedSelector((state) => state.profile);
 
@@ -45,8 +47,8 @@ const Search = () => {
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
     const query = `
-            query FilterUsers($pagination: Pagination, $lang: LangEnum, $input: [FilterInput!]) {
-              filterUsers(pagination: $pagination, lang: $lang, input: $input) {
+            query FilterUsers($pagination: Pagination, $lang: Language, $input: [FilterInput!]) {
+              getFilteredUsers(pagination: $pagination, lang: $lang, input: $input) {
                 pageInfo {
                     hasNextPage
                     hasPrevious
@@ -87,7 +89,7 @@ const Search = () => {
             offset,
             limit,
           },
-          lang: router.locale === "en" ? LangEnum.En : LangEnum.Ka,
+          lang: router.locale === "en" ? "en" : "ka",
         },
       },
       {
@@ -96,12 +98,12 @@ const Search = () => {
         },
       }
     );
-
+    console.log(response);
     setLoading(false);
 
     if (!response.data?.errors) {
-      setSearchResults(response.data.data.filterUsers.list);
-      setPageInfo(response.data.data.filterUsers.pageInfo);
+      setSearchResults(response.data.data.getFilteredUsers.list);
+      setPageInfo(response.data.data.getFilteredUsers.pageInfo);
     }
   };
 
@@ -148,6 +150,7 @@ const Search = () => {
               filterData={filterData}
               search={search}
               setSearch={setSearch}
+              setShowFilter={setShowFilter}
             />
           </div>
           <div
@@ -160,12 +163,9 @@ const Search = () => {
           </div>
 
           <div
-            className={
-              "fixed top-[58px] z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
-            }
-            style={{
-              transform: showFilter ? "translateX(0)" : "translateX(-120%)",
-            }}
+            className={`fixed top-[58px] z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto h-full slide-in ${
+              showFilter ? "" : "hidden"
+            }`}
           >
             <div className="flex flex-row justify-end">
               <Image
@@ -181,59 +181,9 @@ const Search = () => {
                 filterData={filterData}
                 search={search}
                 setSearch={setSearch}
-              />
-              <UserFilter
-                setFilterData={setFilterData}
-                filterData={filterData}
-                search={search}
-                setSearch={setSearch}
+                setShowFilter={setShowFilter}
               />
             </div>
-          </div>
-          <div>
-            <dialog>
-              <header>
-                <button onClick={() => setShowFilter(!showFilter)}>
-                  close
-                </button>
-                <h2>Modal</h2>
-              </header>
-              <section>
-                <div
-                  className={
-                    "fixed top-[58px] z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
-                  }
-                  style={{
-                    transform: showFilter
-                      ? "translateX(0)"
-                      : "translateX(-120%)",
-                  }}
-                >
-                  <div className="flex flex-row justify-end">
-                    <Image
-                      width={28}
-                      height={28}
-                      src={CloseIcone}
-                      onClick={() => setShowFilter(!showFilter)}
-                    />
-                  </div>
-                  <div className="mt-6">
-                    <UserFilter
-                      setFilterData={setFilterData}
-                      filterData={filterData}
-                      search={search}
-                      setSearch={setSearch}
-                    />
-                    <UserFilter
-                      setFilterData={setFilterData}
-                      filterData={filterData}
-                      search={search}
-                      setSearch={setSearch}
-                    />
-                  </div>
-                </div>
-              </section>
-            </dialog>
           </div>
 
           {loading ? (
