@@ -24,10 +24,29 @@ export default function Signup() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const lang = router.locale.toLocaleUpperCase(); // Set your desired language here
-
+        const lang = router.locale.toLocaleLowerCase(); // Set your desired language here
+        const getGendersLang2 = router.locale.toLocaleLowerCase();
         const query = `
-          query CombinedQuery($lang: LangEnum) {
+          query CombinedQuery($lang: Language, $getGendersLang2: Language) {
+           
+            getGenders(lang: $getGendersLang2) {
+              id
+              translations {
+                id
+                lang
+                sex
+              }
+            }
+            getCountries(lang: $lang){
+              id
+              alpha2Code
+              position
+              translations {
+                id
+                lang
+                name
+              }
+            }
             getQuestions(lang: $lang) {
               answers {
                 id
@@ -47,24 +66,6 @@ export default function Signup() {
                 title
               }
             }
-            findAllGender {
-              id
-              translations(lang: $lang) {
-                id
-                lang
-                sex
-              }
-            }
-            findAllCountry {
-              id
-              alpha2Code
-              position
-              translations(lang: $lang) {
-                id
-                lang
-                name
-              }
-            }
           }
         `;
 
@@ -72,9 +73,10 @@ export default function Signup() {
           query,
           variables: {
             lang,
+            getGendersLang2,
           },
         });
-
+        
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -83,13 +85,13 @@ export default function Signup() {
 
     fetchData();
   }, []);
-
+  console.log(data);
   return (
     <>
       <NewHeader />
       <MultiStepCard
-        countries={data?.data?.findAllCountry}
-        gender={data?.data?.findAllGender}
+        countries={data?.data?.getCountries}
+        gender={data?.data?.getGenders}
         questions={data?.data?.getQuestions}
       />
       <NewFooter />

@@ -18,9 +18,17 @@ import { Button } from "../@/components/ui/button";
 import CloseIcone from "../public/newImages/close-circle.svg";
 import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "../@/components/ui/sheet";
+import { useLockBodyScroll } from "@uidotdev/usehooks";
 
 const Search = () => {
   useCheckAuth();
+  useLockBodyScroll();
 
   const [searchResults, setSearchResults] = useState<ISearchItems[]>([]);
   const [pageInfo, setPageInfo] = useState<any>(null);
@@ -122,10 +130,8 @@ const Search = () => {
     setSearchResults(updatedSearchResults);
   };
 
-  console.log(filterData);
-
   return (
-    <div className="overflow-hidden">
+    <>
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -144,8 +150,6 @@ const Search = () => {
               filterData={filterData}
               search={search}
               setSearch={setSearch}
-              showFilter={showFilter}
-              setShowFilter={setShowFilter}
             />
           </div>
           <div
@@ -159,7 +163,7 @@ const Search = () => {
 
           <div
             className={
-              "absolute top-1 z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
+              "fixed top-[58px] z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
             }
             style={{
               transform: showFilter ? "translateX(0)" : "translateX(-120%)",
@@ -179,10 +183,59 @@ const Search = () => {
                 filterData={filterData}
                 search={search}
                 setSearch={setSearch}
-                showFilter={showFilter}
-                setShowFilter={setShowFilter}
+              />
+              <UserFilter
+                setFilterData={setFilterData}
+                filterData={filterData}
+                search={search}
+                setSearch={setSearch}
               />
             </div>
+          </div>
+          <div>
+            <dialog>
+              <header>
+                <button onClick={() => setShowFilter(!showFilter)}>
+                  close
+                </button>
+                <h2>Modal</h2>
+              </header>
+              <section>
+                <div
+                  className={
+                    "fixed top-[58px] z-50 px-6 pt-6 pb-14 bg-white flex flex-col w-full overflow-y-auto min-h-screen slide-in "
+                  }
+                  style={{
+                    transform: showFilter
+                      ? "translateX(0)"
+                      : "translateX(-120%)",
+                  }}
+                >
+                  <div className="flex flex-row justify-end">
+                    <Image
+                      width={28}
+                      height={28}
+                      src={CloseIcone}
+                      onClick={() => setShowFilter(!showFilter)}
+                    />
+                  </div>
+                  <div className="mt-6">
+                    <UserFilter
+                      setFilterData={setFilterData}
+                      filterData={filterData}
+                      search={search}
+                      setSearch={setSearch}
+                    />
+                    <UserFilter
+                      setFilterData={setFilterData}
+                      filterData={filterData}
+                      search={search}
+                      setSearch={setSearch}
+                    />
+                  </div>
+                </div>
+              </section>
+            </dialog>
           </div>
 
           {loading ? (
@@ -223,7 +276,7 @@ const Search = () => {
       </div>
 
       <NewFooter />
-    </div>
+    </>
   );
 };
 

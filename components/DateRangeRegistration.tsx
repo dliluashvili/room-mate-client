@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
-
 import { cn } from "../@/lib/utils";
 import { Button } from "../@/components/ui/button";
 import { Calendar } from "../@/components/ui/calendar";
@@ -17,22 +16,20 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "../@/components/ui/drawer";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   setFilterData?: any;
+  updateUseForm?: any;
+  field?: any;
   id?: string;
   filterData?: any; // Assuming setFilterData can be of any type
 }
 
-export const DatePickerWithRange: React.FC<Props> = ({
+export const DatePickerWithRangeRegistration: React.FC<Props> = ({
   className,
-  setFilterData,
-  filterData,
+  updateUseForm,
+  field,
   id,
 }: Props) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -79,33 +76,18 @@ export const DatePickerWithRange: React.FC<Props> = ({
               selected={date}
               onSelect={(newDate) => {
                 if (newDate?.from && newDate?.to) {
-                  const filtered = {
-                    questionId: id,
-                    dataRange: [
+                  field.onChange([
+                    format(newDate.from, "yyyy-MM-dd"),
+                    format(newDate.to, "yyyy-MM-dd"),
+                  ]);
+                  updateUseForm({
+                    [id]: [
                       format(newDate.from, "yyyy-MM-dd"),
                       format(newDate.to, "yyyy-MM-dd"),
                     ],
-                  };
-
-                  // Create a new array based on the current filterData
-                  let newFilterData = [...filterData];
-
-                  // Find the index of the item with the same questionId
-                  const index = newFilterData.findIndex(
-                    (item) => item.questionId === id
-                  );
-
-                  if (index !== -1) {
-                    // Replace the existing item
-                    newFilterData[index] = filtered;
-                  } else {
-                    // Add the new item
-                    newFilterData.push(filtered);
-                  }
-
-                  // Update the state
-                  setFilterData(newFilterData);
+                  });
                 }
+
                 setDate(newDate);
               }}
             />
@@ -150,33 +132,18 @@ export const DatePickerWithRange: React.FC<Props> = ({
             selected={date}
             onSelect={(newDate) => {
               if (newDate?.from && newDate?.to) {
-                const filtered = {
-                  questionId: id,
-                  dataRange: [
+                field.onChange([
+                  format(newDate.from, "yyyy-MM-dd"),
+                  format(newDate.to, "yyyy-MM-dd"),
+                ]);
+                updateUseForm({
+                  [id]: [
                     format(newDate.from, "yyyy-MM-dd"),
                     format(newDate.to, "yyyy-MM-dd"),
                   ],
-                };
-
-                // Create a new array based on the current filterData
-                let newFilterData = [...filterData];
-
-                // Find the index of the item with the same questionId
-                const index = newFilterData.findIndex(
-                  (item) => item.questionId === id
-                );
-
-                if (index !== -1) {
-                  // Replace the existing item
-                  newFilterData[index] = filtered;
-                } else {
-                  // Add the new item
-                  newFilterData.push(filtered);
-                }
-
-                // Update the state
-                setFilterData(newFilterData);
+                });
               }
+
               setDate(newDate);
             }}
           />

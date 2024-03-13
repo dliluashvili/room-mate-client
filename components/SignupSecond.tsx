@@ -5,6 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../@/components/ui/form";
 import { BaseInput } from "../@/components/ui/input";
 import { Button } from "../@/components/ui/button";
@@ -23,6 +24,7 @@ import Select from "react-select";
 import arroLeft from "../public/newImages/arrow-left.svg";
 import Image from "next/image";
 import { DropdownIndicator, customStyles } from "./SelectUI";
+import { DatePickerWithRangeRegistration } from "./DateRangeRegistration";
 
 export default function SignupSecond({
   questions,
@@ -50,6 +52,7 @@ export default function SignupSecond({
     const updatedData = { ...answeredQuestions, ...data };
     updateFormData({ ...formData, answeredQuestions: updatedData });
   };
+
 
   return (
     <>
@@ -204,44 +207,12 @@ export default function SignupSecond({
                             <FormLabel className="leading-5">
                               {item.translations[0].title}
                             </FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  <Button
-                                    {...field}
-                                    value={field.value}
-                                    variant="calendar"
-                                    className={cn(
-                                      "w-full md:w-full px-3 py-5 border text-left font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
-                                      !field.value && "text-muted-foreground"
-                                    )}
-                                  >
-                                    <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
-                                    {field.value ? (
-                                      format(field.value, "PPP")
-                                    ) : (
-                                      <span>Select date</span>
-                                    )}
-                                  </Button>
-                                </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent
-                                className="w-auto p-0"
-                                align="start"
-                              >
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={(date) => {
-                                    field.onChange(date.toISOString()),
-                                      updateUseForm({
-                                        [item.id]: date.toISOString(),
-                                      });
-                                  }}
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
+                            <DatePickerWithRangeRegistration
+                              id={item.id}
+                              updateUseForm={updateUseForm}
+                              field={field}
+                            />
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
