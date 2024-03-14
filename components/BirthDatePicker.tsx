@@ -15,7 +15,7 @@ import {
 import useTranslation from "next-translate/useTranslation";
 
 export function BirthDatePicker({ field }) {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date>(field.value);
   let { t } = useTranslation("common");
 
   return (
@@ -24,15 +24,15 @@ export function BirthDatePicker({ field }) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
+            "w-full md:w-full h-[48px] px-3 py-2 border text-left hover:bg-white  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
             !date && "text-muted-foreground"
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4 " />
+          <CalendarIcon className="mr-2 h-4 w-4 mb-[1px] " />
           {date ? (
-            format(date, "yyyy-MM-dd")
+            format(date, "LLL dd, y")
           ) : (
-            <span className="text-muted-foreground">{t("chooseDate")}</span>
+            <span className="text-muted-foreground ">{t("chooseDate")}</span>
           )}
         </Button>
       </PopoverTrigger>
