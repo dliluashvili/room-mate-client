@@ -113,7 +113,6 @@
   "haveTosentQequest": "You have sent a request to  {{name}} {{lastname}}  to view contacts  ",
   "approvedYouRequest": "Congratulations! {{name}} {{lastname}}  has accepted your request.",
   "approvedYouRequest2": "Go to their profile and message them to exchange contact information and/or social media.",
-
   "approvedYouRequest4": "If you're looking for an available affordable apartment, write to us in the messenger chat for consultation.",
   "approvedYouRequest5": "Wishing you success! ⭐️",
   "rejectedYouRequest": "{{name}} {{lastname}} - declined your request",
@@ -155,7 +154,7 @@
   "maximumPersonsInApartamnet": "maximum persons in apartamnet",
   "Numberofrooms": "number of rooms",
   "RentAmountPerPerson": "rent amount per person",
-  "totalRent": "total rent",
+
   "RentAnApartment": "Rent an apartment",
   "savedApartments": "saved apartments",
   "mdebareoba": "location",
