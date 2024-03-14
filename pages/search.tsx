@@ -152,7 +152,7 @@ const Search = () => {
             id="butt"
             className="lg:hidden bg-[#F2F5FF] w-[140px] flex flex-row py-3 px-4  rounded-lg ml-6 md:ml-24 mt-4 mb-4"
           >
-            <Image src={FilterIcon} width={24} height={24} />
+            <Image src={FilterIcon} width={24} height={24} alt={""} />
             <p className="text-sm ml-3 text-[#838CAC] pointer">ფილტრი</p>
           </div>
 
@@ -167,6 +167,7 @@ const Search = () => {
                 height={28}
                 src={CloseIcone}
                 onClick={() => setShowFilter(!showFilter)}
+                alt={""}
               />
             </div>
             <div className="mt-6">
