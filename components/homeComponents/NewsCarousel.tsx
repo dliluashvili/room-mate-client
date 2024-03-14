@@ -8,9 +8,9 @@ import {
   CarouselPrevious,
 } from "../../@/components/ui/carousel";
 
-import blogFirst from "../../public/newImages/blog-first.svg";
-import blogSecond from "../../public/newImages/blog-second.svg";
-import blogThirth from "../../public/newImages/blog-thirth.svg";
+import blogFirst from "../../public/newImages/blog-first.png";
+import blogSecond from "../../public/newImages/blog-second.png";
+import blogThirth from "../../public/newImages/blog-thirth.png";
 import Image from "next/image";
 import { Button } from "../../@/components/ui/button";
 import { useMediaQuery } from "react-responsive";

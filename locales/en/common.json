@@ -251,5 +251,7 @@
   "notifications": "Notifications",
   "viewAll": "View all",
   "room": "room",
-  "area": "area"
+  "area": "area",
+  "chooseDate": "Pick a date",
+  "submit": "Submit" 
 }

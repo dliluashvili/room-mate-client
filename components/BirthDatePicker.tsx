@@ -12,9 +12,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../@/components/ui/popover";
+import useTranslation from "next-translate/useTranslation";
 
 export function BirthDatePicker({ field }) {
   const [date, setDate] = React.useState<Date>();
+  let { t } = useTranslation("common");
 
   return (
     <Popover>
@@ -30,7 +32,7 @@ export function BirthDatePicker({ field }) {
           {date ? (
             format(date, "yyyy-MM-dd")
           ) : (
-            <span className="text-muted-foreground">Pick a date</span>
+            <span className="text-muted-foreground">{t("chooseDate")}</span>
           )}
         </Button>
       </PopoverTrigger>
