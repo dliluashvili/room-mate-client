@@ -1,52 +1,52 @@
 .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
 
-  &-light {
-    background: #fff;
-    border: 1px solid $brandColor;
-    color: $brandColor;
-    font-size: 14px;
-    font-weight: 400;
-    border-radius: 3px;
-    height: 34px;
+    &-light {
+        background: #fff;
+        border: 1px solid $brandColor;
+        color: $brandColor;
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 3px;
+        height: 34px;
 
-    &:hover {
-      background: rgb(231, 252, 228);
-      border: 1px solid $brandColor;
-      color: $brandColor;
+        &:hover {
+            background: rgb(231, 252, 228);
+            border: 1px solid $brandColor;
+            color: $brandColor;
+        }
     }
-  }
-  &-wight {
-    color: #fff !important;
-    border-color: #fff;
-    background-color: transparent;
-    &:hover {
-      background: rgb(231, 252, 228);
-      border: 1px solid $brandColor;
-      color: $brandColor !important;
+    &-wight {
+        color: #fff !important;
+        border-color: #fff;
+        background-color: transparent;
+        &:hover {
+            background: rgb(231, 252, 228);
+            border: 1px solid $brandColor;
+            color: $brandColor !important;
+        }
     }
-  }
-  &-primary {
-    background-color: $brandColor;
-    border: 1px solid $brandColor;
-    height: 42px;
-    font-size: 14px;
-    &:hover {
-      background-color: $brandColor;
-      border: 1px solid $brandColor;
+    &-primary {
+        background-color: $brandColor;
+        border: 1px solid $brandColor;
+        height: 42px;
+        font-size: 14px;
+        &:hover {
+            background-color: $brandColor;
+            border: 1px solid $brandColor;
+        }
     }
-  }
 }
 
 .langs {
-  font-size: 14px;
-  cursor: pointer;
-  span {
-    color: #fff;
-    padding-left: 5px;
-    display: inline-block;
-  }
+    font-size: 14px;
+    cursor: pointer;
+    span {
+        color: #fff;
+        padding-left: 5px;
+        display: inline-block;
+    }
 }

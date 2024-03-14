@@ -5,14 +5,13 @@ import Link from "next/link";
 import { AuthService } from "../services/auth/auth.http";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/action-creators/index";
-import Header from "../components/Header";
-import Footer from "../components/footer";
-import axios from "axios";
 import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Logo from "../components/svg/logo";
 import useTranslation from "next-translate/useTranslation";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 interface ILoginForm {
   password: string;
@@ -32,7 +31,7 @@ const Login = () => {
     control,
     watch,
     getValues,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ILoginForm>();
 
   let { t } = useTranslation("common");
@@ -63,7 +62,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
+            progress: undefined,
           });
         } else {
           toast.error(e?.response?.data?.message, {
@@ -73,7 +72,7 @@ const Login = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
+            progress: undefined,
           });
         }
       } else {
@@ -84,19 +83,17 @@ const Login = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined
+          progress: undefined,
         });
       }
     }
   });
 
-  console.log(errors);
-
   return (
     <div className="login">
       <ToastContainer />
 
-      <Header />
+      <NewHeader />
 
       <div className="container loginSection w-25 mt-5">
         <div className="loginSection_container">
@@ -133,7 +130,7 @@ const Login = () => {
                   hasError={!!errors?.phone}
                   useRef={register("phone")}
                   {...register("phone", {
-                    required: "მოობილური აუცილებელია"
+                    required: "მოობილური აუცილებელია",
                   })}
                 />
               </FormGroup>
@@ -156,29 +153,18 @@ const Login = () => {
                   hasError={!!errors?.password}
                   placeholder="password"
                   {...register("password", {
-                    required: "პაროლი აუცილებელია"
+                    required: "პაროლი აუცილებელია",
                   })}
                 />
               </FormGroup>
 
-              {/* <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-                <label className="form-check-label k" htmlFor="exampleCheck1">
-                  Remember me
-                </label>
-              </div> */}
-
               <Button
                 loading={load}
-                className="btn btn-primary w-100 mt-3 py-2 mb-3"
+                className="btn btn-primary w-100 mt-3 py-2 mb-3 bg-[#19a463]"
               >
                 {t("enter")}
               </Button>
-              <Link href="/createProfile">
+              <Link href="/signup">
                 <a className="label">{t("register")} </a>
               </Link>
               <br />
@@ -189,39 +175,9 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <NewFooter />
     </div>
   );
 };
 
 export default Login;
-
-// import React from "react";
-// import { useForm } from "react-hook-form";
-
-// export default function App() {
-//   const {
-//     register,
-//     handleSubmit,
-//     // watch,
-//     formState: { errors },
-//   } = useForm();
-//   const onSubmit = (data) => console.log(data);
-
-//   //   console.log(watch("example")); // watch input value by passing the name of it
-
-//   return (
-//     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       {/* register your input into the hook by invoking the "register" function */}
-//       <input defaultValue="test" {...register("example")} />
-
-//       {/* include validation with required or other standard HTML validation rules */}
-//       <input {...register("exampleRequired", { required: true })} />
-//       {/* errors will return when field validation fails  */}
-//       {errors.exampleRequired && <span>This field is required</span>}
-
-//       <input type="submit" />
-//     </form>
-//   );
-// }

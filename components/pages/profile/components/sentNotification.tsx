@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import NotificationsCard from "./notificationsCard";
 import {
   ProfileService,
-  INotificationReceiver,
   INotificationSent,
 } from "../../../../services/profile/profile.http";
-import classNames from "classnames";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import useTranslation from "next-translate/useTranslation";
+import Loader from "../../../common/loader";
 
 const SentNotification = () => {
   const [sentNotifications, setSentNotifications] = useState<
     INotificationSent[] | null
   >(null);
+  const [loading, setLoading] = useState(false);
 
   let { t } = useTranslation("common");
 
@@ -23,6 +23,7 @@ const SentNotification = () => {
   const checkUnAuth = useCheckUnAuthResponse();
 
   useEffect(() => {
+    setLoading(true);
     ProfileService.getSentNotifications()
       .then((res) => {
         setSentNotifications(res.data);
@@ -32,6 +33,9 @@ const SentNotification = () => {
         if (err?.response?.data?.message === "Unauthorized") {
           checkUnAuth();
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -59,13 +63,18 @@ const SentNotification = () => {
       });
   };
 
+  if (loading) {
+    return <Loader className="mt-12 h-auto w-full ml-auto mr-auto static" />;
+  }
+
   return (
     <>
       {sentNotifications?.map((el, i) => {
         return (
-          <div key={i} className="">
-            <ToastContainer />
+          <div key={i} className="flex flex-wrap">
+            {/* <ToastContainer /> */}
             <NotificationsCard
+              className="mr-3"
               text={
                 el.status === 1 ? (
                   t("haveTosentQequest", {
@@ -81,12 +90,11 @@ const SentNotification = () => {
                     <div>
                       {t("approvedYouRequest2")}
                       <br />
-                      <br />
-                      {t("approvedYouRequest3")}
 
                       <br />
                       {t("approvedYouRequest4")}
 
+                      <br />
                       <br />
                       {t("approvedYouRequest5")}
                     </div>
@@ -112,7 +120,7 @@ const SentNotification = () => {
                   onClick={() => {
                     router.push("/user/" + el.receiver_id);
                   }}
-                  className="btn btn-success w-100"
+                  className="btn btn-success bg-[#19a463] w-100"
                 >
                   {t("seeProfile")}
                 </Button>
@@ -121,10 +129,11 @@ const SentNotification = () => {
                   onClick={() => {
                     router.push("/user/" + el.receiver_id);
                   }}
+                  disabled
                   // onClick={() => handleRemoveRequest(el.receiver_id)}
-                  className="btn btn-danger w-100"
+                  className="btn btn-danger w-100 bg-[#dc3545]"
                 >
-                  {t("seeProfile")}
+                  {t("requestRejected")}
                 </Button>
               ) : null}
             </NotificationsCard>

@@ -1,6 +1,6 @@
 .searchPage {
   min-height: 100vh;
-  padding-top: 70px;
+
   &-houses {
     .container {
       max-width: 990px !important;
@@ -10,7 +10,8 @@
     }
   }
   .container {
-    max-width: 900px;
+    justify-content: center;
+    max-width: 100%;
   }
   .searchBtnWrapper {
     border-top: 1px solid #e3e3e3;
@@ -29,7 +30,6 @@
   &_mainContent {
     max-width: 526px;
     width: 100%;
-    margin-left: 50px;
   }
 }
 
@@ -307,8 +307,6 @@
     .search_item > label {
       font-size: 12px;
     }
-  }
-  .searchPage .container {
   }
   .search_mainContent {
     margin: auto;

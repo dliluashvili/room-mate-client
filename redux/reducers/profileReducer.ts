@@ -19,7 +19,7 @@ interface IUser {
   payed?: boolean;
   phone?: string;
   profile_image?: string;
-  notifications?: number;
+  notifications?: { [key: string]: any }[];
   social_network?: string;
   is_locked_communication?: boolean;
   answeredAnswers: IAnsweredAnswers[];

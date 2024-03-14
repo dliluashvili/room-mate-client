@@ -7,14 +7,15 @@ export interface ISearchItems {
   age: number;
   firstname: string;
   id: number;
-  payed: boolean;
-  suitableDistricts: string[];
-  suitablePrices: string[];
   users_is_locked_communication: boolean;
   isFavourite: boolean;
-  about_me: string;
   profile_image: string;
   favourite_id?: number;
+  cardInfo: {
+    districtNames: string;
+    budget: number;
+    bio: string;
+  };
 }
 
 interface IMeta {
@@ -78,16 +79,20 @@ class _ProfileService {
     });
   };
 
-  getUserById = (id: string): AxiosPromise<IUserProfile> => {
-    return axiosWithToken.get(backEndRoutes.profile.getUserById(id));
+  getUserById = (id: string, locale: string): AxiosPromise<IUserProfile> => {
+    return axiosWithToken.get(backEndRoutes.profile.getUserById(id, locale));
   };
 
   getFavorites = ({
     lang,
+    limit,
+    offset,
   }): AxiosPromise<{ data: ISearchItems[]; meta: IMeta }> => {
     return axiosWithToken.get(backEndRoutes.profile.getFavorites(), {
       params: {
         locale: lang,
+        limit,
+        offset,
       },
     });
   };
@@ -103,7 +108,11 @@ class _ProfileService {
     });
   };
 
-  postReports = (data: { userId: number, reportId: number, text?: string }): AxiosPromise<INotificationSent[]> => {
+  postReports = (data: {
+    userId: number;
+    reportId: number;
+    text?: string;
+  }): AxiosPromise<INotificationSent[]> => {
     return axiosWithToken.post(backEndRoutes.profile.getReports(), data);
   };
 
@@ -122,9 +131,7 @@ class _ProfileService {
   };
 
   addContactRequest = (id: number): AxiosPromise<IUserProfile> => {
-    return axiosWithToken.post(backEndRoutes.profile.addContactRequest(id), {
-      favourite_id: id,
-    });
+    return axiosWithToken.post(backEndRoutes.profile.addContactRequest(id));
   };
 
   deleteContactRequest = (id: number): AxiosPromise<IUserProfile> => {

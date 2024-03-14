@@ -3,6 +3,7 @@ import { store } from "../redux/store";
 import { Provider } from "react-redux";
 import Head from "next/head";
 import "../style/style.scss";
+import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { SearchProvider } from "../components/pages/search/context/searchContext";
 import { HouseSearchProvider } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
@@ -31,14 +32,18 @@ function MyApp({ Component, pageProps }) {
           sizes="180x180"
           href="/imgs/loop-04.png"
         ></link>
-        <meta property="og:title" content="Roommate Georgia" key="og:title"/>
+        <meta property="og:title" content="Roommate Georgia" key="og:title" />
         <meta
           property="og:description"
           content="იპოვე ოთახის მეზობელი და
           გაიყავი ბინის ქირა"
           key="og:description"
         />
-        <meta property="og:image" content="https://i.imgur.com/eZmxufE.png" key="og:image"/>
+        <meta
+          property="og:image"
+          content="https://i.imgur.com/eZmxufE.png"
+          key="og:image"
+        />
 
         <script
           async

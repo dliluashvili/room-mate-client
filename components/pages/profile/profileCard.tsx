@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
 
-
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
   setPayModal?: (payed: boolean) => void;
@@ -16,21 +15,18 @@ interface IProps extends ISearchItems {
 const ProfileCard: React.FC<IProps> = ({
   age,
   firstname,
-  suitableDistricts,
-  suitablePrices,
   id,
   favourite_id,
   isFavourite,
-  about_me,
-  payed,
   setPayModal,
   profile_image,
-
+  cardInfo,
   updateAddRemove,
 }) => {
   const addRemoveFromFavorites = () => {
     let requestId = favourite_id ? favourite_id : id;
-    ProfileService.addRemoveFavorites(requestId)
+
+    ProfileService.addRemoveFavorites(Number(requestId))
       .then((res) => {
         updateAddRemove(requestId, isFavourite);
       })
@@ -43,6 +39,10 @@ const ProfileCard: React.FC<IProps> = ({
 
   const { user } = useTypedSelector((state) => state.profile);
   const router = useRouter();
+
+  const districtNames = cardInfo?.districtNames;
+  const budget = cardInfo?.budget;
+  const bio = cardInfo?.bio;
 
   return (
     <div className="userCard_wrapper">
@@ -75,13 +75,7 @@ const ProfileCard: React.FC<IProps> = ({
             bluer: !user?.payed,
           })}
         >
-          {suitablePrices &&
-            suitablePrices[0].split("-")[0] +
-              "-" +
-              suitablePrices[suitablePrices.length - 1]
-                .split("-")[1]
-                .replace("ლარი", "₾ ")}{" "}
-          {t("InMonth")}
+          {!!budget && `${budget}$ - ${t("InMonth")} `}
         </div>
       </div>
       <div className="userCard_body d-flex">
@@ -120,12 +114,11 @@ const ProfileCard: React.FC<IProps> = ({
           />
         </div>
 
-        <p>{about_me}</p>
+        <p>{bio}</p>
       </div>
       <div className="userCard_footer d-flex justify-content-between ">
         <div className="d-flex align-items-center">
           <svg
-            className="pr-2"
             width="13"
             height="18"
             viewBox="0 0 13 18"
@@ -138,14 +131,14 @@ const ProfileCard: React.FC<IProps> = ({
             />
           </svg>
           <span
-            className={classnames("pl-2 userCard_footer_locations ", {
+            className={classnames("userCard_footer_locations ", {
               bluer: !user?.payed,
             })}
           >
-            {suitableDistricts && suitableDistricts.join(", ")}
+            {districtNames}
           </span>
         </div>
-        <div className="d-flex pointer ">
+        <div className="d-flex pointer">
           <div
             onClick={() => {
               if (!user?.payed) {
@@ -155,7 +148,7 @@ const ProfileCard: React.FC<IProps> = ({
               }
               addRemoveFromFavorites();
             }}
-            className="mx-3 "
+            className="mx-3 d-flex"
           >
             {isFavourite ? (
               <svg

@@ -17,7 +17,7 @@ const ProfileTab: React.FC<IProps> = ({ tabs }) => {
             <Link key={i} href={el.path}>
               <a
                 className={classnames("btn", {
-                  active: router.asPath === el.path,
+                  active: router.pathname === el.path,
                 })}
               >
                 {el.label}

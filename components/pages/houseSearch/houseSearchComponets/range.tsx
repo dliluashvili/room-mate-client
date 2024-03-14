@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { IQuestions } from "../../../../services/questions/questions.http";
-import classnames from "classnames";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useContext, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import { HouseSearchContext } from "./houseSearchContext";
 
 interface IProps {

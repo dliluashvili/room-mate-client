@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import {
-  ProfileService
-} from "../../../services/profile/profile.http";
+import { ProfileService } from "../../../services/profile/profile.http";
 import classNames from "classnames";
 import ReceiveNotification from "./components/receiveNotification";
 import SentNotification from "./components/sentNotification";
@@ -16,18 +14,26 @@ const Notifications = () => {
   );
   let { t } = useTranslation("common");
 
+  const backendNotificationType =
+    notificationType === "receive" ? "received_request" : "answer_to_request";
+
   const user = useTypedSelector((state) => state.profile.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.notifications) {
-      ProfileService.updateNotifications({})
+    if (user?.notifications?.length) {
+      ProfileService.updateNotifications({
+        type: backendNotificationType,
+      })
         .then((res) => {
           dispatch(
             setCurrentUser({
               user: {
                 ...user,
-                notifications: 1,
+                notifications: user.notifications.filter(
+                  (notification) =>
+                    notification.type !== backendNotificationType
+                ),
               },
             })
           );
@@ -36,11 +42,15 @@ const Notifications = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [notificationType]);
+
+  const sentNotifications = user?.notifications?.filter(
+    (notification) => notification.type === "answer_to_request"
+  );
 
   return (
     <div className="d-flex flex-wrap mt-4 ">
-      <div className="d-flex m-3">
+      <div className="d-flex m-3 w-full">
         <span
           onClick={() => {
             setNotificationType("receive");
@@ -55,14 +65,19 @@ const Notifications = () => {
           onClick={() => {
             setNotificationType("sent");
           }}
-          className={classNames("btn btn-light  ", {
+          className={classNames("btn btn-light relative", {
             ["active"]: notificationType !== "sent",
           })}
         >
           {t("sent")}
+          {!!sentNotifications?.length && (
+            <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
+              {sentNotifications.length}
+            </div>
+          )}
         </span>
       </div>
-      <div className="container notificationsContainer p-0">
+      <div className="container notificationsContainer p-0 justify-start">
         {notificationType === "receive" ? (
           <ReceiveNotification />
         ) : (

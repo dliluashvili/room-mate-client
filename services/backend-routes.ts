@@ -17,14 +17,15 @@ export const backEndRoutes = {
     getReports: () => `${BASE_URL}/reports`,
     getUser: (token: string) => `${BASE_URL}/auth/profile`,
     search: () => `${BASE_URL}/users/search`,
-    getUserById: (id: string) => `${BASE_URL}/users/profile/${id}`,
+    getUserById: (id: string, locale: string) =>
+      `${BASE_URL}/users/profile/${id}/${locale}`,
     getFavorites: () => `${BASE_URL}/favourites`,
     getSentNotifications: () => `${BASE_URL}/requests/sent`,
     getReceivedNotifications: () => `${BASE_URL}/requests/received`,
     getAgents: () => `${BASE_URL}/estate-agents`,
     addRemoveFavorites: () => `${BASE_URL}/favourites/add-or-remove`,
-    addContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
-    removeContactRequest: (id: number) => `${BASE_URL}​/requests/${id}`,
+    addContactRequest: (id: number) => `${BASE_URL}/requests/${id}`,
+    removeContactRequest: (id: number) => `${BASE_URL}/requests/${id}`,
     approveRejectContact: (id: number) => `${BASE_URL}/requests/answer/${id}`,
     updateLockCommunication: () =>
       `${BASE_URL}/users/update-lock-communication`,
@@ -37,9 +38,9 @@ export const backEndRoutes = {
   },
   questions: {
     getQuestions: () => `${BASE_URL}/questions`,
-    saveAnswers: () => `${BASE_URL}​/user-answers/save`,
-    updateAnswers: () => `${BASE_URL}​/user-answers/update`,
-    checkPhone: () => `${BASE_URL}​/users/check-phone`,
+    saveAnswers: () => `${BASE_URL}/user-answers/save`,
+    updateAnswers: () => `${BASE_URL}/user-answers/update`,
+    checkPhone: () => `${BASE_URL}/users/check-phone`,
     checkSmsCode: () => `${BASE_URL}/sms-api/check`,
   },
 

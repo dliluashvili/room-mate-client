@@ -1,21 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/footer";
-import { Questions, IQuestions } from "../services/questions/questions.http";
 import { Flats } from "../services/flats/flats.http";
-import { ProfileService, ISearchItems } from "../services/profile/profile.http";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
-// import Choice from "../components/pages/search/searchItems/choice";
 import Choice from "../components/pages/houseSearch/houseSearchComponets/choice";
-
-import { SearchProvider } from "../components/pages/search/context/searchContext";
 import { HouseSearchContext } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
-import Link from "next/link";
-import ProfileCard from "../components/pages/profile/profileCard";
 import Range from "../components/pages/houseSearch/houseSearchComponets/range";
-import { Button } from "../components/common/form";
 import Checkbox from "../components/pages/houseSearch/houseSearchComponets/checkbox";
-import LocationSearch from "../components/pages/search/searchItems/locationSearch";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -24,16 +13,16 @@ import PayModal from "../components/pages/payModal";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import Pagination from "../components/common/pagination";
 import useTranslation from "next-translate/useTranslation";
-import TextSearch from "../components/pages/houseSearch/houseSearchComponets/testField";
 
 import HouseCard from "../components/pages/houseSearch/houseCard";
+import NewHeader from "../components/NewHeader";
+import NewFooter from "../components/NewFooter";
 
 const Search = () => {
   useCheckAuth(false);
   const [searchParams, setSearchParams] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any>([]);
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
-  // const [takosModali, setTakosModali] = useState(false);
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
 
@@ -48,7 +37,7 @@ const Search = () => {
 
   useEffect(() => {
     Flats.getFlatFilters({
-      lang: router.locale
+      lang: router.locale,
     })
       .then((res) => {
         setSearchParams(res.data.filter((el) => el.type !== "chies"));
@@ -68,7 +57,7 @@ const Search = () => {
     Flats.getFlats({
       ...searchObject,
       page: router.query.page ? router.query.page : 1,
-      locale: router.locale
+      locale: router.locale,
     })
       .then((res) => {
         setMeta(res.data.meta);
@@ -80,7 +69,6 @@ const Search = () => {
           dispatch(logout());
           window.location.replace("/login");
         }
-        // debugger;
       });
   }, [router.query, router.locale]);
 
@@ -88,8 +76,8 @@ const Search = () => {
     router.push("/houseSearch", {
       query: {
         ...searchObject,
-        page: 1
-      }
+        page: 1,
+      },
     });
 
     setSearchObjectFromQuery(searchObject);
@@ -121,8 +109,8 @@ const Search = () => {
 
   return (
     <div className="">
-      <Header />
-      {/* <SearchProvider> */}
+      <NewHeader />
+
       {openPayModal ? (
         <PayModal
           isModal
@@ -136,7 +124,7 @@ const Search = () => {
         <div className="container d-flex pt-5">
           <div
             className={classNames("search_sideBar", {
-              openSearchMenu: openSearchMenu
+              openSearchMenu: openSearchMenu,
             })}
           >
             {searchParams.map((el) => {
@@ -174,7 +162,7 @@ const Search = () => {
               </button>
             </div>
           </div>
-          <div className="search_mainContent">
+          <div className="search_mainContent ml-5">
             <div className="d-flex ">
               <div
                 onClick={toggleSearchMenu}
@@ -292,7 +280,7 @@ const Search = () => {
                             }
 
                             return item;
-                          })
+                          }),
                         ]);
                       }}
                       key={el.id}
@@ -312,7 +300,7 @@ const Search = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <NewFooter />
     </div>
   );
 };

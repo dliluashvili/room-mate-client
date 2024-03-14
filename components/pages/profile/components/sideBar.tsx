@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import classnames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,9 +11,9 @@ import { ProfileService } from "../../../../services/profile/profile.http";
 import { useTypedSelector } from "../../../hooks/useTypeSelector";
 import { setCurrentUser } from "../../../../redux/action-creators/index";
 import { useDispatch } from "react-redux";
-import { AlertIcon, CheckIcon } from "../../../svg/statusIcon";
+import { AlertIcon } from "../../../svg/statusIcon";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
-import Fb from "../../../common/fbauth";
+import classNames from "classnames";
 
 interface ISidebar {
   firstname: string;
@@ -24,8 +24,9 @@ interface ISidebar {
   signOut?: () => void;
   myProfile?: boolean;
   profile_image?: string;
+  callingCode?: string;
   is_locked_communication?: boolean;
-  isSentRequest?: boolean;
+  isSentRequest?: number;
   id?: number;
 }
 
@@ -41,6 +42,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const [loadReports, setLoadReports] = useState(false);
   const [reportTextarea, setReportTextarea] = useState(null);
   const [reportText, setReportText] = useState("");
+
   const handleRadioChange = (data) => {
     setSelectedValue(data); // Update the selected value when a radio button is clicked
   };
@@ -65,16 +67,12 @@ const SideBar: React.FC<ISidebar> = (props) => {
         setStatus(true);
       })
       .catch((err) => {
+        console.log({ err });
         setStatus(false);
-
         if (err?.response?.data?.message === "Unauthorized") {
           checkAuth();
         }
       });
-  };
-
-  const toggleCommunication = () => {
-    // ProfileService.updateLockCommunication(user.)
   };
 
   const handleChangeProfileLock = () => {
@@ -159,6 +157,18 @@ const SideBar: React.FC<ISidebar> = (props) => {
       });
   };
 
+  const sendStatus = useMemo(() => {
+    if (props.isSentRequest === 3) {
+      return "REJECTED";
+    }
+
+    if (props.isSentRequest === 1 || status === true) {
+      return "SENT";
+    }
+
+    return "NOT_SENT";
+  }, [props.isSentRequest, status]);
+
   return (
     <>
       <ToastContainer />
@@ -231,7 +241,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
               onClick={() => {
                 fileRef?.current?.click();
               }}
-              // className="pointer"
               className="imgUploadWrapper pointer"
             >
               <img className="cameraIcon" src="/imgs/camera.png" />
@@ -271,7 +280,11 @@ const SideBar: React.FC<ISidebar> = (props) => {
                           ...user,
                           profile_image: res.data.profileImage,
                         };
-                        dispatch(setCurrentUser({ user: newUSer }));
+                        dispatch(
+                          setCurrentUser({
+                            user: newUSer,
+                          })
+                        );
                       })
                       .catch((err) => {
                         console.log(err);
@@ -286,13 +299,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
               />
             </span>
           ) : (
-            <span
-              // onClick={() => {
-              //   fileRef?.current?.click();
-              // }}
-              // className="pointer"
-              className="imgUploadWrapper pointer"
-            >
+            <span className="imgUploadWrapper pointer">
               <img
                 src={
                   props?.profile_image
@@ -311,23 +318,29 @@ const SideBar: React.FC<ISidebar> = (props) => {
             {props?.firstname} {props?.lastname}
           </span>
         </div>
-
-        <div className="profile_aboutMe">
-          <div>{t("aboutMe")} </div>
-          <p>{props?.about_me}</p>
-        </div>
-
         {!props.myProfile && !props.phone ? (
           <div className="profile_contacts">
-            <p className="text-center">{t("seandContactRequest")}</p>
+            {sendStatus === "SENT" || sendStatus === "REJECTED" ? (
+              ""
+            ) : (
+              <p className="text-center mb-4">{t("seandContactRequest")}</p>
+            )}
             <Button
               loading={status === "load"}
-              disabled={!!status}
+              disabled={
+                !!status || sendStatus === "SENT" || sendStatus === "REJECTED"
+              }
               onClick={userContactRequest}
-              className="btn btn-primary mb-4 w-100"
+              className={classNames("btn w-100", {
+                "btn-primary bg-[#19a463]":
+                  sendStatus === "SENT" || sendStatus === "NOT_SENT",
+                "btn-danger bg-[#dc3545] h-[43px]": sendStatus === "REJECTED",
+              })}
             >
-              {status || props.isSentRequest
+              {sendStatus === "SENT"
                 ? t("sentContactRequest")
+                : sendStatus === "REJECTED"
+                ? t("requestRejected")
                 : t("contactRequest")}
             </Button>
           </div>
@@ -347,10 +360,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       }}
                       id="flexSwitchCheckDefault"
                     />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexSwitchCheckDefault"
-                    >
+                    <label className="form-check-label flex">
                       {/* კონტაqტის ხილვადობა{" "} */}
                       {t("contactVisibility")}
                       <span className="pointer toltipWrapper ml-3">
@@ -372,28 +382,22 @@ const SideBar: React.FC<ISidebar> = (props) => {
                         onChange={() => {
                           handleChangeAvailable();
                         }}
-                        id="flexSwitchCheckDefault"
+                        id="SearchingRoomateSwitch"
                       />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexSwitchCheckDefault"
-                      >
+                      <label className="form-check-label flex">
                         {/* კონტაqტის ხილვადობა{" "} */}
                         {t("findRoomate")}
 
-                        <span className="pointer toltipWrapper ml-3">
+                        <span className="pointer toltipWrapper ml-3 ">
                           <AlertIcon stroke="blue" fill="blue" />
-                          <p>{t("findRoomateHint")}</p>
+                          <p className="contact_view_tooltip">
+                            {t("findRoomateHint")}
+                          </p>
                         </span>
                       </label>
                     </div>
                   </div>
                 ) : null}
-                {!user?.socials?.length ? (
-                  <Fb>{t("connect")}</Fb>
-                ) : (
-                  <p>{t("connected")}</p>
-                )}
               </div>
             ) : null}
 
@@ -411,33 +415,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
                     fill="#5E666E"
                   />
                 </svg>
-                {props?.phone}
+                <span className="ml-2">{`+${props?.callingCode} ${props?.phone}`}</span>
               </div>
-              {props?.social_network ? (
-                <div>
-                  <a
-                    href={props?.social_network}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <svg
-                      width="8"
-                      height="17"
-                      viewBox="0 0 8 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1.79631 17H5.21133V8.42146H7.59502L7.85456 5.55284H5.21133V3.92045C5.21133 3.23745 5.3411 2.9779 5.99678 2.9779H7.85456V0H5.4777C2.93009 0 1.78264 1.12013 1.78264 3.26476V5.55966H0V8.46243H1.78264L1.79631 17Z"
-                        fill="#5E666E"
-                      />
-                    </svg>
-                    {props?.firstname} {props?.lastname}
-                  </a>
-                </div>
-              ) : (
-                ""
-              )}
             </div>
           </>
         )}
@@ -463,7 +442,10 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <Link href="/profile">
                   <a
                     className={classnames({
-                      active: "/profile" === router.asPath,
+                      active:
+                        router.pathname.split("/")[2] === undefined ||
+                        router.pathname.split("/")[2] === "favorites" ||
+                        router.pathname.split("/")[2] === "flats",
                     })}
                   >
                     <svg
@@ -488,7 +470,9 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 <Link href="/profile/edit">
                   <a
                     className={classnames({
-                      active: "/profile/edit" === router.asPath,
+                      active:
+                        router.pathname.split("/")[2] === "edit" ||
+                        router.pathname.split("/")[2] === "resetpassword",
                     })}
                   >
                     <svg
@@ -504,52 +488,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
                       />
                     </svg>
                     {t("editProfile")}
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/profile/balance">
-                  <a
-                    className={classnames("statusLink", {
-                      active: "/profile/balance" === router.asPath,
-                    })}
-                  >
-                    <span>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g clipPath="url(#clip0_285_65)">
-                          <path
-                            d="M-6.10352e-05 8.00045C-6.10352e-05 3.59188 3.59315 -0.00178058 8.0035 6.61885e-07C12.4139 0.0017819 16.0031 3.59633 15.9995 8.00757C15.9959 12.4188 12.3974 16.0071 7.98792 16C3.57846 15.9929 -6.10352e-05 12.4023 -6.10352e-05 8.00045ZM14.9352 8.00579C14.9368 7.09559 14.759 6.194 14.4119 5.35256C14.0648 4.51112 13.5553 3.74633 12.9125 3.10191C12.2697 2.4575 11.5062 1.94609 10.6657 1.59692C9.82509 1.24775 8.92395 1.06766 8.01374 1.06696C4.18051 1.05538 1.0669 4.1592 1.0669 7.99688C1.06567 8.90702 1.24375 9.80849 1.59097 10.6498C1.93818 11.4911 2.44774 12.2558 3.09052 12.9001C3.7333 13.5445 4.49671 14.0559 5.33717 14.4052C6.17763 14.7544 7.07867 14.9347 7.98881 14.9357C11.8212 14.9468 14.9308 11.8453 14.9352 8.00579Z"
-                            fill="#5E666E"
-                          />
-                          <path
-                            d="M7.25127 12.6111C6.66805 12.4859 6.15061 12.278 5.72213 11.8892C5.2429 11.4546 5.01425 10.9086 5.00422 10.2692C4.99733 9.83907 5.30555 9.50532 5.71211 9.48779C5.81176 9.47997 5.91195 9.49272 6.00647 9.52524C6.10099 9.55776 6.18782 9.60936 6.26155 9.67683C6.33527 9.7443 6.39433 9.82621 6.43506 9.91745C6.47578 10.0087 6.4973 10.1073 6.49828 10.2073C6.51457 10.5905 6.71442 10.8391 7.04393 10.9837C7.68478 11.2655 8.33815 11.2711 8.97336 10.9768C9.60858 10.6825 9.72948 9.80213 9.17571 9.38197C8.83053 9.12023 8.40268 8.95241 7.99173 8.79399C7.31642 8.5335 6.6098 8.35003 6.01843 7.90169C5.18213 7.26863 4.7812 6.01127 5.12073 5.02129C5.40389 4.19474 6.03973 3.75266 6.83469 3.49593C6.96687 3.45335 7.10218 3.42141 7.25127 3.38071C7.25127 3.17407 7.24751 2.97182 7.25127 2.77019C7.26067 2.33187 7.58455 2.00063 7.99988 2C8.41522 1.99937 8.74097 2.32686 8.75162 2.76581C8.756 2.96806 8.75162 3.17095 8.75162 3.36318C9.03915 3.46274 9.3198 3.53475 9.57852 3.65435C10.4593 4.06199 10.9811 4.72824 10.9993 5.72824C11.0029 5.82607 10.9871 5.92365 10.9527 6.01534C10.9184 6.10703 10.8662 6.19102 10.7993 6.26245C10.7323 6.33388 10.6518 6.39135 10.5625 6.43153C10.4732 6.47171 10.3768 6.49381 10.2789 6.49655C10.1809 6.50134 10.083 6.48656 9.99083 6.45309C9.89866 6.41962 9.81409 6.36812 9.74206 6.3016C9.67003 6.23508 9.61198 6.15487 9.57132 6.06568C9.53065 5.97648 9.50818 5.88007 9.50522 5.78209C9.48893 5.4402 9.32981 5.19599 9.03789 5.05323C8.34191 4.71384 7.6309 4.70445 6.94557 5.06951C6.38491 5.36819 6.31349 6.22229 6.83406 6.62116C7.13601 6.85347 7.50937 7.00063 7.86644 7.15028C8.28992 7.32749 8.73782 7.44708 9.1613 7.62492C10.3847 8.13838 11.0243 9.07388 10.9993 10.2937C10.9818 11.1578 10.5733 11.8009 9.82722 12.2135C9.50335 12.3926 9.14189 12.5034 8.75224 12.6637C8.75224 12.8103 8.75224 13.0113 8.75224 13.2116C8.74661 13.6738 8.43901 13.9994 8.00488 14C7.57076 14.0006 7.25942 13.6738 7.25315 13.2141C7.24877 13.0188 7.25127 12.824 7.25127 12.6111Z"
-                            fill="#5E666E"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_285_65">
-                            <rect width="16" height="16" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      {t("status")}
-                    </span>
-
-                    {!user?.payed ? (
-                      <span className="btn  payStatus">
-                        {t("inactive")}
-
-                        <AlertIcon stroke="#db0505" fill="#db0505" />
-                      </span>
-                    ) : (
-                      <span className="btn btn-success  ">{t("active")}</span>
-                    )}
                   </a>
                 </Link>
               </li>

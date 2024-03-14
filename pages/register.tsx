@@ -11,19 +11,12 @@ interface IRegisterForm {
   repeatPassword: string;
 }
 
-interface IErrorMsg {
-  email?: string | Array<string>;
-  password?: string | Array<string>;
-  name?: string | Array<string>;
-  repeatPassword?: string | Array<string>;
-}
-
 const Register = () => {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    formState: { errors },
   } = useForm<IRegisterForm>();
 
   const [load] = useState(false);
@@ -47,7 +40,7 @@ const Register = () => {
             hasError={!!errors?.name}
             placeholder="name"
             {...register("name", {
-              required: "სახელი აუცილებელია"
+              required: "სახელი აუცილებელია",
             })}
           />
         </FormGroup>
@@ -62,7 +55,7 @@ const Register = () => {
             hasError={!!errors?.last_name}
             placeholder="last_name"
             {...register("last_name", {
-              required: "გვარი აუცილებელია"
+              required: "გვარი აუცილებელია",
             })}
           />
         </FormGroup>
@@ -86,7 +79,7 @@ const Register = () => {
             {...register("email", {
               required: "მეილი აუცილებელია",
               pattern:
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             })}
           />
         </FormGroup>
@@ -108,7 +101,7 @@ const Register = () => {
             hasError={!!errors?.password}
             placeholder="password"
             {...register("password", {
-              required: "პაროლი აუცილებელია"
+              required: "პაროლი აუცილებელია",
             })}
           />
         </FormGroup>
@@ -135,7 +128,7 @@ const Register = () => {
             placeholder="repeatPassword"
             {...register("repeatPassword", {
               required: "პაროლი აუცილებელია",
-              validate: (value) => value === watch("password")
+              validate: (value) => value === watch("password"),
             })}
           />
         </FormGroup>

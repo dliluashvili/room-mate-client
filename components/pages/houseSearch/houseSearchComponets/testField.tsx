@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { IQuestions } from "../../../../services/questions/questions.http";
-import classnames from "classnames";
 import { HouseSearchContext } from "./houseSearchContext";
 import { Button } from "../../../common/form";
 import useTranslation from "next-translate/useTranslation";

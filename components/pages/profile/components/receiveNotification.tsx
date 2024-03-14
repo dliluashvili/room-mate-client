@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import NotificationsCard from "./notificationsCard";
 import {
   ProfileService,
-  INotificationReceiver
+  INotificationReceiver,
 } from "../../../../services/profile/profile.http";
 import { Button } from "../../../common/form";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
+import Loader from "../../../common/loader";
 
 const ReceiveNotification = () => {
   const [sentNotifications, setSentNotifications] = useState<
     INotificationReceiver[] | null
   >(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -22,6 +24,7 @@ const ReceiveNotification = () => {
   const checkAuth = useCheckUnAuthResponse();
 
   useEffect(() => {
+    setLoading(true);
     ProfileService.getReceivedNotifications()
       .then((res) => {
         setSentNotifications(res.data);
@@ -30,6 +33,9 @@ const ReceiveNotification = () => {
         if (err?.response?.data?.message === "Unauthorized") {
           checkAuth();
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -39,7 +45,7 @@ const ReceiveNotification = () => {
   ) => {
     let requestBody: { senderId: number; answer: 2 | 3 } = {
       senderId: data.sender_id,
-      answer: 2
+      answer: 2,
     };
 
     if (flag === "reject") {
@@ -48,30 +54,47 @@ const ReceiveNotification = () => {
 
     ProfileService.approveRejectContact(data.id, requestBody)
       .then((res) => {
-        setSentNotifications(
-          sentNotifications.map((el) => {
-            if (data.id === el.id) {
-              if (flag === "approve") {
-                return { ...el, status: 2 };
-              } else {
-                return { ...el, status: 3 };
-              }
-            }
-            return el;
-          })
-        );
-        toast.success(
-          flag === "reject" ? t("requestRejected") : t("requestApproved"),
-          {
+        console.log(res);
+        if (res.data === "REQUEST_DELETED") {
+          setSentNotifications(
+            sentNotifications.filter((el) => el.id !== data.id)
+          );
+
+          toast.error(t("requestCacneled"), {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined
-          }
-        );
+            progress: undefined,
+          });
+        } else {
+          setSentNotifications(
+            sentNotifications.map((el) => {
+              if (data.id === el.id) {
+                if (flag === "approve") {
+                  return { ...el, status: 2 };
+                } else {
+                  return { ...el, status: 3 };
+                }
+              }
+              return el;
+            })
+          );
+          toast.success(
+            flag === "reject" ? t("requestRejected") : t("requestApproved"),
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            }
+          );
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -81,44 +104,38 @@ const ReceiveNotification = () => {
       });
   };
 
+  if (loading) {
+    return <Loader className="mt-12 h-auto w-full ml-auto mr-auto static" />;
+  }
+
   return (
     <>
       {sentNotifications?.map((el, i) => {
         return (
-          <div key={i} className="">
-            <ToastContainer />
+          <div key={i} className="flex flex-wrap">
+            {/* <ToastContainer /> */}
             <NotificationsCard
+              className="mr-3"
               type="receive"
               img={el.sender_profile_imagee}
               text={
                 el.status === 1 ? (
                   t("needSeeYourProfile", {
                     name: el.sender_firstname,
-                    lastname: el.sender_lastname
+                    lastname: el.sender_lastname,
                   })
                 ) : el.status === 2 ? (
                   <>
                     {t("youApproveuserToSee", {
                       name: el.sender_firstname,
-                      lastname: el.sender_lastname
+                      lastname: el.sender_lastname,
                     })}
-                    <div>
-                      {/* {t("approvedYouRequest2")} */}
-                      {/* <br />
-                      <br />
-                      {t("approvedYouRequest3")}
-
-                      <br />
-                      {t("approvedYouRequest4")}
-
-                      <br />
-                      {t("approvedYouRequest5")} */}
-                    </div>
+                    <div></div>
                   </>
                 ) : (
                   t("youRejectuserToSee", {
                     name: el.sender_firstname,
-                    lastname: el.sender_lastname
+                    lastname: el.sender_lastname,
                   })
                 )
               }
@@ -129,13 +146,13 @@ const ReceiveNotification = () => {
                   {" "}
                   <Button
                     onClick={() => answerAllowRequest(el, "reject")}
-                    className="btn btn-light w-50  mr-3"
+                    className="btn btn-light w-50 mr-3"
                   >
                     {t("reject")}
                   </Button>
                   <Button
                     onClick={() => answerAllowRequest(el, "approve")}
-                    className="btn btn-primary w-50"
+                    className="btn btn-primary w-50 bg-[#19a463]"
                   >
                     {t("approve")}
                   </Button>
@@ -145,12 +162,12 @@ const ReceiveNotification = () => {
                   onClick={() => {
                     router.push("/user/" + el.sender_id);
                   }}
-                  className="btn btn-primary w-100"
+                  className="btn btn-primary w-100 bg-[#19a463]"
                 >
                   {t("approveUser")}
                 </Button>
               ) : (
-                <Button className="btn btn-danger w-100">
+                <Button className="btn btn-danger w-100 bg-[#dc3545]" disabled>
                   {t("rejectUser")}
                 </Button>
               )}

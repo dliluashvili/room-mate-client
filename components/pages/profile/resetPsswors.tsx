@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import { FormGroup, Button, Input } from "../../../components/common/form";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { AuthService } from "../../../services/auth/auth.http";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../../redux/action-creators/index";
-import Header from "../../../components/Header";
-import Footer from "../../../components/footer";
-import axios from "axios";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import Logo from "../../../components/svg/logo";
 import { useCheckUnAuthResponse } from "../../../components/hooks/useCheckUnauthRespnse";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILoginForm {
   password: string;
@@ -20,26 +14,16 @@ interface ILoginForm {
   currentPassword: string;
 }
 
-interface IErrorMsg {
-  currentPassword?: string | Array<string>;
-  passwordRepeat?: string | Array<string>;
-  password?: string | Array<string>;
-}
-
 const ResetPassword = () => {
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    control,
     watch,
-    getValues,
     formState: { errors },
   } = useForm<ILoginForm>();
 
-  //   const [errors, setErrors] = useState<IErrorMsg>({});
+  let { t } = useTranslation("common");
 
-  const router = useRouter();
   const [load, setLoad] = useState(false);
   const checkUnAuth = useCheckUnAuthResponse();
   const submit = handleSubmit(async (data) => {
@@ -54,7 +38,7 @@ const ResetPassword = () => {
       // debugger
       //   dispatch(setCurrentUser({ user: null, token: res.data.access_token }));
       setLoad(false);
-      toast.success("პაროლი წარმატებით შეიცვალა", {
+      toast.success(t("passwordChangeSuccess"), {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -91,117 +75,97 @@ const ResetPassword = () => {
     }
   });
 
-  console.log(errors);
-
   return (
     <div className="login resetPassword resetPassword_fromProfile">
       <ToastContainer />
 
-      <div className="container loginSection w-25 mt-5">
-        <div className="loginSection_container">
-          <div className="form_Wrapper m-auto">
-            <form onSubmit={submit} className="contentWrapper">
-              <h2 className="form_title">პაროლის შეცვლა</h2>
+      <div className="reset_pass loginSection_container">
+        <form onSubmit={submit} className="contentWrapper">
+          <FormGroup
+            errorMessage={
+              errors?.currentPassword?.message
+                ? errors?.currentPassword?.message
+                : ""
+            }
+            Label={t("currentPassword")}
+          >
+            <Input
+              type="text"
+              name={t("currentPassword")}
+              placeholder={t("currentPassword")}
+              hasError={!!errors?.currentPassword}
+              onChange={() => {
+                //   clearError("currentPassword");
+                //   setUnVerify(false);
+              }}
+              useRef={register("currentPassword")}
+              className="w-100"
+              {...register("currentPassword", {
+                required: t("currentPasswordError"),
+              })}
+            />
+          </FormGroup>
 
-              <FormGroup
-                errorMessage={
-                  errors?.currentPassword?.message
-                    ? errors?.currentPassword?.message
-                    : ""
-                }
-                Label="მიმდინარე პაროლი"
+          <FormGroup
+            errorMessage={errors?.password ? errors.password.message : ""}
+            Label={
+              <label
+                className="form-control-label d-flex "
+                htmlFor="inputSuccess2"
               >
-                <Input
-                  type="text"
-                  name={"currentPassword"}
-                  placeholder="მიმდინარე პაროლი"
-                  hasError={!!errors?.currentPassword}
-                  onChange={() => {
-                    //   clearError("currentPassword");
-                    //   setUnVerify(false);
-                  }}
-                  useRef={register("currentPassword")}
-                  className="w-100"
-                  {...register("currentPassword", {
-                    required: "მიმდინარე პაროლი აუცილებელია",
-                  })}
-                />
-              </FormGroup>
+                <span>{t("newPassword")}</span>
+              </label>
+            }
+          >
+            <Input
+              className="password w-100"
+              useRef={register("password")}
+              type="password"
+              hasError={!!errors?.password}
+              placeholder="******"
+              {...register("password", {
+                required: t("PasswordError"),
+              })}
+            />
+          </FormGroup>
 
-              <FormGroup
-                errorMessage={errors?.password ? errors.password.message : ""}
-                Label={
-                  <label
-                    className="form-control-label d-flex "
-                    htmlFor="inputSuccess2"
-                  >
-                    <span>ახალი პაროლი </span>
-                  </label>
-                }
+          <FormGroup
+            errorMessage={
+              errors?.passwordRepeat &&
+              errors?.passwordRepeat.type === "required"
+                ? t("PasswordError")
+                : t("mismatchedPasswordsError")
+            }
+            Label={
+              <label
+                className="form-control-label d-flex "
+                htmlFor="inputSuccess2"
               >
-                <Input
-                  className="password"
-                  useRef={register("password")}
-                  type="password"
-                  hasError={!!errors?.password}
-                  placeholder="******"
-                  {...register("password", {
-                    required: "პაროლი აუცილებელია",
-                  })}
-                />
-              </FormGroup>
-
-              <FormGroup
-                errorMessage={
-                  errors?.passwordRepeat &&
-                  errors?.passwordRepeat.type === "required"
-                    ? "პაროლი აუცილებელია"
-                    : "პაროლები არ მეთხვევა"
-                }
-                Label={
-                  <label
-                    className="form-control-label d-flex "
-                    htmlFor="inputSuccess2"
-                  >
-                    <span> გაიმეორე პაროლი </span>
-                  </label>
-                }
-              >
-                <Input
-                  className="passwordRepeat"
-                  useRef={register("passwordRepeat")}
-                  type="password"
-                  hasError={!!errors?.passwordRepeat}
-                  placeholder="******"
-                  {...register("passwordRepeat", {
-                    required: "პაროლი აუცილებელია",
-                    validate: {
-                      isMatch: (value) => value === watch("password"),
-                    },
-                  })}
-                />
-              </FormGroup>
-
-              {/* <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-                <label className="form-check-label k" htmlFor="exampleCheck1">
-                  Remember me
-                </label>
-              </div> */}
-
-              <Button
-                loading={load}
-                className="btn btn-primary w-100 mt-3 py-2 mb-3"
-              >
-                პაროლის შეცვლა
-              </Button>
-            </form>
-          </div>
-        </div>
+                <span> {t("PasswordRepeat")} </span>
+              </label>
+            }
+          >
+            <Input
+              className="passwordRepeat w-100"
+              useRef={register("passwordRepeat")}
+              type="password"
+              hasError={!!errors?.passwordRepeat}
+              placeholder="******"
+              {...register("passwordRepeat", {
+                required: t("PasswordError"),
+                validate: {
+                  isMatch: (value) => value === watch("password"),
+                },
+              })}
+            />
+          </FormGroup>
+          <Button
+            loading={load}
+            className="btn btn-primary w-100 mt-3 py-2 mb-3 bg-[#19a463]"
+          >
+            {t("changePassword")}
+          </Button>
+        </form>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../common/form";
 import { ProfileService } from "../../services/profile/profile.http";
@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 const PayModal = ({
   setClose,
-  isModal = false
+  isModal = false,
 }: {
   setClose?: () => void;
   isModal?: boolean;

@@ -1,4 +1,3 @@
-import { axiosHeaderConfig } from "../api";
 import { axiosWithToken } from "../axios-with-token";
 
 import axios, { AxiosPromise } from "axios";
@@ -65,28 +64,14 @@ class _Flats {
     });
   };
 
-  getFavoriteFlats = (): AxiosPromise<any> => {
-    return axiosWithToken.get(backEndRoutes.flats.getFavoriteFlats());
+  getFavoriteFlats = (locale: string, page: number): AxiosPromise<any> => {
+    return axiosWithToken.get(backEndRoutes.flats.getFavoriteFlats(), {
+      params: {
+        locale,
+        page,
+      },
+    });
   };
-
-  //   saveAnswers = (answers: any): AxiosPromise => {
-  //     return axios.post(backEndRoutes.questions.saveAnswers(), answers);
-  //   };
-
-  //   updateAnswers = (answers: any): AxiosPromise => {
-  //     return axiosWithToken.patch(
-  //       backEndRoutes.questions.updateAnswers(),
-  //       answers
-  //     );
-  //   };
-
-  //   checkPhone = (phone: any): AxiosPromise => {
-  //     return axios.post(backEndRoutes.questions.checkPhone(), { phone });
-  //   };
-
-  //   checkSmsCode = (data: { phone: string; code: any }): AxiosPromise => {
-  //     return axios.post(backEndRoutes.questions.checkSmsCode(), data);
-  //   };
 }
 
 export const Flats = new _Flats();
