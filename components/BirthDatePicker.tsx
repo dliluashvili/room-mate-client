@@ -24,7 +24,7 @@ export function BirthDatePicker({ field }) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
+            "w-full md:w-full h-[48px] px-3 py-2 border text-left hover:bg-white  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
             !date && "text-muted-foreground"
           )}
         >

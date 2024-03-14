@@ -47,7 +47,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
               id="date"
               variant={"outline"}
               className={cn(
-                "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
+                "w-full md:w-full h-[48px] px-3 py-2 border text-left  hover:bg-white  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
               )}
             >
               <div className="h-[48px] items-center justify-center flex p flex-row text-sm">
@@ -102,7 +102,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full md:hidden md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
+              "w-full md:hidden md:w-full h-[48px] px-3 py-2 border text-left hover:bg-white  font-normal flex justify-start outline-none border-[#828bab] rounded-lg"
             )}
           >
             <div className="h-[48px]   items-center justify-center flex p flex-row text-sm">
