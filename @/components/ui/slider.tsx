@@ -6,16 +6,16 @@ type SliderProps = React.ComponentPropsWithoutRef<
   typeof SliderPrimitive.Root
 > & {
   id: string;
-  filterData: any; // replace 'any' with the actual type
-  setFilterData: any; // replace 'any' with the actual type
+  filterDataBefore: any; // replace 'any' with the actual type
+  setFilterDataBefore: any; // replace 'any' with the actual type
 };
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   SliderProps
->(({ className, id, filterData, setFilterData, ...props }, ref) => {
+>(({ className, id, filterDataBefore, setFilterDataBefore, ...props }, ref) => {
   const [sliderValues, setSliderValues] = React.useState([100, 500]);
-  console.log(filterData);
+
   return (
     <div>
       <div className="flex flex-row justify-between items-center mb-3 -mt-2">
@@ -38,7 +38,7 @@ const Slider = React.forwardRef<
           };
 
           // Create a new array based on the current filterData
-          let newFilterData = [...filterData];
+          let newFilterData = [...filterDataBefore];
 
           // Find the index of the item with the same questionId
           const index = newFilterData.findIndex(
@@ -54,7 +54,7 @@ const Slider = React.forwardRef<
           }
 
           // Update the state
-          setFilterData(newFilterData);
+          setFilterDataBefore(newFilterData);
         }}
         min={0}
         max={1000}

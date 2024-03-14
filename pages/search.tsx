@@ -14,16 +14,11 @@ import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import Loader from "../components/common/loader";
 import UserFilter from "../components/UserFilter";
-import { Button } from "../@/components/ui/button";
+
 import CloseIcone from "../public/newImages/close-circle.svg";
 import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
-} from "../@/components/ui/sheet";
+
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
 
 const Search = () => {
@@ -147,7 +142,6 @@ const Search = () => {
           <div className="hidden lg:flex">
             <UserFilter
               setFilterData={setFilterData}
-              filterData={filterData}
               search={search}
               setSearch={setSearch}
               setShowFilter={setShowFilter}
@@ -178,7 +172,6 @@ const Search = () => {
             <div className="mt-6">
               <UserFilter
                 setFilterData={setFilterData}
-                filterData={filterData}
                 search={search}
                 setSearch={setSearch}
                 setShowFilter={setShowFilter}

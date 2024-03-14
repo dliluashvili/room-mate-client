@@ -12,7 +12,7 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function UserFilter({
   setFilterData,
-  filterData,
+
   setSearch,
   search,
 
@@ -21,6 +21,7 @@ export default function UserFilter({
   const router = useRouter();
   const [questions, setQuestions] = useState(null);
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const [filterDataBefore, setFilterDataBefore] = useState([]);
 
   const getFilterQuestions = async () => {
     try {
@@ -94,7 +95,7 @@ export default function UserFilter({
                         label: answer.translations[0].title,
                       }))}
                       onChange={(value: any) => {
-                        setFilterData((prevFilterData) => {
+                        setFilterDataBefore((prevFilterData) => {
                           const newFilterData = [...prevFilterData];
                           const existingIndex = newFilterData.findIndex(
                             (item) => item.questionId === value.questionId
@@ -144,8 +145,8 @@ export default function UserFilter({
                       {item?.translations[0]?.title}
                     </label>
                     <DatePickerWithRange
-                      filterData={filterData}
-                      setFilterData={setFilterData}
+                      filterDataBefore={filterDataBefore}
+                      setFilterDataBefore={setFilterDataBefore}
                       id={item.id}
                       className="w-full mt-2"
                     />
@@ -158,8 +159,8 @@ export default function UserFilter({
                     </label>
                     <Slider
                       id={item.id}
-                      filterData={filterData}
-                      setFilterData={setFilterData}
+                      filterDataBefore={filterDataBefore}
+                      setFilterDataBefore={setFilterDataBefore}
                     />
                   </>
                 )}
@@ -171,6 +172,7 @@ export default function UserFilter({
           onClick={() => {
             setSearch(!search);
             setShowFilter(false);
+            setFilterData(filterDataBefore);
           }}
         >
           {t("searchBtn")}
