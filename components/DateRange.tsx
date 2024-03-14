@@ -25,15 +25,15 @@ import {
 } from "../@/components/ui/drawer";
 import useTranslation from "next-translate/useTranslation";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  setFilterData?: any;
+  setFilterDataBefore?: any;
   id?: string;
-  filterData?: any; // Assuming setFilterData can be of any type
+  filterDataBefore?: any; // Assuming setFilterData can be of any type
 }
 
 export const DatePickerWithRange: React.FC<Props> = ({
   className,
-  setFilterData,
-  filterData,
+  setFilterDataBefore,
+  filterDataBefore,
   id,
 }: Props) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -91,7 +91,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
                   };
 
                   // Create a new array based on the current filterData
-                  let newFilterData = [...filterData];
+                  let newFilterData = [...filterDataBefore];
 
                   // Find the index of the item with the same questionId
                   const index = newFilterData.findIndex(
@@ -107,7 +107,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
                   }
 
                   // Update the state
-                  setFilterData(newFilterData);
+                  setFilterDataBefore(newFilterData);
                 }
                 setDate(newDate);
               }}
@@ -162,7 +162,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
                 };
 
                 // Create a new array based on the current filterData
-                let newFilterData = [...filterData];
+                let newFilterData = [...filterDataBefore];
 
                 // Find the index of the item with the same questionId
                 const index = newFilterData.findIndex(
@@ -178,7 +178,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
                 }
 
                 // Update the state
-                setFilterData(newFilterData);
+                setFilterDataBefore(newFilterData);
               }
               setDate(newDate);
             }}

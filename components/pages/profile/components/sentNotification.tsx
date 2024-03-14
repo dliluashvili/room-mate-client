@@ -90,12 +90,11 @@ const SentNotification = () => {
                     <div>
                       {t("approvedYouRequest2")}
                       <br />
-                      <br />
-                      {t("approvedYouRequest3")}
 
                       <br />
                       {t("approvedYouRequest4")}
 
+                      <br />
                       <br />
                       {t("approvedYouRequest5")}
                     </div>
