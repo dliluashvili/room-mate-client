@@ -56,7 +56,7 @@ const Slider = React.forwardRef<
           // Update the state
           setFilterData(newFilterData);
         }}
-        min={100}
+        min={0}
         max={1000}
         defaultValue={[100, 500]}
         {...props}

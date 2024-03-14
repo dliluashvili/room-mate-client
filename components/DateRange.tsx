@@ -114,7 +114,7 @@ export const DatePickerWithRange: React.FC<Props> = ({
       </div>
 
       <Drawer>
-        <DrawerTrigger className="w-full mt-2">
+        <DrawerTrigger className="w-full mt-2 md:hidden">
           <Button
             id="date"
             variant={"outline"}
