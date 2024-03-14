@@ -44,6 +44,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
         <Popover>
           <PopoverTrigger asChild>
             <Button
+              type="button"
               id="date"
               variant={"outline"}
               className={cn(
@@ -99,6 +100,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
       <Drawer>
         <DrawerTrigger className="w-full mt-2">
           <Button
+            type="button"
             id="date"
             variant={"outline"}
             className={cn(
@@ -149,7 +151,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
             }}
           />
           <DrawerClose>
-            <Button variant="default" className="w-4/5">
+            <Button variant="default" type="button" className="w-4/5">
               Submit
             </Button>
           </DrawerClose>

@@ -111,11 +111,11 @@
   "cancelRequest": "Cancel Request",
   "seeProfile": "Request Canceled",
   "haveTosentQequest": "You have sent a request to  {{name}} {{lastname}}  to view contacts  ",
-  "approvedYouRequest": "Congratulations! {{name}} {{lastname}}  accepted your request.",
-  "approvedYouRequest2": "To find an apartment, according to your criteria, a real estate agent s were chosen for you. We also added their contact information in your profile field:",
-  "approvedYouRequest3": "Andro - 595 210 395",
-  "approvedYouRequest4": "Ada - 551 547 548",
-  "approvedYouRequest5": "Good luck! ⭐️",
+  "approvedYouRequest": "Congratulations! {{name}} {{lastname}}  has accepted your request.",
+  "approvedYouRequest2": "Go to their profile and message them to exchange contact information and/or social media.",
+
+  "approvedYouRequest4": "If you're looking for an available affordable apartment, write to us in the messenger chat for consultation.",
+  "approvedYouRequest5": "Wishing you success! ⭐️",
   "rejectedYouRequest": "{{name}} {{lastname}} - declined your request",
   "years": "Years old",
   "InMonth": "Monthly",
@@ -253,5 +253,5 @@
   "room": "room",
   "area": "area",
   "chooseDate": "Pick a date",
-  "submit": "Submit" 
+  "submit": "Submit"
 }
