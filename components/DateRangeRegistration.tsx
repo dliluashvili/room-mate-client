@@ -34,8 +34,8 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
   id,
 }: Props) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: null,
-    to: null,
+    from: field.value[0],
+    to: field.value[1],
   });
   let { t } = useTranslation("common");
   return (

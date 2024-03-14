@@ -123,7 +123,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
       console.log(error);
     }
   };
-
+  console.log(formData);
   return (
     <>
       <div className="w-full min-h-screen flex justify-center items-center  md:pt-20 md:pb-16 lg:pt-36 md:px-[10%] lg:px-[15%] xl:px-[334px]">
