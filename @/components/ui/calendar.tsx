@@ -26,9 +26,8 @@ function Calendar({
       numberOfMonths={1}
       className={cn("p-3", className)}
       classNames={{
-        months:
-          "flex flex-col items-start  sm:flex-row sm:space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "space-y-0",
+        months: "flex flex-col items-start  sm:flex-row  sm:space-x-4 ",
+        month: "",
         caption: "flex justify-center mb-2 relative items-center ",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
@@ -56,6 +55,13 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-[#88c0be33] aria-selected:text-accent-foreground ",
         day_hidden: "invisible",
+        dropdown_year: "pl-2 ",
+        dropdown_month: "  ",
+        vhidden: "hidden",
+        caption_dropdowns: "flex flex-row  justify-start items-start",
+        dropdown: "flex w-24 flex-row justify-start ",
+        caption_start: "mt-2",
+        caption_end: "mt-2",
 
         ...classNames,
       }}

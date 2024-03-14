@@ -150,7 +150,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   setStep={setStep}
                   formData={formData}
                   step={step}
-                  next={"Next"}
+                  next={t("next")}
                 />
               </div>
             )}
@@ -163,7 +163,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
                   setStep={setStep}
                   formData={formData}
                   step={step}
-                  next={"Finish"}
+                  next={t("submit")}
                 />
               </div>
             )}

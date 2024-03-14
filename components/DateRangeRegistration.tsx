@@ -18,6 +18,7 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "../@/components/ui/drawer";
+import useTranslation from "next-translate/useTranslation";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   setFilterData?: any;
   updateUseForm?: any;
@@ -36,7 +37,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
     from: null,
     to: null,
   });
-
+  let { t } = useTranslation("common");
   return (
     <>
       <div className={cn(" gap-2 hidden md:grid", className)}>
@@ -61,7 +62,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
                     format(date.from, "LLL dd, y")
                   )
                 ) : (
-                  <span>Pick a date</span>
+                  <span>{t("chooseDate")}</span>
                 )}
               </div>
             </Button>
@@ -116,7 +117,7 @@ export const DatePickerWithRangeRegistration: React.FC<Props> = ({
                   format(date.from, "LLL dd, y")
                 )
               ) : (
-                <span>Pick a date</span>
+                <span>{t("chooseDate")}</span>
               )}
             </div>
           </Button>

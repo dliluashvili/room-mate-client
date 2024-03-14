@@ -12,9 +12,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../@/components/ui/popover";
+import useTranslation from "next-translate/useTranslation";
 
 export function BirthDatePicker({ field }) {
   const [date, setDate] = React.useState<Date>();
+  let { t } = useTranslation("common");
 
   return (
     <Popover>
@@ -22,7 +24,7 @@ export function BirthDatePicker({ field }) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full md:hidden md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
+            "w-full md:w-full h-[48px] px-3 py-2 border text-left  font-normal flex justify-start outline-none border-[#828bab] rounded-lg",
             !date && "text-muted-foreground"
           )}
         >
@@ -30,12 +32,20 @@ export function BirthDatePicker({ field }) {
           {date ? (
             format(date, "yyyy-MM-dd")
           ) : (
-            <span className="text-muted-foreground">Pick a date</span>
+            <span className="text-muted-foreground">{t("chooseDate")}</span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          classNames={{
+            caption_label: "hidden",
+            nav_button_previous: "hidden",
+            nav_button_next: "hidden",
+          }}
+          captionLayout="dropdown-buttons" // Renders dropdowns for years and months
+          fromYear={1960}
+          toYear={2002}
           mode="single"
           selected={date}
           onSelect={(newDate) => {

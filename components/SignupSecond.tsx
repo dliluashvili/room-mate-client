@@ -53,7 +53,6 @@ export default function SignupSecond({
     updateFormData({ ...formData, answeredQuestions: updatedData });
   };
 
-
   return (
     <>
       <main className="flex flex-col  p-2 items-center">
@@ -212,7 +211,6 @@ export default function SignupSecond({
                               updateUseForm={updateUseForm}
                               field={field}
                             />
-                            <FormMessage />
                           </FormItem>
                         )}
                       />
