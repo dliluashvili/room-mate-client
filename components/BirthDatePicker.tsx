@@ -45,7 +45,7 @@ export function BirthDatePicker({ field }) {
           }}
           captionLayout="dropdown-buttons" // Renders dropdowns for years and months
           fromYear={1960}
-          toYear={2002}
+          toYear={2005}
           mode="single"
           selected={date}
           onSelect={(newDate) => {
