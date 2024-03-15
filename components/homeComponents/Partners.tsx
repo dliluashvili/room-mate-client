@@ -6,9 +6,12 @@ import { Button } from "../../@/components/ui/button";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
+import { User } from "lucide-react";
+import { useTypedSelector } from "../hooks/useTypeSelector";
 
 export default function Partners() {
   let { t } = useTranslation("common") as { t: (key: string) => string };
+  const { user } = useTypedSelector((state) => state.profile);
   return (
     <section className="w-full flex flex-col md:flex-row px-6 mt-12 sm:px-16 md:px-20  xl:px-24  xl:flex-row md:gap-10 ">
       <div className="w-full h-60 rounded-xl relative mt-4 xl:bg-[#f2f5ff] xl:h-full  xl:w-[90%] overflow-hidden">
@@ -24,7 +27,7 @@ export default function Partners() {
             <p className="text-xs z-50 mt-4 text-[#fff] xl:text-[#484848] xl:text-base overflow-auto ">
               {t("partnersText1")}
             </p>
-            <Link href="/signup">
+            <Link href={user?.firstname ? "/search" : "/signup"}>
               <Button className="text-xs mt-7   ">{t("startSearch")}</Button>
             </Link>
           </div>

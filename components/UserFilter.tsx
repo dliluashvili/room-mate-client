@@ -68,7 +68,15 @@ export default function UserFilter({
 
   return (
     <>
-      <div className="w-full lg:w-[370px] flex flex-col gap-y-6">
+      <div className="w-full lg:w-[370px] flex flex-col gap-y-6 pt-8 relative">
+        <p
+          onClick={() => {
+            setFilterData([]), setSearch(!search)
+          }}
+          className="absolute top-0 right-0 hover:underline pointer hover:text-[#535050]"
+        >
+          Clear filters
+        </p>
         {questions &&
           questions
             .sort((a, b) => {
