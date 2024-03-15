@@ -66,9 +66,19 @@ export default function UserFilter({
     getFilterQuestions();
   }, [router.locale]);
 
+  const [key, setKey] = useState(0);
+
   return (
     <>
-      <div className="w-full lg:w-[370px] flex flex-col gap-y-6">
+      <div className="w-full lg:w-[370px] flex flex-col gap-y-6 pt-8 relative">
+        <p
+          onClick={() => {
+            setFilterDataBefore([]), setKey((prevKey) => prevKey + 1);
+          }}
+          className="absolute top-0 right-0 hover:underline pointer hover:text-[#535050]"
+        >
+          Clear filters
+        </p>
         {questions &&
           questions
             .sort((a, b) => {
@@ -84,6 +94,7 @@ export default function UserFilter({
                       {item?.translations[0]?.title}
                     </label>
                     <Select
+                      key={key}
                       styles={customStyles}
                       components={{ DropdownIndicator }}
                       className="w-full mt-2 text-sm"
@@ -145,6 +156,7 @@ export default function UserFilter({
                       {item?.translations[0]?.title}
                     </label>
                     <DatePickerWithRange
+                      key={key}
                       filterDataBefore={filterDataBefore}
                       setFilterDataBefore={setFilterDataBefore}
                       id={item.id}
@@ -158,6 +170,7 @@ export default function UserFilter({
                       {item?.translations[0]?.title}
                     </label>
                     <Slider
+                      key={key}
                       id={item.id}
                       filterDataBefore={filterDataBefore}
                       setFilterDataBefore={setFilterDataBefore}
