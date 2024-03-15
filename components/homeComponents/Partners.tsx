@@ -6,7 +6,7 @@ import { Button } from "../../@/components/ui/button";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
-import { User } from "lucide-react";
+
 import { useTypedSelector } from "../hooks/useTypeSelector";
 
 export default function Partners() {
