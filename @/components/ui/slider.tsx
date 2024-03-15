@@ -14,7 +14,7 @@ const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   SliderProps
 >(({ className, id, filterDataBefore, setFilterDataBefore, ...props }, ref) => {
-  const [sliderValues, setSliderValues] = React.useState([100, 500]);
+  const [sliderValues, setSliderValues] = React.useState([0, 1000]);
 
   return (
     <div>
@@ -58,7 +58,7 @@ const Slider = React.forwardRef<
         }}
         min={0}
         max={1000}
-        defaultValue={[100, 500]}
+        defaultValue={[0, 1000]}
         {...props}
       >
         <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-[#D9D9D9] pointer">
