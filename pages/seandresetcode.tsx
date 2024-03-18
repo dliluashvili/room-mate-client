@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useTranslation from "next-translate/useTranslation";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
+import withAuth from "../components/withAuth";
 
 interface ILoginForm {
   phone: string;
@@ -122,4 +123,4 @@ const SendResetCode = () => {
   );
 };
 
-export default SendResetCode;
+export default withAuth(SendResetCode);
