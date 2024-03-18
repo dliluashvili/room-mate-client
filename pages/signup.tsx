@@ -6,8 +6,9 @@ import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
+import withAuth from "../components/withAuth";
 
-export default function Signup() {
+function Signup() {
   const [data, setData] = useState(null);
   const router = useRouter();
 
@@ -76,7 +77,7 @@ export default function Signup() {
             getGendersLang2,
           },
         });
-        
+
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -85,7 +86,7 @@ export default function Signup() {
 
     fetchData();
   }, []);
-  console.log(data);
+
   return (
     <>
       <NewHeader />
@@ -98,3 +99,5 @@ export default function Signup() {
     </>
   );
 }
+
+export default withAuth(Signup);

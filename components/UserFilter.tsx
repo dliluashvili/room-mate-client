@@ -73,7 +73,10 @@ export default function UserFilter({
       <div className="w-full lg:w-[370px] flex flex-col gap-y-6 pt-8 relative">
         <p
           onClick={() => {
-            setFilterDataBefore([]), setKey((prevKey) => prevKey + 1);
+            setSearch(!search),
+              setFilterDataBefore([]),
+              setKey((prevKey) => prevKey + 1);
+            setFilterData([]);
           }}
           className="absolute top-0 right-0 hover:underline pointer hover:text-[#535050]"
         >
@@ -186,6 +189,10 @@ export default function UserFilter({
             setSearch(!search);
             setShowFilter(false);
             setFilterData(filterDataBefore);
+            router.push({
+              pathname: router.pathname,
+              query: { ...router.query, page: 1 },
+            });
           }}
         >
           {t("searchBtn")}

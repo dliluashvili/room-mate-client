@@ -12,6 +12,7 @@ import Logo from "../components/svg/logo";
 import useTranslation from "next-translate/useTranslation";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
+import withAuth from "../components/withAuth";
 
 interface ILoginForm {
   password: string;
@@ -180,4 +181,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withAuth(Login);
