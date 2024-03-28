@@ -87,13 +87,13 @@ export default function MultiStepCard({ countries, gender, questions }) {
     modifiedFormData.answeredQuestions = answeredQuestions;
     console.log("olla", modifiedFormData);
     const requestBody = {
-      query: `mutation SignUp($input: UserAndAnsweredQuestionsInput!) {
-        signUp(input: $input) {
+      query: `mutation SignUp($userAndAnsweredQuestions: UserAndAnsweredQuestionsInput!) {
+        signUp(userAndAnsweredQuestions: $userAndAnsweredQuestions) {
           accessToken
         }
       }`,
       variables: {
-        input: modifiedFormData,
+        userAndAnsweredQuestions: modifiedFormData,
       },
     };
 
