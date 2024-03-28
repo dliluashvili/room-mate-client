@@ -26,26 +26,26 @@ export default function UserFilter({
   const getFilterQuestions = async () => {
     try {
       const query = `
-            query GetQuestions($getFor: QuestionsWithAnswersFor, $lang: Language) {
-                getQuestions(getFor: $getFor, lang: $lang) {
-                    id
-                    uiFieldInfo
-                    translations {
-                        id
-                        lang
-                        title
-                    }
-                    answers {
-                        id
-                        questionId
-                        translations {
-                          id
-                          lang
-                          title
-                        }
-                      }
-                }
+      query GetQuestionsWithAnswers($lang: Language, $getFor: QuestionsWithAnswersFor) {
+        getQuestionsWithAnswers(lang: $lang, getFor: $getFor) {
+          translations {
+            id
+            lang
+            title
+          }
+          answers {
+            id
+            questionId
+            translations {
+              id
+              lang
+              title
             }
+          }
+          uiFieldInfo
+          id
+        }
+      }
         `;
 
       const response = await axios.post(BASE_URL_GRAPHQL, {
@@ -56,7 +56,7 @@ export default function UserFilter({
         },
       });
 
-      setQuestions(response?.data?.data?.getQuestions);
+      setQuestions(response?.data?.data?.getQuestionsWithAnswers);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -85,13 +85,13 @@ export default function UserFilter({
         {questions &&
           questions
             .sort((a, b) => {
-              if (a.uiFieldInfo.input.type === "numeric") return 1;
-              if (b.uiFieldInfo.input.type === "numeric") return -1;
+              if (a.uiFieldInfo.filterInput.type === "numeric") return 1;
+              if (b.uiFieldInfo.filterInput.type === "numeric") return -1;
               return 0;
             })
             .map((item) => (
               <div key={item.id}>
-                {item.uiFieldInfo.input.type === "select" && (
+                {item.uiFieldInfo.filterInput.type === "select" && (
                   <>
                     <label className="w-full text-sm">
                       {item?.translations[0]?.title}
@@ -102,7 +102,9 @@ export default function UserFilter({
                       components={{ DropdownIndicator }}
                       className="w-full mt-2 text-sm"
                       placeholder={t("select")}
-                      isMulti={item.uiFieldInfo.input.variant === "multiple"}
+                      isMulti={
+                        item.uiFieldInfo.filterInput.variant === "multiple"
+                      }
                       options={item.answers.map((answer) => ({
                         questionId: item.id,
                         value: answer.id,
@@ -114,7 +116,9 @@ export default function UserFilter({
                           const existingIndex = newFilterData.findIndex(
                             (item) => item.questionId === value.questionId
                           );
-                          if (item.uiFieldInfo.input.variant === "multiple") {
+                          if (
+                            item.uiFieldInfo.filterInput.variant === "multiple"
+                          ) {
                             if (existingIndex !== -1) {
                               const existingAnswerIndex = newFilterData[
                                 existingIndex
@@ -153,7 +157,7 @@ export default function UserFilter({
                     />
                   </>
                 )}
-                {item.uiFieldInfo.input.type === "button" && (
+                {item.uiFieldInfo.filterInput.type === "button" && (
                   <>
                     <label className="w-full text-sm">
                       {item?.translations[0]?.title}
@@ -167,7 +171,7 @@ export default function UserFilter({
                     />
                   </>
                 )}
-                {item.uiFieldInfo.input.type === "numeric" && (
+                {item.uiFieldInfo.filterInput.type === "numeric" && (
                   <>
                     <label className="w-full text-sm mb-4">
                       {item?.translations[0]?.title}
