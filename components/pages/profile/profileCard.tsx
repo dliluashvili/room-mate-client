@@ -66,9 +66,9 @@ const ProfileCard: React.FC<IProps> = ({
           >
             {firstname}
           </span>
-          {/* <span>
+          <span>
             {age} {t("years")}
-          </span> */}
+          </span>
         </div>
         <div
           className={classnames({
