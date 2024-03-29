@@ -38,7 +38,7 @@ const Search = () => {
   let { t } = useTranslation("common");
 
   const router = useRouter();
-  console.log("hii", filterData);
+
 
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
