@@ -20,7 +20,7 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({ answeredQuestions: {} });
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   let secondStep = questions?.slice(0, 7);
   let thirthStep = questions?.slice(8, 13);
@@ -118,7 +118,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
         setIsOpen(true);
       } else if (response?.data?.errors[0]?.message === "PHONE_EXISTS") {
         alert(t("phoneExist"));
-     
       } else if (response?.data?.errors[0]?.message === "EMAIL_EXISTS") {
         alert(t("emailExist"));
       }
