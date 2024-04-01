@@ -114,8 +114,12 @@ export default function MultiStepCard({ countries, gender, questions }) {
             token: response.data.data.signUp.accessToken,
           })
         );
-
-        setIsOpen(true);
+        if (step === 3) {
+          setIsOpen(true);
+        }
+        if (formData?.countryId?.value === "145") {
+          router.push("/");
+        }
       } else if (response?.data?.errors[0]?.message === "PHONE_EXISTS") {
         alert(t("phoneExist"));
       } else if (response?.data?.errors[0]?.message === "EMAIL_EXISTS") {
