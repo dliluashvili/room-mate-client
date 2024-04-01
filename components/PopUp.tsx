@@ -1,23 +1,14 @@
-import { useState } from "react";
 import { Button } from "../@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../@/components/ui/dialog";
+import { Dialog, DialogContent } from "../@/components/ui/dialog";
 import popupBack from "../public/newImages/popup.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-export function PopUp({ isOpen, setIsOpen }) {
+export function PopUp({ isOpen, setIsOpen, range }) {
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
-  let range = 130;
+
   return (
     <Dialog open={isOpen}>
       <h1 onClick={() => setIsOpen(false)}>Close</h1>
