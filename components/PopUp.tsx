@@ -11,7 +11,6 @@ export function PopUp({ isOpen, setIsOpen, range, country }) {
 
   return (
     <Dialog open={isOpen && country !== "145"}>
-      <h1 onClick={() => setIsOpen(false)}>Close</h1>
       <DialogContent className="sm:max-w-[470px] flex flex-col   overflow-hidden bg-white ">
         <div className="w-full h-40 relative">
           <Image src={popupBack} layout="fill" objectFit="cover" />
