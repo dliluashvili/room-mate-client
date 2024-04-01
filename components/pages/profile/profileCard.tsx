@@ -138,6 +138,9 @@ const ProfileCard: React.FC<IProps> = ({
             {districtNames}
           </span>
         </div>
+        {/* <Link href="/messages">
+          <Button variant="message">Message</Button>
+        </Link> */}
         <div className="d-flex pointer">
           <div
             onClick={() => {
