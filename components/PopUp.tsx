@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-export function PopUp({ isOpen, setIsOpen, range, country }) {
+export function PopUp({ isOpen, range, country }) {
   const router = useRouter();
   let { t } = useTranslation("common") as { t: (key: string) => string };
 
@@ -25,7 +25,7 @@ export function PopUp({ isOpen, setIsOpen, range, country }) {
               ? t("435-1")
               : range > 435
               ? t("500-1")
-              : ""}
+              : null}
           </span>
           <span>
             {range < 135
@@ -36,7 +36,7 @@ export function PopUp({ isOpen, setIsOpen, range, country }) {
               ? t("435-2")
               : range > 435
               ? t("500-2")
-              : ""}
+              : null}
           </span>
           <span>
             {range < 135
@@ -47,41 +47,61 @@ export function PopUp({ isOpen, setIsOpen, range, country }) {
               ? t("435-3")
               : range > 435
               ? t("500-3")
-              : ""}
+              : null}
             <br />
             {range < 135
               ? t("135-4")
               : range > 135 && range < 270
               ? t("270-4")
-              : ""}
+              : null}
           </span>
           <span>
-            {range < 135
-              ? t("135-5")
-              : range > 135 && range < 270
-              ? t("270-5")
-              : range > 270 && range < 435
-              ? t("435-4")
-              : range > 435
-              ? t("500-4")
-              : ""}
+            {range < 135 ? (
+              <>
+                {t("135-5")} (You can also search them on our website or in our{" "}
+                <a
+                  href="https://www.facebook.com/RoommateGeorgia.ge"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook group
+                </a>
+                .)
+              </>
+            ) : range >= 135 && range < 270 ? (
+              <>
+                {t("270-5")} (You can also search them on our website or in our{" "}
+                <a
+                  href="https://www.facebook.com/RoommateGeorgia.ge"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook group
+                </a>
+                .)
+              </>
+            ) : range >= 270 && range < 435 ? (
+              t("435-4") + "\u00A0".repeat(5)
+            ) : range >= 435 ? (
+              t("500-4") + "\u00A0".repeat(5)
+            ) : null}
           </span>
+
           <span>
-            {range < 135
-              ? t("135-6")
-              : range > 135 && range < 270
-              ? ""
-              : range > 270 && range < 435
-              ? t("435-5")
-              : range > 435
-              ? t("500-5")
-              : ""}
+            {range < 135 ? t("135-6") : null}
+            {range > 135 && range < 270 ? <br /> : null}
+            {range > 270 && range < 435
+              ? t("435-5") + "\u00A0".repeat(13)
+              : null}
+            {range > 435 ? t("500-5") + "\u00A0".repeat(13) : null}
             <br />
-            {range > 270 && range < 435 ? t("435-6") : ""}
-            {range > 435 ? t("500-6") : ""}
+            {range > 270 && range < 435
+              ? t("435-6") + "\u00A0".repeat(10)
+              : null}
+            {range > 435 ? t("500-6") + "\u00A0".repeat(10) : null}
             <br />
-            {range > 270 && range < 435 ? t("435-7") : ""}
-            {range > 435 ? t("500-7") : ""}
+            {range > 270 && range < 435 ? t("435-7") : null}
+            {range > 435 ? t("500-7") : null}
           </span>
 
           <div className="flex flex-row gap-2 mt-2 ">
@@ -103,7 +123,7 @@ export function PopUp({ isOpen, setIsOpen, range, country }) {
                 ? t("435-yes")
                 : range > 435
                 ? t("435-yes")
-                : ""}
+                : null}
             </Button>
           </div>
         </div>
