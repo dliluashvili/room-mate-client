@@ -66,9 +66,9 @@ const ProfileCard: React.FC<IProps> = ({
           >
             {firstname}
           </span>
-          {/* <span>
+          <span>
             {age} {t("years")}
-          </span> */}
+          </span>
         </div>
         <div
           className={classnames({
@@ -138,6 +138,9 @@ const ProfileCard: React.FC<IProps> = ({
             {districtNames}
           </span>
         </div>
+        {/* <Link href="/messages">
+          <Button variant="message">Message</Button>
+        </Link> */}
         <div className="d-flex pointer">
           <div
             onClick={() => {

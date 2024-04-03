@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import useTranslation from "next-translate/useTranslation";
+
+import { PopUp } from "./PopUp";
 const SignupFirst = dynamic(() => import("./SignupFirst"));
 const SignupSecond = dynamic(() => import("./SignupSecond"));
 const SignupStepsHeader = dynamic(() => import("./SignupStepsHeader"));
@@ -17,7 +19,8 @@ export default function MultiStepCard({ countries, gender, questions }) {
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [formData, setFormData] = useState({ answeredQuestions: {} });
+  const [formData, setFormData] = useState<any>({ answeredQuestions: {} });
+  const [isOpen, setIsOpen] = useState(false);
 
   let secondStep = questions?.slice(0, 7);
   let thirthStep = questions?.slice(8, 13);
@@ -85,15 +88,15 @@ export default function MultiStepCard({ countries, gender, questions }) {
     }
 
     modifiedFormData.answeredQuestions = answeredQuestions;
-    console.log("olla", modifiedFormData);
+
     const requestBody = {
-      query: `mutation SignUp($input: UserAndAnsweredQuestionsInput!) {
-        signUp(input: $input) {
+      query: `mutation SignUp($userAndAnsweredQuestions: UserAndAnsweredQuestionsInput!) {
+        signUp(userAndAnsweredQuestions: $userAndAnsweredQuestions) {
           accessToken
         }
       }`,
       variables: {
-        input: modifiedFormData,
+        userAndAnsweredQuestions: modifiedFormData,
       },
     };
 
@@ -104,7 +107,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
         },
       });
 
-      console.log(response);
       if (response?.data?.data && response?.data?.data?.signUp.accessToken) {
         dispatch(
           setCurrentUser({
@@ -112,7 +114,12 @@ export default function MultiStepCard({ countries, gender, questions }) {
             token: response.data.data.signUp.accessToken,
           })
         );
-        router.push("/");
+        if (step === 3) {
+          setIsOpen(true);
+        }
+        if (formData?.countryId?.value === "145") {
+          router.push("/");
+        }
       } else if (response?.data?.errors[0]?.message === "PHONE_EXISTS") {
         alert(t("phoneExist"));
       } else if (response?.data?.errors[0]?.message === "EMAIL_EXISTS") {
@@ -120,14 +127,18 @@ export default function MultiStepCard({ countries, gender, questions }) {
       }
     } catch (error) {
       showErrorWithHelp();
-      console.log(error);
     }
   };
-  console.log(formData);
+
   return (
     <>
       <div className="w-full min-h-screen flex justify-center items-center  md:pt-20 md:pb-16 lg:pt-36 md:px-[10%] lg:px-[15%] xl:px-[334px]">
         <Card>
+          <PopUp
+            isOpen={isOpen}
+            range={formData.answeredQuestions[7]}
+            country={formData?.countryId?.value}
+          />
           <SignupStepsHeader step={step} />
           <CardContent className="bg-white pt-8 pb-16  px-10  sm:px-28">
             {step === 1 && (

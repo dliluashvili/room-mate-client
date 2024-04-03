@@ -26,11 +26,12 @@ function Signup() {
     const fetchData = async () => {
       try {
         const lang = router.locale.toLocaleLowerCase(); // Set your desired language here
-        const getGendersLang2 = router.locale.toLocaleLowerCase();
+        const getCountriesLocale2 = router.locale.toLocaleLowerCase();
+        const locale = router.locale.toLocaleLowerCase();
         const query = `
-          query CombinedQuery($lang: Language, $getGendersLang2: Language) {
+          query CombinedQuery($locale: Language, $getCountriesLocale2: Language, $lang: Language) {
            
-            getGenders(lang: $getGendersLang2) {
+            getGenders(locale: $locale) {
               id
               translations {
                 id
@@ -38,7 +39,7 @@ function Signup() {
                 sex
               }
             }
-            getCountries(lang: $lang){
+            getCountries(locale: $getCountriesLocale2){
               id
               alpha2Code
               position
@@ -48,7 +49,7 @@ function Signup() {
                 name
               }
             }
-            getQuestions(lang: $lang) {
+            getQuestionsWithAnswers(lang: $lang) {
               answers {
                 id
                 questionId
@@ -74,7 +75,9 @@ function Signup() {
           query,
           variables: {
             lang,
-            getGendersLang2,
+
+            getCountriesLocale2,
+            locale,
           },
         });
 
@@ -93,7 +96,7 @@ function Signup() {
       <MultiStepCard
         countries={data?.data?.getCountries}
         gender={data?.data?.getGenders}
-        questions={data?.data?.getQuestions}
+        questions={data?.data?.getQuestionsWithAnswers}
       />
       <NewFooter />
     </>

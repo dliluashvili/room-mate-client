@@ -38,12 +38,13 @@ const Search = () => {
   let { t } = useTranslation("common");
 
   const router = useRouter();
-  console.log(router.query.page);
+
+
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
     const query = `
-            query FilterUsers($pagination: Pagination, $lang: Language, $input: [FilterInput!]) {
-              getFilteredUsers(pagination: $pagination, lang: $lang, input: $input) {
+            query FilterUsers($pagination: PaginationInput, $locale: Language, $filters: [FilterInput!]) {
+              getFilteredUsers(pagination: $pagination, locale: $locale, filters: $filters) {
                 pageInfo {
                     hasNextPage
                     hasPrevious
@@ -79,12 +80,12 @@ const Search = () => {
       {
         query: query,
         variables: {
-          input: filterData !== null ? filterData : [],
+          filters: filterData !== null ? filterData : [],
           pagination: {
             offset,
             limit,
           },
-          lang: router.locale === "en" ? "en" : "ka",
+          locale: router.locale === "en" ? "en" : "ka",
         },
       },
       {
@@ -93,7 +94,7 @@ const Search = () => {
         },
       }
     );
-    console.log(response);
+
     setLoading(false);
 
     if (!response.data?.errors) {
