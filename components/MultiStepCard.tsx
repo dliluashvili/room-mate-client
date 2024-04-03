@@ -136,7 +136,6 @@ export default function MultiStepCard({ countries, gender, questions }) {
         <Card>
           <PopUp
             isOpen={isOpen}
-            setIsOpen={setIsOpen}
             range={formData.answeredQuestions[7]}
             country={formData?.countryId?.value}
           />

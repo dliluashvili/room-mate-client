@@ -21,18 +21,34 @@ export const Social = () => {
   return (
     <>
       <div className="flex flex-row  gap-x-6">
-        <Link href="https://www.facebook.com/RoommateGeorgia.ge">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.facebook.com/RoommateGeorgia.ge"
+        >
           <Image className="pointer" src={Facebook} width={32} height={32} />
-        </Link>
-        <Link href="https://www.instagram.com/roommate.ge?igsh=NHRseWl5MHgyaW1o&utm_source=qr">
+        </a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.instagram.com/roommate.ge?igsh=NHRseWl5MHgyaW1o&utm_source=qr"
+        >
           <Image className="pointer" src={Instagram} width={32} height={32} />
-        </Link>
-        <Link href="https://wa.me/%2B995599976385">
+        </a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://wa.me/%2B995599976385"
+        >
           <Image className="pointer" src={Whatsapp} width={32} height={32} />
-        </Link>
-        <Link href="https://www.linkedin.com/company/roommate-georgia/">
+        </a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.linkedin.com/company/roommate-georgia/"
+        >
           <Image className="pointer" src={Linkedin} width={32} height={32} />
-        </Link>
+        </a>
       </div>
     </>
   );
@@ -98,9 +114,13 @@ export default function NewFooter() {
             <p className="text-xs pointer hover:underline">
               {t("becomePartner")}
             </p>
-            <Link href="https://roommate.blog/">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://roommate.blog/"
+            >
               <p className="text-xs pointer hover:underline"> {t("blog")}</p>
-            </Link>
+            </a>
             <p className="text-xs pointer hover:underline">{t("howItWorks")}</p>
           </div>
         </div>
