@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta
           property="og:image"
-          content="https://imgur.com/a/jRVDuAf"
+          content="https://i.imgur.com/bT3AfXF.png"
           key="og:image"
         />
 
