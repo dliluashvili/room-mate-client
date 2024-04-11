@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }) {
           key="og:description"
         />
         <meta
-          property="og:imageLurl"
+          property="og:image"
           content="https://imgur.com/a/jRVDuAf.png"
           key="og:image"
         />
