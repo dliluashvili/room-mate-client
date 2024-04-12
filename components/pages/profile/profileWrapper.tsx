@@ -34,6 +34,7 @@ const ProfileWrapper: React.FC<IProps> = ({
   if (!user) {
     return <Loader />;
   }
+
   return (
     <div>
       {/* <Header type="profile" /> */}

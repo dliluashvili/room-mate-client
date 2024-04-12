@@ -36,7 +36,7 @@ const SendResetCode = () => {
   const submit = handleSubmit(async (data) => {
     setLoad(true);
     try {
-      await AuthService.sendResetCode(data.phone);
+      await AuthService.sendResetCode(`+${data.phone}`);
 
       setLoad(false);
       toast.success(t("codeSent"), {
