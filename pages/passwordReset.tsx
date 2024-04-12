@@ -198,7 +198,7 @@ const PasswordReset = () => {
 
               <Button
                 loading={load}
-                className="btn btn-primary w-100 mt-3 py-2 mb-3"
+                className="btn btn-primary w-100 mt-3 py-2 mb-3 bg-[#19a463]"
               >
                 {t("passwordrecovery")}
               </Button>
