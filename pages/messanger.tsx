@@ -12,9 +12,9 @@ export default function messanger() {
   const [mobileOpen, setMobileOpen] = useState(false);
   console.log(mobileOpen);
   return (
-    <main className="w-full flex flex-col  min-h-screen   overflow-y-hidden ">
+    <main className="w-full flex flex-col  h-screen   overflow-hidden  ">
       <NewHeader />
-      <div className=" relative flex flex-row md:pt-6 h-full  md:px-20  xl:px-24   bg-[#F5F5F5] flex-grow">
+      <div className=" relative flex flex-row md:pt-6 h-full overflow-hidden      md:px-20  xl:px-24   bg-[#F5F5F5] flex-grow ">
         <List
           setUser={setUser}
           request={request}
