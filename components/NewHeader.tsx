@@ -10,9 +10,7 @@ import { useTypedSelector } from "./hooks/useTypeSelector";
 import BurgerMenu from "./BurgerMenu";
 import { useCheckAuth } from "./hooks/useCheckAuth";
 import LangChoose from "./LangChoose";
-import { Progress } from "../@/components/ui/progress";
-import { Skeleton } from "../@/components/ui/skeleton";
-
+import Messanger from "../public/newImages/messanger.svg";
 export default function NewHeader() {
   useCheckAuth(false);
 
@@ -131,6 +129,16 @@ export default function NewHeader() {
               {user.notifications.length}
             </div>
           )}
+        </div>
+        <div
+          className="hidden relative w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
+          onClick={(e) => {
+            handleLinkClick(e, "/messanger");
+          }}
+        >
+          {!user?.firstname ? (
+            <Image src={Messanger} width={24} height={24} alt="!23" />
+          ) : null}
         </div>
         <div className="block ml-2 md:hidden">
           <BurgerMenu />
