@@ -20,6 +20,7 @@ import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
 
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
+import WindowChat from "../components/messangerComponents/WindowChat";
 
 const Search = () => {
   useCheckAuth();
@@ -38,7 +39,6 @@ const Search = () => {
   let { t } = useTranslation("common");
 
   const router = useRouter();
-
 
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
@@ -125,9 +125,11 @@ const Search = () => {
 
     setSearchResults(updatedSearchResults);
   };
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState(null);
   return (
     <>
+      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} /> : null}
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -194,6 +196,8 @@ const Search = () => {
                   searchResults?.map((el) => {
                     return (
                       <ProfileCard
+                        setIsOpen={setIsOpen}
+                        setName={setName}
                         setPayModal={() => {
                           setOpenPayModal(true);
                         }}

@@ -6,10 +6,14 @@ import classnames from "classnames";
 import { useRouter } from "next/router";
 import { useTypedSelector } from "../../hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
+import Sms from "../../../public/newImages/sms-edit.svg";
+import Image from "next/image";
 
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
   setPayModal?: (payed: boolean) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setName: React.Dispatch<any>;
 }
 
 const ProfileCard: React.FC<IProps> = ({
@@ -22,6 +26,8 @@ const ProfileCard: React.FC<IProps> = ({
   profile_image,
   cardInfo,
   updateAddRemove,
+  setIsOpen,
+  setName,
 }) => {
   const addRemoveFromFavorites = () => {
     let requestId = favourite_id ? favourite_id : id;
@@ -131,7 +137,7 @@ const ProfileCard: React.FC<IProps> = ({
             />
           </svg>
           <span
-            className={classnames("userCard_footer_locations ", {
+            className={classnames("userCard_footer_locations w-auto ", {
               bluer: !user?.payed,
             })}
           >
@@ -141,7 +147,18 @@ const ProfileCard: React.FC<IProps> = ({
         {/* <Link href="/messages">
           <Button variant="message">Message</Button>
         </Link> */}
-        <div className="d-flex pointer">
+
+        <div className="d-flex pointer items-center">
+          <button
+            className="w-auto py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
+            onClick={() => {
+              setName(firstname);
+              setIsOpen(true);
+            }}
+          >
+            <Image src={Sms} width={16} height={16} alt="sms" />
+            <span className="ml-1 text-white text-xs">Message</span>
+          </button>
           <div
             onClick={() => {
               if (!user?.payed) {
