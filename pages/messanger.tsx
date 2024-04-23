@@ -6,11 +6,11 @@ import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import ChatFieldMobile from "../components/messangerComponents/ChatFieldMobile";
 
 export default function messanger() {
-  // useCheckAuth();
+  useCheckAuth();
   const [user, setUser] = useState(null);
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  console.log(mobileOpen);
+
   return (
     <main className="w-full flex flex-col  h-screen   overflow-hidden  ">
       <NewHeader />

@@ -6,7 +6,7 @@ import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
 import More from "../../public/newImages/more.svg";
 
-export default function ChatFieldMobile({
+export default function ChatWindow({
   user,
   request,
   mobileOpen,
