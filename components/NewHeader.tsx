@@ -130,16 +130,21 @@ export default function NewHeader() {
             </div>
           )}
         </div>
-        <div
-          className="hidden relative w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
-          onClick={(e) => {
-            handleLinkClick(e, "/messanger");
-          }}
-        >
-          {!user?.firstname ? (
-            <Image src={Messanger} width={24} height={24} alt="!23" />
-          ) : null}
-        </div>
+        {user?.firstname ? (
+          <div
+            className=" relative flex items-center justify-center w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
+            onClick={(e) => {
+              handleLinkClick(e, "/messanger");
+            }}
+          >
+            <div className="hidden md:block">
+              <Image src={Messanger} width={24} height={24} alt="!23" />
+            </div>
+            <div className="block md:hidden mt-2">
+              <Image src={Messanger} width={18} height={18} alt="!23" />
+            </div>
+          </div>
+        ) : null}
         <div className="block ml-2 md:hidden">
           <BurgerMenu />
         </div>

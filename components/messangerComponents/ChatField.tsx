@@ -38,8 +38,8 @@ export default function ChatField({ user, request }) {
           </div>
         </div>
       ) : (
-        <div className="w-full h-full flex flex-col justify-end ">
-          <div className="w-full    bg-[#838CAC] rounded-lg flex flex-row items-center justify-between gap-14 p-10">
+        <div className="w-full h-full flex flex-col justify-end p-4 ">
+          <div className="w-full    bg-[#838CAC] rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 p-10">
             <span className="text-[#FFFFFF]">
               if you reply Mako will be able to call you and see information
               such as you active statusand when you have read messages.
