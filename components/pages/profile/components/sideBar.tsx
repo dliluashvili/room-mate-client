@@ -14,6 +14,11 @@ import { useDispatch } from "react-redux";
 import { AlertIcon } from "../../../svg/statusIcon";
 import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import classNames from "classnames";
+import Sms from "../../../../public/newImages/sms-edit.svg";
+import Image from "next/image";
+import TestAvatar from "../../../../public/newImages/testAvatar.svg";
+import More from "../../../../public/newImages/more.svg";
+import WindowChat from "../../../messangerComponents/WindowChat";
 
 interface ISidebar {
   firstname: string;
@@ -169,9 +174,14 @@ const SideBar: React.FC<ISidebar> = (props) => {
     return "NOT_SENT";
   }, [props.isSentRequest, status]);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState(null);
+
   return (
     <>
+      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} /> : null}
       <ToastContainer />
+
       {reportModal && (
         <div className="reportModal">
           <div className=" reportModal-header text-right d-flex align-items-center justify-between w-100 ">
@@ -204,6 +214,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
               );
             })}
             <br />
+
             {reportTextarea && (
               <FormGroup>
                 <textarea
@@ -343,6 +354,15 @@ const SideBar: React.FC<ISidebar> = (props) => {
                 ? t("requestRejected")
                 : t("contactRequest")}
             </Button>
+            <button
+              onClick={() => {
+                setIsOpen(true), setName(props.firstname);
+              }}
+              className="w-full mt-4 py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
+            >
+              <Image src={Sms} width={16} height={16} alt="sms" />
+              <span className="ml-1 text-white text-base">Message</span>
+            </button>
           </div>
         ) : (
           <>
