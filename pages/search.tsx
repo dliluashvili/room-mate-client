@@ -140,7 +140,10 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage   ">
+      <div
+        className="searchPage   "
+      
+      >
         <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
