@@ -3,7 +3,6 @@ import Avatar from "../../public/newImages/testAvatar.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 
-
 const data = [
   {
     img: Avatar,
@@ -44,72 +43,24 @@ const data = [
     lastMessage: "last message...",
     message: 5,
   },
+
   {
     img: Avatar,
-    name: "Zura tsintsadze",
-    lastMessage: "last message...",
-    message: 1,
-  },
-  {
-    img: Avatar,
-    name: "Marika Khantadze",
-    lastMessage: "last message...",
-  },
-  {
-    img: Avatar,
-    name: "Zura tsintsadze",
+    name: "xxxxxx",
     lastMessage: "last message...",
     message: 5,
   },
   {
     img: Avatar,
-    name: "Marika Khantadze",
-    lastMessage: "last message...",
-  },
-  {
-    img: Avatar,
-    name: "Zura tsintsadze",
+    name: "xxxxxx",
     lastMessage: "last message...",
     message: 5,
   },
   {
     img: Avatar,
-    name: "Marika Khantadze",
-    lastMessage: "last message...",
-  },
-  {
-    img: Avatar,
-    name: "Zura tsintsadze",
+    name: "xxxxxx",
     lastMessage: "last message...",
     message: 5,
-  },
-  {
-    img: Avatar,
-    name: "Marika Khantadze",
-    lastMessage: "last message...",
-  },
-  {
-    img: Avatar,
-    name: "zzzzzzzzzzzzzzzzz",
-    lastMessage: "last message...",
-    message: 52,
-  },
-  {
-    img: Avatar,
-    name: "Zura tsintsadze",
-    lastMessage: "last message...",
-    message: 5,
-  },
-  {
-    img: Avatar,
-    name: "Marika Khantadze",
-    lastMessage: "last message...",
-  },
-  {
-    img: Avatar,
-    name: "oooooooooo",
-    lastMessage: "last message...",
-    message: 33,
   },
 ];
 
@@ -173,7 +124,10 @@ export default function List({ setUser, request, setRequest, setMobileOpen }) {
                   alt="123"
                 />
                 {item.message > 0 && (
-                  <div className="bg-[#DB0505] left-12 absolute  hidden md:flex lg:hidden  text-white text-[10px] rounded-full w-5 h-5  items-center justify-center">
+                  <div
+                    id="#tablet"
+                    className="bg-[#DB0505] left-12 absolute  hidden md:flex lg:hidden  text-white text-[10px] rounded-full w-5 h-5  items-center justify-center"
+                  >
                     {item.message}
                   </div>
                 )}
