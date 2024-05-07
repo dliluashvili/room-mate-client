@@ -144,11 +144,9 @@ const ProfileCard: React.FC<IProps> = ({
             {districtNames}
           </span>
         </div>
-        {/* <Link href="/messages">
-          <Button variant="message">Message</Button>
-        </Link> */}
+        <h1>test deploy</h1>
 
-        <div className="d-flex pointer items-center">
+        <div className="flex pointer items-center">
           <button
             className="w-auto py-2 px-2 bg-[#0A7CFF] leading-none rounded-md  flex flex-row items-center justify-center"
             onClick={() => {
