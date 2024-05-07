@@ -549,6 +549,15 @@ const SideBar: React.FC<ISidebar> = (props) => {
           ) : null}
         </div>
       </div>
+      <button
+        onClick={() => {
+          setIsOpen(true), setName(props.firstname);
+        }}
+        className="w-full mt-4 py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
+      >
+        <Image src={Sms} width={16} height={16} alt="sms" />
+        <span className="ml-1 text-white text-base">Message</span>
+      </button>
     </>
   );
 };
