@@ -150,7 +150,7 @@ const ProfileCard: React.FC<IProps> = ({
 
         <div className="d-flex pointer items-center">
           <button
-            className="w-auto py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
+            className="w-auto py-2 px-2 bg-[#0A7CFF] leading-none rounded-md  flex flex-row items-center justify-center"
             onClick={() => {
               setName(firstname);
               setIsOpen(true);
