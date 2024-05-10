@@ -1,0 +1,5 @@
+scalar Conversation
+
+extend type ConversationWithUserObject {
+    unreadMessagesCount: Int!
+}

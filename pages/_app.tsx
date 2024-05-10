@@ -9,6 +9,8 @@ import { SearchProvider } from "../components/pages/search/context/searchContext
 import { HouseSearchProvider } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { hotjar } from "react-hotjar";
+import { ApolloWrapper } from "../providers/apolloProvider";
+import TwilioClientWrapper from "../components/TwilioClientWrapper";
 
 // import { Html } from "next/document";
 
@@ -84,7 +86,11 @@ function MyApp({ Component, pageProps }) {
         <HouseSearchProvider>
           <SearchProvider>
             <Provider store={store}>
-              <Component {...pageProps} />
+              <ApolloWrapper>
+                <TwilioClientWrapper>
+                  <Component {...pageProps} />
+                </TwilioClientWrapper>
+              </ApolloWrapper>
             </Provider>
           </SearchProvider>
         </HouseSearchProvider>
