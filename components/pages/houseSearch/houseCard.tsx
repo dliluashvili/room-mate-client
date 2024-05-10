@@ -5,7 +5,7 @@ import { Flats } from '../../../services/flats/flats.http';
 import useTranslation from 'next-translate/useTranslation';
 import classNames from 'classnames';
 
-const HouseCard = ({ data, isAuth, addRemoveFavorite, className }: any) => {
+const HouseCard = ({ data, data2, isAuth, addRemoveFavorite, className }: any) => {
     let { t } = useTranslation('common');
 
     return (
