@@ -17,12 +17,6 @@ type PromisedUnreadMessagesCount = {
 
 const OFFSET = 0;
 const LIMIT = 15;
-const GET_CONVERSATIONS_FOR_USER_VARIABLES = {
-  pagination: {
-    offset: OFFSET,
-    limit: LIMIT,
-  },
-};
 
 export const useInitializeNotification = () => {
   const { user } = useTypedSelector((state) => state.profile);
@@ -34,7 +28,12 @@ export const useInitializeNotification = () => {
   const twilioClient = useReactiveVar(twilioClientVar);
 
   const { data } = useQuery(getConversationsForUserQuery, {
-    variables: GET_CONVERSATIONS_FOR_USER_VARIABLES,
+    variables: {
+      pagination: {
+        offset: OFFSET,
+        limit: LIMIT,
+      },
+    },
   });
 
   const getConversationResources = async (
@@ -95,7 +94,6 @@ export const useInitializeNotification = () => {
     client.cache.updateQuery(
       {
         query: getConversationsForUserQuery,
-        variables: GET_CONVERSATIONS_FOR_USER_VARIABLES,
       },
       (data) => {
         if (data?.getConversationsForUser) {
@@ -147,7 +145,6 @@ export const useInitializeNotification = () => {
     client.cache.updateQuery(
       {
         query: getConversationsForUserQuery,
-        variables: GET_CONVERSATIONS_FOR_USER_VARIABLES,
       },
       (data) => {
         if (data?.getConversationsForUser) {
