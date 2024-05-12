@@ -34,6 +34,7 @@ export const useInitializeNotification = () => {
         limit: LIMIT,
       },
     },
+    fetchPolicy: "cache-only",
   });
 
   const getConversationResources = async (

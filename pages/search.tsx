@@ -127,9 +127,11 @@ const Search = () => {
   };
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(null);
+  const [id, setId] = useState(null);
+
   return (
     <>
-      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} /> : null}
+      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} id={id} /> : null}
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -140,10 +142,7 @@ const Search = () => {
         />
       ) : null}
 
-      <div
-        className="searchPage   "
-      
-      >
+      <div className="searchPage   ">
         <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
@@ -201,6 +200,7 @@ const Search = () => {
                       <ProfileCard
                         setIsOpen={setIsOpen}
                         setName={setName}
+                        setUserId={setId}
                         setPayModal={() => {
                           setOpenPayModal(true);
                         }}

@@ -5,41 +5,18 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { useMediaQuery } from "react-responsive";
-import { twilioClientVar } from "../../store/twilioVars";
-import { useApolloClient } from "@apollo/client";
-import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 
-export default function WindowChat({ setIsOpen, name }) {
+export default function WindowChat({ setIsOpen, name, id }) {
   const ref = useRef();
   const media = useMediaQuery({ maxWidth: 768 });
-
-  const twilioClient = twilioClientVar();
-  const client = useApolloClient();
-
-  const checkConversationExistence = () => {
-    const conversationFromStorage = client.readQuery({
-      query: getConversationsForUserQuery,
-    });
-
-    console.log({ conversationFromStorage });
-    // if exists redirect to messages page
-    // if not create new one
-  };
-
-  const handleSend = async () => {
-    checkConversationExistence();
-
-    // if (twilioClient) {
-    //   const resp = await twilioClient.createConversation();
-    //   console.log({ resp });
-    // }
-  };
 
   useEffect(() => {
     if (ref.current && media) {
       disableBodyScroll(ref.current);
     }
   }, [setIsOpen]);
+
+  const sendMessage = () => {};
 
   return (
     <div
@@ -79,7 +56,7 @@ export default function WindowChat({ setIsOpen, name }) {
           <textarea className="border-[#838CAC] border focus:outline-none rounded-md h-24 pl-1 text-md pt-1" />
           <div
             className="w-full flex flex-row justify-end mt-6 cursor-pointer"
-            onClick={handleSend}
+            onClick={sendMessage}
           >
             <Image src={Send} width={24} height={24} alt="send" />
           </div>
