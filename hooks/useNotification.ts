@@ -9,14 +9,12 @@ import { twilioClientVar } from "../store/twilioVars";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
 import { PaginatedConversationWithUserObject } from "../gql/graphql";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
+import { LIMIT, OFFSET } from "../constants/pagination";
 
 type PromisedUnreadMessagesCount = {
   sid: string;
   unreadMessagesCount: number;
 };
-
-const OFFSET = 0;
-const LIMIT = 15;
 
 export const useInitializeNotification = () => {
   const { user } = useTypedSelector((state) => state.profile);
@@ -34,7 +32,6 @@ export const useInitializeNotification = () => {
         limit: LIMIT,
       },
     },
-    fetchPolicy: "cache-only",
   });
 
   const getConversationResources = async (
@@ -197,6 +194,4 @@ export const useInitializeNotification = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, twilioClient, user]);
-
-  console.log({ data });
 };

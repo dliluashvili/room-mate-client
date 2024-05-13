@@ -26,15 +26,17 @@ const getConversationsForUserQuery: TypedDocumentNode<
       list {
         id
         sid
+        status
+        creatorId
         createdAt
         updatedAt
+        unreadMessagesCount @client
         user {
           id
           firstname
           lastname
           profileImage
         }
-        unreadMessagesCount @client
       }
       pageInfo {
         hasNextPage
@@ -54,17 +56,18 @@ const getSharedConversationQuery: TypedDocumentNode<
 > = gql`
   query GetSharedConversation($targetUserId: String!) {
     getSharedConversation(targetUserId: $targetUserId) {
-      createdAt
-      creatorId
       id
       sid
+      status
+      creatorId
+      createdAt
+      updatedAt
       user {
         id
         firstname
         lastname
         profileImage
       }
-      updatedAt
     }
   }
 `;

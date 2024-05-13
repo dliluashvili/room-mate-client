@@ -80,6 +80,7 @@ export type ConversationWithUserObject = {
   creatorId: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
   sid: Scalars['String']['output'];
+  status: ConversationStatus;
   unreadMessagesCount: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
   user?: Maybe<UserPreviewObject>;

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import TestAvatar from "../../public/newImages/testAvatar.svg";
 import Send from "../../public/newImages/send.svg";
+import { useRouter } from "next/router";
 
 export default function ChatField({ user, request }) {
   return (
@@ -13,24 +14,23 @@ export default function ChatField({ user, request }) {
             <span>active now</span>
           </div>
         </div>
-        
       </div>
 
       {!request ? (
         <div className="flex flex-col pt-5 pb-4 px-4 w-full h-full justify-end  ">
           <div className="flex w-full flex-row h-auto items-center px-6 py-4">
-          <input
-            placeholder="send message"
-            className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"
-          />
-          <Image
-            src={Send}
-            width={24}
-            height={24}
-            alt="!23"
-            className="cursor-pointer"
-          />
-        </div>
+            <input
+              placeholder="send message"
+              className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"
+            />
+            <Image
+              src={Send}
+              width={24}
+              height={24}
+              alt="!23"
+              className="cursor-pointer"
+            />
+          </div>
         </div>
       ) : (
         <div className="w-full h-full flex flex-col justify-end p-4 ">

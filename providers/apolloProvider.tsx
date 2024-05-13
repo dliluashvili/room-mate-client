@@ -8,6 +8,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import { PaginatedConversationWithUserObject } from "../gql/graphql";
+import { LIMIT, OFFSET } from "../constants/pagination";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
@@ -41,6 +42,26 @@ export const makeApolloClient = () => {
         fields: {
           getConversationsForUser: {
             keyArgs: false,
+            read(
+              existing: PaginatedConversationWithUserObject,
+              {
+                variables: {
+                  pagination: { offset, limit } = {
+                    offset: OFFSET,
+                    limit: LIMIT,
+                  },
+                },
+              }
+            ) {
+              if (!existing) {
+                return existing;
+              }
+
+              return {
+                ...existing,
+                list: existing.list.slice(offset, limit + 1),
+              };
+            },
             merge(
               existing: PaginatedConversationWithUserObject,
               incoming: PaginatedConversationWithUserObject,
