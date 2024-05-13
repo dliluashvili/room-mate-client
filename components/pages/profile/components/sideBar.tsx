@@ -16,7 +16,7 @@ import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import classNames from "classnames";
 import Sms from "../../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
-import WindowChat from "../../../messangerComponents/WindowChat";
+import WindowChat from "../../../messengerComponents/WindowChat";
 import { checkConversationExistence } from "../../../utils/checkConversationExistence";
 
 interface ISidebar {

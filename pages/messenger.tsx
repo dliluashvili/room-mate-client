@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import List from "../components/messangerComponents/List";
+import List from "../components/messengerComponents/List";
 import NewHeader from "../components/NewHeader";
-import ChatField from "../components/messangerComponents/ChatField";
+import ChatField from "../components/messengerComponents/ChatField";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
-import ChatFieldMobile from "../components/messangerComponents/ChatFieldMobile";
+import ChatFieldMobile from "../components/messengerComponents/ChatFieldMobile";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
@@ -13,13 +13,13 @@ import { ConversationStatus } from "../gql/graphql";
 export default function messenger() {
   useCheckAuth();
 
-  const [user, setUser] = useState(null);
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const router = useRouter();
-  const { query } = router;
-  const { id } = query;
+  const {
+    query: { id },
+  } = router;
 
   const { data } = useQuery(getConversationsForUserQuery, {
     variables: {
@@ -52,26 +52,23 @@ export default function messenger() {
     }
   }, [id, filteredConversationsByStatus]);
 
-  useEffect(() => {
-    const id = filteredConversationsByStatus?.[0]?.sid ?? "";
-    router.push(`/messenger?id=${id}`);
-  }, [request]);
+  // useEffect(() => {
+  //   const sid = filteredConversationsByStatus?.[0]?.sid ?? "";
+  //   router.push(`/messenger?id=${sid}`);
+  // }, [request]);
 
   return (
-    <main className="w-full flex flex-col  h-screen   overflow-hidden  ">
+    <main className="w-full flex flex-col h-screen overflow-hidden">
       <NewHeader />
-      <div className=" relative flex flex-row md:pt-6 h-full overflow-hidden      md:px-20  xl:px-24   bg-[#F5F5F5] flex-grow ">
+      <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
         <List
-          setUser={setUser}
           request={request}
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
           conversations={filteredConversationsByStatus}
         />
-        <ChatField user={user} request={request} />
+        <ChatField />
         <ChatFieldMobile
-          user={user}
-          request={request}
           mobileOpen={mobileOpen}
           setMobileOpen={setMobileOpen}
         />

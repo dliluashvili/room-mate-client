@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Avatar from "../../public/newImages/testAvatar.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
+import { useRouter } from "next/router";
 
 export default function List({
-  setUser,
   request,
   setRequest,
   setMobileOpen,
@@ -12,7 +12,17 @@ export default function List({
 }) {
   const [search, setSearch] = useState("");
 
+  const router = useRouter();
+
   const media = useMediaQuery({ query: "(max-width: 768px)" });
+
+  const handleClickConversation = (sid) => {
+    router.push(`/messenger?id=${sid}`);
+
+    if (media) {
+      setMobileOpen(true);
+    }
+  };
 
   return (
     <section className="flex flex-col w-full md:w-[100px]   lg:w-[400px] h-full items-start  rounded-md overflow-hidden  bg-[#FFFFFF] border-b-4 border-[gray]">
@@ -45,14 +55,7 @@ export default function List({
       <div className="w-full  h-full overflow-auto">
         {conversations.map((conversation, index) => (
           <div
-            onClick={() => {
-              if (media) {
-                setMobileOpen(true);
-                setUser(conversation.user.firstname);
-              } else {
-                setUser(conversation.user.firstname);
-              }
-            }}
+            onClick={() => handleClickConversation(conversation.sid)}
             key={index}
             className="flex flex-row   cursor-pointer  items-center justify-center lg:justify-between px-6 md:p-0 py-2  lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
           >

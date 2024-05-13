@@ -1,17 +1,13 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import TestAvatar from "../../public/newImages/testAvatar.svg";
 import CloseCircle from "../../public/newImages/close-circle.svg";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
-import More from "../../public/newImages/more.svg";
 
-export default function ChatFieldMobile({
-  user,
-  request,
-  mobileOpen,
-  setMobileOpen,
-}) {
+export default function ChatFieldMobile({ mobileOpen, setMobileOpen }) {
+  const request = true;
+
   return (
     <section
       className="w-full bg-[#FFFFFF]  h-full flex-col absolute z-50 "
@@ -26,7 +22,7 @@ export default function ChatFieldMobile({
           ) : null}
           <Image src={TestAvatar} alt="123" width={40} height={40} />
           <div className="flex flex-col ml-6 justify-between">
-            <span>{user}</span>
+            <span>User</span>
             <span>active now</span>
           </div>
         </div>
