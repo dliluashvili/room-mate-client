@@ -125,13 +125,20 @@ const Search = () => {
 
     setSearchResults(updatedSearchResults);
   };
+
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(null);
-  const [id, setId] = useState(null);
+  const [targetUserId, setTargetUserId] = useState(null);
 
   return (
     <>
-      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} id={id} /> : null}
+      {isOpen ? (
+        <WindowChat
+          setIsOpen={setIsOpen}
+          name={name}
+          targetUserId={targetUserId}
+        />
+      ) : null}
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -200,7 +207,7 @@ const Search = () => {
                       <ProfileCard
                         setIsOpen={setIsOpen}
                         setName={setName}
-                        setUserId={setId}
+                        setUserId={setTargetUserId}
                         setPayModal={() => {
                           setOpenPayModal(true);
                         }}

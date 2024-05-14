@@ -19,6 +19,8 @@ const AccordionQuestions = dynamic(
 );
 const NewFooter = dynamic(() => import("../components/NewFooter"));
 
+// FIXME:
+// SerializableError: Error serializing `.flats` returned from `getServerSideProps` in "/".
 export async function getServerSideProps(searchParams: any) {
   try {
     const response = await Flats.getFlats({
@@ -32,9 +34,11 @@ export async function getServerSideProps(searchParams: any) {
         console.log({ err });
       });
 
-    return { props: { flats: response } };
+    return [];
+    // return { props: { flats: response } };
   } catch (error) {
-    return { props: { errorMessage: error.message } };
+    return [];
+    // return { props: { errorMessage: error.message } };
   }
 }
 

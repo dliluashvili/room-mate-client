@@ -180,8 +180,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
     const conversation = await checkConversationExistence(String(props.id));
 
     if (conversation) {
-      console.log({ conversation });
-      console.log("should redirect conversation page");
+      router.push(`/messenger?id=${conversation.sid}`);
     } else {
       setIsOpen(true);
       setName(props.firstname);
@@ -191,7 +190,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   return (
     <>
       {isOpen ? (
-        <WindowChat setIsOpen={setIsOpen} name={name} id={props.id} />
+        <WindowChat setIsOpen={setIsOpen} name={name} targetUserId={props.id} />
       ) : null}
       <ToastContainer />
 

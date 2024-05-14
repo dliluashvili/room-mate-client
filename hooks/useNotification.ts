@@ -159,6 +159,7 @@ export const useInitializeNotification = () => {
             });
 
           return {
+            ...data,
             getConversationsForUser: {
               ...data.getConversationsForUser,
               list: conversationIncrementedUnreadMessage,

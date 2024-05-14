@@ -1,5 +1,7 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
 import {
+  Mutation,
+  MutationLookupOrCreateTwilioUserResourceArgs,
   Query,
   QueryGetConversationsForUserArgs,
   QueryGetSharedConversationArgs,
@@ -14,6 +16,17 @@ const generateTwilioAccessTokenMutation = gql`
 const logConnectionErrorMutation = gql`
   mutation LogConnectionError($error: String!) {
     logConnectionError(error: $error)
+  }
+`;
+
+const lookupOrCreateTwilioUserResourceMutation: TypedDocumentNode<
+  {
+    lookupOrCreateTwilioUserResource: Mutation["lookupOrCreateTwilioUserResource"];
+  },
+  MutationLookupOrCreateTwilioUserResourceArgs
+> = gql`
+  mutation Mutation($userId: String!) {
+    lookupOrCreateTwilioUserResource(userId: $userId)
   }
 `;
 
@@ -75,6 +88,7 @@ const getSharedConversationQuery: TypedDocumentNode<
 export {
   generateTwilioAccessTokenMutation,
   logConnectionErrorMutation,
+  lookupOrCreateTwilioUserResourceMutation,
   getConversationsForUserQuery,
   getSharedConversationQuery,
 };

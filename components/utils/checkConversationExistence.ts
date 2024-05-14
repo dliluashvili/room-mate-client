@@ -29,13 +29,39 @@ export const checkConversationExistence = async (
     variables: {
       targetUserId,
     },
+    fetchPolicy: "network-only",
   });
 
-  // ! TODO getSharedConversation should be added to conversation list in cache
   // db check
   if (data?.getSharedConversation) {
+    updateCacheWithNewConversationInFirstPlace(data.getSharedConversation);
+
     return data.getSharedConversation;
   }
 
   return null;
+};
+
+export const updateCacheWithNewConversationInFirstPlace = (
+  newConversation: ConversationWithUserObject
+) => {
+  const client = makeApolloClient();
+  console.log({ newConversation });
+
+  client.cache.updateQuery(
+    {
+      query: getConversationsForUserQuery,
+    },
+    (data) => {
+      if (data?.getConversationsForUser) {
+        return {
+          ...data,
+          getConversationsForUser: {
+            ...data.getConversationsForUser,
+            list: [newConversation, ...data.getConversationsForUser.list],
+          },
+        };
+      }
+    }
+  );
 };

@@ -57,11 +57,11 @@ const ProfileCard: React.FC<IProps> = ({
     const conversation = await checkConversationExistence(String(id));
 
     if (conversation) {
-      console.log({ conversation });
-      console.log("should redirect conversation page");
+      router.push(`/messenger?id=${conversation.sid}`);
     } else {
       setIsOpen(true);
       setName(firstname);
+      setUserId(id);
     }
   };
 

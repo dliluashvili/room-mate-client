@@ -59,7 +59,7 @@ export const makeApolloClient = () => {
 
               return {
                 ...existing,
-                list: existing.list.slice(offset, limit + 1),
+                list: existing.list.slice(offset, offset + limit + 1),
               };
             },
             merge(
@@ -71,11 +71,18 @@ export const makeApolloClient = () => {
                 return incoming;
               }
 
-              // If any client write happens merge function is called.
-              // This means that cache is updated with previous data.
-              // Data should be updated while writing happens after server response.
-              // This is why offset is checked.
-              if (offset === null || existing.pageInfo.offset === offset) {
+              // If any client write happens, the merge function is called.
+              // In this case cache should be replaced.
+              if (offset === null) {
+                return {
+                  ...existing,
+                  list: incoming.list,
+                };
+              }
+
+              // While two query runs parallel, accidentally data is merged and duplicated
+              // This clause protects from it
+              if (offset === existing.pageInfo.offset) {
                 return existing;
               }
 
