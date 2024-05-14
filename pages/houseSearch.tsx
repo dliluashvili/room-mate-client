@@ -29,7 +29,7 @@ const Search = () => {
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
   const [data, setData] = useState(null);
-  console.log(data?.length, "hey");
+ 
 
   useEffect(() => {
     const fetchData = async () => {
