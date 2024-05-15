@@ -206,5 +206,5 @@ export const useInitializeNotification = () => {
     if (twilioClient && user) {
       getConversationsForUser();
     }
-  }, [twilioClient]);
+  }, [twilioClient, user]);
 };
