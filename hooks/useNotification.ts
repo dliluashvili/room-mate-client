@@ -1,4 +1,9 @@
-import { useApolloClient, useQuery, useReactiveVar } from "@apollo/client";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useQuery,
+  useReactiveVar,
+} from "@apollo/client";
 import {
   Conversation,
   Message,
@@ -25,14 +30,17 @@ export const useInitializeNotification = () => {
 
   const twilioClient = useReactiveVar(twilioClientVar);
 
-  const { data } = useQuery(getConversationsForUserQuery, {
-    variables: {
-      pagination: {
-        offset: OFFSET,
-        limit: LIMIT,
+  const [getConversationsForUser, { data }] = useLazyQuery(
+    getConversationsForUserQuery,
+    {
+      variables: {
+        pagination: {
+          offset: OFFSET,
+          limit: LIMIT,
+        },
       },
-    },
-  });
+    }
+  );
 
   const getConversationResources = async (
     conversations: PaginatedConversationWithUserObject["list"],
@@ -185,8 +193,6 @@ export const useInitializeNotification = () => {
 
   useEffect(() => {
     if (
-      user &&
-      twilioClient &&
       data?.getConversationsForUser?.list &&
       !isInitFunctionInitialized.current
     ) {
@@ -195,4 +201,10 @@ export const useInitializeNotification = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, twilioClient, user]);
+
+  useEffect(() => {
+    if (twilioClient && user) {
+      getConversationsForUser();
+    }
+  }, [twilioClient]);
 };
