@@ -207,16 +207,26 @@ export const useInitializeNotification = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, twilioClient, user]);
 
+  useEffect(() => {
+    if (twilioClient && user) {
+      getConversationsForUser();
+    }
+  }, [twilioClient, user]);
+
+  // test
+  // useEffect(() => {
+  //   if (twilioClient && user) {
+  //     test();
+  //   }
+  // }, [twilioClient, user]);
+
   // const test = async () => {
   //   const conversation = await twilioClient.getConversationBySid(
-  //     "CHfd13905127fd48f788c5f15b8f3e59eb"
+  //     "CHa086baefbf3a414fa15aaf57f1cbb1e2"
   //   );
-
-  //   conversation.updateLastReadMessageIndex(1);
+  //   await conversation.updateLastReadMessageIndex(1);
 
   //   const messages = await conversation.getMessages();
   //   const unreadMessage = await conversation.getUnreadMessagesCount();
-
-  //   console.log({ messages, unreadMessage });
   // };
 };
