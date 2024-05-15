@@ -6,6 +6,7 @@ module.exports = {
       "img.roommategeorgia.ge",
       "img.test.roommategeorgia.ge",
       "flagcdn.com",
+      "drive.google.com",
     ],
   },
   eslint: {

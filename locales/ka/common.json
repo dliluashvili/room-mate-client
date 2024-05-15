@@ -300,5 +300,8 @@
   "500-5": "- Shared bedroom: $135-$270",
   "500-6": "- Separate bedroom: $270-$380",
   "500-7": "- Entire 1-bedroom (off-center): <$435",
-  "500-yes": "I'll wait message from my personal assistant"
+  "500-yes": "I'll wait message from my personal assistant",
+
+  "upload": "ატვირთვა",
+  "uploadHeader": "ატვრირთე ბინა ჩვენს პლატფორმაზე"
 }
