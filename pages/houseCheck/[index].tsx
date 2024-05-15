@@ -161,11 +161,9 @@ function House(props) {
             {images?.map((el, i) => {
               return (
                 <div className="flex  items-center justify-center" key={i}>
-                  <Image
+                  <img
                     alt="!23"
-                    layout="fill"
-                    objectFit="contain"
-                    className="pt-16"
+                    className="w-full object-contain pt-16"
                     src={el}
                   />
                 </div>
