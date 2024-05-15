@@ -151,7 +151,7 @@ function House(props) {
       setCurrentCurrency(currency);
     }
   }, []);
-  console.log(images, "123");
+
 
   return (
     <>
@@ -162,7 +162,7 @@ function House(props) {
             {images?.map((el, i) => {
               return (
                 <div className="flex  items-center justify-center" key={i}>
-                  <Image alt="!23" layout="fill" objectFit="contain" className="pt-10" src={el} />
+                  <Image alt="!23" layout="fill" objectFit="contain" className="pt-16" src={el} />
                 </div>
               );
             })}
