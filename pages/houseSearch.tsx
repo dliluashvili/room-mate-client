@@ -17,6 +17,9 @@ import useTranslation from "next-translate/useTranslation";
 import HouseCard from "../components/pages/houseSearch/houseCard";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
+import HouseCard2 from "../components/pages/houseSearch/houseCard2";
+import { Button } from "../@/components/ui/button";
+import Link from "next/link";
 
 const Search = () => {
   useCheckAuth(false);
@@ -25,6 +28,25 @@ const Search = () => {
   const [openSearchMenu, setOpenSearchMenu] = useState(false);
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://sheet.best/api/sheets/66f6e649-d028-403a-9658-9edc20cf9a26"
+        );
+
+        const data = await response.json();
+
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array
 
   const [openPayModal, setOpenPayModal] = useState(false);
 
@@ -110,6 +132,15 @@ const Search = () => {
   return (
     <div className="">
       <NewHeader />
+      <div className="flex flex-col w-80 border items-center md:hidden justify-between gap-3  p-3  border-zinc-300  mt-10  rounded-md bg-gray-100   m-auto 0">
+        <h1 className="text-center text-sm">{t("uploadHeader")}</h1>
+        <a
+          target="_blank"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdiFjQdcyYHPHAPLvDx6WDhkpryKEbnQJjwygT64NFAwuaNBg/viewform"
+        >
+          <Button className="w-32 text-xs h-7">{t("upload")}</Button>
+        </a>
+      </div>
 
       {openPayModal ? (
         <PayModal
@@ -161,7 +192,17 @@ const Search = () => {
                 {t("filter")}
               </button>
             </div>
+            <div className=" flex-col hidden md:flex w-full border items-center justify-between gap-6  border-zinc-300 p-5 mt-10  rounded-md bg-gray-100">
+              <h1 className="text-center">{t("uploadHeader")}</h1>
+              <a
+                target="_blank"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdiFjQdcyYHPHAPLvDx6WDhkpryKEbnQJjwygT64NFAwuaNBg/viewform"
+              >
+                <Button className="w-40   h-8  ">{t("upload")}</Button>
+              </a>
+            </div>
           </div>
+
           <div className="search_mainContent ml-5">
             <div className="d-flex ">
               <div
@@ -260,12 +301,45 @@ const Search = () => {
               </div> */}
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
+              {!data?.length ? (
+                <div>...Loading</div>
+              ) : (
+                data?.map((item, index) => {
+                  return (
+                    <HouseCard2
+                      data={item}
+                      isAuth={!!user}
+                      setPayModal={() => {}}
+                      addRemoveFavorite={(flag, id) => {
+                        setSearchResults([
+                          ...searchResults.map((item) => {
+                            if (item.id === id) {
+                              if (flag === "remove") {
+                                item.isFavourite = 0;
+                              } else {
+                                item.isFavourite = 1;
+                              }
+                            }
+
+                            return item;
+                          }),
+                        ]);
+                      }}
+                      key={index}
+                      updateAddRemove={updateAddRemove}
+                    />
+                  );
+                })
+              )}
+            </div>
+            <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!searchResults.length ? (
                 <div className="text-center mt-5">{t("statementNotFound")}</div>
               ) : (
                 searchResults?.map((el) => {
                   return (
                     <HouseCard
+                      data2={data}
                       isAuth={!!user}
                       setPayModal={() => {}}
                       addRemoveFavorite={(flag, id) => {
