@@ -152,20 +152,31 @@ function House(props) {
     }
   }, []);
 
+  const renderThumbs = () => {
+    return images?.map((el, i) => {
+      return (
+        <div key={i}>
+          <img src={el} className="w-full object-cover" />
+        </div>
+      );
+    });
+  };
+
   return (
     <>
       <div>
         <NewHeader />
         <div className="houseStatement mb-0  ">
-          <Carousel infiniteLoop swipeable emulateTouch>
+          <Carousel
+            renderThumbs={renderThumbs}
+            infiniteLoop
+            swipeable
+            emulateTouch
+          >
             {images?.map((el, i) => {
               return (
                 <div className="flex  items-center justify-center" key={i}>
-                  <img
-                    alt="!23"
-                    className="w-full object-contain pt-16"
-                    src={el}
-                  />
+                  <img alt="!23" className="w-full h-full pt-16" src={el} />
                 </div>
               );
             })}
