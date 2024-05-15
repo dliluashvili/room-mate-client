@@ -8,13 +8,15 @@ import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
 import { LIMIT, OFFSET } from "../constants/pagination";
-import { ConversationStatus } from "../gql/graphql";
+import { ConversationStatus, ConversationWithUserObject } from "../gql/graphql";
 
 export default function messenger() {
   useCheckAuth();
 
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentConversation, setCurrentConversation] =
+    useState<ConversationWithUserObject | null>(null);
 
   const router = useRouter();
   const {
@@ -46,16 +48,53 @@ export default function messenger() {
     return [];
   }, [data, request]);
 
-  useEffect(() => {
-    if (!id && filteredConversationsByStatus.length) {
-      router.push(`/messenger?id=${filteredConversationsByStatus[0].sid}`);
-    }
-  }, [id, filteredConversationsByStatus]);
+  /**
+   * there is id null
+   *
+   * 1. give value to id
+   *    1. check which tab is active
+   *    2. from tab array give first value
+   */
+  /**
+   * there is id with value
+   *
+   * 1. get conversation from conversations data
+   *    1. if exists
+   *      2. set active tab according conversation status
+   *    2. if not exists
+   *      1. redirect to messenger
+   */
 
-  // useEffect(() => {
-  //   const sid = filteredConversationsByStatus?.[0]?.sid ?? "";
-  //   router.push(`/messenger?id=${sid}`);
-  // }, [request]);
+  useEffect(() => {
+    if (data?.getConversationsForUser?.list?.length) {
+      const conversations = data.getConversationsForUser.list;
+
+      if (!id) {
+        router.push(`/messenger?id=${conversations[0].sid}`);
+      }
+
+      if (id) {
+        const conversation = conversations.find(
+          (conversation) => conversation.sid === id
+        );
+
+        if (!conversation) {
+          router.push("/messenger");
+        } else {
+          setCurrentConversation(conversation);
+        }
+      }
+    }
+  }, [id, data]);
+
+  useEffect(() => {
+    if (
+      currentConversation &&
+      currentConversation.status === ConversationStatus.Requested
+    ) {
+      setRequest(true);
+    }
+  }, [currentConversation]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">
@@ -67,11 +106,15 @@ export default function messenger() {
           setMobileOpen={setMobileOpen}
           conversations={filteredConversationsByStatus}
         />
-        <ChatField />
-        <ChatFieldMobile
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-        />
+        {currentConversation && (
+          <>
+            <ChatField />
+            <ChatFieldMobile
+              mobileOpen={mobileOpen}
+              setMobileOpen={setMobileOpen}
+            />
+          </>
+        )}
       </div>
     </main>
   );

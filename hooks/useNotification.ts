@@ -65,7 +65,7 @@ export const useInitializeNotification = () => {
     conversationResources: Conversation[] | []
   ) => {
     const promisedGetUnreadMessages =
-      conversationResources?.map(async (conversationResource) => {
+      conversationResources?.map(async (conversationResource: Conversation) => {
         const promisedUnreadMessagesCount =
           await conversationResource.getUnreadMessagesCount();
 
@@ -147,7 +147,9 @@ export const useInitializeNotification = () => {
     setUnreadMessagesCount(unreadMessagesCount);
   };
 
-  const handleMessageAdded = (message: Message) => {
+  const handleMessageAdded = async (message: Message) => {
+    const senderParticipant = await message.getParticipant();
+
     client.cache.updateQuery(
       {
         query: getConversationsForUserQuery,
@@ -156,7 +158,10 @@ export const useInitializeNotification = () => {
         if (data?.getConversationsForUser) {
           const conversationIncrementedUnreadMessage =
             data.getConversationsForUser.list?.map((conversation) => {
-              if (conversation.sid === message.conversation.sid) {
+              if (
+                conversation.sid === message.conversation.sid &&
+                twilioClient.user.identity !== senderParticipant.identity
+              ) {
                 return {
                   ...conversation,
                   unreadMessagesCount: conversation.unreadMessagesCount + 1,
@@ -202,9 +207,16 @@ export const useInitializeNotification = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, twilioClient, user]);
 
-  useEffect(() => {
-    if (twilioClient && user) {
-      getConversationsForUser();
-    }
-  }, [twilioClient, user]);
+  // const test = async () => {
+  //   const conversation = await twilioClient.getConversationBySid(
+  //     "CHfd13905127fd48f788c5f15b8f3e59eb"
+  //   );
+
+  //   conversation.updateLastReadMessageIndex(1);
+
+  //   const messages = await conversation.getMessages();
+  //   const unreadMessage = await conversation.getUnreadMessagesCount();
+
+  //   console.log({ messages, unreadMessage });
+  // };
 };

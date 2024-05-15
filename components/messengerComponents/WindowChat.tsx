@@ -67,6 +67,8 @@ export default function WindowChat({ setIsOpen, name, targetUserId }) {
           );
 
           if (isFulfilledParticipantAdd) {
+            await conversation.updateLastReadMessageIndex(0);
+
             await conversation.sendMessage(messageText);
 
             const { data } = await getSharedConversation({
