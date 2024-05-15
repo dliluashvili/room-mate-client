@@ -13,9 +13,7 @@ const ImgPreview2: React.FC<IProps> = ({ images }) => {
     <div className="ImgPreview_container">
       {images.map((el, i) => {
         return (
-          <Image
-            objectFit="cover"
-            layout="fill"
+          <img
             key={i}
             className={classnames("sliderImg", {
               active: i === currentId,
