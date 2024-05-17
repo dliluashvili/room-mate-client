@@ -57,7 +57,7 @@ const ProfileCard: React.FC<IProps> = ({
     const conversation = await checkConversationExistence(String(id));
 
     if (conversation) {
-      router.push(`/messenger?id=${conversation.sid}`);
+      router.push(`/conversation?id=${conversation.sid}`);
     } else {
       setIsOpen(true);
       setName(firstname);

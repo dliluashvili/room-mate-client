@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import ChatField from "./ChatField";
-import ChatFieldMobile from "./ChatFieldMobile";
+import DesktopConversation from "./DesktopConversation";
+import MobileConversation from "./MobileConversation";
 import { useEffect, useRef, useState } from "react";
 import {
   ConversationStatus,
@@ -19,7 +19,7 @@ import {
 
 const MESSAGES_PAGE_SIZE = 10;
 
-const Chat = ({ mobileOpen, setMobileOpen, setRequest }) => {
+const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
@@ -158,11 +158,14 @@ const Chat = ({ mobileOpen, setMobileOpen, setRequest }) => {
 
   return (
     <>
-      <ChatField />
-      <ChatFieldMobile mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+      <DesktopConversation />
+      <MobileConversation
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
       <button onClick={onClick}>click</button>
     </>
   );
 };
 
-export default Chat;
+export default ConversationComponent;

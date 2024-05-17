@@ -16,7 +16,7 @@ import { updateCacheWithNewConversationInFirstPlace } from "../utils/checkConver
 
 type messageSendStatus = "sent" | "error";
 
-export default function WindowChat({ setIsOpen, name, participantId }) {
+export default function ConversationWindow({ setIsOpen, name, participantId }) {
   const [messageText, setMessageText] = useState("");
   const [messageSendStatus, setMessageSendStatus] =
     useState<messageSendStatus | null>(null);

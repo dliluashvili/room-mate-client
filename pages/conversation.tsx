@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import List from "../components/messengerComponents/List";
+import ConversationsList from "../components/messengerComponents/ConversationsList";
 import NewHeader from "../components/NewHeader";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import { useRouter } from "next/router";
@@ -7,10 +7,10 @@ import { useQuery } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
 import { LIMIT, OFFSET } from "../constants/pagination";
 import { ConversationStatus } from "../gql/graphql";
-import Chat from "../components/messengerComponents/Chat";
+import Conversation from "../components/messengerComponents/Conversation";
 import { RouterQuery } from "../components/messengerComponents/types";
 
-export default function messenger() {
+export default function conversation() {
   useCheckAuth();
 
   const [request, setRequest] = useState(false);
@@ -49,7 +49,7 @@ export default function messenger() {
       const conversations = data.getConversationsForUser.list;
 
       if (!id) {
-        router.push(`/messenger?id=${conversations[0].sid}`);
+        router.push(`/conversation?id=${conversations[0].sid}`);
       }
     }
   }, [id, data]);
@@ -58,13 +58,13 @@ export default function messenger() {
     <main className="w-full flex flex-col h-screen overflow-hidden">
       <NewHeader />
       <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
-        <List
+        <ConversationsList
           request={request}
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
           conversations={filteredConversationsByStatus}
         />
-        <Chat
+        <Conversation
           mobileOpen={mobileOpen}
           setMobileOpen={setMobileOpen}
           setRequest={setRequest}

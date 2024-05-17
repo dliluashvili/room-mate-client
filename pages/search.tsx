@@ -20,7 +20,7 @@ import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
 
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
-import WindowChat from "../components/messengerComponents/WindowChat";
+import ConversationWindow from "../components/messengerComponents/ConversationWindow";
 
 const Search = () => {
   useCheckAuth();
@@ -133,7 +133,7 @@ const Search = () => {
   return (
     <>
       {isOpen ? (
-        <WindowChat
+        <ConversationWindow
           setIsOpen={setIsOpen}
           name={name}
           participantId={participantId}

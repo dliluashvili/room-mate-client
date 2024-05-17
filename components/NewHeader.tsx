@@ -134,7 +134,7 @@ export default function NewHeader() {
           <div
             className=" relative flex items-center justify-center w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
             onClick={(e) => {
-              handleLinkClick(e, "/messenger");
+              handleLinkClick(e, "/conversation");
             }}
           >
             <div className="hidden md:block">

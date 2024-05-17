@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
 
-export default function List({
+export default function ConversationsList({
   request,
   setRequest,
   setMobileOpen,
@@ -15,7 +15,7 @@ export default function List({
   const media = useMediaQuery({ query: "(max-width: 768px)" });
 
   const handleClickConversation = (sid) => {
-    router.push(`/messenger?id=${sid}`);
+    router.push(`/conversation?id=${sid}`);
 
     if (media) {
       setMobileOpen(true);
@@ -71,7 +71,7 @@ export default function List({
                 id="#tablet"
                 className="bg-[#DB0505] left-12 absolute  hidden md:flex lg:hidden text-white text-[10px] rounded-full w-5 h-5 items-center justify-center"
               >
-                emma
+                {conversation.unreadMessagesCount}
               </div>
 
               <div className="flex-col h-full ml-6 flex md:hidden lg:flex">

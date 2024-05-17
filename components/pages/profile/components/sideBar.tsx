@@ -16,8 +16,8 @@ import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import classNames from "classnames";
 import Sms from "../../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
-import WindowChat from "../../../messengerComponents/WindowChat";
 import { checkConversationExistence } from "../../../utils/checkConversationExistence";
+import ConversationWindow from "../../../messengerComponents/ConverationWindow";
 
 interface ISidebar {
   firstname: string;
@@ -180,7 +180,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
     const conversation = await checkConversationExistence(String(props.id));
 
     if (conversation) {
-      router.push(`/messenger?id=${conversation.sid}`);
+      router.push(`/conversation?id=${conversation.sid}`);
     } else {
       setIsOpen(true);
       setName(props.firstname);
@@ -190,7 +190,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   return (
     <>
       {isOpen ? (
-        <WindowChat
+        <ConversationWindow
           setIsOpen={setIsOpen}
           name={name}
           participantId={props.id}
