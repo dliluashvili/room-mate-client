@@ -6,7 +6,7 @@ import {
 import { makeApolloClient } from "../../providers/apolloProvider";
 
 export const checkConversationExistence = async (
-  targetUserId: string
+  participantId: string
 ): Promise<ConversationWithUserObject | null> => {
   const client = makeApolloClient();
 
@@ -16,7 +16,7 @@ export const checkConversationExistence = async (
 
   const sharedConversationFromCache =
     conversationsFromCache?.getConversationsForUser?.list?.find(
-      (conversation) => conversation?.user?.id === targetUserId
+      (conversation) => conversation?.user?.id === participantId
     );
 
   // local storage check
@@ -27,7 +27,7 @@ export const checkConversationExistence = async (
   const { data } = await client.query({
     query: getSharedConversationQuery,
     variables: {
-      targetUserId,
+      participantId,
     },
     fetchPolicy: "network-only",
   });

@@ -190,7 +190,11 @@ const SideBar: React.FC<ISidebar> = (props) => {
   return (
     <>
       {isOpen ? (
-        <WindowChat setIsOpen={setIsOpen} name={name} targetUserId={props.id} />
+        <WindowChat
+          setIsOpen={setIsOpen}
+          name={name}
+          participantId={props.id}
+        />
       ) : null}
       <ToastContainer />
 

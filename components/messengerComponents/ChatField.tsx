@@ -38,7 +38,7 @@ export default function ChatField() {
           <div className="w-full    bg-[#838CAC] rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 p-10">
             <span className="text-[#FFFFFF]">
               if you reply Mako will be able to call you and see information
-              such as you active statusand when you have read messages.
+              such as you active status and when you have read messages.
             </span>
             <div className=" flex gap-4 flex-row  items-center">
               <button className="py-3 px-14 bg-white rounded-xl text-[#838CAC]">

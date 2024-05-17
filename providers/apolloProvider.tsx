@@ -41,36 +41,37 @@ const cache = new InMemoryCache({
           keyArgs: false,
           read(
             existing: PaginatedConversationWithUserObject,
-            {
-              variables: {
-                pagination: { offset, limit } = {
-                  offset: OFFSET,
-                  limit: LIMIT,
-                },
-              },
-            }
+            { variables: { pagination } }
           ) {
+            const { limit, offset } = pagination ?? {};
+
             if (!existing) {
+              return existing;
+            }
+
+            if (!pagination) {
               return existing;
             }
 
             return {
               ...existing,
-              list: existing.list.slice(offset, offset + limit + 1),
+              list: existing.list.slice(offset, limit + offset),
             };
           },
           merge(
             existing: PaginatedConversationWithUserObject,
             incoming: PaginatedConversationWithUserObject,
-            { args: { pagination: { offset } = { offset: null } } }
+            { args: { pagination } }
           ) {
+            const { offset } = pagination ?? {};
+
             if (!existing) {
               return incoming;
             }
 
             // If any client write happens, the merge function is called.
             // In this case cache should be replaced.
-            if (offset === null) {
+            if (!pagination) {
               return {
                 ...existing,
                 list: incoming.list,
@@ -97,6 +98,11 @@ const cache = new InMemoryCache({
         unreadMessagesCount: {
           read(incoming) {
             return incoming ?? 0;
+          },
+        },
+        messages: {
+          read(existing) {
+            return existing ?? [];
           },
         },
       },

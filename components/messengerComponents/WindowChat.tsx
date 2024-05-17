@@ -16,7 +16,7 @@ import { updateCacheWithNewConversationInFirstPlace } from "../utils/checkConver
 
 type messageSendStatus = "sent" | "error";
 
-export default function WindowChat({ setIsOpen, name, targetUserId }) {
+export default function WindowChat({ setIsOpen, name, participantId }) {
   const [messageText, setMessageText] = useState("");
   const [messageSendStatus, setMessageSendStatus] =
     useState<messageSendStatus | null>(null);
@@ -50,7 +50,7 @@ export default function WindowChat({ setIsOpen, name, targetUserId }) {
         const twilioUserResourceResponse =
           await lookupOrCreateTwilioUserResource({
             variables: {
-              userId: targetUserId,
+              userId: participantId,
             },
           });
 
@@ -59,7 +59,7 @@ export default function WindowChat({ setIsOpen, name, targetUserId }) {
 
           const settledParticipantAdd = await Promise.allSettled([
             conversation.add(twilioClient.user.identity),
-            conversation.add(targetUserId),
+            conversation.add(participantId),
           ]);
 
           const isFulfilledParticipantAdd = settledParticipantAdd.every(
@@ -71,7 +71,7 @@ export default function WindowChat({ setIsOpen, name, targetUserId }) {
 
             const { data } = await getSharedConversation({
               variables: {
-                targetUserId,
+                participantId,
               },
             });
 

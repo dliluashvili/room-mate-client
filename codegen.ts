@@ -9,9 +9,9 @@ const config: CodegenConfig = {
       config: {
         useTypeImports: true,
         scalars: {
-          Conversation: {
-            input: "Conversation",
-            output: "Conversation",
+          Message: {
+            input: "Message",
+            output: "Message",
           },
         },
       },

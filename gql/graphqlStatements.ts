@@ -44,6 +44,7 @@ const getConversationsForUserQuery: TypedDocumentNode<
         createdAt
         updatedAt
         unreadMessagesCount @client
+        messages @client
         user {
           id
           firstname
@@ -67,8 +68,8 @@ const getSharedConversationQuery: TypedDocumentNode<
   { getSharedConversation: Query["getSharedConversation"] },
   QueryGetSharedConversationArgs
 > = gql`
-  query GetSharedConversation($targetUserId: String!) {
-    getSharedConversation(targetUserId: $targetUserId) {
+  query GetSharedConversation($participantId: String!) {
+    getSharedConversation(participantId: $participantId) {
       id
       sid
       status
