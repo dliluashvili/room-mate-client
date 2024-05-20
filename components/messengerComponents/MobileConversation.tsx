@@ -16,7 +16,6 @@ type Props = {
 export default function MobileConversation({
   mobileOpen,
   setMobileOpen,
-
   conversationResource,
 }: Props) {
   const request = false;
