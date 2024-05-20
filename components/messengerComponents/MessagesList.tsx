@@ -28,6 +28,7 @@ const MessagesList = ({ conversationResource }: Props) => {
     getScrollElement: () => parentDomRef.current,
     estimateSize: () => MESSAGE_BOX_ESTIMATE_HEIGHT,
     overscan: 5,
+    gap: 20,
   });
 
   const getRandomElement = () => {
@@ -92,7 +93,9 @@ const MessagesList = ({ conversationResource }: Props) => {
       }, 0);
 
       const nextScrollToOffset = paginatedMessagesRed.current?.hasPrevPage
-        ? virtualizer.scrollOffset + lastElementOffset
+        ? virtualizer.scrollOffset +
+          lastElementOffset +
+          paginatedMessagesRed.current.items.length * virtualizer.options.gap
         : virtualizer.scrollOffset + lastElementOffset - LOADER_BOX_HEIGHT;
 
       virtualizer.scrollToOffset(nextScrollToOffset);
@@ -168,7 +171,9 @@ const MessagesList = ({ conversationResource }: Props) => {
                 transform: `translateY(${translateY}px)`,
                 border: "1px solid black",
                 background:
-                  virtualRow.index % MESSAGES_PAGE_SIZE == 0 ? "#90EE90" : "",
+                  Number(message.state.index) % MESSAGES_PAGE_SIZE == 0
+                    ? "#90EE90"
+                    : "",
               }}
             >
               {message.text}
