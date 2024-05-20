@@ -1,8 +1,14 @@
 import Image from "next/image";
 import TestAvatar from "../../public/newImages/testAvatar.svg";
 import Send from "../../public/newImages/send.svg";
+import MessagesList from "./MessagesList";
+import { Conversation } from "@twilio/conversations";
 
-export default function DesktopConversation() {
+type Props = {
+  conversationResource: Conversation;
+};
+
+export default function DesktopConversation({ conversationResource }: Props) {
   const request = false;
 
   return (
@@ -18,9 +24,10 @@ export default function DesktopConversation() {
       </div>
 
       {!request ? (
-        <div className="flex flex-col pt-5 pb-4 px-4 w-full h-full justify-end">
-          <div>conversation list</div>
-          <div className="flex w-full flex-row h-auto items-center px-6 py-4">
+        // FIXME: height should be set dynamically
+        <div className="flex flex-col justify-end pt-5 pb-4 px-4 w-full h-[770px]">
+          <MessagesList conversationResource={conversationResource} />
+          <div className="flex w-full h-auto flex-row items-center px-6 py-4">
             <input
               placeholder="send message"
               className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"

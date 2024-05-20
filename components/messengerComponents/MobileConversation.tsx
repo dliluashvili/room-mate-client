@@ -4,8 +4,21 @@ import TestAvatar from "../../public/newImages/testAvatar.svg";
 import CloseCircle from "../../public/newImages/close-circle.svg";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
+import MessagesList from "./MessagesList";
+import { Conversation } from "@twilio/conversations";
 
-export default function MobileConversation({ mobileOpen, setMobileOpen }) {
+type Props = {
+  mobileOpen: boolean;
+  setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  conversationResource: Conversation;
+};
+
+export default function MobileConversation({
+  mobileOpen,
+  setMobileOpen,
+
+  conversationResource,
+}: Props) {
   const request = false;
 
   return (
@@ -41,8 +54,8 @@ export default function MobileConversation({ mobileOpen, setMobileOpen }) {
       </div>
       {!request ? (
         <div className="flex flex-col pt-5 pb-4 px-6 w-full h-full justify-end p-6">
-          <div>conversation list</div>
-          <div className="flex w-full flex-row h-auto items-center py-4">
+          <MessagesList conversationResource={conversationResource} />
+          <div className="flex w-full flex-row items-center py-4">
             <input
               placeholder="send message"
               className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"
