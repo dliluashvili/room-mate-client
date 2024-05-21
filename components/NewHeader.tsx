@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Logo from "../public/newImages/logo.svg";
 import MobileLogo from "../public/newImages/mobile-header-logo.svg";
 import Bell from "../public/newImages/bell.svg";
@@ -11,12 +11,27 @@ import BurgerMenu from "./BurgerMenu";
 import { useCheckAuth } from "./hooks/useCheckAuth";
 import LangChoose from "./LangChoose";
 import Messanger from "../public/newImages/messanger.svg";
+import { useLazyQuery } from "@apollo/client";
+import { getConversationsForUserQuery } from "../gql/graphqlStatements";
+import { LIMIT, OFFSET } from "../constants/pagination";
 export default function NewHeader() {
   useCheckAuth(false);
 
   let { t } = useTranslation("common") as { t: (key: string) => string };
   const router = useRouter();
   const { user } = useTypedSelector((state) => state.profile);
+
+  const [getConversationsForUser, { data }] = useLazyQuery(
+    getConversationsForUserQuery,
+    {
+      variables: {
+        pagination: {
+          limit: LIMIT,
+          offset: OFFSET,
+        },
+      },
+    }
+  );
 
   const handleLinkClick = (e, href) => {
     if (router.pathname === "/signup") {
@@ -31,6 +46,23 @@ export default function NewHeader() {
       router.push(href);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      getConversationsForUser();
+    }
+  }, [user]);
+
+  const unreadMessagesCount = useMemo(() => {
+    if (data?.getConversationsForUser?.list?.length) {
+      return data?.getConversationsForUser?.list.reduce((acc, conversation) => {
+        const sum = conversation.unreadMessagesCount + acc;
+        return sum;
+      }, 0);
+    }
+
+    return 0;
+  }, [data]);
 
   return (
     <header className="bg-mainBg  w-full flex flex-row px-6 py-3 items-center justify-between sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 md:bg-[#fff] shadow-md">
@@ -88,7 +120,7 @@ export default function NewHeader() {
           {t("rentApartment")}
         </span>
         <div
-          className=" p-2 mr-2 flex items-center rounded-lg bg-[#F2F5FF]  xl:px-3 xl:py-2 xl:mr-4 pointer"
+          className="p-2 mr-2 flex items-center rounded-lg bg-[#F2F5FF]  xl:px-3 xl:py-2 xl:mr-4 pointer"
           onClick={(e) => {
             const href = user ? "/profile" : "login";
             handleLinkClick(e, href);
@@ -132,7 +164,7 @@ export default function NewHeader() {
         </div>
         {user?.firstname ? (
           <div
-            className=" relative flex items-center justify-center w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
+            className="relative flex items-center justify-center w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
             onClick={(e) => {
               handleLinkClick(e, "/conversation");
             }}
@@ -143,6 +175,11 @@ export default function NewHeader() {
             <div className="block md:hidden mt-2">
               <Image src={Messanger} width={18} height={18} alt="!23" />
             </div>
+            {!!unreadMessagesCount && (
+              <div className="absolute flex items-center justify-center font-semibold  -top-2 -right-2 rounded-full text-white text-xs bg-primaryBeta  w-5 h-5">
+                {unreadMessagesCount}
+              </div>
+            )}
           </div>
         ) : null}
         <div className="block ml-2 md:hidden">

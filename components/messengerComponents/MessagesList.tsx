@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { UserPreviewObject } from "../../gql/graphql";
 import { IUser } from "../../redux/reducers/profileReducer";
+import { useApolloClient } from "@apollo/client";
+import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 
 type Props = {
   conversationResource: Conversation;
@@ -18,9 +20,11 @@ const LOADER_BOX_HEIGHT = 20;
 const MessagesList = ({ conversationResource, participant, user }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const paginatedMessagesRed = useRef<Paginator<Message>>(null);
+  const paginatedMessagesRef = useRef<Paginator<Message>>(null);
 
   const parentDomRef = useRef<HTMLDivElement>(null);
+
+  const client = useApolloClient();
 
   const { ref: inViewRef, inView } = useInView();
 
@@ -52,21 +56,60 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
 
   const getMessagesFromTwilio = async (conversationResource: Conversation) => {
     try {
-      if (!paginatedMessagesRed.current) {
+      if (!paginatedMessagesRef.current) {
         const paginatedMessages = await conversationResource.getMessages(
           MESSAGES_PAGE_SIZE
         );
 
-        paginatedMessagesRed.current = paginatedMessages;
+        console.log({ paginatedMessages });
+
+        paginatedMessagesRef.current = paginatedMessages;
 
         setMessages([...paginatedMessages.items, ...messages]);
-      } else if (paginatedMessagesRed.current.hasPrevPage) {
-        const paginatedMessages = await paginatedMessagesRed.current.prevPage();
+      } else if (paginatedMessagesRef.current.hasPrevPage) {
+        const paginatedMessages = await paginatedMessagesRef.current.prevPage();
 
-        paginatedMessagesRed.current = paginatedMessages;
+        paginatedMessagesRef.current = paginatedMessages;
 
         setMessages([...paginatedMessages.items, ...messages]);
       }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const setAllMessagesRead = async (conversationResource: Conversation) => {
+    try {
+      await conversationResource.setAllMessagesRead();
+
+      client.cache.updateQuery(
+        {
+          query: getConversationsForUserQuery,
+        },
+        (data) => {
+          if (data?.getConversationsForUser) {
+            const conversationIncrementedUnreadMessage =
+              data.getConversationsForUser.list.map((conversation) => {
+                if (conversation.sid === conversationResource.sid) {
+                  return {
+                    ...conversation,
+                    unreadMessagesCount: 0,
+                  };
+                }
+
+                return conversation;
+              });
+
+            return {
+              ...data,
+              getConversationsForUser: {
+                ...data.getConversationsForUser,
+                list: conversationIncrementedUnreadMessage,
+              },
+            };
+          }
+        }
+      );
     } catch (error) {
       console.log({ error });
     }
@@ -81,16 +124,16 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     setTimeout(() => {
       const lastElements = Array.from(
         virtualizer.measureElementCache.entries()
-      ).slice(0, paginatedMessagesRed.current.items.length);
+      ).slice(0, paginatedMessagesRef.current.items.length);
 
       const lastElementOffset = lastElements.reduce((acc, curr) => {
         return (acc += curr[1].clientHeight);
       }, 0);
 
-      const nextScrollToOffset = paginatedMessagesRed.current?.hasPrevPage
+      const nextScrollToOffset = paginatedMessagesRef.current?.hasPrevPage
         ? virtualizer.scrollOffset +
           lastElementOffset +
-          paginatedMessagesRed.current.items.length * virtualizer.options.gap
+          paginatedMessagesRef.current.items.length * virtualizer.options.gap
         : virtualizer.scrollOffset + lastElementOffset - LOADER_BOX_HEIGHT;
 
       virtualizer.scrollToOffset(nextScrollToOffset);
@@ -111,7 +154,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     if (
       inView &&
       conversationResource &&
-      paginatedMessagesRed.current?.hasPrevPage
+      paginatedMessagesRef.current?.hasPrevPage
     ) {
       getMessagesFromTwilio(conversationResource);
     }
@@ -121,9 +164,17 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     if (messages.length) {
       waitToRenderVirtualItemsAndScrollToOffset();
     }
+
+    if (
+      conversationResource &&
+      messages.length > 0 &&
+      messages.length <= MESSAGES_PAGE_SIZE
+    ) {
+      setAllMessagesRead(conversationResource);
+    }
   }, [messages]);
 
-  const height = paginatedMessagesRed.current?.hasPrevPage
+  const height = paginatedMessagesRef.current?.hasPrevPage
     ? virtualizer.getTotalSize() + LOADER_BOX_HEIGHT
     : virtualizer.getTotalSize();
 
@@ -136,7 +187,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
           position: "relative",
         }}
       >
-        {paginatedMessagesRed?.current?.hasPrevPage && (
+        {paginatedMessagesRef?.current?.hasPrevPage && (
           <div
             ref={inViewRef}
             style={{
@@ -154,7 +205,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
         {virtualizer.getVirtualItems().map((virtualRow) => {
           const message = messages[virtualRow.index];
 
-          const translateY = paginatedMessagesRed.current?.hasPrevPage
+          const translateY = paginatedMessagesRef.current?.hasPrevPage
             ? LOADER_BOX_HEIGHT + virtualRow.start
             : virtualRow.start;
 

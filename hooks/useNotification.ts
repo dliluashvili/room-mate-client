@@ -11,7 +11,10 @@ import {
 } from "@twilio/conversations";
 import { useEffect, useRef } from "react";
 import { twilioClientVar } from "../store/twilioVars";
-import { getConversationsForUserQuery } from "../gql/graphqlStatements";
+import {
+  getConversationsForUserQuery,
+  getSharedConversationQuery,
+} from "../gql/graphqlStatements";
 import { PaginatedConversationWithUserObject } from "../gql/graphql";
 import { useTypedSelector } from "../components/hooks/useTypeSelector";
 import { LIMIT, OFFSET } from "../constants/pagination";
@@ -42,6 +45,8 @@ export const useInitializeNotification = () => {
     }
   );
 
+  const [getSharedConversation] = useLazyQuery(getSharedConversationQuery);
+
   const getConversationResources = async (
     conversations: PaginatedConversationWithUserObject["list"],
     twilioClient: TwilioClient
@@ -64,7 +69,7 @@ export const useInitializeNotification = () => {
   const getUnreadMessagesCount = async (
     conversationResources: Conversation[] | []
   ) => {
-    const promisedGetUnreadMessages =
+    const promisedUnreadMessages =
       conversationResources?.map(async (conversationResource: Conversation) => {
         const promisedUnreadMessagesCount =
           await conversationResource.getUnreadMessagesCount();
@@ -75,16 +80,52 @@ export const useInitializeNotification = () => {
         };
       }) ?? [];
 
-    const unreadMessages = await Promise.allSettled(promisedGetUnreadMessages);
+    const unreadMessages = await Promise.allSettled(promisedUnreadMessages);
 
-    return unreadMessages.reduce(
+    const promisedUnreadMessagesCountFromMessagesList = unreadMessages.map(
+      async (unreadMessage) => {
+        if (unreadMessage.status === "fulfilled") {
+          if (unreadMessage.value.promisedUnreadMessagesCount === null) {
+            const conversation = conversationResources.find(
+              (conversation) => conversation.sid === unreadMessage.value.sid
+            );
+
+            if (conversation) {
+              const messages = await conversation.getMessages();
+
+              return {
+                sid: unreadMessage.value.sid,
+                unreadMessagesCount: messages.items.length,
+              };
+            }
+
+            return {
+              sid: unreadMessage.value.sid,
+              unreadMessagesCount: 0,
+            };
+          }
+
+          return {
+            sid: unreadMessage.value.sid,
+            unreadMessagesCount:
+              unreadMessage.value.promisedUnreadMessagesCount,
+          };
+        }
+      }
+    );
+
+    const unreadMessagesCountFromMessagesList = await Promise.allSettled(
+      promisedUnreadMessagesCountFromMessagesList
+    );
+
+    return unreadMessagesCountFromMessagesList.reduce(
       (acc: PromisedUnreadMessagesCount[] | [], curr) => {
         if (curr.status === "fulfilled") {
           return [
             ...acc,
             {
               sid: curr.value.sid,
-              unreadMessagesCount: curr.value.promisedUnreadMessagesCount ?? 0,
+              unreadMessagesCount: curr.value.unreadMessagesCount,
             },
           ];
         }
@@ -157,7 +198,7 @@ export const useInitializeNotification = () => {
       (data) => {
         if (data?.getConversationsForUser) {
           const conversationIncrementedUnreadMessage =
-            data.getConversationsForUser.list?.map((conversation) => {
+            data.getConversationsForUser.list.map((conversation) => {
               if (
                 conversation.sid === message.conversation.sid &&
                 twilioClient.user.identity !== senderParticipant.identity
@@ -212,21 +253,46 @@ export const useInitializeNotification = () => {
       getConversationsForUser();
     }
   }, [twilioClient, user]);
-
-  // test
-  // useEffect(() => {
-  //   if (twilioClient && user) {
-  //     test();
-  //   }
-  // }, [twilioClient, user]);
-
-  // const test = async () => {
-  //   const conversation = await twilioClient.getConversationBySid(
-  //     "CHa086baefbf3a414fa15aaf57f1cbb1e2"
-  //   );
-  //   await conversation.updateLastReadMessageIndex(1);
-
-  //   const messages = await conversation.getMessages();
-  //   const unreadMessage = await conversation.getUnreadMessagesCount();
-  // };
 };
+
+// const handleMessageAdded = async (message: Message) => {
+//   const senderParticipant = await message.getParticipant();
+
+//   const foundConversation = data?.getConversationsForUser?.list?.find(
+//     (conversation) => {
+//       if (
+//         conversation.sid === message.conversation.sid &&
+//         twilioClient.user.identity !== senderParticipant.identity
+//       ) {
+//       }
+//     }
+//   );
+
+//   const { data: sharedConversation } = await getSharedConversation({
+//     variables: {
+//       participantId: senderParticipant.identity,
+//     },
+//   });
+
+//   client.cache.updateQuery(
+//     {
+//       query: getConversationsForUserQuery,
+//     },
+//     (data) => {
+//       if (data?.getConversationsForUser) {
+//         return {
+//           getConversationsForUser: {
+//             ...data.getConversationsForUser,
+//             list: [
+//               {
+//                 ...sharedConversation.getSharedConversation,
+//                 unreadMessagesCount: 1,
+//               },
+//               ...data.getConversationsForUser.list,
+//             ],
+//           },
+//         };
+//       }
+//     }
+//   );
+// };

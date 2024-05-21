@@ -46,7 +46,6 @@ export const updateCacheWithNewConversationInFirstPlace = (
   newConversation: ConversationWithUserObject
 ) => {
   const client = makeApolloClient();
-  console.log({ newConversation });
 
   client.cache.updateQuery(
     {
