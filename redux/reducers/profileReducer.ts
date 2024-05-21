@@ -8,7 +8,7 @@ interface IAnsweredAnswers {
   user_id: number;
 }
 
-interface IUser {
+export interface IUser {
   age?: number;
   email?: string | null;
   firstname?: string;

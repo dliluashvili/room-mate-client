@@ -28,6 +28,8 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const updateRequest = (conversation: ConversationWithUserObject) => {
     if (conversation.status === ConversationStatus.Requested) {
       setRequest(true);
+    } else if (conversation.status === ConversationStatus.Accepted) {
+      setRequest(false);
     }
   };
 
@@ -76,7 +78,10 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
 
   return (
     <>
-      <DesktopConversation conversationResource={conversationResource} />
+      <DesktopConversation
+        conversationResource={conversationResource}
+        conversation={conversation}
+      />
       <MobileConversation
         conversationResource={conversationResource}
         mobileOpen={mobileOpen}

@@ -2,16 +2,20 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { UserPreviewObject } from "../../gql/graphql";
+import { IUser } from "../../redux/reducers/profileReducer";
 
 type Props = {
   conversationResource: Conversation;
+  participant?: UserPreviewObject;
+  user: IUser;
 };
 
 const MESSAGES_PAGE_SIZE = 10;
 const MESSAGE_BOX_ESTIMATE_HEIGHT = 100;
 const LOADER_BOX_HEIGHT = 20;
 
-const MessagesList = ({ conversationResource }: Props) => {
+const MessagesList = ({ conversationResource, participant, user }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const paginatedMessagesRed = useRef<Paginator<Message>>(null);
@@ -154,6 +158,11 @@ const MessagesList = ({ conversationResource }: Props) => {
             ? LOADER_BOX_HEIGHT + virtualRow.start
             : virtualRow.start;
 
+          const author =
+            participant.id === message.author
+              ? `${participant.firstname} ${participant.lastname}`
+              : `${user.firstname} ${user.lastname}`;
+
           return (
             <div
               key={virtualRow.index}
@@ -170,7 +179,7 @@ const MessagesList = ({ conversationResource }: Props) => {
                     : "",
               }}
             >
-              {message.body} - {message.author}
+              {message.body} - {author}
             </div>
           );
         })}

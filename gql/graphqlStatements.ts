@@ -2,6 +2,7 @@ import { TypedDocumentNode, gql } from "@apollo/client";
 import {
   Mutation,
   MutationLookupOrCreateTwilioUserResourceArgs,
+  MutationUpdateConversationStatusArgs,
   Query,
   QueryGetConversationsForUserArgs,
   QueryGetSharedConversationArgs,
@@ -16,6 +17,18 @@ const generateTwilioAccessTokenMutation = gql`
 const logConnectionErrorMutation = gql`
   mutation LogConnectionError($error: String!) {
     logConnectionError(error: $error)
+  }
+`;
+
+const updateConversationStatusMutation: TypedDocumentNode<
+  { updateConversationStatus: Mutation["updateConversationStatus"] },
+  MutationUpdateConversationStatusArgs
+> = gql`
+  mutation UpdateConversationStatusMutation(
+    $conversationId: String!
+    $status: ConversationStatus!
+  ) {
+    updateConversationStatus(conversationId: $conversationId, status: $status)
   }
 `;
 
@@ -90,6 +103,7 @@ export {
   generateTwilioAccessTokenMutation,
   logConnectionErrorMutation,
   lookupOrCreateTwilioUserResourceMutation,
+  updateConversationStatusMutation,
   getConversationsForUserQuery,
   getSharedConversationQuery,
 };
