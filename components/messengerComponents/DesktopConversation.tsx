@@ -3,6 +3,7 @@ import TestAvatar from "../../public/newImages/testAvatar.svg";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
+import { useRef } from "react";
 
 type Props = {
   conversationResource: Conversation;
@@ -11,9 +12,18 @@ type Props = {
 export default function DesktopConversation({ conversationResource }: Props) {
   const request = false;
 
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  const containerHeight = headerRef.current?.clientHeight
+    ? `calc(100% - ${headerRef.current.clientHeight}px)`
+    : "100%";
+
   return (
     <section className="w-full flex-col  bg-[#FFFFFF] hidden ml-6 md:flex  rounded-md border-b-4 border-[gray] overflow-hidden">
-      <div className="flex flex-row w-full justify-between items-center pt-4 pb-10 px-6 shadow-md">
+      <div
+        ref={headerRef}
+        className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
+      >
         <div className="flex flex-row items-center">
           <Image src={TestAvatar} alt="avatar" width={40} height={40} />
           <div className="flex flex-col ml-6 justify-between">
@@ -25,7 +35,12 @@ export default function DesktopConversation({ conversationResource }: Props) {
 
       {!request ? (
         // FIXME: height should be set dynamically
-        <div className="flex flex-col justify-end pt-5 pb-4 px-4 w-full h-[770px]">
+        <div
+          className="flex flex-col justify-end pt-5 pb-4 px-4 w-full"
+          style={{
+            height: containerHeight,
+          }}
+        >
           <MessagesList conversationResource={conversationResource} />
           <div className="flex w-full h-auto flex-row items-center px-6 py-4">
             <input
