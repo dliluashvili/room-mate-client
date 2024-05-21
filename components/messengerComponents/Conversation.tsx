@@ -60,6 +60,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
    */
   useEffect(() => {
     if (data?.getConversationsForUser?.list && id) {
+      console.log({ data });
       updateConversation(data.getConversationsForUser.list, id);
     }
   }, [data, id]);

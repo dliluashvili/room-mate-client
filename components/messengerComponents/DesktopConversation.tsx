@@ -30,7 +30,7 @@ export default function DesktopConversation({
 
   const client = useApolloClient();
 
-  const [updateConversationStatus, { loading, data, error }] = useMutation(
+  const [updateConversationStatus, { loading }] = useMutation(
     updateConversationStatusMutation,
     {
       onCompleted: (response) => {
@@ -52,7 +52,8 @@ export default function DesktopConversation({
                       status: response.updateConversationStatus,
                     };
                   }
-                  return conversation;
+
+                  return userConversation;
                 }
               );
 
@@ -72,18 +73,23 @@ export default function DesktopConversation({
                     },
                   };
                 } else {
-                  const prevUpdatedConversations =
-                    getConversationsForUser.list.slice(
-                      0,
-                      updatedConversationIndex
-                    );
+                  const prevUpdatedConversations = updatedConversations.slice(
+                    0,
+                    updatedConversationIndex
+                  );
 
-                  const nextUpdatedConversations =
-                    getConversationsForUser.list.slice(
+                  let nextUpdatedConversations = [];
+
+                  if (
+                    updatedConversationIndex <
+                    updatedConversations.length - 1
+                  ) {
+                    nextUpdatedConversations = updatedConversations.slice(
                       updatedConversationIndex + 1
                     );
+                  }
 
-                  const updatedConversation = getConversationsForUser.list.find(
+                  const updatedConversation = updatedConversations.find(
                     (_, index) => index === updatedConversationIndex
                   );
 
