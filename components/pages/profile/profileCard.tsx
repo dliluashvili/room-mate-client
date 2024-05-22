@@ -13,9 +13,9 @@ import { checkConversationExistence } from "../../utils/checkConversationExisten
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
   setPayModal?: (payed: boolean) => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setName: React.Dispatch<any>;
-  setUserId: React.Dispatch<number | string>;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setName?: React.Dispatch<any>;
+  setUserId?: React.Dispatch<number | string>;
 }
 
 const ProfileCard: React.FC<IProps> = ({
