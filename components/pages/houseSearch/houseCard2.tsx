@@ -20,7 +20,7 @@ const HouseCard2 = ({ data, isAuth, addRemoveFavorite, className }: any) => {
 
       const imageUrls = linksArray.map((link) => {
         const fileId = link.split("open?id=")[1]; // Extract the file ID
-        return `https://drive.google.com/uc?export=view&id=${fileId}`; // Construct the new URL
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`; // Construct the new URL
       });
 
       setImages(imageUrls);

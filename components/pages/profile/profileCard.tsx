@@ -8,12 +8,14 @@ import { useTypedSelector } from "../../hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
 import Sms from "../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
+import { checkConversationExistence } from "../../utils/checkConversationExistence";
 
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
   setPayModal?: (payed: boolean) => void;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setName: React.Dispatch<any>;
+  setUserId: React.Dispatch<number | string>;
 }
 
 const ProfileCard: React.FC<IProps> = ({
@@ -28,6 +30,7 @@ const ProfileCard: React.FC<IProps> = ({
   updateAddRemove,
   setIsOpen,
   setName,
+  setUserId,
 }) => {
   const addRemoveFromFavorites = () => {
     let requestId = favourite_id ? favourite_id : id;
@@ -49,6 +52,18 @@ const ProfileCard: React.FC<IProps> = ({
   const districtNames = cardInfo?.districtNames;
   const budget = cardInfo?.budget;
   const bio = cardInfo?.bio;
+
+  const handleOpenChatWindow = async () => {
+    const conversation = await checkConversationExistence(String(id));
+
+    if (conversation) {
+      router.push(`/conversation?id=${conversation.sid}`);
+    } else {
+      setIsOpen(true);
+      setName(firstname);
+      setUserId(id);
+    }
+  };
 
   return (
     <div className="userCard_wrapper">
@@ -144,15 +159,11 @@ const ProfileCard: React.FC<IProps> = ({
             {districtNames}
           </span>
         </div>
-        <h1>test deploy</h1>
 
         <div className="flex pointer items-center">
           <button
             className="w-auto py-2 px-2 bg-[#0A7CFF] leading-none rounded-md  flex flex-row items-center justify-center"
-            onClick={() => {
-              setName(firstname);
-              setIsOpen(true);
-            }}
+            onClick={handleOpenChatWindow}
           >
             <Image src={Sms} width={16} height={16} alt="sms" />
             <span className="ml-1 text-white text-xs">Message</span>

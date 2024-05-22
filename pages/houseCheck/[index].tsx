@@ -101,7 +101,7 @@ function House(props) {
 
       const imageUrls = linksArray.map((link) => {
         const fileId = link.split("open?id=")[1]; // Extract the file ID
-        return `https://drive.google.com/uc?export=view&id=${fileId}`; // Construct the new URL
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`; // Construct the new URLConstruct the new URL
       });
 
       setImages(imageUrls);
@@ -152,17 +152,31 @@ function House(props) {
     }
   }, []);
 
+  const renderThumbs = () => {
+    return images?.map((el, i) => {
+      return (
+        <div key={i}>
+          <img src={el} className="w-full object-cover" />
+        </div>
+      );
+    });
+  };
 
   return (
     <>
       <div>
         <NewHeader />
         <div className="houseStatement mb-0  ">
-          <Carousel infiniteLoop swipeable emulateTouch>
+          <Carousel
+            renderThumbs={renderThumbs}
+            infiniteLoop
+            swipeable
+            emulateTouch
+          >
             {images?.map((el, i) => {
               return (
                 <div className="flex  items-center justify-center" key={i}>
-                  <Image alt="!23" layout="fill" objectFit="contain" className="pt-16" src={el} />
+                  <img alt="!23" className="w-full h-full pt-16" src={el} />
                 </div>
               );
             })}

@@ -20,7 +20,7 @@ import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
 
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
-import WindowChat from "../components/messangerComponents/WindowChat";
+import ConversationWindow from "../components/messengerComponents/ConverationWindow";
 
 const Search = () => {
   useCheckAuth();
@@ -125,11 +125,20 @@ const Search = () => {
 
     setSearchResults(updatedSearchResults);
   };
+
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(null);
+  const [participantId, setParticipantId] = useState(null);
+
   return (
     <>
-      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} /> : null}
+      {isOpen ? (
+        <ConversationWindow
+          setIsOpen={setIsOpen}
+          name={name}
+          participantId={participantId}
+        />
+      ) : null}
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -140,10 +149,7 @@ const Search = () => {
         />
       ) : null}
 
-      <div
-        className="searchPage   "
-      
-      >
+      <div className="searchPage   ">
         <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
@@ -201,6 +207,7 @@ const Search = () => {
                       <ProfileCard
                         setIsOpen={setIsOpen}
                         setName={setName}
+                        setUserId={setParticipantId}
                         setPayModal={() => {
                           setOpenPayModal(true);
                         }}

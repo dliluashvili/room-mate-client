@@ -16,9 +16,8 @@ import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import classNames from "classnames";
 import Sms from "../../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
-import TestAvatar from "../../../../public/newImages/testAvatar.svg";
-import More from "../../../../public/newImages/more.svg";
-import WindowChat from "../../../messangerComponents/WindowChat";
+import { checkConversationExistence } from "../../../utils/checkConversationExistence";
+import ConversationWindow from "../../../messengerComponents/ConverationWindow";
 
 interface ISidebar {
   firstname: string;
@@ -177,9 +176,26 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(null);
 
+  const handleOpenChatWindow = async () => {
+    const conversation = await checkConversationExistence(String(props.id));
+
+    if (conversation) {
+      router.push(`/conversation?id=${conversation.sid}`);
+    } else {
+      setIsOpen(true);
+      setName(props.firstname);
+    }
+  };
+
   return (
     <>
-      {isOpen ? <WindowChat setIsOpen={setIsOpen} name={name} /> : null}
+      {isOpen ? (
+        <ConversationWindow
+          setIsOpen={setIsOpen}
+          name={name}
+          participantId={props.id}
+        />
+      ) : null}
       <ToastContainer />
 
       {reportModal && (
@@ -432,9 +448,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           </>
         )}
         <button
-          onClick={() => {
-            setIsOpen(true), setName(props.firstname);
-          }}
+          onClick={handleOpenChatWindow}
           className="w-full mt-4 py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
         >
           <Image src={Sms} width={16} height={16} alt="sms" />
@@ -549,7 +563,6 @@ const SideBar: React.FC<ISidebar> = (props) => {
           ) : null}
         </div>
       </div>
-      
     </>
   );
 };
