@@ -3,7 +3,7 @@ import TestAvatar from "../../public/newImages/testAvatar.svg";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-import { useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypeSelector";
 import {
   ConversationStatus,
@@ -24,9 +24,11 @@ export default function DesktopConversation({
   conversationResource,
   conversation,
 }: Props) {
-  const { user } = useTypedSelector((state) => state.profile);
+  const [message, setMessage] = useState("");
 
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const { user } = useTypedSelector((state) => state.profile);
 
   const client = useApolloClient();
 
@@ -121,6 +123,17 @@ export default function DesktopConversation({
     }
   );
 
+  const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (message.length) {
+      conversationResource.sendMessage(message);
+      setMessage("");
+    }
+  };
+
   const containerHeight = headerRef.current?.clientHeight
     ? `calc(100% - ${headerRef.current.clientHeight}px)`
     : "100%";
@@ -162,6 +175,8 @@ export default function DesktopConversation({
                 <input
                   placeholder="send message"
                   className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"
+                  value={message}
+                  onChange={handleMessageChange}
                 />
                 <Image
                   src={Send}
@@ -169,6 +184,7 @@ export default function DesktopConversation({
                   height={24}
                   alt="send message"
                   className="cursor-pointer"
+                  onClick={handleSendMessage}
                 />
               </div>
             </div>

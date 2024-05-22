@@ -61,17 +61,21 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
           MESSAGES_PAGE_SIZE
         );
 
-        console.log({ paginatedMessages });
-
         paginatedMessagesRef.current = paginatedMessages;
 
-        setMessages([...paginatedMessages.items, ...messages]);
+        setMessages((prevMessages) => [
+          ...paginatedMessages.items,
+          ...prevMessages,
+        ]);
       } else if (paginatedMessagesRef.current.hasPrevPage) {
         const paginatedMessages = await paginatedMessagesRef.current.prevPage();
 
         paginatedMessagesRef.current = paginatedMessages;
 
-        setMessages([...paginatedMessages.items, ...messages]);
+        setMessages((prevMessages) => [
+          ...paginatedMessages.items,
+          ...prevMessages,
+        ]);
       }
     } catch (error) {
       console.log({ error });
@@ -140,6 +144,10 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     });
   };
 
+  const handleMessageAdded = (message: Message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
+  };
+
   useEffect(() => {
     if (conversationResource) {
       getMessagesFromTwilio(conversationResource);
@@ -165,6 +173,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
       waitToRenderVirtualItemsAndScrollToOffset();
     }
 
+    // set message read while user load page
     if (
       conversationResource &&
       messages.length > 0 &&
@@ -173,6 +182,17 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
       setAllMessagesRead(conversationResource);
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (conversationResource) {
+      conversationResource.addListener("messageAdded", handleMessageAdded);
+    }
+    return () => {
+      if (conversationResource) {
+        conversationResource.removeListener("messageAdded", handleMessageAdded);
+      }
+    };
+  }, [conversationResource]);
 
   const height = paginatedMessagesRef.current?.hasPrevPage
     ? virtualizer.getTotalSize() + LOADER_BOX_HEIGHT
