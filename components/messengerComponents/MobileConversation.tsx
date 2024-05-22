@@ -53,7 +53,7 @@ export default function MobileConversation({
       </div>
       {!request ? (
         <div className="flex flex-col pt-5 pb-4 px-6 w-full h-full justify-end p-6">
-          <MessagesList conversationResource={conversationResource} />
+          {/* <MessagesList conversationResource={conversationResource} /> */}
           <div className="flex w-full flex-row items-center py-4">
             <input
               placeholder="send message"
