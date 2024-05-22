@@ -29,7 +29,6 @@ const Search = () => {
   const [meta, setMeta] = useState<any>();
   let { t } = useTranslation("common");
   const [data, setData] = useState(null);
-  console.log(data?.length, "hey");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,12 +132,15 @@ const Search = () => {
   return (
     <div className="">
       <NewHeader />
-      <a
-        target="_blank"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSdiFjQdcyYHPHAPLvDx6WDhkpryKEbnQJjwygT64NFAwuaNBg/viewform"
-      >
-        <Button>Upload</Button>
-      </a>
+      <div className="flex flex-col w-80 border items-center md:hidden justify-between gap-3  p-3  border-zinc-300  mt-10  rounded-md bg-gray-100   m-auto 0">
+        <h1 className="text-center text-sm">{t("uploadHeader")}</h1>
+        <a
+          target="_blank"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdiFjQdcyYHPHAPLvDx6WDhkpryKEbnQJjwygT64NFAwuaNBg/viewform"
+        >
+          <Button className="w-32 text-xs h-7">{t("upload")}</Button>
+        </a>
+      </div>
 
       {openPayModal ? (
         <PayModal
@@ -190,7 +192,17 @@ const Search = () => {
                 {t("filter")}
               </button>
             </div>
+            <div className=" flex-col hidden md:flex w-full border items-center justify-between gap-6  border-zinc-300 p-5 mt-10  rounded-md bg-gray-100">
+              <h1 className="text-center">{t("uploadHeader")}</h1>
+              <a
+                target="_blank"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdiFjQdcyYHPHAPLvDx6WDhkpryKEbnQJjwygT64NFAwuaNBg/viewform"
+              >
+                <Button className="w-40   h-8  ">{t("upload")}</Button>
+              </a>
+            </div>
           </div>
+
           <div className="search_mainContent ml-5">
             <div className="d-flex ">
               <div
@@ -290,7 +302,7 @@ const Search = () => {
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!data?.length ? (
-                <div>123</div>
+                <div>...Loading</div>
               ) : (
                 data?.map((item, index) => {
                   return (
