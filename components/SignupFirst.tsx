@@ -76,7 +76,7 @@ export default function SignupFirst({
       try {
         const response = await axios.post(BASE_URL_GRAPHQL, {
           query: `
-                mutation SendCode($input: SendSmsCodeDto!) {
+                mutation SendCode($input: SendSmsCodeInput!) {
                   sendCode(input: $input)
                 }
               `,
