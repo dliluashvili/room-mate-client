@@ -108,14 +108,14 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={async () => {
           await twilioClient.shutdown();
           initializeTwilioClient();
         }}
       >
         reconnect
-      </button>
+      </button> */}
       <DesktopConversation
         conversationResource={conversationResource}
         conversation={conversation}
