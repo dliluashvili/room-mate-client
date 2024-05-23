@@ -21,6 +21,8 @@ import FilterIcon from "../public/newImages/filter-search.svg";
 
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
 import ConversationWindow from "../components/messengerComponents/ConverationWindow";
+import { twilioClientVar } from "../store/twilioVars";
+import { useReactiveVar } from "@apollo/client";
 
 const Search = () => {
   useCheckAuth();
@@ -149,7 +151,7 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage   ">
+      <div className="searchPage">
         <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
