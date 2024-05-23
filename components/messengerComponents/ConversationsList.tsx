@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "../../public/newImages/testAvatar.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
