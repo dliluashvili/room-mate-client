@@ -54,7 +54,10 @@ export default function ConversationsList({
       <div className="w-full  h-full overflow-auto">
         {conversations.map((conversation, index) => (
           <div
-            onClick={() => handleClickConversation(conversation.sid)}
+            onClick={() => {
+              
+              handleClickConversation(conversation.sid);
+            }}
             key={index}
             className="flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
           >

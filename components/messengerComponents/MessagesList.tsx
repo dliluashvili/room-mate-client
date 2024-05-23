@@ -199,7 +199,10 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     : virtualizer.getTotalSize();
 
   return (
-    <div className="overflow-auto" ref={parentDomRef}>
+    <div
+      className="overflow-auto scrollable-content scroll-smooth scroll-m-0 pt-2  px-3 pb-4"
+      ref={parentDomRef}
+    >
       <div
         style={{
           height: `${height}px`,
@@ -236,6 +239,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
 
           return (
             <div
+              className="bg-none  "
               key={virtualRow.index}
               data-index={virtualRow.index}
               ref={virtualizer.measureElement}
@@ -243,14 +247,27 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
                 width: "100%",
                 position: "absolute",
                 transform: `translateY(${translateY}px)`,
-                border: "1px solid black",
-                background:
-                  Number(message.index) % MESSAGES_PAGE_SIZE == 0
-                    ? "#90EE90"
-                    : "",
+
+                textAlign: participant.id === message.author ? "left" : "right", // Align text based on author
+                // background:
+                //   Number(message.index) % MESSAGES_PAGE_SIZE == 0
+                //     ? "#90EE90"
+                //     : "",
               }}
             >
-              {message.body} - {author}
+              <div
+                className="  bg-[#19A463]   text-[#FFFFFF] p-2 text-sm"
+                style={{
+                  display: "inline-block", // Ensure the message box takes only necessary width up to the max-width
+                  maxWidth: "50%", // Set the max-width to 50% of the container
+                  borderRadius:
+                    participant.id === message.author
+                      ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
+                      : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
+                }}
+              >
+                {message.body}
+              </div>
             </div>
           );
         })}

@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import Phone from "../../public/newImages/phone-icon.svg";
 import Whatsapp from "../../public/newImages/whatsapp-icon.svg";
@@ -8,9 +10,12 @@ import { useMediaQuery } from "react-responsive";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 
+
 export default function Contact() {
   const media = useMediaQuery({ query: "(max-width: 1024px)" });
   let { t } = useTranslation("common") as { t: (key: string) => string };
+
+
   return (
     <section className="w-full flex flex-col bg-[#F2F5FF] py-5 md:py-10 items-center px-6 md:flex-row sm:px-16 md:px-20 xl:px-24 mt-10 lg:mt-">
       <div className="w-full lg:w-[30%] ">
