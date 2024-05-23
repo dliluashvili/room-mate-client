@@ -6,10 +6,16 @@ import {
   ConversationStatus,
   ConversationWithUserObject,
 } from "../../gql/graphql";
-import { useQuery } from "@apollo/client";
-import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
+import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
+import {
+  generateTwilioAccessTokenMutation,
+  getConversationsForUserQuery,
+} from "../../gql/graphqlStatements";
 import { RouterQuery } from "./types";
-import { twilioClientVar } from "../../store/twilioVars";
+import {
+  twilioClientVar,
+  twilioConnectionStateVar,
+} from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
 
 const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
@@ -18,9 +24,12 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversationResource, setConversationResource] =
     useState<Conversation | null>(null);
 
-  const twilioClient = twilioClientVar();
+  const twilioClient = useReactiveVar(twilioClientVar);
+  const twilioClientState = useReactiveVar(twilioConnectionStateVar);
 
-  const { data } = useQuery(getConversationsForUserQuery);
+  const { data } = useQuery(getConversationsForUserQuery, {
+    fetchPolicy: "cache-only",
+  });
 
   const router = useRouter();
   const { id }: RouterQuery = router.query;
@@ -59,7 +68,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
    * useEffects start
    */
   useEffect(() => {
-    if (data?.getConversationsForUser?.list && id) {
+    if (data?.getConversationsForUser?.list?.length && id) {
       updateConversation(data.getConversationsForUser.list, id);
     }
   }, [data, id]);
@@ -71,13 +80,42 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   }, [conversation]);
 
   useEffect(() => {
-    if (conversation && twilioClient?.connectionState === "connected") {
+    if (conversation && twilioClientState === "connected") {
       getConversationResource(twilioClient, conversation.sid);
     }
-  }, [conversation, twilioClient]);
+  }, [conversation, twilioClientState]);
+
+  /**
+   * TESTING AREA
+   */
+  const [generateTwilioAccessToken] = useMutation(
+    generateTwilioAccessTokenMutation
+  );
+
+  const initializeTwilioClient = async () => {
+    try {
+      const { data } = await generateTwilioAccessToken();
+
+      if (data?.generateTwilioAccessToken) {
+        const client = new Client(data.generateTwilioAccessToken);
+
+        twilioClientVar(client);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   return (
     <>
+      <button
+        onClick={async () => {
+          await twilioClient.shutdown();
+          initializeTwilioClient();
+        }}
+      >
+        reconnect
+      </button>
       <DesktopConversation
         conversationResource={conversationResource}
         conversation={conversation}

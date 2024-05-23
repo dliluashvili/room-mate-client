@@ -104,6 +104,8 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
                 return conversation;
               });
 
+            // console.log({ conversationIncrementedUnreadMessage });
+
             return {
               ...data,
               getConversationsForUser: {
@@ -150,6 +152,9 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
 
   useEffect(() => {
     if (conversationResource) {
+      setMessages([]);
+      paginatedMessagesRef.current = null;
+
       getMessagesFromTwilio(conversationResource);
     }
   }, [conversationResource]);
