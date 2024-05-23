@@ -3,8 +3,9 @@ import TestAvatar from "../../public/newImages/testAvatar.svg";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypeSelector";
+import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
   ConversationWithUserObject,
@@ -23,6 +24,7 @@ type Props = {
 export default function DesktopConversation({
   conversationResource,
   conversation,
+
 }: Props) {
   const [message, setMessage] = useState("");
 
@@ -123,7 +125,9 @@ export default function DesktopConversation({
     }
   );
 
-  const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setMessage(event.target.value);
   };
 
@@ -143,6 +147,13 @@ export default function DesktopConversation({
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // Prevent default form submission
+      handleSendMessage();
+    }
+  };
+
   return (
     <section className="w-full flex-col  bg-[#FFFFFF] hidden ml-6 md:flex  rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
@@ -161,7 +172,7 @@ export default function DesktopConversation({
         if (conversation?.status === ConversationStatus.Accepted) {
           return (
             <div
-              className="flex flex-col justify-end pt-5 pb-4 px-4 w-full"
+              className="flex flex-col justify-end pt-5 py-2  px-4 w-full"
               style={{
                 height: containerHeight,
               }}
@@ -171,13 +182,15 @@ export default function DesktopConversation({
                 participant={conversation.user}
                 user={user}
               />
-              <div className="flex w-full h-auto flex-row items-center px-6 py-4">
-                <input
+              <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
+                <AutosizeTextarea
                   placeholder="send message"
-                  className="w-full text-[14px] py-2 px-3 border border-[gray] rounded-3xl mr-2"
+                  className="  scrollable-content   w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
                   value={message}
                   onChange={handleMessageChange}
+                  onKeyDown={handleKeyDown}
                 />
+
                 <Image
                   src={Send}
                   width={24}
