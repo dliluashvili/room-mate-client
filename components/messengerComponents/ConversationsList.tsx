@@ -3,6 +3,7 @@ import Avatar from "../../public/newImages/testAvatar.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
+import { RouterQuery } from "./types";
 
 export default function ConversationsList({
   request,
@@ -11,11 +12,14 @@ export default function ConversationsList({
   conversations,
 }) {
   const router = useRouter();
+  const { id }: RouterQuery = router.query;
 
   const media = useMediaQuery({ query: "(max-width: 768px)" });
 
   const handleClickConversation = (sid) => {
-    router.push(`/conversation?id=${sid}`);
+    if (id !== sid) {
+      router.push(`/conversation?id=${sid}`);
+    }
 
     if (media) {
       setMobileOpen(true);
@@ -55,7 +59,6 @@ export default function ConversationsList({
         {conversations.map((conversation, index) => (
           <div
             onClick={() => {
-              
               handleClickConversation(conversation.sid);
             }}
             key={index}

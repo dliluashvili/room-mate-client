@@ -4,7 +4,6 @@ import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
 import { useRef, useState } from "react";
-import { useTypedSelector } from "../hooks/useTypeSelector";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
@@ -24,13 +23,10 @@ type Props = {
 export default function DesktopConversation({
   conversationResource,
   conversation,
-
 }: Props) {
   const [message, setMessage] = useState("");
 
   const headerRef = useRef<HTMLDivElement>(null);
-
-  const { user } = useTypedSelector((state) => state.profile);
 
   const client = useApolloClient();
 
@@ -132,7 +128,7 @@ export default function DesktopConversation({
   };
 
   const handleSendMessage = () => {
-    if (message.length) {
+    if (conversationResource && message.length) {
       conversationResource.sendMessage(message);
       setMessage("");
     }
@@ -179,8 +175,7 @@ export default function DesktopConversation({
             >
               <MessagesList
                 conversationResource={conversationResource}
-                participant={conversation.user}
-                user={user}
+                conversation={conversation}
               />
               <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
                 <AutosizeTextarea

@@ -2,22 +2,22 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { UserPreviewObject } from "../../gql/graphql";
-import { IUser } from "../../redux/reducers/profileReducer";
+import { ConversationWithUserObject } from "../../gql/graphql";
 import { useApolloClient } from "@apollo/client";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
+import mergeRefs from "merge-refs";
+import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
 
 type Props = {
   conversationResource: Conversation;
-  participant?: UserPreviewObject;
-  user: IUser;
+  conversation?: ConversationWithUserObject;
 };
 
 const MESSAGES_PAGE_SIZE = 10;
 const MESSAGE_BOX_ESTIMATE_HEIGHT = 100;
 const LOADER_BOX_HEIGHT = 20;
 
-const MessagesList = ({ conversationResource, participant, user }: Props) => {
+const MessagesList = ({ conversationResource, conversation }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const paginatedMessagesRef = useRef<Paginator<Message>>(null);
@@ -27,6 +27,9 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
   const client = useApolloClient();
 
   const { ref: inViewRef, inView } = useInView();
+  const { ref: firstMessageRef, inView: inViewFirstMessageDom } = useInView();
+
+  const isDocumentFocused = useDocumentHasFocus();
 
   const virtualizer = useVirtualizer({
     count: messages.length,
@@ -104,8 +107,6 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
                 return conversation;
               });
 
-            // console.log({ conversationIncrementedUnreadMessage });
-
             return {
               ...data,
               getConversationsForUser: {
@@ -177,16 +178,18 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     if (messages.length) {
       waitToRenderVirtualItemsAndScrollToOffset();
     }
+  }, [messages]);
 
-    // set message read while user load page
+  useEffect(() => {
     if (
+      inViewFirstMessageDom &&
       conversationResource &&
-      messages.length > 0 &&
-      messages.length <= MESSAGES_PAGE_SIZE
+      conversation?.unreadMessagesCount > 0 &&
+      isDocumentFocused
     ) {
       setAllMessagesRead(conversationResource);
     }
-  }, [messages]);
+  }, [inViewFirstMessageDom, isDocumentFocused]);
 
   useEffect(() => {
     if (conversationResource) {
@@ -204,10 +207,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     : virtualizer.getTotalSize();
 
   return (
-    <div
-      className="overflow-auto scrollable-content scroll-smooth scroll-m-0 pt-2  px-3 pb-4"
-      ref={parentDomRef}
-    >
+    <div className="overflow-auto" ref={parentDomRef}>
       <div
         style={{
           height: `${height}px`,
@@ -237,23 +237,23 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
             ? LOADER_BOX_HEIGHT + virtualRow.start
             : virtualRow.start;
 
-          const author =
-            participant.id === message.author
-              ? `${participant.firstname} ${participant.lastname}`
-              : `${user.firstname} ${user.lastname}`;
+          const messageRefs =
+            messages[messages.length - 1].index === message.index
+              ? (mergeRefs(virtualizer.measureElement, firstMessageRef) as any)
+              : virtualizer.measureElement;
 
           return (
             <div
-              className="bg-none  "
+              className="bg-none"
               key={virtualRow.index}
               data-index={virtualRow.index}
-              ref={virtualizer.measureElement}
+              ref={messageRefs}
               style={{
                 width: "100%",
                 position: "absolute",
                 transform: `translateY(${translateY}px)`,
-
-                textAlign: participant.id === message.author ? "left" : "right", // Align text based on author
+                textAlign:
+                  conversation?.user?.id === message.author ? "left" : "right", // Align text based on author
                 // background:
                 //   Number(message.index) % MESSAGES_PAGE_SIZE == 0
                 //     ? "#90EE90"
@@ -266,7 +266,7 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
                   display: "inline-block", // Ensure the message box takes only necessary width up to the max-width
                   maxWidth: "50%", // Set the max-width to 50% of the container
                   borderRadius:
-                    participant.id === message.author
+                    conversation?.user?.id === message.author
                       ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
                       : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
                 }}
