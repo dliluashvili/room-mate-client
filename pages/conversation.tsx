@@ -5,7 +5,6 @@ import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
-import { LIMIT, OFFSET } from "../constants/pagination";
 import { ConversationStatus } from "../gql/graphql";
 import Conversation from "../components/messengerComponents/Conversation";
 import { RouterQuery } from "../components/messengerComponents/types";
@@ -19,14 +18,19 @@ export default function conversation() {
   const router = useRouter();
   const { id }: RouterQuery = router.query;
 
-  const { data } = useQuery(getConversationsForUserQuery, {
-    variables: {
-      pagination: {
-        offset: OFFSET,
-        limit: LIMIT,
+  const { data, fetchMore: fetchMoreConversationsForUser } = useQuery(
+    getConversationsForUserQuery,
+    {
+      variables: {
+        pagination: {
+          offset: 0,
+          limit: 1,
+        },
       },
-    },
-  });
+    }
+  );
+
+  console.log({ data });
 
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser?.list) {
@@ -58,11 +62,27 @@ export default function conversation() {
     <main className="w-full flex flex-col h-screen overflow-hidden">
       <NewHeader />
       <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
+        <button
+          onClick={() =>
+            fetchMoreConversationsForUser({
+              variables: {
+                pagination: {
+                  offset: data.getConversationsForUser.list.length,
+                  limit: 1,
+                },
+              },
+            })
+          }
+        >
+          load more conversation
+        </button>
         <ConversationsList
           request={request}
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
           conversations={filteredConversationsByStatus}
+          pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
+          fetchMoreConversationsForUser={fetchMoreConversationsForUser}
         />
         <Conversation
           mobileOpen={mobileOpen}
