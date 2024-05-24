@@ -6,6 +6,7 @@ import { UserPreviewObject } from "../../gql/graphql";
 import { IUser } from "../../redux/reducers/profileReducer";
 import { useApolloClient } from "@apollo/client";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
+import { Spinner } from "../../@/components/ui/spinner";
 
 type Props = {
   conversationResource: Conversation;
@@ -203,81 +204,92 @@ const MessagesList = ({ conversationResource, participant, user }: Props) => {
     ? virtualizer.getTotalSize() + LOADER_BOX_HEIGHT
     : virtualizer.getTotalSize();
 
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div
-      className="overflow-auto scrollable-content scroll-smooth scroll-m-0 pt-2  px-3 pb-4"
-      ref={parentDomRef}
-    >
-      <div
-        style={{
-          height: `${height}px`,
-          width: "100%",
-          position: "relative",
-        }}
-      >
-        {paginatedMessagesRef?.current?.hasPrevPage && (
+    <>
+      {messages.length === 0 ? (
+        <div className="flex w-full h-full  justify-center items-center">
+          <Spinner />
+        </div>
+      ) : (
+        <div
+          className="overflow-auto scrollable-content scroll-smooth scroll-m-0 pt-2  px-3 pb-4"
+          ref={parentDomRef}
+        >
           <div
-            ref={inViewRef}
             style={{
+              height: `${height}px`,
               width: "100%",
-              height: LOADER_BOX_HEIGHT,
-              position: "absolute",
-              transform: "translateY(0px)",
-              border: "1px solid red",
+              position: "relative",
             }}
           >
-            load more
-          </div>
-        )}
-
-        {virtualizer.getVirtualItems().map((virtualRow) => {
-          const message = messages[virtualRow.index];
-
-          const translateY = paginatedMessagesRef.current?.hasPrevPage
-            ? LOADER_BOX_HEIGHT + virtualRow.start
-            : virtualRow.start;
-
-          const author =
-            participant.id === message.author
-              ? `${participant.firstname} ${participant.lastname}`
-              : `${user.firstname} ${user.lastname}`;
-
-          return (
-            <div
-              className="bg-none  "
-              key={virtualRow.index}
-              data-index={virtualRow.index}
-              ref={virtualizer.measureElement}
-              style={{
-                width: "100%",
-                position: "absolute",
-                transform: `translateY(${translateY}px)`,
-
-                textAlign: participant.id === message.author ? "left" : "right", // Align text based on author
-                // background:
-                //   Number(message.index) % MESSAGES_PAGE_SIZE == 0
-                //     ? "#90EE90"
-                //     : "",
-              }}
-            >
+            {paginatedMessagesRef?.current?.hasPrevPage && (
               <div
-                className="  bg-[#19A463]   text-[#FFFFFF] p-2 text-sm"
+                ref={inViewRef}
                 style={{
-                  display: "inline-block", // Ensure the message box takes only necessary width up to the max-width
-                  maxWidth: "50%", // Set the max-width to 50% of the container
-                  borderRadius:
-                    participant.id === message.author
-                      ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
-                      : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
+                  width: "100%",
+                  height: LOADER_BOX_HEIGHT,
+                  position: "absolute",
+                  transform: "translateY(0px)",
+                  border: "1px solid red",
                 }}
               >
-                {message.body}
+                load more
               </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+            )}
+
+            {virtualizer.getVirtualItems().map((virtualRow) => {
+              const message = messages[virtualRow.index];
+
+              const translateY = paginatedMessagesRef.current?.hasPrevPage
+                ? LOADER_BOX_HEIGHT + virtualRow.start
+                : virtualRow.start;
+
+              const author =
+                participant.id === message.author
+                  ? `${participant.firstname} ${participant.lastname}`
+                  : `${user.firstname} ${user.lastname}`;
+
+              return (
+                <div
+                  className="bg-none  "
+                  key={virtualRow.index}
+                  data-index={virtualRow.index}
+                  ref={virtualizer.measureElement}
+                  style={{
+                    width: "100%",
+                    position: "absolute",
+                    transform: `translateY(${translateY}px)`,
+
+                    textAlign:
+                      participant.id === message.author ? "left" : "right", // Align text based on author
+                    // background:
+                    //   Number(message.index) % MESSAGES_PAGE_SIZE == 0
+                    //     ? "#90EE90"
+                    //     : "",
+                  }}
+                >
+                  <div
+                    className="  bg-[#19A463]   text-[#FFFFFF] p-2 text-sm"
+                    style={{
+                      display: "inline-block", // Ensure the message box takes only necessary width up to the max-width
+                      maxWidth: "50%", // Set the max-width to 50% of the container
+                      borderRadius:
+                        participant.id === message.author
+                          ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
+                          : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
+                    }}
+                  >
+                    {message.body}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
