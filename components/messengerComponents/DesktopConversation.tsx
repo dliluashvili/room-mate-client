@@ -24,14 +24,10 @@ type Props = {
 export default function DesktopConversation({
   conversationResource,
   conversation,
-
 }: Props) {
   const [message, setMessage] = useState("");
-
   const headerRef = useRef<HTMLDivElement>(null);
-
   const { user } = useTypedSelector((state) => state.profile);
-
   const client = useApolloClient();
 
   const [updateConversationStatus, { loading }] = useMutation(
@@ -153,6 +149,7 @@ export default function DesktopConversation({
       handleSendMessage();
     }
   };
+  
 
   return (
     <section className="w-full flex-col  bg-[#FFFFFF] hidden ml-6 md:flex  rounded-md border-b-4 border-[gray] overflow-hidden">
@@ -181,6 +178,7 @@ export default function DesktopConversation({
                 conversationResource={conversationResource}
                 participant={conversation.user}
                 user={user}
+       
               />
               <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
                 <AutosizeTextarea
