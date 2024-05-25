@@ -7,6 +7,7 @@ import { useApolloClient } from "@apollo/client";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import mergeRefs from "merge-refs";
 import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
+import { Spinner } from "../../@/components/ui/spinner";
 
 type Props = {
   conversationResource: Conversation;
@@ -205,6 +206,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   const height = paginatedMessagesRef.current?.hasPrevPage
     ? virtualizer.getTotalSize() + LOADER_BOX_HEIGHT
     : virtualizer.getTotalSize();
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="overflow-auto" ref={parentDomRef}>

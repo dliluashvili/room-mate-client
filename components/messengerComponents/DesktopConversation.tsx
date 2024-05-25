@@ -25,9 +25,7 @@ export default function DesktopConversation({
   conversation,
 }: Props) {
   const [message, setMessage] = useState("");
-
   const headerRef = useRef<HTMLDivElement>(null);
-
   const client = useApolloClient();
 
   const [updateConversationStatus, { loading }] = useMutation(
