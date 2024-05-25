@@ -30,8 +30,6 @@ export default function conversation() {
     }
   );
 
-  console.log({ data });
-
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser?.list) {
       if (request) {
@@ -62,20 +60,6 @@ export default function conversation() {
     <main className="w-full flex flex-col h-screen overflow-hidden">
       <NewHeader />
       <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
-        <button
-          onClick={() =>
-            fetchMoreConversationsForUser({
-              variables: {
-                pagination: {
-                  offset: data.getConversationsForUser.list.length,
-                  limit: 1,
-                },
-              },
-            })
-          }
-        >
-          load more conversation
-        </button>
         <ConversationsList
           request={request}
           setRequest={setRequest}

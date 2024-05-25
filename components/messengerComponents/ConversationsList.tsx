@@ -38,8 +38,8 @@ export default function ConversationsList({
 
   const virtualizer = useVirtualizer({
     count: pageInfo?.hasNextPage
-      ? conversations.length
-      : conversations.length + 1,
+      ? conversations.length + 1
+      : conversations.length,
     getScrollElement: () => parentDomRef.current,
     estimateSize: () => CONVERSATION_BOX_ESTIMATE_HEIGHT,
     overscan: 5,
@@ -66,7 +66,7 @@ export default function ConversationsList({
       lastVirtualItem.index >= conversations.length - 1 &&
       pageInfo?.hasNextPage
     ) {
-      // FIXME: because argument and return types is not fully denote, autosuggestion is not working
+      // FIXME: because argument and return types is not fully typed, autosuggestion is not working
       fetchMoreConversationsForUser({
         variables: {
           pagination: {
@@ -115,82 +115,63 @@ export default function ConversationsList({
             const isLoaderRow = virtualRow.index > conversations.length - 1;
             const conversation = conversations[virtualRow.index];
 
-            if (isLoaderRow) {
-              return (
-                <div
-                  key={virtualRow.index}
-                  data-index={virtualRow.index}
-                  ref={virtualizer.measureElement}
-                  className="flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
-                  style={{
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    position: "absolute",
-                    transform: `translateY(${virtualRow.start}px)`,
-                    border: "1px solid black",
-                  }}
-                >
-                  Loading
-                </div>
-              );
-            }
+            return (
+              <div
+                key={virtualRow.index}
+                data-index={virtualRow.index}
+                ref={virtualizer.measureElement}
+                className="flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
+                style={{
+                  width: "100%",
+                  position: "absolute",
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+                onClick={() =>
+                  !isLoaderRow ? handleClickConversation(conversation.sid) : {}
+                }
+              >
+                {isLoaderRow ? (
+                  <div className="w-full h-full">loading</div>
+                ) : (
+                  <>
+                    <div className="w-full h-full relative overflow-auto flex flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
+                      <Image
+                        src={conversation.user.profileImage ?? Avatar}
+                        width={48}
+                        height={48}
+                        className="rounded-full"
+                        alt="123"
+                      />
 
-            if (conversation) {
-              return (
-                <div
-                  key={virtualRow.index}
-                  data-index={virtualRow.index}
-                  ref={virtualizer.measureElement}
-                  className="flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
-                  style={{
-                    width: "100%",
-                    position: "absolute",
-                    transform: `translateY(${virtualRow.start}px)`,
-                  }}
-                  onClick={() => {
-                    handleClickConversation(conversation.sid);
-                  }}
-                >
-                  <div className="w-full h-full relative overflow-auto flex flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
-                    <Image
-                      src={conversation.user.profileImage ?? Avatar}
-                      width={48}
-                      height={48}
-                      className="rounded-full"
-                      alt="123"
-                    />
+                      {!!conversation.unreadMessagesCount && (
+                        <div
+                          id="#tablet"
+                          className="bg-[#DB0505] left-12 absolute  hidden md:flex lg:hidden text-white text-[10px] rounded-full w-5 h-5 items-center justify-center"
+                        >
+                          {conversation.unreadMessagesCount}
+                        </div>
+                      )}
 
+                      <div className="flex-col h-full ml-6 flex md:hidden lg:flex">
+                        <span className="text-[#484848] font-semibold text-[14px]">
+                          {conversation.user.firstname}
+                        </span>
+                        <span className="text-[#838CAC] text-xs mt-1">
+                          last message
+                        </span>
+                      </div>
+                    </div>
                     {!!conversation.unreadMessagesCount && (
-                      <div
-                        id="#tablet"
-                        className="bg-[#DB0505] left-12 absolute  hidden md:flex lg:hidden text-white text-[10px] rounded-full w-5 h-5 items-center justify-center"
-                      >
-                        {conversation.unreadMessagesCount}
+                      <div className="bg-[#DB0505] flex md:hidden lg:flex  rounded-full w-5 h-5 items-center justify-center">
+                        <span className="text-white text-[10px] text-center">
+                          {conversation.unreadMessagesCount}
+                        </span>
                       </div>
                     )}
-
-                    <div className="flex-col h-full ml-6 flex md:hidden lg:flex">
-                      <span className="text-[#484848] font-semibold text-[14px]">
-                        {conversation.user.firstname}
-                      </span>
-                      <span className="text-[#838CAC] text-xs mt-1">
-                        last message
-                      </span>
-                    </div>
-                  </div>
-                  {!!conversation.unreadMessagesCount && (
-                    <div className="bg-[#DB0505] flex md:hidden lg:flex  rounded-full w-5 h-5 items-center justify-center">
-                      <span className="text-white text-[10px] text-center">
-                        {conversation.unreadMessagesCount}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            return null;
+                  </>
+                )}
+              </div>
+            );
           })}
         </div>
       </div>
