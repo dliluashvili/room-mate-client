@@ -149,7 +149,7 @@ export default function DesktopConversation({
   };
 
   return (
-    <section className="w-full flex-col  bg-[#FFFFFF] hidden ml-6 md:flex  rounded-md border-b-4 border-[gray] overflow-hidden">
+    <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
         ref={headerRef}
         className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
@@ -178,7 +178,7 @@ export default function DesktopConversation({
               <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
                 <AutosizeTextarea
                   placeholder="send message"
-                  className="  scrollable-content   w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                  className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
                   value={message}
                   onChange={handleMessageChange}
                   onKeyDown={handleKeyDown}

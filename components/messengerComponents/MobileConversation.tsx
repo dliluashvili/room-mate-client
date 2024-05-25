@@ -15,7 +15,6 @@ import {
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
 import { useApolloClient, useMutation } from "@apollo/client";
-import { useTypedSelector } from "../hooks/useTypeSelector";
 import AutosizeTextarea from "react-textarea-autosize";
 type Props = {
   mobileOpen: boolean;
@@ -34,7 +33,6 @@ export default function MobileConversation({
 
   const [message, setMessage] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
-  const { user } = useTypedSelector((state) => state.profile);
   const client = useApolloClient();
 
   const [updateConversationStatus, { loading }] = useMutation(
@@ -157,7 +155,6 @@ export default function MobileConversation({
     }
   };
 
-
   return (
     <section
       className="w-full bg-[#FFFFFF]  h-full flex-col absolute z-50"
@@ -203,9 +200,7 @@ export default function MobileConversation({
             >
               <MessagesList
                 conversationResource={conversationResource}
-                participant={conversation.user}
-                user={user}
-              
+                conversation={conversation}
               />
               <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
                 <AutosizeTextarea
