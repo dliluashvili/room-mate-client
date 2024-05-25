@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DesktopConversation from "./DesktopConversation";
 import MobileConversation from "./MobileConversation";
-import { useEffect, useState } from "react";
 import {
   ConversationStatus,
   ConversationWithUserObject,
@@ -27,6 +27,8 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const twilioClient = useReactiveVar(twilioClientVar);
   const twilioClientState = useReactiveVar(twilioConnectionStateVar);
 
+  // Conversations for user is already fetching or fetched from useNotifications hook
+  // So this is why it is fetched from cache
   const { data } = useQuery(getConversationsForUserQuery, {
     fetchPolicy: "cache-only",
   });

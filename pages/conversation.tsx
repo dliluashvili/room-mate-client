@@ -5,7 +5,6 @@ import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
-import { LIMIT, OFFSET } from "../constants/pagination";
 import { ConversationStatus } from "../gql/graphql";
 import Conversation from "../components/messengerComponents/Conversation";
 import { RouterQuery } from "../components/messengerComponents/types";
@@ -19,14 +18,17 @@ export default function conversation() {
   const router = useRouter();
   const { id }: RouterQuery = router.query;
 
-  const { data } = useQuery(getConversationsForUserQuery, {
-    variables: {
-      pagination: {
-        offset: OFFSET,
-        limit: LIMIT,
+  const { data, fetchMore: fetchMoreConversationsForUser } = useQuery(
+    getConversationsForUserQuery,
+    {
+      variables: {
+        pagination: {
+          offset: 0,
+          limit: 1,
+        },
       },
-    },
-  });
+    }
+  );
 
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser?.list) {
@@ -63,6 +65,8 @@ export default function conversation() {
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
           conversations={filteredConversationsByStatus}
+          pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
+          fetchMoreConversationsForUser={fetchMoreConversationsForUser}
         />
         <Conversation
           mobileOpen={mobileOpen}

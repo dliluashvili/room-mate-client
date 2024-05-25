@@ -4,7 +4,6 @@ import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
 import { useRef, useState } from "react";
-import { useTypedSelector } from "../hooks/useTypeSelector";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
@@ -27,7 +26,6 @@ export default function DesktopConversation({
 }: Props) {
   const [message, setMessage] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
-  const { user } = useTypedSelector((state) => state.profile);
   const client = useApolloClient();
 
   const [updateConversationStatus, { loading }] = useMutation(
@@ -128,7 +126,7 @@ export default function DesktopConversation({
   };
 
   const handleSendMessage = () => {
-    if (message.length) {
+    if (conversationResource && message.length) {
       conversationResource.sendMessage(message);
       setMessage("");
     }
@@ -149,10 +147,9 @@ export default function DesktopConversation({
       handleSendMessage();
     }
   };
-  
 
   return (
-    <section className="w-full flex-col  bg-[#FFFFFF] hidden ml-6 md:flex  rounded-md border-b-4 border-[gray] overflow-hidden">
+    <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
         ref={headerRef}
         className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
@@ -176,14 +173,12 @@ export default function DesktopConversation({
             >
               <MessagesList
                 conversationResource={conversationResource}
-                participant={conversation.user}
-                user={user}
-       
+                conversation={conversation}
               />
               <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
                 <AutosizeTextarea
                   placeholder="send message"
-                  className="  scrollable-content   w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                  className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
                   value={message}
                   onChange={handleMessageChange}
                   onKeyDown={handleKeyDown}
