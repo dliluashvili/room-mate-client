@@ -1,26 +1,69 @@
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
-import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { ConversationWithUserObject } from "../../gql/graphql";
+import { useMeasure } from "react-use";
 import { useApolloClient } from "@apollo/client";
-import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
+import clsx from "clsx";
 import mergeRefs from "merge-refs";
+
+import { ConversationWithUserObject } from "../../gql/graphql";
+import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
-import React from "react";
 
 type Props = {
   conversationResource: Conversation;
   conversation?: ConversationWithUserObject;
 };
 
-export const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+/*
+ * CONSTANTS
+ */
+const MESSAGES_PAGE_SIZE = 20;
 
-const MESSAGES_PAGE_SIZE = 10;
-const MESSAGE_BOX_ESTIMATE_HEIGHT = 550;
-const LOADER_BOX_HEIGHT = 20;
+const MESSAGE_BOX_ESTIMATE_HEIGHT = 50;
+const MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE = 250;
 
+const PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE = 600;
+
+const GET_NEXT_MESSAGES_MIN_TIMEOUT = 700;
+
+/*
+ * UTILS
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+const extendFetchTime = async <T,>(
+  minDuration: number,
+  callback: () => Promise<T>
+) => {
+  let response: T = null;
+
+  const startTime = performance.now();
+
+  response = await callback();
+
+  const endTime = performance.now();
+
+  const duration = endTime - startTime;
+
+  if (duration < minDuration) {
+    await new Promise((resolve) => setTimeout(resolve, minDuration - duration));
+  }
+
+  return response;
+};
+
+/*
+ * MAIN COMPONENT
+ */
 const MessagesList = ({ conversationResource, conversation }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -30,8 +73,9 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   const client = useApolloClient();
 
-  const { ref: inViewRef, inView } = useInView();
-  const { ref: firstMessageRef, inView: inViewFirstMessageDom } = useInView();
+  const { ref: inViewLoaderDomRef, inView } = useInView();
+  const { ref: firstMessageDomRef, inView: inViewFirstMessageDom } =
+    useInView();
 
   const isDocumentFocused = useDocumentHasFocus();
 
@@ -44,18 +88,30 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
         paginatedMessagesRef.current = paginatedMessages;
 
+        console.log(paginatedMessages.items);
+
         setMessages((prevMessages) => [
-          ...prevMessages,
           ...paginatedMessages.items,
+          ...prevMessages,
         ]);
       } else if (paginatedMessagesRef.current.hasPrevPage) {
-        const paginatedMessages = await paginatedMessagesRef.current.prevPage();
+        // In safari if scroll has big velocity and fetch time is small
+        // browser renders empty area before touch it(after touch it shows items)
+        // and scrollOffset is not works properly.
+        // To slow velocity to 0, 1000ms is totally enough.
+        // In another browsers it is not the case but,
+        // browser maybe somehow saves scroll velocity and
+        // continue scroll after instant(100ms for example) fetch.
+        const paginatedMessages = await extendFetchTime(
+          GET_NEXT_MESSAGES_MIN_TIMEOUT,
+          () => paginatedMessagesRef.current.prevPage()
+        );
 
         paginatedMessagesRef.current = paginatedMessages;
 
         setMessages((prevMessages) => [
-          ...prevMessages,
           ...paginatedMessages.items,
+          ...prevMessages,
         ]);
       }
     } catch (error) {
@@ -100,45 +156,10 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     }
   };
 
+  // TODO: when new message is sent, scroll to bottom
   const handleMessageAdded = (message: Message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
-
-  // FIXME: need to be removed getMessagesFromTwilio because data is fetched from inView hooks
-  useEffect(() => {
-    if (conversationResource) {
-      setMessages([]);
-      paginatedMessagesRef.current = null;
-
-      getMessagesFromTwilio(conversationResource);
-    }
-  }, [conversationResource]);
-
-  /**
-   * FIXME: need fetch logic if not enough messages are not shown
-   */
-  // fetch prev messages
-  useEffect(() => {
-    if (
-      inView &&
-      conversationResource &&
-      paginatedMessagesRef.current?.hasPrevPage
-    ) {
-      getMessagesFromTwilio(conversationResource);
-    }
-  }, [inView]);
-
-  // TODO: uncomment later
-  // useEffect(() => {
-  //   if (
-  //     inViewFirstMessageDom &&
-  //     conversationResource &&
-  //     conversation?.unreadMessagesCount > 0 &&
-  //     isDocumentFocused
-  //   ) {
-  //     setAllMessagesRead(conversationResource);
-  //   }
-  // }, [inViewFirstMessageDom, isDocumentFocused]);
 
   useEffect(() => {
     if (conversationResource) {
@@ -151,35 +172,75 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     };
   }, [conversationResource]);
 
-  // virtualizer logic
+  /**
+   * Fetch prev messages
+   * FIXME: need fetch logic if not enough messages are not shown
+   */
+  useEffect(() => {
+    if (inView && conversationResource) {
+      getMessagesFromTwilio(conversationResource);
+    }
+  }, [inView, conversationResource]);
+
+  /**
+   * Set messages as read
+   */
+  useEffect(() => {
+    if (
+      inViewFirstMessageDom &&
+      conversationResource &&
+      conversation?.unreadMessagesCount > 0 &&
+      isDocumentFocused
+    ) {
+      setAllMessagesRead(conversationResource);
+    }
+  }, [inViewFirstMessageDom, isDocumentFocused]);
+
+  /*
+   * VIRTUALIZER CODE START
+   */
   const count = messages.length;
 
-  const reverseIndex = React.useCallback((index) => count - 1 - index, [count]);
+  const virtualizerRef =
+    useRef<ReturnType<typeof useVirtualizer<HTMLDivElement, Element>>>(null);
 
-  const virtualizerRef = React.useRef(null);
+  const [parentDomMeasureRef, { width: parentDomWidth }] = useMeasure();
 
+  // Reverse scroll code below and idea is provided from github discussion.
+  // link: https://github.com/TanStack/virtual/discussions/195#discussioncomment-4706845
   if (
     virtualizerRef.current &&
     count !== virtualizerRef.current.options.count
   ) {
     const delta = count - virtualizerRef.current.options.count;
+
+    const messageBoxEstimateHeight =
+      virtualizerRef.current.options.count === 0
+        ? MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE
+        : MESSAGE_BOX_ESTIMATE_HEIGHT;
+
     const nextOffset =
-      virtualizerRef.current.scrollOffset + delta * MESSAGE_BOX_ESTIMATE_HEIGHT;
+      virtualizerRef.current.scrollOffset +
+      delta * messageBoxEstimateHeight +
+      delta * virtualizerRef.current.options.gap;
 
     virtualizerRef.current.scrollOffset = nextOffset;
-    virtualizerRef.current.scrollToOffset(nextOffset, { align: "start" });
+    virtualizerRef.current.scrollToOffset(nextOffset);
   }
 
   const virtualizer = useVirtualizer({
     getScrollElement: () => parentDomRef.current,
     count,
-    estimateSize: () => MESSAGE_BOX_ESTIMATE_HEIGHT,
-    getItemKey: React.useCallback(
-      (index) => messages[reverseIndex(index)].index,
-      [messages, reverseIndex]
-    ),
+    estimateSize: useCallback(() => {
+      if (messages.length <= MESSAGES_PAGE_SIZE) {
+        return MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE;
+      }
+      return MESSAGE_BOX_ESTIMATE_HEIGHT;
+    }, [messages]),
+    getItemKey: useCallback((index) => messages[index].index, [messages]),
     overscan: 5,
-    scrollMargin: 50,
+    paddingEnd: 3,
+    paddingStart: 3,
     gap: 10,
   });
 
@@ -188,64 +249,64 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   });
 
   const virtualizerItems = virtualizer.getVirtualItems();
+  /*
+   * VIRTUALIZER CODE END
+   */
 
-  const [paddingTop, paddingBottom] =
-    virtualizerItems.length > 0
-      ? [
-          Math.max(
-            0,
-            virtualizerItems[0].start - virtualizer.options.scrollMargin
-          ),
-          Math.max(
-            0,
-            virtualizer.getTotalSize() -
-              virtualizerItems[virtualizerItems.length - 1].end
-          ),
-        ]
-      : [0, 0];
+  const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
 
   return (
-    <div ref={parentDomRef} className="overflow-y-auto flex-1 w-full">
-      <div className="h-[50px]" ref={inViewRef}>
-        <button>'loading'</button>
-      </div>
+    <div ref={parentDomRefs} className="overflow-y-auto">
+      <div ref={inViewLoaderDomRef}>loading</div>
       <div
+        className="relative"
         style={{
-          overflowAnchor: "none",
-          paddingTop,
-          paddingBottom,
+          height: virtualizer.getTotalSize(),
         }}
       >
-        {virtualizerItems.map((virtualRow) => {
-          const index = reverseIndex(virtualRow.index);
-          const message = messages[index];
+        {virtualizerItems.map((virtualItem) => {
+          const message = messages[virtualItem.index];
 
-          console.log({ virtualRow });
+          const virtualItemRef =
+            messages[MESSAGES_PAGE_SIZE - 1].index === message.index
+              ? (mergeRefs(
+                  virtualizer.measureElement,
+                  firstMessageDomRef
+                ) as any)
+              : virtualizer.measureElement;
 
           return (
             <div
-              key={virtualRow.key}
-              data-index={virtualRow.index}
-              data-reverse-index={index}
-              ref={virtualizer.measureElement}
+              key={virtualItem.key}
+              data-index={virtualItem.index}
+              ref={virtualItemRef}
+              className={clsx("absolute", {
+                "right-0": conversation?.user?.id === message.author,
+                "w-[75%]":
+                  parentDomWidth <=
+                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+                "w-[65%]":
+                  parentDomWidth >
+                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+              })}
               style={{
-                width: "100%",
-                marginTop: 10,
-                marginBottom: 10,
-                //   conversation?.user?.id === message.author ? "left" : "right", // Align text based on author
+                transform: `translateY(${virtualItem.start}px)`,
               }}
             >
               <div
-                className="bg-[#19A463] text-[#FFFFFF] p-2 text-sm"
-                style={{
-                  maxWidth: "50%",
-                  borderRadius:
-                    conversation?.user?.id === message.author
-                      ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
-                      : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
-                }}
+                className={clsx(
+                  "bg-[#c5bdff] text-stone-800 p-2 text-sm w-fit",
+                  {
+                    "float-right": conversation?.user?.id === message.author,
+                    "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0]":
+                      conversation?.user?.id === message.author,
+                    "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0]":
+                      conversation?.user?.id !== message.author,
+                  }
+                )}
               >
-                {message.body}
+                {message.index} - {message.body} -{" "}
+                <span>{message.dateCreated.toString()}</span>
               </div>
             </div>
           );
@@ -256,55 +317,3 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 };
 
 export default MessagesList;
-
-// {virtualizerItems.map((virtualRow) => {
-//   const index = reverseIndex(virtualRow.index);
-//   const message = messages[virtualRow.index];
-
-//   const translateY = paginatedMessagesRef.current?.hasPrevPage
-//     ? LOADER_BOX_HEIGHT + virtualRow.start
-//     : virtualRow.start;
-
-//   // const messageRefs =
-//   //   messages[messages.length - 1].index === message.index
-//   //     ? (mergeRefs(virtualizer.measureElement, firstMessageRef) as any)
-//   //     : virtualizer.measureElement;
-
-//   return (
-//     <div
-//       key={virtualRow.key}
-//       data-index={virtualRow.index}
-//       data-reverse-index={index}
-//       ref={virtualizer.measureElement}
-//       style={{
-//         width: "100%",
-//         // textAlign:
-//         //   conversation?.user?.id === message.author ? "left" : "right", // Align text based on author
-//       }}
-//     >
-//       {/* <div
-//         style={{
-//           padding: 15,
-//           background: `hsla(${message.index * 30}, 60%, 80%, 1)`,
-//           lineHeight: 1.5,
-//         }}
-//       >
-//         <div>
-//           {message.body} - {message.author}
-//         </div>
-//       </div> */}
-//       <div
-//         className="bg-[#19A463] text-[#FFFFFF] p-2 text-sm"
-//         style={{
-//           maxWidth: "50%",
-//           borderRadius:
-//             conversation?.user?.id === message.author
-//               ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
-//               : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
-//         }}
-//       >
-//         {message.body}
-//       </div>
-//     </div>
-//   );
-// })}

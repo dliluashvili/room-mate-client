@@ -175,7 +175,7 @@ export default function DesktopConversation({
                 conversationResource={conversationResource}
                 conversation={conversation}
               />
-              <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
+              <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
                 <AutosizeTextarea
                   placeholder="send message"
                   className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
