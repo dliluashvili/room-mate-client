@@ -206,26 +206,40 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   const [parentDomMeasureRef, { width: parentDomWidth }] = useMeasure();
 
+  const dummyViewRef = useRef(null);
+
   // Reverse scroll code below and idea is provided from github discussion.
   // link: https://github.com/TanStack/virtual/discussions/195#discussioncomment-4706845
   if (
     virtualizerRef.current &&
     count !== virtualizerRef.current.options.count
   ) {
-    const delta = count - virtualizerRef.current.options.count;
+    if (virtualizerRef.current.options.count === 0) {
+    } else {
+      const delta = count - virtualizerRef.current.options.count;
 
-    const messageBoxEstimateHeight =
-      virtualizerRef.current.options.count === 0
-        ? MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE
-        : MESSAGE_BOX_ESTIMATE_HEIGHT;
+      // For initial(first) render message box height should be higher,
+      // to make scroll bottom not stack somewhere middle.
+      // P.S. mostly in safari if item size is bigger then 250px
+      // when start scrolling it start flickering because adjusting itself scrollable area size.
+      // For first render item be 250px ans start flickering should not be problem,
+      // but for every next render and scroll on it can be for user.
+      // During next renders it is not important if item size bigger then 250px.
+      // 10px or 20px also works perfect, the scrollbar stays on old place.
+      // Now MESSAGE_BOX_ESTIMATE_HEIGHT is 50px to self insure from potential risk.
+      const messageBoxEstimateHeight =
+        virtualizerRef.current.options.count === 0
+          ? MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE
+          : MESSAGE_BOX_ESTIMATE_HEIGHT;
 
-    const nextOffset =
-      virtualizerRef.current.scrollOffset +
-      delta * messageBoxEstimateHeight +
-      delta * virtualizerRef.current.options.gap;
+      const nextOffset =
+        virtualizerRef.current.scrollOffset +
+        delta * messageBoxEstimateHeight +
+        delta * virtualizerRef.current.options.gap;
 
-    virtualizerRef.current.scrollOffset = nextOffset;
-    virtualizerRef.current.scrollToOffset(nextOffset);
+      virtualizerRef.current.scrollOffset = nextOffset;
+      virtualizerRef.current.scrollToOffset(nextOffset);
+    }
   }
 
   const virtualizer = useVirtualizer({
@@ -249,6 +263,14 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   });
 
   const virtualizerItems = virtualizer.getVirtualItems();
+
+  useEffect(() => {
+    console.log(virtualizer.options.count);
+    if (virtualizer.options.count === 20) {
+      dummyViewRef.current.scrollIntoView(false);
+    }
+  }, [virtualizer.options.count]);
+
   /*
    * VIRTUALIZER CODE END
    */
@@ -311,6 +333,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
             </div>
           );
         })}
+        <div ref={dummyViewRef}></div>
       </div>
     </div>
   );
