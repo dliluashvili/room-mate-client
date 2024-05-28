@@ -268,7 +268,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
           const message = messages[virtualItem.index];
 
           const virtualItemRef =
-            messages[MESSAGES_PAGE_SIZE - 1].index === message.index
+            messages[MESSAGES_PAGE_SIZE - 1]?.index === message.index
               ? (mergeRefs(
                   virtualizer.measureElement,
                   firstMessageDomRef
