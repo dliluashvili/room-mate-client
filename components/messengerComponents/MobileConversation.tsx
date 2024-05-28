@@ -139,6 +139,7 @@ export default function MobileConversation({
     }
   };
 
+  // FIXME: sometimes headerRef.current?.clientHeight undefined and textarea is hiding below visible area
   const containerHeight = headerRef.current?.clientHeight
     ? `calc(100% - ${headerRef.current.clientHeight}px)`
     : "100%";
@@ -162,7 +163,7 @@ export default function MobileConversation({
     >
       <div
         ref={headerRef}
-        className="flex flex-row w-full justify-between items-center pt-4 pb-10 px-6 shadow-md"
+        className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
       >
         <div className="flex flex-row items-center">
           {!request ? (
@@ -202,10 +203,10 @@ export default function MobileConversation({
                 conversationResource={conversationResource}
                 conversation={conversation}
               />
-              <div className="flex w-full h-auto flex-row items-center  border-t border-[#838CAC] px-3 py-4 ">
+              <div className="flex w-full h-auto flex-row items-center px-3 py-4">
                 <AutosizeTextarea
                   placeholder="send message"
-                  className="  scrollable-content   w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                  className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
                   value={message}
                   onChange={handleMessageChange}
                   onKeyDown={handleKeyDown}

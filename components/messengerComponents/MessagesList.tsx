@@ -1,23 +1,69 @@
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
-import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { ConversationWithUserObject } from "../../gql/graphql";
+import { useMeasure } from "react-use";
 import { useApolloClient } from "@apollo/client";
-import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
+import clsx from "clsx";
 import mergeRefs from "merge-refs";
+
+import { ConversationWithUserObject } from "../../gql/graphql";
+import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
-import { Spinner } from "../../@/components/ui/spinner";
 
 type Props = {
   conversationResource: Conversation;
   conversation?: ConversationWithUserObject;
 };
 
-const MESSAGES_PAGE_SIZE = 10;
-const MESSAGE_BOX_ESTIMATE_HEIGHT = 100;
-const LOADER_BOX_HEIGHT = 20;
+/*
+ * CONSTANTS
+ */
+const MESSAGES_PAGE_SIZE = 20;
 
+const MESSAGE_BOX_ESTIMATE_HEIGHT = 50;
+const MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE = 250;
+
+const PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE = 600;
+
+const GET_NEXT_MESSAGES_MIN_TIMEOUT = 700;
+
+/*
+ * UTILS
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+const extendFetchTime = async <T,>(
+  minDuration: number,
+  callback: () => Promise<T>
+) => {
+  let response: T = null;
+
+  const startTime = performance.now();
+
+  response = await callback();
+
+  const endTime = performance.now();
+
+  const duration = endTime - startTime;
+
+  if (duration < minDuration) {
+    await new Promise((resolve) => setTimeout(resolve, minDuration - duration));
+  }
+
+  return response;
+};
+
+/*
+ * MAIN COMPONENT
+ */
 const MessagesList = ({ conversationResource, conversation }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -27,36 +73,11 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   const client = useApolloClient();
 
-  const { ref: inViewRef, inView } = useInView();
-  const { ref: firstMessageRef, inView: inViewFirstMessageDom } = useInView();
+  const { ref: inViewLoaderDomRef, inView } = useInView();
+  const { ref: firstMessageDomRef, inView: inViewFirstMessageDom } =
+    useInView();
 
   const isDocumentFocused = useDocumentHasFocus();
-
-  const virtualizer = useVirtualizer({
-    count: messages.length,
-    getScrollElement: () => parentDomRef.current,
-    estimateSize: () => MESSAGE_BOX_ESTIMATE_HEIGHT,
-    overscan: 5,
-    gap: 20,
-  });
-
-  //   const getRandomElement = () => {
-  //     const elements = [
-  //       "A Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  //       "B Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.",
-  //       "C Lorem Ipsum is simply dummy text of the printing and typesetting industry. is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-  //       "D is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-  //     ];
-  //     const randomIndex = Math.floor(Math.random() * elements.length);
-
-  //     return elements[randomIndex];
-  //   };
-
-  //   const messagesWithHeight = (messages: Message[]) => {
-  //     return messages.map((message) => {
-  //       return { ...message, text: getRandomElement() };
-  //     });
-  //   };
 
   const getMessagesFromTwilio = async (conversationResource: Conversation) => {
     try {
@@ -67,12 +88,24 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
         paginatedMessagesRef.current = paginatedMessages;
 
+        console.log(paginatedMessages.items);
+
         setMessages((prevMessages) => [
           ...paginatedMessages.items,
           ...prevMessages,
         ]);
       } else if (paginatedMessagesRef.current.hasPrevPage) {
-        const paginatedMessages = await paginatedMessagesRef.current.prevPage();
+        // In safari if scroll has big velocity and fetch time is small
+        // browser renders empty area before touch it(after touch it shows items)
+        // and scrollOffset is not works properly.
+        // To slow velocity to 0, 1000ms is totally enough.
+        // In another browsers it is not the case but,
+        // browser maybe somehow saves scroll velocity and
+        // continue scroll after instant(100ms for example) fetch.
+        const paginatedMessages = await extendFetchTime(
+          GET_NEXT_MESSAGES_MIN_TIMEOUT,
+          () => paginatedMessagesRef.current.prevPage()
+        );
 
         paginatedMessagesRef.current = paginatedMessages;
 
@@ -123,74 +156,10 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     }
   };
 
-  /**
-   * virtualizer should paint newly added elements to it to perform calculations(sum of element's heights) of them
-   *
-   * FIXME: On most browser, especially safari it is blinking because setTimeout
-   */
-  const waitToRenderVirtualItemsAndScrollToOffset = () => {
-    setTimeout(() => {
-      const lastElements = Array.from(
-        virtualizer.measureElementCache.entries()
-      ).slice(0, paginatedMessagesRef.current.items.length);
-
-      const lastElementOffset = lastElements.reduce((acc, curr) => {
-        return (acc += curr[1].clientHeight);
-      }, 0);
-
-      const nextScrollToOffset = paginatedMessagesRef.current?.hasPrevPage
-        ? virtualizer.scrollOffset +
-          lastElementOffset +
-          paginatedMessagesRef.current.items.length * virtualizer.options.gap
-        : virtualizer.scrollOffset + lastElementOffset - LOADER_BOX_HEIGHT;
-
-      virtualizer.scrollToOffset(nextScrollToOffset);
-    });
-  };
-
+  // TODO: when new message is sent, scroll to bottom
   const handleMessageAdded = (message: Message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
-
-  useEffect(() => {
-    if (conversationResource) {
-      setMessages([]);
-      paginatedMessagesRef.current = null;
-
-      getMessagesFromTwilio(conversationResource);
-    }
-  }, [conversationResource]);
-
-  /**
-   * FIXME: need fetch logic if not enough messages are not shown
-   */
-  // fetch prev messages
-  useEffect(() => {
-    if (
-      inView &&
-      conversationResource &&
-      paginatedMessagesRef.current?.hasPrevPage
-    ) {
-      getMessagesFromTwilio(conversationResource);
-    }
-  }, [inView, messages]);
-
-  useEffect(() => {
-    if (messages.length) {
-      waitToRenderVirtualItemsAndScrollToOffset();
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (
-      inViewFirstMessageDom &&
-      conversationResource &&
-      conversation?.unreadMessagesCount > 0 &&
-      isDocumentFocused
-    ) {
-      setAllMessagesRead(conversationResource);
-    }
-  }, [inViewFirstMessageDom, isDocumentFocused]);
 
   useEffect(() => {
     if (conversationResource) {
@@ -203,78 +172,141 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     };
   }, [conversationResource]);
 
-  const height = paginatedMessagesRef.current?.hasPrevPage
-    ? virtualizer.getTotalSize() + LOADER_BOX_HEIGHT
-    : virtualizer.getTotalSize();
+  /**
+   * Fetch prev messages
+   * FIXME: need fetch logic if not enough messages are not shown
+   */
+  useEffect(() => {
+    if (inView && conversationResource) {
+      getMessagesFromTwilio(conversationResource);
+    }
+  }, [inView, conversationResource]);
 
-  const [loading, setLoading] = useState(false);
+  /**
+   * Set messages as read
+   */
+  useEffect(() => {
+    if (
+      inViewFirstMessageDom &&
+      conversationResource &&
+      conversation?.unreadMessagesCount > 0 &&
+      isDocumentFocused
+    ) {
+      setAllMessagesRead(conversationResource);
+    }
+  }, [inViewFirstMessageDom, isDocumentFocused]);
+
+  /*
+   * VIRTUALIZER CODE START
+   */
+  const count = messages.length;
+
+  const virtualizerRef =
+    useRef<ReturnType<typeof useVirtualizer<HTMLDivElement, Element>>>(null);
+
+  const [parentDomMeasureRef, { width: parentDomWidth }] = useMeasure();
+
+  // Reverse scroll code below and idea is provided from github discussion.
+  // link: https://github.com/TanStack/virtual/discussions/195#discussioncomment-4706845
+  if (
+    virtualizerRef.current &&
+    count !== virtualizerRef.current.options.count
+  ) {
+    const delta = count - virtualizerRef.current.options.count;
+
+    const messageBoxEstimateHeight =
+      virtualizerRef.current.options.count === 0
+        ? MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE
+        : MESSAGE_BOX_ESTIMATE_HEIGHT;
+
+    const nextOffset =
+      virtualizerRef.current.scrollOffset +
+      delta * messageBoxEstimateHeight +
+      delta * virtualizerRef.current.options.gap;
+
+    virtualizerRef.current.scrollOffset = nextOffset;
+    virtualizerRef.current.scrollToOffset(nextOffset);
+  }
+
+  const virtualizer = useVirtualizer({
+    getScrollElement: () => parentDomRef.current,
+    count,
+    estimateSize: useCallback(() => {
+      if (messages.length <= MESSAGES_PAGE_SIZE) {
+        return MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE;
+      }
+      return MESSAGE_BOX_ESTIMATE_HEIGHT;
+    }, [messages]),
+    getItemKey: useCallback((index) => messages[index].index, [messages]),
+    overscan: 5,
+    paddingEnd: 3,
+    paddingStart: 3,
+    gap: 10,
+  });
+
+  useIsomorphicLayoutEffect(() => {
+    virtualizerRef.current = virtualizer;
+  });
+
+  const virtualizerItems = virtualizer.getVirtualItems();
+  /*
+   * VIRTUALIZER CODE END
+   */
+
+  const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
 
   return (
-    <div className="overflow-auto" ref={parentDomRef}>
+    <div ref={parentDomRefs} className="overflow-y-auto">
+      <div ref={inViewLoaderDomRef}>loading</div>
       <div
+        className="relative"
         style={{
-          height: `${height}px`,
-          width: "100%",
-          position: "relative",
+          height: virtualizer.getTotalSize(),
         }}
       >
-        {paginatedMessagesRef?.current?.hasPrevPage && (
-          <div
-            ref={inViewRef}
-            style={{
-              width: "100%",
-              height: LOADER_BOX_HEIGHT,
-              position: "absolute",
-              transform: "translateY(0px)",
-              border: "1px solid red",
-            }}
-          >
-            load more
-          </div>
-        )}
+        {virtualizerItems.map((virtualItem) => {
+          const message = messages[virtualItem.index];
 
-        {virtualizer.getVirtualItems().map((virtualRow) => {
-          const message = messages[virtualRow.index];
-
-          const translateY = paginatedMessagesRef.current?.hasPrevPage
-            ? LOADER_BOX_HEIGHT + virtualRow.start
-            : virtualRow.start;
-
-          const messageRefs =
-            messages[messages.length - 1].index === message.index
-              ? (mergeRefs(virtualizer.measureElement, firstMessageRef) as any)
+          const virtualItemRef =
+            messages[MESSAGES_PAGE_SIZE - 1].index === message.index
+              ? (mergeRefs(
+                  virtualizer.measureElement,
+                  firstMessageDomRef
+                ) as any)
               : virtualizer.measureElement;
 
           return (
             <div
-              className="bg-none"
-              key={virtualRow.index}
-              data-index={virtualRow.index}
-              ref={messageRefs}
+              key={virtualItem.key}
+              data-index={virtualItem.index}
+              ref={virtualItemRef}
+              className={clsx("absolute", {
+                "right-0": conversation?.user?.id === message.author,
+                "w-[75%]":
+                  parentDomWidth <=
+                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+                "w-[65%]":
+                  parentDomWidth >
+                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+              })}
               style={{
-                width: "100%",
-                position: "absolute",
-                transform: `translateY(${translateY}px)`,
-                textAlign:
-                  conversation?.user?.id === message.author ? "left" : "right", // Align text based on author
-                // background:
-                //   Number(message.index) % MESSAGES_PAGE_SIZE == 0
-                //     ? "#90EE90"
-                //     : "",
+                transform: `translateY(${virtualItem.start}px)`,
               }}
             >
               <div
-                className="  bg-[#19A463]   text-[#FFFFFF] p-2 text-sm"
-                style={{
-                  display: "inline-block", // Ensure the message box takes only necessary width up to the max-width
-                  maxWidth: "50%", // Set the max-width to 50% of the container
-                  borderRadius:
-                    conversation?.user?.id === message.author
-                      ? "12px 12px 12px 0px" // Author's message: right bottom corner not rounded
-                      : "12px 12px 0px 12px", // Other user's message: left bottom corner not rounded
-                }}
+                className={clsx(
+                  "bg-[#c5bdff] text-stone-800 p-2 text-sm w-fit",
+                  {
+                    "float-right": conversation?.user?.id === message.author,
+                    "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0]":
+                      conversation?.user?.id === message.author,
+                    "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0]":
+                      conversation?.user?.id !== message.author,
+                  }
+                )}
               >
-                {message.body}
+                {message.index} - {message.body} -{" "}
+                <span>{message.dateCreated.toString()}</span>
               </div>
             </div>
           );
