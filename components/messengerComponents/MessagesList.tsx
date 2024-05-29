@@ -302,8 +302,13 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
             //   (previousMessageDate &&
             //     differenceInHours(messageDate, previousMessageDate) >= 1);
 
+            const lastMessageIndex =
+              messages.length < MESSAGES_PAGE_SIZE
+                ? messages[messages.length - 1]?.index
+                : messages[MESSAGES_PAGE_SIZE - 1]?.index;
+
             const virtualItemRef =
-              messages[MESSAGES_PAGE_SIZE - 1]?.index === message.index
+              lastMessageIndex === message.index
                 ? (mergeRefs(
                     virtualizer.measureElement,
                     firstMessageDomRef
