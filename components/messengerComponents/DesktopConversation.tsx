@@ -119,16 +119,23 @@ export default function DesktopConversation({
     }
   );
 
+  const handleSendMessage = () => {
+    if (conversationResource && message.length) {
+      conversationResource.sendMessage(message);
+      setMessage("");
+    }
+  };
+
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setMessage(event.target.value);
   };
 
-  const handleSendMessage = () => {
-    if (conversationResource && message.length) {
-      conversationResource.sendMessage(message);
-      setMessage("");
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // Prevent default form submission
+      handleSendMessage();
     }
   };
 
@@ -140,15 +147,6 @@ export default function DesktopConversation({
     conversation?.user?.firstname && conversation?.user?.lastname
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default form submission
-      handleSendMessage();
-    }
-  };
-
-  console.log(conversation);
 
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">

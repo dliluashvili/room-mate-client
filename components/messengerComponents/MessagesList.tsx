@@ -31,8 +31,6 @@ const MESSAGES_PAGE_SIZE = 20;
 const MESSAGE_BOX_ESTIMATE_HEIGHT = 50;
 const MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE = 250;
 
-const PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE = 600;
-
 const GET_NEXT_MESSAGES_MIN_TIMEOUT = 800;
 
 /*
@@ -160,6 +158,18 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
+  const formatDate = (date) => {
+    if (isToday(date)) {
+      return "Today";
+    }
+    if (isYesterday(date)) {
+      return "Yesterday";
+    }
+    return format(date, " MMMM do, yyyy");
+  };
+
+  const formatTime = (date) => format(date, "HH:mm:ss");
+
   useEffect(() => {
     if (conversationResource) {
       conversationResource.addListener("messageAdded", handleMessageAdded);
@@ -264,24 +274,9 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
    * VIRTUALIZER CODE END
    */
 
-  const formatDate = (date) => {
-    if (isToday(date)) {
-      return "Today";
-    }
-    if (isYesterday(date)) {
-      return "Yesterday";
-    }
-    return format(date, " MMMM do, yyyy");
-  };
-
-  const formatTime = (date) => format(date, "HH:mm:ss");
-
   return (
     <>
-      <div
-        ref={parentDomRefs}
-        className="overflow-y-auto h-[calc(100vh-220px)] pb-1  scrollable-content   "
-      >
+      <div ref={parentDomRefs} className="overflow-y-auto">
         <div className="w-full flex justify-center" ref={inViewLoaderDomRef}>
           ...loading
         </div>
