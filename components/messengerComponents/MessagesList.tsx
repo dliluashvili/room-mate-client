@@ -8,11 +8,10 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
 import { useInView } from "react-intersection-observer";
-import { useMeasure } from "react-use";
 import { useApolloClient } from "@apollo/client";
 import clsx from "clsx";
 import mergeRefs from "merge-refs";
-import { differenceInHours, format, isToday, isYesterday } from "date-fns";
+import { format, isToday, isYesterday } from "date-fns";
 
 import { ConversationWithUserObject } from "../../gql/graphql";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
@@ -213,9 +212,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   const virtualizerRef =
     useRef<ReturnType<typeof useVirtualizer<HTMLDivElement, Element>>>(null);
 
-  const [parentDomMeasureRef, { width: parentDomWidth }] = useMeasure();
-  const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
-
   // Reverse scroll code below and idea is provided from github discussion.
   // link: https://github.com/TanStack/virtual/discussions/195#discussioncomment-4706845
   if (
@@ -276,7 +272,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   return (
     <>
-      <div ref={parentDomRefs} className="overflow-y-auto">
+      <div ref={parentDomRef} className="overflow-y-auto">
         <div className="w-full flex justify-center" ref={inViewLoaderDomRef}>
           ...loading
         </div>

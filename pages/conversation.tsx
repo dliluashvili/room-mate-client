@@ -31,7 +31,7 @@ export default function conversation() {
   );
 
   const filteredConversationsByStatus = useMemo(() => {
-    if (data?.getConversationsForUser?.list) {
+    if (data?.getConversationsForUser.list.length) {
       if (request) {
         return data.getConversationsForUser.list.filter(
           (conversation) => conversation.status === ConversationStatus.Requested
@@ -47,7 +47,7 @@ export default function conversation() {
   }, [data, request]);
 
   useEffect(() => {
-    if (data?.getConversationsForUser?.list?.length) {
+    if (data?.getConversationsForUser.list.length) {
       const conversations = data.getConversationsForUser.list;
 
       if (!id) {
