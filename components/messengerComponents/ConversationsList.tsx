@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import Avatar from "../../public/newImages/testAvatar.svg";
+import Avatar from "../../public/newImages/female-avatar.svg";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
@@ -135,13 +135,23 @@ export default function ConversationsList({
                 ) : (
                   <>
                     <div className="w-full h-full relative overflow-auto flex flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
-                      <Image
-                        src={conversation.user.profileImage ?? Avatar}
-                        width={48}
-                        height={48}
-                        className="rounded-full"
-                        alt="123"
-                      />
+                      <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
+                        {conversation?.user?.profileImage ? (
+                          <Image
+                            src={conversation?.user?.profileImage}
+                            alt="User Avatar"
+                            objectFit="cover"
+                            layout="fill"
+                          />
+                        ) : (
+                          <Image
+                            src={Avatar}
+                            alt="Fallback Avatar"
+                            objectFit="cover"
+                            layout="fill"
+                          />
+                        )}
+                      </div>
 
                       {!!conversation.unreadMessagesCount && (
                         <div

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import TestAvatar from "../../public/newImages/testAvatar.svg";
+import Avatar from "../../public/newImages/female-avatar.svg";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
@@ -148,6 +148,8 @@ export default function DesktopConversation({
     }
   };
 
+  console.log(conversation);
+
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
@@ -155,7 +157,24 @@ export default function DesktopConversation({
         className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
       >
         <div className="flex flex-row items-center">
-          <Image src={TestAvatar} alt="avatar" width={40} height={40} />
+          <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
+            {conversation?.user?.profileImage ? (
+              <Image
+                src={conversation?.user?.profileImage}
+                alt="User Avatar"
+                objectFit="cover"
+                layout="fill"
+              />
+            ) : (
+              <Image
+                src={Avatar}
+                alt="Fallback Avatar"
+                objectFit="cover"
+                layout="fill"
+              />
+            )}
+          </div>
+
           <div className="flex flex-col ml-6 justify-between">
             <span>{participantFullName}</span>
             {/* <span>active now</span> */}
@@ -166,7 +185,7 @@ export default function DesktopConversation({
         if (conversation?.status === ConversationStatus.Accepted) {
           return (
             <div
-              className="flex flex-col justify-end pt-5 py-2  px-4 w-full"
+              className="flex flex-col justify-end pt-5 py-2  px-2 w-full"
               style={{
                 height: containerHeight,
               }}
