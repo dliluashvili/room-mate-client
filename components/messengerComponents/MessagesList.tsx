@@ -32,7 +32,7 @@ const MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE = 250;
 
 const PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE = 600;
 
-const GET_NEXT_MESSAGES_MIN_TIMEOUT = 700;
+const GET_NEXT_MESSAGES_MIN_TIMEOUT = 800;
 
 /*
  * UTILS
@@ -87,8 +87,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
         );
 
         paginatedMessagesRef.current = paginatedMessages;
-
-        console.log(paginatedMessages.items);
 
         setMessages((prevMessages) => [
           ...paginatedMessages.items,
@@ -214,6 +212,15 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   ) {
     const delta = count - virtualizerRef.current.options.count;
 
+    // For initial(first) render message box height should be higher,
+    // to make scroll bottom not stack somewhere middle.
+    // P.S. mostly in safari if item size is bigger then 250px
+    // when start scrolling it start flickering because adjusting itself scrollable area size.
+    // For first render item be 250px ans start flickering should not be problem,
+    // but for every next render and scroll on it can be for user.
+    // During next renders it is not important if item size bigger then 250px.
+    // 10px or 20px also works perfect, the scrollbar stays on old place.
+    // Now MESSAGE_BOX_ESTIMATE_HEIGHT is 50px to self insure from potential risk.
     const messageBoxEstimateHeight =
       virtualizerRef.current.options.count === 0
         ? MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE
@@ -235,6 +242,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
       if (messages.length <= MESSAGES_PAGE_SIZE) {
         return MESSAGE_BOX_ESTIMATE_HEIGHT_FOR_FIRST_PAGE;
       }
+
       return MESSAGE_BOX_ESTIMATE_HEIGHT;
     }, [messages]),
     getItemKey: useCallback((index) => messages[index].index, [messages]),
@@ -249,6 +257,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   });
 
   const virtualizerItems = virtualizer.getVirtualItems();
+
   /*
    * VIRTUALIZER CODE END
    */
