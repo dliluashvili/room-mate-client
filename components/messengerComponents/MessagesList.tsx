@@ -206,6 +206,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     useRef<ReturnType<typeof useVirtualizer<HTMLDivElement, Element>>>(null);
 
   const [parentDomMeasureRef, { width: parentDomWidth }] = useMeasure();
+  const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
 
   // Reverse scroll code below and idea is provided from github discussion.
   // link: https://github.com/TanStack/virtual/discussions/195#discussioncomment-4706845
@@ -254,8 +255,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
    * VIRTUALIZER CODE END
    */
 
-  const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
-
   const formatDate = (date) => {
     if (isToday(date)) {
       return "Today";
@@ -287,21 +286,21 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
           {virtualizerItems.map((virtualItem, index) => {
             const message = messages[virtualItem.index];
             const messageDate = new Date(message.dateCreated);
-            const previousMessageDate =
-              index > 0
-                ? new Date(
-                    messages[virtualizerItems[index - 1].index].dateCreated
-                  )
-                : null;
+            // const previousMessageDate =
+            //   index > 0
+            //     ? new Date(
+            //         messages[virtualizerItems[index - 1].index].dateCreated
+            //       )
+            //     : null;
 
-            const showDateHeader =
-              index === 0 ||
-              formatDate(messageDate) !== formatDate(previousMessageDate);
+            // const showDateHeader =
+            //   index === 0 ||
+            //   formatDate(messageDate) !== formatDate(previousMessageDate);
 
-            const showTimeHeader =
-              index === 0 ||
-              (previousMessageDate &&
-                differenceInHours(messageDate, previousMessageDate) >= 1);
+            // const showTimeHeader =
+            //   index === 0 ||
+            //   (previousMessageDate &&
+            //     differenceInHours(messageDate, previousMessageDate) >= 1);
 
             const virtualItemRef =
               messages[MESSAGES_PAGE_SIZE - 1]?.index === message.index
@@ -321,20 +320,20 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                     conversation?.user?.id === message.author,
                   "items-end right-0":
                     conversation?.user?.id !== message.author,
-                  // "w-[65%]":
-                  //   parentDomWidth <=
-                  //   PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
-                  // "w-[75%]":
-                  //   parentDomWidth >
-                  //   PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
                 })}
                 style={{
                   transform: `translateY(${virtualItem.start}px)`,
                 }}
               >
+                {/* {showDateHeader && (
+                  <div className="text-center my-1 w-full flex flex-col items-center justify-center ">
+                    <span>{formatDate(messageDate)}</span>
+                  </div>
+                )} */}
+
                 <div
                   className={clsx(
-                    "bg-[#c5bdff] text-stone-800  p-2 max-w-[65%] text  mx-2 text-sm  relative group",
+                    "bg-[#c5bdff] text-stone-800  p-2 max-w-[65%] md:max-w-[75%] text  mx-2 text-sm  relative group",
                     {
                       "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] ml-40 text-right ":
                         conversation?.user?.id !== message.author,
