@@ -12,6 +12,7 @@ import { useMeasure } from "react-use";
 import { useApolloClient } from "@apollo/client";
 import clsx from "clsx";
 import mergeRefs from "merge-refs";
+import { differenceInHours, format, isToday, isYesterday } from "date-fns";
 
 import { ConversationWithUserObject } from "../../gql/graphql";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
@@ -255,64 +256,111 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   const parentDomRefs = mergeRefs(parentDomRef, parentDomMeasureRef) as any;
 
+  const formatDate = (date) => {
+    if (isToday(date)) {
+      return "Today";
+    }
+    if (isYesterday(date)) {
+      return "Yesterday";
+    }
+    return format(date, " MMMM do, yyyy");
+  };
+
+  const formatTime = (date) => format(date, "HH:mm:ss");
+
   return (
-    <div ref={parentDomRefs} className="overflow-y-auto">
-      <div ref={inViewLoaderDomRef}>loading</div>
+    <>
       <div
-        className="relative"
-        style={{
-          height: virtualizer.getTotalSize(),
-        }}
+        ref={parentDomRefs}
+        className="overflow-y-auto h-[calc(100vh-220px)] pb-1  scrollable-content   "
       >
-        {virtualizerItems.map((virtualItem) => {
-          const message = messages[virtualItem.index];
+        <div className="w-full flex justify-center" ref={inViewLoaderDomRef}>
+          ...loading
+        </div>
 
-          const virtualItemRef =
-            messages[MESSAGES_PAGE_SIZE - 1]?.index === message.index
-              ? (mergeRefs(
-                  virtualizer.measureElement,
-                  firstMessageDomRef
-                ) as any)
-              : virtualizer.measureElement;
+        <div
+          className="relative"
+          style={{
+            height: virtualizer.getTotalSize(),
+          }}
+        >
+          {virtualizerItems.map((virtualItem, index) => {
+            const message = messages[virtualItem.index];
+            const messageDate = new Date(message.dateCreated);
+            const previousMessageDate =
+              index > 0
+                ? new Date(
+                    messages[virtualizerItems[index - 1].index].dateCreated
+                  )
+                : null;
 
-          return (
-            <div
-              key={virtualItem.key}
-              data-index={virtualItem.index}
-              ref={virtualItemRef}
-              className={clsx("absolute", {
-                "right-0": conversation?.user?.id === message.author,
-                "w-[75%]":
-                  parentDomWidth <=
-                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
-                "w-[65%]":
-                  parentDomWidth >
-                  PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
-              })}
-              style={{
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
+            const showDateHeader =
+              index === 0 ||
+              formatDate(messageDate) !== formatDate(previousMessageDate);
+
+            const showTimeHeader =
+              index === 0 ||
+              (previousMessageDate &&
+                differenceInHours(messageDate, previousMessageDate) >= 1);
+
+            const virtualItemRef =
+              messages[MESSAGES_PAGE_SIZE - 1]?.index === message.index
+                ? (mergeRefs(
+                    virtualizer.measureElement,
+                    firstMessageDomRef
+                  ) as any)
+                : virtualizer.measureElement;
+
+            return (
               <div
-                className={clsx(
-                  "bg-[#c5bdff] text-stone-800 p-2 text-sm w-fit",
-                  {
-                    "float-right": conversation?.user?.id === message.author,
-                    "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0]":
-                      conversation?.user?.id === message.author,
-                    "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0]":
-                      conversation?.user?.id !== message.author,
-                  }
-                )}
+                key={virtualItem.key}
+                data-index={virtualItem.index}
+                ref={virtualItemRef}
+                className={clsx("absolute  flex flex-col w-full  ", {
+                  "items-start left-0":
+                    conversation?.user?.id === message.author,
+                  "items-end right-0":
+                    conversation?.user?.id !== message.author,
+                  // "w-[65%]":
+                  //   parentDomWidth <=
+                  //   PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+                  // "w-[75%]":
+                  //   parentDomWidth >
+                  //   PARENT_DOM_BREAKPOINT_SIZE_FOR_DESKTOP_MOBILE,
+                })}
+                style={{
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
               >
-                {message.index} - {message.body} -{" "}
-                <span>{message.dateCreated.toString()}</span>
+                <div
+                  className={clsx(
+                    "bg-[#c5bdff] text-stone-800  p-2 max-w-[65%] text  mx-2 text-sm  relative group",
+                    {
+                      "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] ml-40 text-right ":
+                        conversation?.user?.id !== message.author,
+                      "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0] mr-40 text-left ":
+                        conversation?.user?.id === message.author,
+                    }
+                  )}
+                >
+                  {message.body}
+
+                  <span
+                    className={`absolute bottom-full  right-0 mb-1 w-max bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                      conversation?.user?.id !== message.author
+                        ? "right-0"
+                        : "left-0"
+                    }`}
+                  >
+                    {formatTime(messageDate)} {formatDate(messageDate)}
+                  </span>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

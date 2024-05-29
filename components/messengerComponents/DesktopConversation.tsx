@@ -166,7 +166,7 @@ export default function DesktopConversation({
         if (conversation?.status === ConversationStatus.Accepted) {
           return (
             <div
-              className="flex flex-col justify-end pt-5 py-2  px-4 w-full"
+              className="flex flex-col justify-end pt-5 py-2  px-2 w-full"
               style={{
                 height: containerHeight,
               }}
