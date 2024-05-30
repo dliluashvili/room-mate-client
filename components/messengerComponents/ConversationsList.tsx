@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Avatar from "../../public/newImages/default-avatar.png";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
@@ -6,12 +12,14 @@ import { useRouter } from "next/router";
 import { RouterQuery } from "./types";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
+  ConversationStatus,
   ConversationWithUserObject,
   PaginationInfoObject,
 } from "../../gql/graphql";
 import { Howl } from "howler";
 import { Spinner } from "../../@/components/ui/spinner";
 import { LIMIT } from "../../constants/pagination";
+import clsx from "clsx";
 
 const sound = new Howl({
   src: ["./../sound.mp3"], // Replace with your actual sound file
@@ -25,6 +33,7 @@ type Props = {
   pageInfo: PaginationInfoObject | null;
   // FIXME: because argument and return types is not fully typed, autosuggestion is not working
   fetchMoreConversationsForUser: Function;
+  data: any;
 };
 
 const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80;
@@ -35,12 +44,14 @@ export default function ConversationsList({
   setMobileOpen,
   conversations,
   pageInfo,
+  data,
   fetchMoreConversationsForUser,
 }: Props) {
   const parentDomRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
   const { id }: RouterQuery = router.query;
+  const [requestMessage, setRequestMessage] = useState(false);
 
   const media = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -91,24 +102,48 @@ export default function ConversationsList({
     conversations.length,
   ]);
 
+  useEffect(() => {
+    const hasUnreadMessages = conversations.some(
+      (item) => item?.unreadMessagesCount > 0
+    );
+    if (hasUnreadMessages) {
+      sound.play();
+    }
+
+    const hasRequested =
+      data &&
+      data.list.some((item) => item?.status === ConversationStatus.Requested);
+    if (hasRequested) {
+      setRequestMessage(true);
+    }
+  }, [conversations, data]);
+
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
       <div className="block w-full">
         <div className="flex flex-row md:flex-col lg:flex-row items-center gap-6 justify-start px-6 py-2">
           <span
-            className="cursor-pointer"
-            style={{ color: !request ? "#0A7CFF" : "#838CAC" }}
+            className={clsx(
+              "cursor-pointer",
+              !request && "text-[#0A7CFF]",
+              request && "text-[#838CAC]"
+            )}
             onClick={() => setRequest(false)}
           >
             chat
           </span>
           <span
-            className="cursor-pointer relative"
-            style={{ color: request ? "#0A7CFF" : "#838CAC" }}
+            className={clsx(
+              "cursor-pointer relative",
+              request && "text-[#0A7CFF]",
+              !request && "text-[#838CAC]"
+            )}
             onClick={() => setRequest(true)}
           >
             request
-            <div className="absolute w-2 h-2 bg-[#3b66d1] top-0 -right-2 rounded-full"></div>
+            {requestMessage && (
+              <div className="absolute w-2 h-2 bg-[#3b66d1] top-0 -right-2 rounded-full"></div>
+            )}
           </span>
         </div>
         <div className="h-[1px] w-full bg-[#E3E3E3]"></div>
@@ -123,23 +158,17 @@ export default function ConversationsList({
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const isLoaderRow = virtualRow.index > conversations.length - 1;
 
-            /**
-             * FIXME: დომში ამის რენდერი არამგონია კარგი მიდგომა იყვეს, ზემოთ useEffect-ში ჯობია გაკეთდეს ეს.
-             */
             const conversation = conversations[virtualRow.index];
-
-            {
-              !!conversation?.unreadMessagesCount && sound.play();
-            }
 
             return (
               <div
                 key={virtualRow.index}
                 data-index={virtualRow.index}
                 ref={virtualizer.measureElement}
-                className={`absolute w-full flex flex-row cursor-pointer items-center ${
-                  conversation?.id === id ? "bg-[#e7e7fe]" : ""
-                } justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full`}
+                className={clsx(
+                  "absolute w-full flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3]",
+                  conversation?.sid === router.query.id ? "bg-[#e7e7fe]" : ""
+                )}
                 style={{
                   transform: `translateY(${virtualRow.start}px)`,
                 }}

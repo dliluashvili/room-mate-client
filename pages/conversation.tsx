@@ -48,7 +48,11 @@ export default function conversation() {
   }, [data, request]);
 
   useEffect(() => {
-    if (filteredConversationsByStatus.length && !id) {
+    const acceptedList = data.getConversationsForUser.list.filter(
+      (conversation) => conversation.status === ConversationStatus.Accepted
+    );
+
+    if (data.getConversationsForUser.list.length && !id) {
       router.push(
         `/conversation?id=${filteredConversationsByStatus[0].id}`,
         undefined,
@@ -61,13 +65,14 @@ export default function conversation() {
         shallow: true,
       });
     }
-  }, [filteredConversationsByStatus]);
+  }, [data]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">
       <NewHeader />
       <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
         <ConversationsList
+          data={data?.getConversationsForUser}
           request={request}
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
