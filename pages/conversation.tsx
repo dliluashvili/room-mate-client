@@ -8,6 +8,7 @@ import { getConversationsForUserQuery } from "../gql/graphqlStatements";
 import { ConversationStatus } from "../gql/graphql";
 import Conversation from "../components/messengerComponents/Conversation";
 import { RouterQuery } from "../components/messengerComponents/types";
+import { LIMIT, OFFSET } from "../constants/pagination";
 
 export default function conversation() {
   useCheckAuth();
@@ -23,8 +24,8 @@ export default function conversation() {
     {
       variables: {
         pagination: {
-          offset: 0,
-          limit: 1,
+          offset: OFFSET,
+          limit: LIMIT,
         },
       },
     }

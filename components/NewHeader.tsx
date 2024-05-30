@@ -30,6 +30,7 @@ export default function NewHeader() {
           offset: OFFSET,
         },
       },
+      fetchPolicy: "cache-only",
     }
   );
 

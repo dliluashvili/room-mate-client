@@ -46,7 +46,7 @@ export const useInitializeNotification = () => {
       variables: {
         pagination: {
           offset: OFFSET,
-          limit: LIMIT,
+          limit: 1,
         },
       },
     }
