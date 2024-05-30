@@ -272,10 +272,14 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   return (
     <>
-      <div ref={parentDomRef} className="overflow-y-auto">
-        <div className="w-full flex justify-center" ref={inViewLoaderDomRef}>
-          ...loading
-        </div>
+      <div ref={parentDomRef} className="overflow-y-auto scrollable-content">
+        {paginatedMessagesRef?.current?.hasPrevPage && (
+          <div className="w-full flex justify-center">...Loading</div>
+        )}
+        <div
+          className="w-full flex justify-center"
+          ref={inViewLoaderDomRef}
+        ></div>
 
         <div
           className="relative"
