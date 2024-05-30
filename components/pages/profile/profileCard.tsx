@@ -8,7 +8,7 @@ import { useTypedSelector } from "../../hooks/useTypeSelector";
 import useTranslation from "next-translate/useTranslation";
 import Sms from "../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
-import { checkConversationExistence } from "../../utils/checkConversationExistence";
+import { checkConversationExistence } from "../../utils/conversationUtils";
 
 interface IProps extends ISearchItems {
   updateAddRemove?: (id: number, saveId: boolean) => void;
@@ -57,7 +57,9 @@ const ProfileCard: React.FC<IProps> = ({
     const conversation = await checkConversationExistence(String(id));
 
     if (conversation) {
-      router.push(`/conversation?id=${conversation.sid}`);
+      router.push(`/conversation?id=${conversation.sid}`, undefined, {
+        shallow: true,
+      });
     } else {
       setIsOpen(true);
       setName(firstname);

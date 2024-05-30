@@ -11,6 +11,7 @@ import {
 } from "../../gql/graphql";
 import { Howl } from "howler";
 import { Spinner } from "../../@/components/ui/spinner";
+import { LIMIT } from "../../constants/pagination";
 
 const sound = new Howl({
   src: ["./../sound.mp3"], // Replace with your actual sound file
@@ -22,6 +23,7 @@ type Props = {
   setMobileOpen: Dispatch<SetStateAction<boolean>>;
   conversations: ConversationWithUserObject[] | [];
   pageInfo: PaginationInfoObject | null;
+  // FIXME: because argument and return types is not fully typed, autosuggestion is not working
   fetchMoreConversationsForUser: Function;
 };
 
@@ -53,7 +55,7 @@ export default function ConversationsList({
 
   const handleClickConversation = (sid: string) => {
     if (id !== sid) {
-      router.push(`/conversation?id=${sid}`);
+      router.push(`/conversation?id=${sid}`, undefined, { shallow: true });
     }
 
     if (media) {
@@ -72,12 +74,11 @@ export default function ConversationsList({
       lastVirtualItem.index >= conversations.length - 1 &&
       pageInfo?.hasNextPage
     ) {
-      // FIXME: because argument and return types is not fully typed, autosuggestion is not working
       fetchMoreConversationsForUser({
         variables: {
           pagination: {
             offset: conversations.length,
-            limit: 1,
+            limit: LIMIT,
           },
         },
       });
@@ -121,7 +122,7 @@ export default function ConversationsList({
             const isLoaderRow = virtualRow.index > conversations.length - 1;
 
             /**
-             * FIXME: დომში ამის რენდერი დორს არამგონია ეს კარგი მიდგომა იყვეს, ზემოთ useEffect-ში ჯობია გაკეთდეს ეს.
+             * FIXME: დომში ამის რენდერი არამგონია კარგი მიდგომა იყვეს, ზემოთ useEffect-ში ჯობია გაკეთდეს ეს.
              */
             const conversation = conversations[virtualRow.index];
 
@@ -150,7 +151,7 @@ export default function ConversationsList({
                   </div>
                 ) : (
                   <>
-                    <div className="w-full h-full  relative overflow-auto flex  flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
+                    <div className="w-full h-full  relative flex  flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
                       <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
                         {conversation?.user?.profileImage ? (
                           <Image
