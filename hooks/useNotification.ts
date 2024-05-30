@@ -104,10 +104,15 @@ export const useInitializeNotification = () => {
 
             if (conversation) {
               const messages = await conversation.getMessages();
+              const incomeMessages = messages.items.filter(
+                (message) => message.author !== twilioClient.user.identity
+              );
+
+              console.log({ incomeMessages });
 
               return {
                 sid: unreadMessage.value.sid,
-                unreadMessagesCount: messages.items.length,
+                unreadMessagesCount: incomeMessages.length,
               };
             }
 
