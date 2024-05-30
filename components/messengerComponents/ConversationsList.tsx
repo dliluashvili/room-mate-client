@@ -112,14 +112,17 @@ export default function ConversationsList({
       </div>
       <div className="w-full overflow-auto" ref={parentDomRef}>
         <div
+          className="relative w-full"
           style={{
             height: `${virtualizer.getTotalSize()}px`,
-            width: "100%",
-            position: "relative",
           }}
         >
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const isLoaderRow = virtualRow.index > conversations.length - 1;
+
+            /**
+             * FIXME: დომში ამის რენდერი დორს არამგონია ეს კარგი მიდგომა იყვეს, ზემოთ useEffect-ში ჯობია გაკეთდეს ეს.
+             */
             const conversation = conversations[virtualRow.index];
 
             {
@@ -131,12 +134,10 @@ export default function ConversationsList({
                 key={virtualRow.index}
                 data-index={virtualRow.index}
                 ref={virtualizer.measureElement}
-                className={`flex flex-row cursor-pointer items-center ${
+                className={`absolute w-full flex flex-row cursor-pointer items-center ${
                   conversation?.sid === router.query.id ? "bg-[#e7e7fe]" : ""
                 } justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full`}
                 style={{
-                  width: "100%",
-                  position: "absolute",
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 onClick={() =>
@@ -144,7 +145,9 @@ export default function ConversationsList({
                 }
               >
                 {isLoaderRow ? (
-                  <div className="w-full h-full flex justify-center items-center"><Spinner size="small"/></div>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Spinner size="small" />
+                  </div>
                 ) : (
                   <>
                     <div className="w-full h-full  relative overflow-auto flex  flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">

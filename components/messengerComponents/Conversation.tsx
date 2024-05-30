@@ -6,11 +6,8 @@ import {
   ConversationStatus,
   ConversationWithUserObject,
 } from "../../gql/graphql";
-import { useMutation, useQuery, useReactiveVar } from "@apollo/client";
-import {
-  generateTwilioAccessTokenMutation,
-  getConversationsForUserQuery,
-} from "../../gql/graphqlStatements";
+import { useQuery, useReactiveVar } from "@apollo/client";
+import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import { RouterQuery } from "./types";
 import {
   twilioClientVar,
@@ -88,26 +85,26 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
     }
   }, [conversation, twilioClientState]);
 
-  /**
+  /*
    * TESTING AREA
    */
-  const [generateTwilioAccessToken] = useMutation(
-    generateTwilioAccessTokenMutation
-  );
+  // const [generateTwilioAccessToken] = useMutation(
+  //   generateTwilioAccessTokenMutation
+  // );
 
-  const initializeTwilioClient = async () => {
-    try {
-      const { data } = await generateTwilioAccessToken();
+  // const initializeTwilioClient = async () => {
+  //   try {
+  //     const { data } = await generateTwilioAccessToken();
 
-      if (data?.generateTwilioAccessToken) {
-        const client = new Client(data.generateTwilioAccessToken);
+  //     if (data?.generateTwilioAccessToken) {
+  //       const client = new Client(data.generateTwilioAccessToken);
 
-        twilioClientVar(client);
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  };
+  //       twilioClientVar(client);
+  //     }
+  //   } catch (error) {
+  //     console.log({ error });
+  //   }
+  // };
 
 
   return (

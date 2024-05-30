@@ -8,7 +8,7 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Conversation, Message, Paginator } from "@twilio/conversations";
 import { useInView } from "react-intersection-observer";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useReactiveVar } from "@apollo/client";
 import clsx from "clsx";
 import mergeRefs from "merge-refs";
 import { format, isToday, isYesterday } from "date-fns";
@@ -16,6 +16,7 @@ import { format, isToday, isYesterday } from "date-fns";
 import { ConversationWithUserObject } from "../../gql/graphql";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
+import { twilioClientVar } from "../../store/twilioVars";
 
 type Props = {
   conversationResource: Conversation;
@@ -70,6 +71,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   const parentDomRef = useRef<HTMLDivElement>(null);
 
   const client = useApolloClient();
+
+  const twilioClient = useReactiveVar(twilioClientVar);
 
   const { ref: inViewLoaderDomRef, inView } = useInView();
   const { ref: firstMessageDomRef, inView: inViewFirstMessageDom } =
@@ -152,8 +155,16 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     }
   };
 
+  const advanceLastReadMessageIndexForCurrentUser = (message: Message) => {
+    if (message.author === twilioClient.user.identity) {
+      conversationResource?.advanceLastReadMessageIndex(message.index);
+    }
+  };
+
   // TODO: when new message is sent, scroll to bottom
   const handleMessageAdded = (message: Message) => {
+    advanceLastReadMessageIndexForCurrentUser(message);
+
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
@@ -191,7 +202,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   }, [inView, conversationResource]);
 
   /**
-   * Set messages as read
+   * Set incoming messages as read
    */
   useEffect(() => {
     if (
@@ -265,7 +276,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   });
 
   const virtualizerItems = virtualizer.getVirtualItems();
-
   /*
    * VIRTUALIZER CODE END
    */
