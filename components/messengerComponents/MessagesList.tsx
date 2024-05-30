@@ -280,7 +280,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   /*
    * VIRTUALIZER CODE END
    */
- 
+
   return (
     <>
       <div ref={parentDomRef} className="overflow-y-auto scrollable-content">
@@ -340,7 +340,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                   key={virtualItem.key}
                   data-index={virtualItem.index}
                   ref={virtualItemRef}
-                  className={clsx("absolute  flex flex-col w-full  ", {
+                  className={clsx("absolute   flex flex-col w-full   ", {
                     "items-start left-0":
                       conversation?.user?.id === message.author,
                     "items-end right-0":
