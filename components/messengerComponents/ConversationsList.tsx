@@ -53,9 +53,11 @@ export default function ConversationsList({
     overscan: 5,
   });
 
-  const handleClickConversation = (sid: string) => {
-    if (id !== sid) {
-      router.push(`/conversation?id=${sid}`, undefined, { shallow: true });
+  const handleClickConversation = (conversationId: string) => {
+    if (conversationId !== id) {
+      router.push(`/conversation?id=${conversationId}`, undefined, {
+        shallow: true,
+      });
     }
 
     if (media) {
@@ -136,13 +138,13 @@ export default function ConversationsList({
                 data-index={virtualRow.index}
                 ref={virtualizer.measureElement}
                 className={`absolute w-full flex flex-row cursor-pointer items-center ${
-                  conversation?.sid === router.query.id ? "bg-[#e7e7fe]" : ""
+                  conversation?.id === id ? "bg-[#e7e7fe]" : ""
                 } justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full`}
                 style={{
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 onClick={() =>
-                  !isLoaderRow ? handleClickConversation(conversation.sid) : {}
+                  !isLoaderRow ? handleClickConversation(conversation.id) : {}
                 }
               >
                 {isLoaderRow ? (

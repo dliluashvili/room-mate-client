@@ -50,7 +50,7 @@ export default function conversation() {
   useEffect(() => {
     if (filteredConversationsByStatus.length && !id) {
       router.push(
-        `/conversation?id=${filteredConversationsByStatus[0].sid}`,
+        `/conversation?id=${filteredConversationsByStatus[0].id}`,
         undefined,
         {
           shallow: true,
