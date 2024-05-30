@@ -69,6 +69,7 @@ export default function conversation() {
           fetchMoreConversationsForUser={fetchMoreConversationsForUser}
         />
         <Conversation
+          key={id}
           mobileOpen={mobileOpen}
           setMobileOpen={setMobileOpen}
           setRequest={setRequest}
