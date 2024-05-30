@@ -12,11 +12,21 @@ import {
   lookupOrCreateTwilioUserResourceMutation,
 } from "../../gql/graphqlStatements";
 import { ToastContainer, toast } from "react-toastify";
-import { updateCacheWithNewConversationInFirstPlace } from "../utils/checkConversationExistence";
+import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversationUtils";
 
 type messageSendStatus = "sent" | "error";
 
-export default function ConversationWindow({ setIsOpen, name, participantId }) {
+type Props = {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  name: string;
+  participantId: string;
+};
+
+export default function ConversationWindow({
+  setIsOpen,
+  name,
+  participantId,
+}: Props) {
   const [messageText, setMessageText] = useState("");
   const [messageSendStatus, setMessageSendStatus] =
     useState<messageSendStatus | null>(null);

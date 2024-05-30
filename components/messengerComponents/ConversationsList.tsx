@@ -53,7 +53,7 @@ export default function ConversationsList({
 
   const handleClickConversation = (sid: string) => {
     if (id !== sid) {
-      router.push(`/conversation?id=${sid}`);
+      router.push(`/conversation?id=${sid}`, undefined, { shallow: true });
     }
 
     if (media) {

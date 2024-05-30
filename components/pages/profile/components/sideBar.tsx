@@ -16,7 +16,7 @@ import { useCheckUnAuthResponse } from "../../../hooks/useCheckUnauthRespnse";
 import classNames from "classnames";
 import Sms from "../../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
-import { checkConversationExistence } from "../../../utils/checkConversationExistence";
+import { checkConversationExistence } from "../../../utils/conversationUtils";
 import ConversationWindow from "../../../messengerComponents/ConverationWindow";
 
 interface ISidebar {
@@ -180,7 +180,9 @@ const SideBar: React.FC<ISidebar> = (props) => {
     const conversation = await checkConversationExistence(String(props.id));
 
     if (conversation) {
-      router.push(`/conversation?id=${conversation.sid}`);
+      router.push(`/conversation?id=${conversation.sid}`, undefined, {
+        shallow: true,
+      });
     } else {
       setIsOpen(true);
       setName(props.firstname);
@@ -193,7 +195,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
         <ConversationWindow
           setIsOpen={setIsOpen}
           name={name}
-          participantId={props.id}
+          participantId={String(props.id)}
         />
       ) : null}
       <ToastContainer />

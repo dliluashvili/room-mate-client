@@ -51,7 +51,9 @@ export default function conversation() {
       const conversations = data.getConversationsForUser.list;
 
       if (!id) {
-        router.push(`/conversation?id=${conversations[0].sid}`);
+        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+          shallow: true,
+        });
       }
     }
   }, [id, data]);
