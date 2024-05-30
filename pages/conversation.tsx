@@ -48,11 +48,7 @@ export default function conversation() {
   }, [data, request]);
 
   useEffect(() => {
-    const acceptedList = data.getConversationsForUser.list.filter(
-      (conversation) => conversation.status === ConversationStatus.Accepted
-    );
-
-    if (data.getConversationsForUser.list.length && !id) {
+    if (filteredConversationsByStatus.length && !id) {
       router.push(
         `/conversation?id=${filteredConversationsByStatus[0].id}`,
         undefined,
@@ -65,7 +61,7 @@ export default function conversation() {
         shallow: true,
       });
     }
-  }, [data]);
+  }, [filteredConversationsByStatus]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">
