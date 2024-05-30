@@ -1,9 +1,10 @@
 import Image from "next/image";
-import Avatar from "../../public/newImages/female-avatar.svg";
+import Avatar from "../../public/newImages/default-avatar.png";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-import { useRef, useState } from "react";
+
+import {  useRef, useState } from "react";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
@@ -14,6 +15,7 @@ import {
   getConversationsForUserQuery,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
+
 
 type Props = {
   conversationResource: Conversation;
@@ -148,6 +150,12 @@ export default function DesktopConversation({
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
 
+  // Assuming conversation.user.sid is the SID of the user participant in the conversation
+  // You can use userStatus to determine if the user is online or offline
+
+
+
+
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
@@ -173,7 +181,7 @@ export default function DesktopConversation({
             )}
           </div>
 
-          <div className="flex flex-col ml-6 justify-between">
+          <div className="flex flex-col ml-4 justify-between">
             <span>{participantFullName}</span>
             {/* <span>active now</span> */}
           </div>
