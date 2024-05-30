@@ -17,6 +17,7 @@ import { ConversationWithUserObject } from "../../gql/graphql";
 import { getConversationsForUserQuery } from "../../gql/graphqlStatements";
 import { useDocumentHasFocus } from "../../hooks/useDocumentHasFocus";
 import { twilioClientVar } from "../../store/twilioVars";
+import { Spinner } from "../../@/components/ui/spinner";
 
 type Props = {
   conversationResource: Conversation;
@@ -298,87 +299,94 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
           ref={inViewLoaderDomRef}
         ></div>
 
-        <div
-          className="relative"
-          style={{
-            height: virtualizer.getTotalSize(),
-          }}
-        >
-          {virtualizerItems.map((virtualItem) => {
-            const index = reverseIndex(virtualItem.index);
-            const message = messages[index];
-            const messageDate = new Date(message.dateCreated);
-            // const previousMessageDate =
-            //   index > 0
-            //     ? new Date(
-            //         messages[virtualizerItems[index - 1].index].dateCreated
-            //       )
-            //     : null;
+        {messages.length === 0 ? (
+          <div className="w-full min-h-screen justify-center items-center">
+            <Spinner />
+          </div>
+        ) : (
+          <div
+            className="relative"
+            style={{
+              height: virtualizer.getTotalSize(),
+            }}
+          >
+            {virtualizerItems.map((virtualItem) => {
+              const index = reverseIndex(virtualItem.index);
+              const message = messages[index];
+              const messageDate = new Date(message.dateCreated);
+              // const previousMessageDate =
+              //   index > 0
+              //     ? new Date(
+              //         messages[virtualizerItems[index - 1].index].dateCreated
+              //       )
+              //     : null;
 
-            // const showDateHeader =
-            //   index === 0 ||
-            //   formatDate(messageDate) !== formatDate(previousMessageDate);
+              // const showDateHeader =
+              //   index === 0 ||
+              //   formatDate(messageDate) !== formatDate(previousMessageDate);
 
-            // const showTimeHeader =
-            //   index === 0 ||
-            //   (previousMessageDate &&
-            //     differenceInHours(messageDate, previousMessageDate) >= 1);
+              // const showTimeHeader =
+              //   index === 0 ||
+              //   (previousMessageDate &&
+              //     differenceInHours(messageDate, previousMessageDate) >= 1);
 
-            const virtualItemRef =
-              messages[0].index === message.index
-                ? (mergeRefs(
-                    virtualizer.measureElement,
-                    firstMessageDomRef
-                  ) as any)
-                : virtualizer.measureElement;
+              const virtualItemRef =
+                messages[0].index === message.index
+                  ? (mergeRefs(
+                      virtualizer.measureElement,
+                      firstMessageDomRef
+                    ) as any)
+                  : virtualizer.measureElement;
 
-            return (
-              <div
-                key={virtualItem.key}
-                data-index={virtualItem.index}
-                ref={virtualItemRef}
-                className={clsx("absolute  flex flex-col w-full  ", {
-                  "items-start left-0":
-                    conversation?.user?.id === message.author,
-                  "items-end right-0":
-                    conversation?.user?.id !== message.author,
-                })}
-                style={{
-                  transform: `translateY(${virtualItem.start}px)`,
-                }}
-              >
-                {/* {showDateHeader && (
+              return (
+                <div
+                  key={virtualItem.key}
+                  data-index={virtualItem.index}
+                  ref={virtualItemRef}
+                  className={clsx("absolute  flex flex-col w-full  ", {
+                    "items-start left-0":
+                      conversation?.user?.id === message.author,
+                    "items-end right-0":
+                      conversation?.user?.id !== message.author,
+                  })}
+                  style={{
+                    transform: `translateY(${virtualItem.start}px)`,
+                  }}
+                >
+                  {/* {showDateHeader && (
                   <div className="text-center my-1 w-full flex flex-col items-center justify-center ">
                     <span>{formatDate(messageDate)}</span>
                   </div>
                 )} */}
 
-                <div
-                  className={clsx(
-                    "bg-[#c5bdff] text-stone-800  p-2 max-w-[65%] md:max-w-[75%] text  mx-2 text-sm  relative group",
-                    {
-                      "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] ml-40 text-right ":
-                        conversation?.user?.id !== message.author,
-                      "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0] mr-40 text-left ":
-                        conversation?.user?.id === message.author,
-                    }
-                  )}
-                >
-                  {message.body}- {message.dateCreated.toString()}
-                  <span
-                    className={`absolute bottom-full  right-0 mb-1 w-max bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      conversation?.user?.id !== message.author
-                        ? "right-0"
-                        : "left-0"
-                    }`}
+                  <div
+                    className={clsx(
+                      "bg-[#c5bdff] text-stone-800  p-2 max-w-[65%] md:max-w-[75%] text  mx-2 text-sm  relative group",
+                      {
+                        "rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] ml-40 text-right ":
+                          conversation?.user?.id !== message.author,
+                        "rounded-t-[12px] rounded-br-[12px] rounded-bl-[0] mr-40 text-left ":
+                          conversation?.user?.id === message.author,
+                      }
+                    )}
                   >
-                    {formatTime(messageDate)} {formatDate(messageDate)}
-                  </span>
+                    {message.body}
+
+                    <span
+                      className={`absolute bottom-full  right-0 mb-1 w-max bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                        conversation?.user?.id !== message.author
+                          ? "right-0"
+                          : "left-0"
+                      }`}
+                    >
+                      {formatTime(messageDate)} {formatDate(messageDate)}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );

@@ -64,6 +64,7 @@ export default function conversation() {
       <NewHeader />
       <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
         <ConversationsList
+          data={data?.getConversationsForUser}
           request={request}
           setRequest={setRequest}
           setMobileOpen={setMobileOpen}
