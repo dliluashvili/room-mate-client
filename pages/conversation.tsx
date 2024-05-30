@@ -48,16 +48,20 @@ export default function conversation() {
   }, [data, request]);
 
   useEffect(() => {
-    if (data?.getConversationsForUser.list.length) {
-      const conversations = data.getConversationsForUser.list;
-
-      if (!id) {
-        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+    if (filteredConversationsByStatus.length && !id) {
+      router.push(
+        `/conversation?id=${filteredConversationsByStatus[0].sid}`,
+        undefined,
+        {
           shallow: true,
-        });
-      }
+        }
+      );
+    } else if (!filteredConversationsByStatus.length && id) {
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     }
-  }, [id, data]);
+  }, [filteredConversationsByStatus]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">

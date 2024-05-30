@@ -173,7 +173,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   const formatTime = (date) => format(date, "HH:mm:ss");
 
-  // TODO: when new message is sent, scroll to bottom
   const handleMessageAdded = (message: Message) => {
     advanceLastReadMessageIndexForCurrentUser(message);
 
@@ -284,8 +283,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   /*
    * VIRTUALIZER CODE END
    */
-
-  console.log({ messages });
 
   return (
     <>
