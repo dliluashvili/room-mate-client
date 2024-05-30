@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import TestAvatar from "../../public/newImages/testAvatar.svg";
+import Avatar from "../../public/newImages/default-avatar.png";
 import CloseCircle from "../../public/newImages/close-circle.svg";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
@@ -171,8 +171,24 @@ export default function MobileConversation({
               <Image src={ArrowLeft} alt="avatar" />
             </div>
           ) : null}
-          <Image src={TestAvatar} alt="avatar" width={40} height={40} />
-          <div className="flex flex-col ml-6 justify-between">
+         <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
+            {conversation?.user?.profileImage ? (
+              <Image
+                src={conversation?.user?.profileImage}
+                alt="User Avatar"
+                objectFit="cover"
+                layout="fill"
+              />
+            ) : (
+              <Image
+                src={Avatar}
+                alt="Fallback Avatar"
+                objectFit="cover"
+                layout="fill"
+              />
+            )}
+          </div>
+          <div className="flex flex-col ml-4 justify-between">
             <span>{participantFullName}</span>
             {/* <span>active now</span> */}
           </div>

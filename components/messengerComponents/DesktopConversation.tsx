@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Avatar from "../../public/newImages/female-avatar.svg";
+import Avatar from "../../public/newImages/default-avatar.png";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
@@ -173,7 +173,7 @@ export default function DesktopConversation({
             )}
           </div>
 
-          <div className="flex flex-col ml-6 justify-between">
+          <div className="flex flex-col ml-4 justify-between">
             <span>{participantFullName}</span>
             {/* <span>active now</span> */}
           </div>
