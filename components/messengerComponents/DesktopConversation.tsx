@@ -3,7 +3,8 @@ import Avatar from "../../public/newImages/default-avatar.png";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-import { useRef, useState } from "react";
+
+import {  useRef, useState } from "react";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
@@ -14,6 +15,7 @@ import {
   getConversationsForUserQuery,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
+
 
 type Props = {
   conversationResource: Conversation;
@@ -147,6 +149,12 @@ export default function DesktopConversation({
     conversation?.user?.firstname && conversation?.user?.lastname
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
+
+  // Assuming conversation.user.sid is the SID of the user participant in the conversation
+  // You can use userStatus to determine if the user is online or offline
+
+
+
 
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">

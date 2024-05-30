@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import Avatar from "../../public/newImages/female-avatar.svg";
+import Avatar from "../../public/newImages/default-avatar.png";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
@@ -9,6 +9,12 @@ import {
   ConversationWithUserObject,
   PaginationInfoObject,
 } from "../../gql/graphql";
+import { Howl } from "howler";
+import { Spinner } from "../../@/components/ui/spinner";
+
+const sound = new Howl({
+  src: ["./../sound.mp3"], // Replace with your actual sound file
+});
 
 type Props = {
   request: boolean;
@@ -94,11 +100,12 @@ export default function ConversationsList({
             chat
           </span>
           <span
-            className="cursor-pointer"
+            className="cursor-pointer relative"
             style={{ color: request ? "#0A7CFF" : "#838CAC" }}
             onClick={() => setRequest(true)}
           >
             request
+            <div className="absolute w-2 h-2 bg-[#3b66d1] top-0 -right-2 rounded-full"></div>
           </span>
         </div>
         <div className="h-[1px] w-full bg-[#E3E3E3]"></div>
@@ -115,12 +122,18 @@ export default function ConversationsList({
             const isLoaderRow = virtualRow.index > conversations.length - 1;
             const conversation = conversations[virtualRow.index];
 
+            {
+              !!conversation?.unreadMessagesCount && sound.play();
+            }
+
             return (
               <div
                 key={virtualRow.index}
                 data-index={virtualRow.index}
                 ref={virtualizer.measureElement}
-                className="flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full"
+                className={`flex flex-row cursor-pointer items-center ${
+                  conversation?.sid === router.query.id ? "bg-[#e7e7fe]" : ""
+                } justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3] w-full`}
                 style={{
                   width: "100%",
                   position: "absolute",
@@ -131,10 +144,10 @@ export default function ConversationsList({
                 }
               >
                 {isLoaderRow ? (
-                  <div className="w-full h-full">loading</div>
+                  <div className="w-full h-full flex justify-center items-center"><Spinner size="small"/></div>
                 ) : (
                   <>
-                    <div className="w-full h-full relative overflow-auto flex flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
+                    <div className="w-full h-full  relative overflow-auto flex  flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
                       <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
                         {conversation?.user?.profileImage ? (
                           <Image
