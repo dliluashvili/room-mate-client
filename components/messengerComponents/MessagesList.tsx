@@ -90,8 +90,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
         paginatedMessagesRef.current = paginatedMessages;
 
         setMessages((prevMessages) => [
-          ...paginatedMessages.items,
           ...prevMessages,
+          ...paginatedMessages.items.reverse(),
         ]);
       } else if (paginatedMessagesRef.current.hasPrevPage) {
         // In safari if scroll has big velocity and fetch time is small
@@ -109,8 +109,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
         paginatedMessagesRef.current = paginatedMessages;
 
         setMessages((prevMessages) => [
-          ...paginatedMessages.items,
           ...prevMessages,
+          ...paginatedMessages.items.reverse(),
         ]);
       }
     } catch (error) {
@@ -161,13 +161,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     }
   };
 
-  // TODO: when new message is sent, scroll to bottom
-  const handleMessageAdded = (message: Message) => {
-    advanceLastReadMessageIndexForCurrentUser(message);
-
-    setMessages((prevMessages) => [...prevMessages, message]);
-  };
-
   const formatDate = (date) => {
     if (isToday(date)) {
       return "Today";
@@ -179,6 +172,13 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   };
 
   const formatTime = (date) => format(date, "HH:mm:ss");
+
+  // TODO: when new message is sent, scroll to bottom
+  const handleMessageAdded = (message: Message) => {
+    advanceLastReadMessageIndexForCurrentUser(message);
+
+    setMessages((prevMessages) => [message, ...prevMessages]);
+  };
 
   useEffect(() => {
     if (conversationResource) {
@@ -254,6 +254,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     virtualizerRef.current.scrollToOffset(nextOffset);
   }
 
+  const reverseIndex = useCallback((index) => count - 1 - index, [count]);
+
   const virtualizer = useVirtualizer({
     getScrollElement: () => parentDomRef.current,
     count,
@@ -264,7 +266,10 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
       return MESSAGE_BOX_ESTIMATE_HEIGHT;
     }, [messages]),
-    getItemKey: useCallback((index) => messages[index].index, [messages]),
+    getItemKey: useCallback(
+      (index) => messages[reverseIndex(index)].index,
+      [messages, reverseIndex]
+    ),
     overscan: 5,
     paddingEnd: 3,
     paddingStart: 3,
@@ -279,6 +284,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   /*
    * VIRTUALIZER CODE END
    */
+
+  console.log({ messages });
 
   return (
     <>
@@ -297,8 +304,9 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
             height: virtualizer.getTotalSize(),
           }}
         >
-          {virtualizerItems.map((virtualItem, index) => {
-            const message = messages[virtualItem.index];
+          {virtualizerItems.map((virtualItem) => {
+            const index = reverseIndex(virtualItem.index);
+            const message = messages[index];
             const messageDate = new Date(message.dateCreated);
             // const previousMessageDate =
             //   index > 0
@@ -316,13 +324,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
             //   (previousMessageDate &&
             //     differenceInHours(messageDate, previousMessageDate) >= 1);
 
-            const lastMessageIndex =
-              messages.length < MESSAGES_PAGE_SIZE
-                ? messages[messages.length - 1]?.index
-                : messages[MESSAGES_PAGE_SIZE - 1]?.index;
-
             const virtualItemRef =
-              lastMessageIndex === message.index
+              messages[0].index === message.index
                 ? (mergeRefs(
                     virtualizer.measureElement,
                     firstMessageDomRef
@@ -361,8 +364,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                     }
                   )}
                 >
-                  {message.body}
-
+                  {message.body}- {message.dateCreated.toString()}
                   <span
                     className={`absolute bottom-full  right-0 mb-1 w-max bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
                       conversation?.user?.id !== message.author
