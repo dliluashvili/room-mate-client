@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Avatar from "../../public/newImages/default-avatar.png";
+
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
 
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
@@ -15,7 +15,6 @@ import {
   getConversationsForUserQuery,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
-
 
 type Props = {
   conversationResource: Conversation;
@@ -153,9 +152,6 @@ export default function DesktopConversation({
   // Assuming conversation.user.sid is the SID of the user participant in the conversation
   // You can use userStatus to determine if the user is online or offline
 
-
-
-
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
@@ -165,18 +161,16 @@ export default function DesktopConversation({
         <div className="flex flex-row items-center">
           <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
             {conversation?.user?.profileImage ? (
-              <Image
+              <img
                 src={conversation?.user?.profileImage}
                 alt="User Avatar"
-                objectFit="cover"
-                layout="fill"
+                className=" object-cover w-full h-full"
               />
             ) : (
-              <Image
-                src={Avatar}
+              <img
+                src="./../newImages/default-avatar.png"
                 alt="Fallback Avatar"
-                objectFit="cover"
-                layout="fill"
+                className=" object-cover w-full h-full"
               />
             )}
           </div>
