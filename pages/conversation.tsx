@@ -9,12 +9,16 @@ import { ConversationStatus } from "../gql/graphql";
 import Conversation from "../components/messengerComponents/Conversation";
 import { RouterQuery } from "../components/messengerComponents/types";
 import { LIMIT, OFFSET } from "../constants/pagination";
+import { useMediaQuery } from "react-responsive";
 
 export default function conversation() {
   useCheckAuth();
 
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const media = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
 
   const router = useRouter();
   const { id }: RouterQuery = router.query;
@@ -51,7 +55,11 @@ export default function conversation() {
     if (data?.getConversationsForUser.list.length) {
       const conversations = data.getConversationsForUser.list;
 
-      if (!id) {
+      if (!id && media) {
+        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+          shallow: true,
+        });
+      } else if ( mobileOpen) {
         router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
           shallow: true,
         });

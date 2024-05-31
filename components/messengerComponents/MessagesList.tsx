@@ -286,13 +286,15 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
    * VIRTUALIZER CODE END
    */
 
-  console.log({ messages });
+
 
   return (
     <>
-      <div ref={parentDomRef} className="overflow-y-auto scrollable-content">
+      <div ref={parentDomRef} className="overflow-y-auto ">
         {paginatedMessagesRef?.current?.hasPrevPage && (
-          <div className="w-full flex justify-center">...Loading</div>
+          <div className="w-full flex justify-center">
+            <Spinner size="small" />
+          </div>
         )}
         <div
           className="w-full flex justify-center"

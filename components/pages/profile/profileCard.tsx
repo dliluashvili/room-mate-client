@@ -137,7 +137,7 @@ const ProfileCard: React.FC<IProps> = ({
           />
         </div>
 
-        <p>{bio}</p>
+        <p className="text-ellipsis">{bio}</p>
       </div>
       <div className="userCard_footer d-flex justify-content-between ">
         <div className="d-flex align-items-center">
@@ -154,9 +154,12 @@ const ProfileCard: React.FC<IProps> = ({
             />
           </svg>
           <span
-            className={classnames("userCard_footer_locations w-auto ", {
-              bluer: !user?.payed,
-            })}
+            className={classnames(
+              "userCard_footer_locations   text-ellipsis ",
+              {
+                bluer: !user?.payed,
+              }
+            )}
           >
             {districtNames}
           </span>

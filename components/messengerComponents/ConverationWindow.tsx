@@ -128,9 +128,17 @@ export default function ConversationWindow({
     }
   }, [messageSendStatus]);
 
+  useEffect(() => {
+    if (messageSendStatus === "sent") {
+      setIsOpen(false);
+    }
+  }, [messageSendStatus]);
+
+  
   return (
     <>
       <ToastContainer />
+
       <div
         ref={ref}
         className="w-full h-full md:w-[375px] md:h-[415px] right-0 fixed bottom-0 md:right-20 bg-[#FFFFFF] flex  flex-col  border z-50 rounded-lg shadow-md"
