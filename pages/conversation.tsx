@@ -51,16 +51,16 @@ export default function conversation() {
     return [];
   }, [data, request]);
 
-  useEffect(() => {
+ useEffect(() => {
     if (data?.getConversationsForUser.list.length) {
       const conversations = data.getConversationsForUser.list;
 
       if (!id && media) {
-        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+        router.push(/conversation?id=${conversations[0].sid}, undefined, {
           shallow: true,
         });
       } else if ( mobileOpen) {
-        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+        router.push(/conversation?id=${conversations[0].sid}, undefined, {
           shallow: true,
         });
       }

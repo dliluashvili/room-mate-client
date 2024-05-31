@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { RouterQuery } from "./types";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
+  ConversationStatus,
   ConversationWithUserObject,
   PaginationInfoObject,
 } from "../../gql/graphql";
@@ -61,9 +62,11 @@ export default function ConversationsList({
     overscan: 5,
   });
 
-  const handleClickConversation = (sid: string) => {
-    if (id !== sid) {
-      router.push(`/conversation?id=${sid}`, undefined, { shallow: true });
+  const handleClickConversation = (conversationId: string) => {
+    if (conversationId !== id) {
+      router.push(`/conversation?id=${conversationId}`, undefined, {
+        shallow: true,
+      });
     }
 
     if (media) {
@@ -108,7 +111,8 @@ export default function ConversationsList({
 
   useEffect(() => {
     const hasRequested =
-      data && data.list.some((item) => item?.status === "requested");
+      data &&
+      data.list.some((item) => item?.status === ConversationStatus.Requested);
     if (hasRequested) {
       setRequestMessage(true);
     }
@@ -169,7 +173,7 @@ export default function ConversationsList({
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 onClick={() =>
-                  !isLoaderRow ? handleClickConversation(conversation.sid) : {}
+                  !isLoaderRow ? handleClickConversation(conversation.id) : {}
                 }
               >
                 {isLoaderRow ? (

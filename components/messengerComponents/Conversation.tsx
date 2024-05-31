@@ -15,7 +15,6 @@ import {
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
 
-
 const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
@@ -47,7 +46,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
     id: string
   ) => {
     const conversation = conversations.find(
-      (conversation) => conversation.sid === id
+      (conversation) => conversation.id === id
     );
 
     setConversation(conversation);
@@ -105,7 +104,6 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   //     console.log({ error });
   //   }
   // };
-
 
   return (
     <>
