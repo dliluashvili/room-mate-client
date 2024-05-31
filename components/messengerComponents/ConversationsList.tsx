@@ -5,8 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Avatar from "../../public/newImages/default-avatar.png";
-import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
 import { RouterQuery } from "./types";
@@ -21,7 +19,7 @@ import { LIMIT } from "../../constants/pagination";
 import clsx from "clsx";
 
 const sound = new Howl({
-  src: ["./../sound.mp3"], // Replace with your actual sound file
+  src: ["./../sound.mp3"],
 });
 
 type Props = {
@@ -32,7 +30,7 @@ type Props = {
   pageInfo: PaginationInfoObject | null;
   // FIXME: because argument and return types is not fully typed, autosuggestion is not working
   fetchMoreConversationsForUser: Function;
-  data: any;
+  data: any; // need type
 };
 
 const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80;
@@ -101,18 +99,20 @@ export default function ConversationsList({
 
   useEffect(() => {
     const hasUnreadMessages = conversations.some(
-      (item) => item?.unreadMessagesCount > 0
+      (item: any) => item?.unreadMessagesCount > 0
     );
     if (hasUnreadMessages) {
       sound.play();
     }
+  }, [conversations]);
 
+  useEffect(() => {
     const hasRequested =
       data && data.list.some((item) => item?.status === "requested");
     if (hasRequested) {
       setRequestMessage(true);
     }
-  }, [conversations, data]);
+  }, [data, request]);
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
@@ -178,21 +178,19 @@ export default function ConversationsList({
                   </div>
                 ) : (
                   <>
-                    <div className="w-full h-full  relative flex  flex-row justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
+                    <div className="w-full h-full  relative flex  flex-row  items-center justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
                       <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
                         {conversation?.user?.profileImage ? (
-                          <Image
+                          <img
                             src={conversation?.user?.profileImage}
                             alt="User Avatar"
-                            objectFit="cover"
-                            layout="fill"
+                            className=" object-cover w-full h-full"
                           />
                         ) : (
-                          <Image
-                            src={Avatar}
+                          <img
+                            src="./../newImages/default-avatar.png"
                             alt="Fallback Avatar"
-                            objectFit="cover"
-                            layout="fill"
+                            className=" object-cover w-full h-full"
                           />
                         )}
                       </div>
@@ -206,13 +204,13 @@ export default function ConversationsList({
                         </div>
                       )}
 
-                      <div className="flex-col h-full ml-6 flex md:hidden lg:flex">
+                      <div className="flex-col h-full ml-6 flex  items-center justify-center md:hidden lg:flex">
                         <span className="text-[#484848] font-semibold text-[14px]">
                           {conversation.user.firstname}
                         </span>
-                        <span className="text-[#838CAC] text-xs mt-1">
-                          last message
-                        </span>
+                        {/* <span className="text-[#838CAC] text-xs mt-1">
+                          last message or active now 
+                        </span> */}
                       </div>
                     </div>
                     {!!conversation.unreadMessagesCount && (
