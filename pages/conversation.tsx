@@ -56,11 +56,11 @@ export default function conversation() {
       const conversations = data.getConversationsForUser.list;
 
       if (!id && media) {
-        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+        router.push(`/conversation?id=${conversations[0].id}`, undefined, {
           shallow: true,
         });
       } else if (mobileOpen) {
-        router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
+        router.push(`/conversation?id=${conversations[0].id}`, undefined, {
           shallow: true,
         });
       }
