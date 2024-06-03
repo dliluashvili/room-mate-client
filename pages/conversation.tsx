@@ -17,7 +17,7 @@ export default function conversation() {
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const media = useMediaQuery({
-    query: "(min-width: 1224px)",
+    query: "(min-width: 768px)",
   });
 
   const router = useRouter();
@@ -59,7 +59,7 @@ export default function conversation() {
         router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
           shallow: true,
         });
-      } else if ( mobileOpen) {
+      } else if (mobileOpen) {
         router.push(`/conversation?id=${conversations[0].sid}`, undefined, {
           shallow: true,
         });

@@ -161,8 +161,6 @@ export default function MobileConversation({
     }
   };
 
-  console.log(conversation?.sid === router.query.id);
-  console.log(conversation, router.query.id);
   return (
     <>
       <section
@@ -185,8 +183,8 @@ export default function MobileConversation({
             <div
               onClick={() => {
                 setMobileOpen(false);
-                router.push({
-                  pathname: router.pathname,
+                router.replace({
+                  
                   query: {}, // Empty query object
                 });
                 console.log(router.query.id);
