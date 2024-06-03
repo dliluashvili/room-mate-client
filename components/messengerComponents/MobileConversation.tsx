@@ -18,6 +18,7 @@ import AutosizeTextarea from "react-textarea-autosize";
 import { useRouter } from "next/router";
 import { Spinner } from "../../@/components/ui/spinner";
 import { useMediaQuery } from "react-responsive";
+import clsx from "clsx";
 type Props = {
   mobileOpen: boolean;
   setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -164,16 +165,16 @@ export default function MobileConversation({
   return (
     <>
       <section
-        className="w-full bg-[#FFFFFF]  h-full flex-col absolute z-50"
-        style={{
-          display:
-            mobileOpen ||
-            (conversation?.sid === router.query.id &&
-              conversation?.sid !== undefined &&
-              conversation?.sid !== null && !media)
-              ? "flex"
-              : "none",
-        }}
+        className={clsx(
+          "w-full bg-[#FFFFFF] h-full flex-col absolute z-50",
+          mobileOpen ? "" : undefined, // No class for mobileOpen
+          conversation?.id === router.query.id &&
+            conversation?.id !== undefined &&
+            conversation?.id !== null &&
+            !media
+            ? "flex"
+            : "hidden"
+        )}
       >
         <div
           ref={headerRef}
@@ -184,7 +185,6 @@ export default function MobileConversation({
               onClick={() => {
                 setMobileOpen(false);
                 router.replace({
-                  
                   query: {}, // Empty query object
                 });
                 console.log(router.query.id);

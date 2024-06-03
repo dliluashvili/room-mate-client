@@ -57,7 +57,7 @@ const ProfileCard: React.FC<IProps> = ({
     const conversation = await checkConversationExistence(String(id));
 
     if (conversation) {
-      router.push(`/conversation?id=${conversation.sid}`, undefined, {
+      router.push(`/conversation?id=${conversation.id}`, undefined, {
         shallow: true,
       });
     } else {
