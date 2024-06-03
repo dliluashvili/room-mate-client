@@ -151,8 +151,13 @@
   "maximumPersonsInApartamnet": "maximum persons in apartamnet",
   "Numberofrooms": "number of rooms",
   "RentAmountPerPerson": "rent amount per person",
-  "totalRent": "total rent",
   "RentAnApartment": "rent an apartment",
   "savedApartments": "saved apartments",
-  "mdebareoba": "location"
+  "mdebareoba": "location",
+  "aboutChat1": "Introduce yourself briefly, sharing your budget and location. Once sent, ",
+  "aboutChat2": "will decide whether to accept it. Upon acceptance, you'll receive a notification, so ensure your initial message leaves a positive impression!",
+  "messageError1": "Oops, a technical issue occurred while sending the message. To view the sent message, go to the Messages tab.",
+  "messageError2": "Oops! Something went wrong while sending your message. Please reach out to our support team for assistance.",
+  "successMessage1": "The message has been successfully sent. If ",
+  "successMessage2": " accepts your message, you will receive an SMS."
 }

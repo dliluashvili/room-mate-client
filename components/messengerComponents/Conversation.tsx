@@ -14,12 +14,16 @@ import {
   twilioConnectionStateVar,
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
+import { useMediaQuery } from "react-responsive";
 
 const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
     useState<Conversation | null>(null);
+  const media = useMediaQuery({
+    query: "(min-width: 768px)",
+  });
 
   const twilioClient = useReactiveVar(twilioClientVar);
   const twilioClientState = useReactiveVar(twilioConnectionStateVar);
@@ -83,6 +87,14 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
       getConversationResource(twilioClient, conversation.sid);
     }
   }, [conversation, twilioClientState]);
+
+  useEffect(() => {
+    if (!mobileOpen && !media) {
+      router.replace({
+        query: {},
+      });
+    }
+  }, [mobileOpen]);
 
   /*
    * TESTING AREA
