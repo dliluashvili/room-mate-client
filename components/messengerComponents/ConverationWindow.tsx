@@ -129,7 +129,7 @@ export default function ConversationWindow({
     }
     if (false) {
       setFeedback("მესამე ქეისი");
-      setAlertType("error2");
+      setAlertType(t("messageError2"));
     }
   }, [messageSendStatus]);
 

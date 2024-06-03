@@ -118,6 +118,8 @@ export default function ConversationsList({
     }
   }, [data, request]);
 
+  console.log(conversations);
+
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
       <div className="block w-full">

@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -11,42 +10,83 @@ import {
 } from "../../@/components/ui/alert-dialog";
 
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { Button } from "../../@/components/ui/button";
+import successIcon from "../../public/imgs/Success.svg";
+import errorIcon from "../../public/imgs/Error.svg";
+import Image from "next/image";
 
 export function MessageAlert({ feedback, setIsOpen, alertType }) {
   const [open, setOpen] = useState(true);
+  const router = useRouter();
   const { t } = useTranslation("common");
 
-  // Function to dynamically generate button text and href based on alertType
-  const getModalButton = () => {
+  const getModalType = () => {
     switch (alertType) {
       case "success":
-        return { text: t("keepSearch"), href: "/" }; // Use translated text
+        return {
+          text: t("keepSearch"),
+          href: "/search",
+          img: successIcon,
+          cancel: null,
+        };
       case "error1":
-        return { text: t("checkMessages"), href: "/messages" }; // More specific link (consider using a dedicated error page)
+        return {
+          text: t("checkMessages"),
+          href: "/conversation",
+          img: errorIcon,
+        };
       default:
-        return { text: t("checkMessages"), href: "/facebook.com" }; // Fallback for unknown types
+        return {
+          text: t("supportTeam"),
+          href: "https://www.facebook.com/RoommateGeorgia.ge",
+          img: errorIcon,
+          target: "_blank",
+          cancel: t("cancel"),
+        };
     }
   };
 
   const handleClose = () => {
     setOpen(false);
-    setIsOpen(false); // Close both the alert and potentially the parent component
+    setIsOpen(false);
+    if (type.cancel) {
+      window.open(type.href, "_blank");
+    } else {
+      router.push(type.href);
+    }
   };
-
-  const button = getModalButton();
+  const type = getModalType();
 
   return (
     <AlertDialog open={feedback && open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("areYouSure")}</AlertDialogTitle>{" "}
-          {/* Translated title */}
-          <AlertDialogDescription>{feedback}</AlertDialogDescription>
+          <AlertDialogTitle>
+            <Image src={type.img} width={100} height={100} />
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-center">
+            {feedback}
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleClose}>
-            {button.text}
-          </AlertDialogCancel>
+          {type.cancel && (
+            <Button
+              onClick={() => {
+                setOpen(false);
+                setIsOpen(false);
+              }}
+              className=" w-auto lg:w-auto text-xs mt-4 sm:mt-0 md:text-sm lg:text-sm "
+            >
+              {type.cancel}
+            </Button>
+          )}
+          <Button
+            className="w-auto text-xs  md:text-sm lg:text-sm "
+            onClick={handleClose}
+          >
+            {type.text}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

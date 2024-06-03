@@ -159,5 +159,9 @@
   "messageError1": "Oops, a technical issue occurred while sending the message. To view the sent message, go to the Messages tab.",
   "messageError2": "Oops! Something went wrong while sending your message. Please reach out to our support team for assistance.",
   "successMessage1": "The message has been successfully sent. If ",
-  "successMessage2": " accepts your message, you will receive an SMS."
+  "successMessage2": " accepts your message, you will receive an SMS.",
+  "checkMessages": "Go to Message Tab",
+  "keepSearch": "Keep Searching",
+  "supportTeam": "Contact our support team",
+  "cancel": "Cancel"
 }
