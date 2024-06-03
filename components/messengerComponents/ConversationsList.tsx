@@ -167,7 +167,7 @@ export default function ConversationsList({
                 ref={virtualizer.measureElement}
                 className={clsx(
                   "absolute w-full flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3]",
-                  conversation?.sid === router.query.id ? "bg-[#e7e7fe]" : ""
+                  conversation?.id === router.query.id ? "bg-[#e7e7fe]" : ""
                 )}
                 style={{
                   transform: `translateY(${virtualRow.start}px)`,
