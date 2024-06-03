@@ -286,6 +286,10 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
    */
 
 
+
+  // const message = messages[index];
+
+  
   return (
     <>
       <div ref={parentDomRef} className="overflow-y-auto ">

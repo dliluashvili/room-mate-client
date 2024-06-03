@@ -184,10 +184,8 @@ export default function MobileConversation({
             <div
               onClick={() => {
                 setMobileOpen(false);
-                router.replace({
-                  query: {}, // Empty query object
-                });
-                console.log(router.query.id);
+                
+               
               }}
               className="mr-4"
             >

@@ -13,6 +13,7 @@ import {
 } from "../../gql/graphqlStatements";
 import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversationUtils";
 import { MessageAlert } from "./MessageAlert";
+import useTranslation from "next-translate/useTranslation";
 
 type messageSendStatus = "sent" | "error";
 
@@ -31,7 +32,8 @@ export default function ConversationWindow({
   const [messageSendStatus, setMessageSendStatus] =
     useState<messageSendStatus | null>(null);
   const [feedback, setFeedback] = useState(null);
-  const [alertNum, setAlertNum] = useState(null);
+  const [alertType, setAlertType] = useState(null);
+  let { t } = useTranslation("common");
 
   const ref = useRef();
 
@@ -118,21 +120,28 @@ export default function ConversationWindow({
 
   useEffect(() => {
     if (messageSendStatus === "sent") {
-      setFeedback("პირველი ქეისი");
+      setFeedback(t("successMessage"));
+      setAlertType("success");
     }
     if (messageSendStatus === "error") {
-      setFeedback("მეორე ქეისი");
+      setFeedback(t("messageError1"));
+      setAlertType("error1");
     }
     if (false) {
       setFeedback("მესამე ქეისი");
+      setAlertType(t("messageError2"));
     }
   }, [messageSendStatus]);
 
   return (
     <>
       {feedback ? (
-        <MessageAlert feedback={feedback} setIsOpen={setIsOpen} />
-      ) : !alertNum ? (
+        <MessageAlert
+          feedback={feedback}
+          setIsOpen={setIsOpen}
+          alertType={alertType}
+        />
+      ) : !alertType ? (
         <div
           ref={ref}
           className="w-full h-full md:w-[375px] md:h-[415px] right-0 fixed bottom-0 md:right-20 bg-[#FFFFFF] flex  flex-col  border z-50 rounded-lg shadow-md"
@@ -167,8 +176,7 @@ export default function ConversationWindow({
               <div className=" h-auto w-full flex flex-col justify-end items-end ">
                 <div className="flex flex-col pt-5 pb-4 px-4 w-full h-full justify-end  ">
                   <span className="w-[300px] text-xs mb-5">
-                    შემთხვევითად გენერირებული ტექსტი ეხმარება დიზაინერებს და
-                    ტიპოგრაფიული ნაწარმის შემთხვევითად გენერირებული ტექსტი
+                    {t("aboutChat1")} {name} {t("aboutChat2")}
                   </span>
                   <textarea
                     className="border-[#838CAC] border focus:outline-none rounded-md h-24 pl-1 text-md pt-1"

@@ -63,6 +63,7 @@ const getConversationsForUserQuery: TypedDocumentNode<
           firstname
           lastname
           profileImage
+          conversationStatus
         }
       }
       pageInfo {
@@ -94,6 +95,7 @@ const getSharedConversationQuery: TypedDocumentNode<
         firstname
         lastname
         profileImage
+        conversationStatus
       }
     }
   }

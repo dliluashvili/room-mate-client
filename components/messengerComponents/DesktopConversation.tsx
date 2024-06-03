@@ -151,7 +151,7 @@ export default function DesktopConversation({
 
   // Assuming conversation.user.sid is the SID of the user participant in the conversation
   // You can use userStatus to determine if the user is online or offline
-
+console.log(conversation)
   return (
     <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
       <div
