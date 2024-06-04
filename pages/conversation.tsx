@@ -35,8 +35,6 @@ export default function conversation() {
     }
   );
 
-  console.log(conversation);
-
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser.list.length) {
       if (request) {
