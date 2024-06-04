@@ -14,21 +14,28 @@ import { Button } from "../../@/components/ui/button";
 import successIcon from "../../public/imgs/Success.svg";
 import errorIcon from "../../public/imgs/Error.svg";
 import Image from "next/image";
+import { messageSendStatusType } from "./ConverationWindow";
 
-export function MessageAlert({ feedback, setIsOpen, alertType }) {
+type Props = {
+  feedback: string;
+  alertType: messageSendStatusType;
+  setIsOpen: (param: boolean) => void;
+};
+
+export function MessageAlert({ feedback, setIsOpen, alertType }: Props) {
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const { t } = useTranslation("common");
 
   const getModalType = () => {
     switch (alertType) {
-      case "success":
+      case "messageSendSuccess":
         return {
           text: t("keepSearch"),
           href: "/search",
           img: successIcon,
         };
-      case "error1":
+      case "messageSendError":
         return {
           text: t("checkMessages"),
           href: "/conversation",
@@ -54,6 +61,7 @@ export function MessageAlert({ feedback, setIsOpen, alertType }) {
       router.push(type.href);
     }
   };
+
   const type = getModalType();
 
   return (
