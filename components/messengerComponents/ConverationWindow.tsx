@@ -123,8 +123,8 @@ export default function ConversationWindow({
       setAlertType("error1");
     }
     if (false) {
-      setFeedback("მესამე ქეისი");
-      setAlertType(t("messageError2"));
+      setFeedback(t("messageError2"));
+      setAlertType("error2");
     }
   }, [messageSendStatus]);
 
