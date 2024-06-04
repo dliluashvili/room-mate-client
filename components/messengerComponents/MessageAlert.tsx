@@ -28,7 +28,6 @@ export function MessageAlert({ feedback, setIsOpen, alertType }) {
           text: t("keepSearch"),
           href: "/search",
           img: successIcon,
-          cancel: null,
         };
       case "error1":
         return {

@@ -14,6 +14,7 @@ import {
 import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversationUtils";
 import { MessageAlert } from "./MessageAlert";
 import useTranslation from "next-translate/useTranslation";
+import { Spinner } from "../../@/components/ui/spinner";
 
 type messageSendStatus = "sent" | "error";
 
@@ -33,6 +34,7 @@ export default function ConversationWindow({
     useState<messageSendStatus | null>(null);
   const [feedback, setFeedback] = useState(null);
   const [alertType, setAlertType] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   let { t } = useTranslation("common");
 
   const ref = useRef();
@@ -59,56 +61,49 @@ export default function ConversationWindow({
   };
 
   const handleSendMessage = async () => {
+    setIsLoading(true); // Set loading state to true before request
     try {
       if (messageText?.length) {
         const twilioUserResourceResponse =
           await lookupOrCreateTwilioUserResource({
-            variables: {
-              userId: participantId,
-            },
+            variables: { userId: participantId },
           });
-
         if (twilioUserResourceResponse) {
           const conversation = await twilioClient.createConversation();
-
           const settledParticipantAdd = await Promise.allSettled([
             conversation.add(twilioClient.user.identity),
             conversation.add(participantId),
           ]);
-
           const isFulfilledParticipantAdd = settledParticipantAdd.every(
             (settledParticipant) => settledParticipant.status === "fulfilled"
           );
-
           if (isFulfilledParticipantAdd) {
             await conversation.sendMessage(messageText);
-
             const { data } = await getSharedConversation({
-              variables: {
-                participantId,
-              },
+              variables: { participantId },
             });
-
             if (data.getSharedConversation) {
               updateCacheWithNewConversationInFirstPlace(
                 data.getSharedConversation
               );
             }
-
             setMessageSendStatus("sent");
           } else {
             setMessageSendStatus("error");
-
             throw new Error("Participant add failed");
           }
         } else {
           setMessageSendStatus("error");
-
           throw new Error("Twilio user resource lookup or creation failed");
         }
+      } else {
+        setMessageSendStatus("error");
+        throw new Error("Message text is empty");
       }
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsLoading(false); // Set loading state to false after request
     }
   };
 
@@ -120,7 +115,7 @@ export default function ConversationWindow({
 
   useEffect(() => {
     if (messageSendStatus === "sent") {
-      setFeedback(t("successMessage"));
+      setFeedback(t("successMessage1") + name + t("successMessage2"));
       setAlertType("success");
     }
     if (messageSendStatus === "error") {
@@ -172,6 +167,10 @@ export default function ConversationWindow({
               <div className="flex w-full h-full justify-center items-center pb-40">
                 {feedback}
               </div>
+            ) : isLoading ? (
+              <div className="flex h-full justify-center items-start">
+                <Spinner />
+              </div>
             ) : (
               <div className=" h-auto w-full flex flex-col justify-end items-end ">
                 <div className="flex flex-col pt-5 pb-4 px-4 w-full h-full justify-end  ">
@@ -186,7 +185,7 @@ export default function ConversationWindow({
                   <button
                     className="w-full flex flex-row justify-end mt-6 cursor-pointer"
                     onClick={handleSendMessage}
-                    disabled={messageSendStatus === "sent"}
+                    disabled={isLoading || messageSendStatus === "sent"} // Disable on loading or sent
                   >
                     <Image src={Send} width={24} height={24} alt="send" />
                   </button>
