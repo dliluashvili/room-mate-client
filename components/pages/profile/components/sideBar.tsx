@@ -347,109 +347,41 @@ const SideBar: React.FC<ISidebar> = (props) => {
             {props?.firstname} {props?.lastname}
           </span>
         </div>
-        {!props.myProfile && !props.phone ? (
-          <div className="profile_contacts">
-            {sendStatus === "SENT" || sendStatus === "REJECTED" ? (
-              ""
-            ) : (
-              <p className="text-center mb-4">{t("seandContactRequest")}</p>
-            )}
-            <Button
-              loading={status === "load"}
-              disabled={
-                !!status || sendStatus === "SENT" || sendStatus === "REJECTED"
-              }
-              onClick={userContactRequest}
-              className={classNames("btn w-100", {
-                "btn-primary bg-[#19a463]":
-                  sendStatus === "SENT" || sendStatus === "NOT_SENT",
-                "btn-danger bg-[#dc3545] h-[43px]": sendStatus === "REJECTED",
-              })}
-            >
-              {sendStatus === "SENT"
-                ? t("sentContactRequest")
-                : sendStatus === "REJECTED"
-                ? t("requestRejected")
-                : t("contactRequest")}
-            </Button>
-          </div>
-        ) : (
-          <>
-            {props.myProfile ? (
-              <div className="contactViewSwitch flex-column mt-3">
-                <div className="contactViewSwitch flex-column">
-                  <div className=" form-check form-switch ">
+
+        <>
+          {props.myProfile ? (
+            <div className="contactViewSwitch flex-column mt-3">
+              {props.myProfile ? (
+                <div className="contactViewSwitch flex-column mb-2">
+                  <div className="form-check form-switch ">
                     <input
                       className="form-check-input"
                       type="checkbox"
-                      checked={!user?.is_locked_communication}
+                      checked={user?.available}
                       role="switch"
                       onChange={() => {
-                        handleChangeProfileLock();
+                        handleChangeAvailable();
                       }}
-                      id="flexSwitchCheckDefault"
+                      id="SearchingRoomateSwitch"
                     />
                     <label className="form-check-label flex">
-                      {/* კონტაqტის ხილვადობა{" "} */}
-                      {t("contactVisibility")}
-                      <span className="pointer toltipWrapper ml-3">
+                      {t("findRoomate")}
+
+                      <span className="pointer toltipWrapper ml-3 ">
                         <AlertIcon stroke="blue" fill="blue" />
-                        <p>{t("contactVisibilityHint")}</p>
+                        <p className="contact_view_tooltip">
+                          {t("findRoomateHint")}
+                        </p>
                       </span>
                     </label>
                   </div>
                 </div>
-
-                {props.myProfile ? (
-                  <div className="contactViewSwitch flex-column">
-                    <div className="form-check form-switch ">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={user?.available}
-                        role="switch"
-                        onChange={() => {
-                          handleChangeAvailable();
-                        }}
-                        id="SearchingRoomateSwitch"
-                      />
-                      <label className="form-check-label flex">
-                        {/* კონტაqტის ხილვადობა{" "} */}
-                        {t("findRoomate")}
-
-                        <span className="pointer toltipWrapper ml-3 ">
-                          <AlertIcon stroke="blue" fill="blue" />
-                          <p className="contact_view_tooltip">
-                            {t("findRoomateHint")}
-                          </p>
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-
-            <div className="profile_contacts">
-              <div>
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 17 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3.34333 1.88889C3.4 2.72944 3.54167 3.55111 3.76833 4.335L2.635 5.46833C2.24778 4.335 2.00222 3.13556 1.91722 1.88889H3.34333ZM12.6556 13.2411C13.4583 13.4678 14.28 13.6094 15.1111 13.6661V15.0733C13.8644 14.9883 12.665 14.7428 11.5222 14.365L12.6556 13.2411ZM4.25 0H0.944444C0.425 0 0 0.425 0 0.944444C0 9.81278 7.18722 17 16.0556 17C16.575 17 17 16.575 17 16.0556V12.7594C17 12.24 16.575 11.815 16.0556 11.815C14.8844 11.815 13.7417 11.6261 12.6839 11.2767C12.5894 11.2389 12.4856 11.2294 12.3911 11.2294C12.1456 11.2294 11.9094 11.3239 11.7206 11.5033L9.64278 13.5811C6.97 12.2117 4.77889 10.03 3.41889 7.35722L5.49667 5.27944C5.76111 5.015 5.83667 4.64667 5.73278 4.31611C5.38333 3.25833 5.19444 2.125 5.19444 0.944444C5.19444 0.425 4.76944 0 4.25 0Z"
-                    fill="#5E666E"
-                  />
-                </svg>
-                <span className="ml-2">{`+${props?.callingCode} ${props?.phone}`}</span>
-              </div>
+              ) : null}
             </div>
-          </>
-        )}
-        {router.pathname !== "/profile" && (
+          ) : null}
+        </>
+
+        {!router.pathname.split("/").includes("profile") && (
           <button
             onClick={handleOpenChatWindow}
             className="w-full mt-4 py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
@@ -477,11 +409,10 @@ const SideBar: React.FC<ISidebar> = (props) => {
           {props.myProfile ? (
             <ul className="list-unstyled">
               <li>
-                <Link href="/profile">
+                <Link href="/profile/favorites">
                   <a
                     className={classnames({
                       active:
-                        router.pathname.split("/")[2] === undefined ||
                         router.pathname.split("/")[2] === "favorites" ||
                         router.pathname.split("/")[2] === "flats",
                     })}

@@ -9,10 +9,6 @@ const Favorites = (props) => {
 
   const tabs = [
     {
-      label: t("notifications"),
-      path: "/profile",
-    },
-    {
       label: t("favorites"),
       path: "/profile/favorites",
     },

@@ -70,22 +70,6 @@ export default function BurgerMenu() {
           >
             {t("RentAnApartment")}
           </p>
-          {!!user ? (
-            <div
-              className="flex flex-row relative"
-              onClick={(e) => {
-                const href = user ? "/profile" : "login";
-                handleLinkClick(e, href);
-              }}
-            >
-              <p className="text-xs">{t("notifications")}</p>
-              {!!user?.notifications?.length && (
-                <div className="absolute flex items-center justify-center font-semibold  -top-3 right-20 rounded-full text-white text-[10px] bg-primaryBeta  w-6 h-6">
-                  {user.notifications.length}
-                </div>
-              )}
-            </div>
-          ) : null}
 
           <p className="text-xs">{t("becomePartner")}</p>
           <p className="text-xs">{t("faq")}</p>

@@ -121,7 +121,7 @@ export default function NewHeader() {
           {t("rentApartment")}
         </span>
         <div
-          className="p-2 mr-2 flex items-center rounded-lg bg-[#F2F5FF]  xl:px-3 xl:py-2 xl:mr-4 pointer"
+          className="p-2 flex items-center rounded-lg bg-[#F2F5FF]  xl:px-3 xl:py-2 mr-2 lg:mr-4 pointer"
           onClick={(e) => {
             const href = user ? "/profile" : "login";
             handleLinkClick(e, href);
@@ -145,27 +145,12 @@ export default function NewHeader() {
         </div>
 
         <LangChoose
-          className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer  md:mr-2 lg:mr-4 lg:text-base lg:p-2"
+          className="bg-[#f2f5ff] rounded-lg p-2 text-xs pointer mr-2 lg:mr-4 lg:text-base lg:p-2"
           spanClassname="text-xs xl:text-base"
         />
-        <div
-          id="bell"
-          className="hidden relative w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff]  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
-          onClick={(e) => {
-            const href = user ? "/profile" : "login";
-            handleLinkClick(e, href);
-          }}
-        >
-          <Image src={Bell} alt="Bell Icon" />
-          {!!user?.notifications?.length && (
-            <div className="absolute flex items-center justify-center font-semibold  -top-3 -right-3 rounded-full text-white text-xs bg-primaryBeta  w-7 h-7">
-              {user.notifications.length}
-            </div>
-          )}
-        </div>
         {user?.firstname ? (
           <div
-            className="relative flex items-center justify-center w-8  h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] ml-2 lg:ml-3  rounded-lg p-0 md:px-2  md:pt-[6px]  pointer"
+            className="relative flex items-center justify-center w-8 h-8 lg:w-10 lg:h-10 md:block bg-[#f2f5ff] rounded-lg p-0 md:px-2 md:pt-[6px] pointer"
             onClick={(e) => {
               handleLinkClick(e, "/conversation");
             }}

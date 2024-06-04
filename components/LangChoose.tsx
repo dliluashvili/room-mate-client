@@ -10,7 +10,7 @@ const LangChoose = ({ className, spanClassname }) => {
         if (router.locale === lang) return null;
         return (
           <Link key={lang} href={router.asPath} locale={lang}>
-            <div id="lang" className={`  ${className} `}>
+            <div id="lang" className={className}>
               <span className={`${spanClassname}`}>
                 {lang === "ka" ? "GEO" : "ENG"}
               </span>
