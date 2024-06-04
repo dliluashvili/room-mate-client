@@ -11,6 +11,7 @@ import MessengerCustomerChat from "react-messenger-customer-chat";
 import { hotjar } from "react-hotjar";
 import { ApolloWrapper } from "../providers/apolloProvider";
 import TwilioClientWrapper from "../components/TwilioClientWrapper";
+import { Toaster } from "../@/components/ui/toaster";
 
 // import { Html } from "next/document";
 
@@ -89,6 +90,7 @@ function MyApp({ Component, pageProps }) {
               <ApolloWrapper>
                 <TwilioClientWrapper>
                   <Component {...pageProps} />
+                  <Toaster />
                 </TwilioClientWrapper>
               </ApolloWrapper>
             </Provider>

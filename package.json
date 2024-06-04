@@ -27,6 +27,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "@shadcn/ui": "^0.0.4",
     "@tanstack/react-virtual": "^3.5.0",
     "@twilio/conversations": "^2.5.0",

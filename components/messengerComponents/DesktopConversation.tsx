@@ -15,19 +15,28 @@ import {
   getConversationsForUserQuery,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
+import useTranslation from "next-translate/useTranslation";
+import { useToast } from "../../@/components/ui/use-toast";
+import { ToastAction } from "../../@/components/ui/toast";
+import { Button } from "../../@/components/ui/button";
 
 type Props = {
   conversationResource: Conversation;
   conversation: ConversationWithUserObject;
+  setRequest: any;
 };
 
 export default function DesktopConversation({
   conversationResource,
   conversation,
+  setRequest,
 }: Props) {
   const [message, setMessage] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
   const client = useApolloClient();
+  const { t } = useTranslation("common");
 
   const [updateConversationStatus, { loading }] = useMutation(
     updateConversationStatusMutation,
@@ -121,11 +130,22 @@ export default function DesktopConversation({
   );
 
   const handleSendMessage = () => {
-    if (conversationResource && message.length) {
+    if (
+      conversationResource &&
+      message.length &&
+      conversation?.user?.conversationStatus !== "rejected"
+    ) {
       conversationResource.sendMessage(message);
       setMessage("");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Blocked",
+        description: "User has blocked you, you cant send more messages",
+      });
     }
   };
+  console.log(conversation?.status);
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -196,7 +216,8 @@ export default function DesktopConversation({
                   conversation={conversation}
                 />
                 {conversation &&
-                conversation?.user?.conversationStatus !== "rejected" ? (
+                conversation?.user?.conversationStatus !==
+                  ConversationStatus.Rejected ? (
                   <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
                     <AutosizeTextarea
                       placeholder="send message"
@@ -216,7 +237,7 @@ export default function DesktopConversation({
                     />
                   </div>
                 ) : (
-                  <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
+                  <div className="flex w-full h-auto flex-row justify-center items-center px-3 py-4 ">
                     user has rejected you cant send more message
                   </div>
                 )}
@@ -241,30 +262,36 @@ export default function DesktopConversation({
                 />
 
                 <div
-                  style={{ backgroundColor: false ? "#838CAC" : "#c25744" }}
+                  style={{
+                    backgroundColor:
+                      conversation?.status === ConversationStatus.Requested
+                        ? "#838CAC"
+                        : "#c25744",
+                  }}
                   className=" py-6 mt-2 w-full h-auto rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 px-10"
                 >
                   <span className="text-[#FFFFFF]">
-                    {conversation?.status === "requested"
-                      ? "if you reply Mako will be able to call you and see information such as you active status and when you have read messages."
+                    {conversation?.status === ConversationStatus.Requested
+                      ? t("acceptReject")
                       : "you have rejected messages, if you want again get messages from this user press accept"}
                   </span>
                   <div className=" flex gap-4 flex-row  items-center">
                     <button
                       className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
                       disabled={loading}
-                      onClick={() =>
+                      onClick={() => {
+                        setRequest(false);
                         updateConversationStatus({
                           variables: {
                             conversationId: conversation.id,
                             status: ConversationStatus.Accepted,
                           },
-                        })
-                      }
+                        });
+                      }}
                     >
-                      accept
+                      {t("accept")}
                     </button>
-                    {conversation?.status === "requested" && (
+                    {conversation?.status === ConversationStatus.Requested && (
                       <button
                         className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
                         disabled={loading}
@@ -277,7 +304,7 @@ export default function DesktopConversation({
                           })
                         }
                       >
-                        reject
+                        {t("reject")}
                       </button>
                     )}
                   </div>
@@ -285,11 +312,6 @@ export default function DesktopConversation({
               </div>
             );
           }
-
-          // if (conversation?.status === ConversationStatus.Rejected) {
-          //   return "rejected";
-          // }
-
           return <></>;
         })()}
       </section>

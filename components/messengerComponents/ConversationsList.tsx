@@ -113,9 +113,9 @@ export default function ConversationsList({
       data &&
       data.list.some(
         (item) =>
-          item?.status ===
-            (ConversationStatus.Requested || ConversationStatus.Rejected) &&
-          item?.user?.unreadMessagesCount > 0
+          (item?.status === ConversationStatus.Requested ||
+            item?.status === ConversationStatus.Rejected) &&
+          item?.unreadMessagesCount > 0
       );
     if (hasRequested) {
       setRequestMessage(true);
