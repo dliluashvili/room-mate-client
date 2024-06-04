@@ -6,7 +6,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "../../@/components/ui/alert-dialog";
 
 import { useState } from "react";
@@ -28,7 +27,6 @@ export function MessageAlert({ feedback, setIsOpen, alertType }) {
           text: t("keepSearch"),
           href: "/search",
           img: successIcon,
-          cancel: null,
         };
       case "error1":
         return {
