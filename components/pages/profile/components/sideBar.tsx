@@ -381,7 +381,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           ) : null}
         </>
 
-        {router.pathname !== "/profile" && (
+        {!router.pathname.split("/").includes("profile") && (
           <button
             onClick={handleOpenChatWindow}
             className="w-full mt-4 py-2 px-2 bg-[#0A7CFF] rounded-md  flex flex-row items-center justify-center"
