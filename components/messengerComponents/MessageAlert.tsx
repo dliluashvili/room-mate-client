@@ -22,18 +22,18 @@ export function MessageAlert({ feedback, setIsOpen, alertType }) {
 
   const getModalType = () => {
     switch (alertType) {
-      // case "success":
-      //   return {
-      //     text: t("keepSearch"),
-      //     href: "/search",
-      //     img: successIcon,
-      //   };
-      // case "error1":
-      //   return {
-      //     text: t("checkMessages"),
-      //     href: "/conversation",
-      //     img: errorIcon,
-      //   };
+      case "success":
+        return {
+          text: t("keepSearch"),
+          href: "/search",
+          img: successIcon,
+        };
+      case "error1":
+        return {
+          text: t("checkMessages"),
+          href: "/conversation",
+          img: errorIcon,
+        };
       default:
         return {
           text: t("supportTeam"),
