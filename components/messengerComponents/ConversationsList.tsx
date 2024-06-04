@@ -73,8 +73,6 @@ export default function ConversationsList({
     }
   };
 
-
-  
   useEffect(() => {
     const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse();
 
@@ -115,8 +113,9 @@ export default function ConversationsList({
       data &&
       data.list.some(
         (item) =>
-          item?.status === ConversationStatus.Requested &&
-          item?.unreadMessagesCount > 0
+          item?.status ===
+            (ConversationStatus.Requested || ConversationStatus.Rejected) &&
+          item?.user?.unreadMessagesCount > 0
       );
     if (hasRequested) {
       setRequestMessage(true);
@@ -124,6 +123,8 @@ export default function ConversationsList({
       setRequestMessage(false);
     }
   }, [data, request]);
+
+  console.log(conversations);
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
@@ -145,9 +146,8 @@ export default function ConversationsList({
 
               if (id) {
                 router.push(`/conversation?id=${id}`);
-              }else {
+              } else {
                 router.push(`/conversation?id=${id}`);
-
               }
             }}
           >
@@ -161,15 +161,17 @@ export default function ConversationsList({
             )}
             onClick={() => {
               setRequest(true);
-              const filteredRequests = data?.list?.filter(
-                (item) => item.status === "requested"
+              const filteredRequestsRejects = data?.list?.filter(
+                (item) =>
+                  item.status === "rejected" || item.status === "requested"
               );
 
-              const id = filteredRequests?.[0]?.id;
+              const id = filteredRequestsRejects?.[0]?.id;
+              console.log(id);
 
               if (id) {
                 router.push(`/conversation?id=${id}`);
-              } 
+              }
             }}
           >
             request

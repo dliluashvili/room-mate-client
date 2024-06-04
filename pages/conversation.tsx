@@ -35,11 +35,13 @@ export default function conversation() {
     }
   );
 
+  console.log(conversation);
+
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser.list.length) {
       if (request) {
         return data.getConversationsForUser.list.filter(
-          (conversation) => conversation.status === ConversationStatus.Requested
+          (conversation) => conversation.status !== ConversationStatus.Accepted
         );
       }
 
@@ -81,7 +83,7 @@ export default function conversation() {
         shallow: true,
       });
     }
-  }, [filteredConversationsByStatus]);
+  }, [filteredConversationsByStatus, id]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">

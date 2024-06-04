@@ -152,8 +152,6 @@ export default function DesktopConversation({
   // Assuming conversation.user.sid is the SID of the user participant in the conversation
   // You can use userStatus to determine if the user is online or offline
 
-  console.log(conversation);
-
   return (
     <>
       <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
@@ -197,29 +195,39 @@ export default function DesktopConversation({
                   conversationResource={conversationResource}
                   conversation={conversation}
                 />
-                <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
-                  <AutosizeTextarea
-                    placeholder="send message"
-                    className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
-                    value={message}
-                    onChange={handleMessageChange}
-                    onKeyDown={handleKeyDown}
-                  />
+                {conversation &&
+                conversation?.user?.conversationStatus !== "rejected" ? (
+                  <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
+                    <AutosizeTextarea
+                      placeholder="send message"
+                      className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                      value={message}
+                      onChange={handleMessageChange}
+                      onKeyDown={handleKeyDown}
+                    />
 
-                  <Image
-                    src={Send}
-                    width={24}
-                    height={24}
-                    alt="send message"
-                    className="cursor-pointer"
-                    onClick={handleSendMessage}
-                  />
-                </div>
+                    <Image
+                      src={Send}
+                      width={24}
+                      height={24}
+                      alt="send message"
+                      className="cursor-pointer"
+                      onClick={handleSendMessage}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
+                    user has rejected you cant send more message
+                  </div>
+                )}
               </div>
             );
           }
 
-          if (conversation?.status === ConversationStatus.Requested) {
+          if (
+            conversation?.status === ConversationStatus.Requested ||
+            conversation?.status === ConversationStatus.Rejected
+          ) {
             return (
               <div
                 className="flex w-full h-screen justify-end flex-col  p-5"
@@ -232,11 +240,14 @@ export default function DesktopConversation({
                   conversation={conversation}
                 />
 
-                <div className=" py-6 mt-2 w-full h-auto bg-[#838CAC] rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 px-10">
+                <div
+                  style={{ backgroundColor: false ? "#838CAC" : "#c25744" }}
+                  className=" py-6 mt-2 w-full h-auto rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 px-10"
+                >
                   <span className="text-[#FFFFFF]">
-                    if you reply Mako will be able to call you and see
-                    information such as you active status and when you have read
-                    messages.
+                    {conversation?.status === "requested"
+                      ? "if you reply Mako will be able to call you and see information such as you active status and when you have read messages."
+                      : "you have rejected messages, if you want again get messages from this user press accept"}
                   </span>
                   <div className=" flex gap-4 flex-row  items-center">
                     <button
@@ -253,29 +264,31 @@ export default function DesktopConversation({
                     >
                       accept
                     </button>
-                    <button
-                      className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
-                      disabled={loading}
-                      onClick={() =>
-                        updateConversationStatus({
-                          variables: {
-                            conversationId: conversation.id,
-                            status: ConversationStatus.Rejected,
-                          },
-                        })
-                      }
-                    >
-                      reject
-                    </button>
+                    {conversation?.status === "requested" && (
+                      <button
+                        className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
+                        disabled={loading}
+                        onClick={() =>
+                          updateConversationStatus({
+                            variables: {
+                              conversationId: conversation.id,
+                              status: ConversationStatus.Rejected,
+                            },
+                          })
+                        }
+                      >
+                        reject
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
             );
           }
 
-          if (conversation?.status === ConversationStatus.Rejected) {
-            return "rejected";
-          }
+          // if (conversation?.status === ConversationStatus.Rejected) {
+          //   return "rejected";
+          // }
 
           return <></>;
         })()}
