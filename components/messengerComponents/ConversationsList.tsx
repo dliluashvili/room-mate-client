@@ -68,7 +68,6 @@ export default function ConversationsList({
         shallow: true,
       });
     }
-
     if (media) {
       setMobileOpen(true);
     }
@@ -112,9 +111,16 @@ export default function ConversationsList({
   useEffect(() => {
     const hasRequested =
       data &&
-      data.list.some((item) => item?.status === ConversationStatus.Requested);
+      data.list.some(
+        (item) =>
+          item?.status ===
+            (ConversationStatus.Requested || ConversationStatus.Rejected) &&
+          item?.user?.unreadMessagesCount > 0
+      );
     if (hasRequested) {
       setRequestMessage(true);
+    } else {
+      setRequestMessage(false);
     }
   }, [data, request]);
 
@@ -130,7 +136,20 @@ export default function ConversationsList({
               !request && "text-[#0A7CFF]",
               request && "text-[#838CAC]"
             )}
-            onClick={() => setRequest(false)}
+            onClick={() => {
+              setRequest(false);
+              const filteredAccepts = data?.list?.filter(
+                (item) => item.status === "accepted"
+              );
+
+              const id = filteredAccepts?.[0]?.id;
+
+              if (id) {
+                router.push(`/conversation?id=${id}`);
+              } else {
+                router.push(`/conversation?id=${id}`);
+              }
+            }}
           >
             chat
           </span>
@@ -140,7 +159,20 @@ export default function ConversationsList({
               request && "text-[#0A7CFF]",
               !request && "text-[#838CAC]"
             )}
-            onClick={() => setRequest(true)}
+            onClick={() => {
+              setRequest(true);
+              const filteredRequestsRejects = data?.list?.filter(
+                (item) =>
+                  item.status === "rejected" || item.status === "requested"
+              );
+
+              const id = filteredRequestsRejects?.[0]?.id;
+              console.log(id);
+
+              if (id) {
+                router.push(`/conversation?id=${id}`);
+              }
+            }}
           >
             request
             {requestMessage && (

@@ -1,4 +1,4 @@
-import { Message } from "@twilio/conversations";
+import { Message } from "react-hook-form";
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -421,6 +421,7 @@ export type UserObject = {
 
 export type UserPreviewObject = {
   __typename?: "UserPreviewObject";
+  conversationStatus: ConversationStatus;
   firstname: Scalars["String"]["output"];
   id: Scalars["ID"]["output"];
   lastname: Scalars["String"]["output"];

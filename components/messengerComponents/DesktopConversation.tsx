@@ -151,120 +151,148 @@ export default function DesktopConversation({
 
   // Assuming conversation.user.sid is the SID of the user participant in the conversation
   // You can use userStatus to determine if the user is online or offline
-console.log(conversation)
-  return (
-    <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
-      <div
-        ref={headerRef}
-        className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
-      >
-        <div className="flex flex-row items-center">
-          <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
-            {conversation?.user?.profileImage ? (
-              <img
-                src={conversation?.user?.profileImage}
-                alt="User Avatar"
-                className=" object-cover w-full h-full"
-              />
-            ) : (
-              <img
-                src="./../newImages/default-avatar.png"
-                alt="Fallback Avatar"
-                className=" object-cover w-full h-full"
-              />
-            )}
-          </div>
 
-          <div className="flex flex-col ml-4 justify-between">
-            <span>{participantFullName}</span>
-            {/* <span>active now</span> */}
+  return (
+    <>
+      <section className="w-full flex-col bg-[#FFFFFF] hidden ml-6 md:flex rounded-md border-b-4 border-[gray] overflow-hidden">
+        <div
+          ref={headerRef}
+          className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
+        >
+          <div className="flex flex-row items-center">
+            <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
+              {conversation?.user?.profileImage ? (
+                <img
+                  src={conversation?.user?.profileImage}
+                  alt="User Avatar"
+                  className=" object-cover w-full h-full"
+                />
+              ) : (
+                <img
+                  src="./../newImages/default-avatar.png"
+                  alt="Fallback Avatar"
+                  className=" object-cover w-full h-full"
+                />
+              )}
+            </div>
+
+            <div className="flex flex-col ml-4 justify-between">
+              <span>{participantFullName}</span>
+              {/* <span>active now</span> */}
+            </div>
           </div>
         </div>
-      </div>
-      {(() => {
-        if (conversation?.status === ConversationStatus.Accepted) {
-          return (
-            <div
-              className="flex flex-col justify-end pt-5 py-2  px-2 w-full"
-              style={{
-                height: containerHeight,
-              }}
-            >
-              <MessagesList
-                conversationResource={conversationResource}
-                conversation={conversation}
-              />
-              <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
-                <AutosizeTextarea
-                  placeholder="send message"
-                  className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
-                  value={message}
-                  onChange={handleMessageChange}
-                  onKeyDown={handleKeyDown}
+        {(() => {
+          if (conversation?.status === ConversationStatus.Accepted) {
+            return (
+              <div
+                className="flex flex-col justify-end pt-5 py-2  px-2 w-full"
+                style={{
+                  height: containerHeight,
+                }}
+              >
+                <MessagesList
+                  conversationResource={conversationResource}
+                  conversation={conversation}
                 />
+                {conversation &&
+                conversation?.user?.conversationStatus !== "rejected" ? (
+                  <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
+                    <AutosizeTextarea
+                      placeholder="send message"
+                      className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                      value={message}
+                      onChange={handleMessageChange}
+                      onKeyDown={handleKeyDown}
+                    />
 
-                <Image
-                  src={Send}
-                  width={24}
-                  height={24}
-                  alt="send message"
-                  className="cursor-pointer"
-                  onClick={handleSendMessage}
-                />
+                    <Image
+                      src={Send}
+                      width={24}
+                      height={24}
+                      alt="send message"
+                      className="cursor-pointer"
+                      onClick={handleSendMessage}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
+                    user has rejected you cant send more message
+                  </div>
+                )}
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        if (conversation?.status === ConversationStatus.Requested) {
-          return (
-            <div className="w-full h-full flex flex-col justify-end p-4 ">
-              <div className="w-full bg-[#838CAC] rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 p-10">
-                <span className="text-[#FFFFFF]">
-                  if you reply Mako will be able to call you and see information
-                  such as you active status and when you have read messages.
-                </span>
-                <div className=" flex gap-4 flex-row  items-center">
-                  <button
-                    className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
-                    disabled={loading}
-                    onClick={() =>
-                      updateConversationStatus({
-                        variables: {
-                          conversationId: conversation.id,
-                          status: ConversationStatus.Accepted,
-                        },
-                      })
-                    }
-                  >
-                    accept
-                  </button>
-                  <button
-                    className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
-                    disabled={loading}
-                    onClick={() =>
-                      updateConversationStatus({
-                        variables: {
-                          conversationId: conversation.id,
-                          status: ConversationStatus.Rejected,
-                        },
-                      })
-                    }
-                  >
-                    reject
-                  </button>
+          if (
+            conversation?.status === ConversationStatus.Requested ||
+            conversation?.status === ConversationStatus.Rejected
+          ) {
+            return (
+              <div
+                className="flex w-full h-screen justify-end flex-col  p-5"
+                style={{
+                  height: containerHeight,
+                }}
+              >
+                <MessagesList
+                  conversationResource={conversationResource}
+                  conversation={conversation}
+                />
+
+                <div
+                  style={{ backgroundColor: false ? "#838CAC" : "#c25744" }}
+                  className=" py-6 mt-2 w-full h-auto rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 px-10"
+                >
+                  <span className="text-[#FFFFFF]">
+                    {conversation?.status === "requested"
+                      ? "if you reply Mako will be able to call you and see information such as you active status and when you have read messages."
+                      : "you have rejected messages, if you want again get messages from this user press accept"}
+                  </span>
+                  <div className=" flex gap-4 flex-row  items-center">
+                    <button
+                      className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
+                      disabled={loading}
+                      onClick={() =>
+                        updateConversationStatus({
+                          variables: {
+                            conversationId: conversation.id,
+                            status: ConversationStatus.Accepted,
+                          },
+                        })
+                      }
+                    >
+                      accept
+                    </button>
+                    {conversation?.status === "requested" && (
+                      <button
+                        className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
+                        disabled={loading}
+                        onClick={() =>
+                          updateConversationStatus({
+                            variables: {
+                              conversationId: conversation.id,
+                              status: ConversationStatus.Rejected,
+                            },
+                          })
+                        }
+                      >
+                        reject
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        if (conversation?.status === ConversationStatus.Rejected) {
-          return "rejected";
-        }
+          // if (conversation?.status === ConversationStatus.Rejected) {
+          //   return "rejected";
+          // }
 
-        return <></>;
-      })()}
-    </section>
+          return <></>;
+        })()}
+      </section>
+    </>
   );
 }

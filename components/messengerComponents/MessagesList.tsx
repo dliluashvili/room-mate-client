@@ -287,7 +287,9 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
 
 
-  // const message = messages[index];
+  // const message = messages[index];'
+
+  console.log(conversation)
 
   
   return (
@@ -376,6 +378,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                   >
                     {message.body}
 
+
                     <span
                       className={`absolute bottom-full  right-0 mb-1 w-max bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
                         conversation?.user?.id !== message.author
@@ -386,6 +389,8 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                       {formatTime(messageDate)} {formatDate(messageDate)}
                     </span>
                   </div>
+
+                  
                 </div>
               );
             })}

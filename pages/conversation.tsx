@@ -35,11 +35,13 @@ export default function conversation() {
     }
   );
 
+  console.log(conversation);
+
   const filteredConversationsByStatus = useMemo(() => {
     if (data?.getConversationsForUser.list.length) {
       if (request) {
         return data.getConversationsForUser.list.filter(
-          (conversation) => conversation.status === ConversationStatus.Requested
+          (conversation) => conversation.status !== ConversationStatus.Accepted
         );
       }
 
@@ -51,21 +53,37 @@ export default function conversation() {
     return [];
   }, [data, request]);
 
-  useEffect(() => {
-    if (data?.getConversationsForUser.list.length) {
-      const conversations = data.getConversationsForUser.list;
+  // useEffect(() => {
+  //   if (data?.getConversationsForUser.list.length) {
+  //     const conversations = data.getConversationsForUser.list;
 
-      if (!id && media) {
-        router.push(`/conversation?id=${conversations[0].id}`, undefined, {
+  //     if (!id && media) {
+  //       router.push(`/conversation?id=${conversations[0].id}`, undefined, {
+  //         shallow: true,
+  //       });
+  //     } else if (mobileOpen) {
+  //       router.push(`/conversation?id=${conversations[0].id}`, undefined, {
+  //         shallow: true,
+  //       });
+  //     }
+  //   }
+  // }, [id, data]);
+
+  useEffect(() => {
+    if (filteredConversationsByStatus.length && !id && media) {
+      router.push(
+        `/conversation?id=${filteredConversationsByStatus[0].id} `,
+        undefined,
+        {
           shallow: true,
-        });
-      } else if (mobileOpen) {
-        router.push(`/conversation?id=${conversations[0].id}`, undefined, {
-          shallow: true,
-        });
-      }
+        }
+      );
+    } else if (!filteredConversationsByStatus.length && id) {
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     }
-  }, [id, data]);
+  }, [filteredConversationsByStatus, id]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">
