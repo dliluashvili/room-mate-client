@@ -68,12 +68,13 @@ export default function ConversationsList({
         shallow: true,
       });
     }
-
     if (media) {
       setMobileOpen(true);
     }
   };
 
+
+  
   useEffect(() => {
     const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse();
 
@@ -112,13 +113,17 @@ export default function ConversationsList({
   useEffect(() => {
     const hasRequested =
       data &&
-      data.list.some((item) => item?.status === ConversationStatus.Requested);
+      data.list.some(
+        (item) =>
+          item?.status === ConversationStatus.Requested &&
+          item?.unreadMessagesCount > 0
+      );
     if (hasRequested) {
       setRequestMessage(true);
+    } else {
+      setRequestMessage(false);
     }
   }, [data, request]);
-
-  console.log(conversations);
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
@@ -130,7 +135,21 @@ export default function ConversationsList({
               !request && "text-[#0A7CFF]",
               request && "text-[#838CAC]"
             )}
-            onClick={() => setRequest(false)}
+            onClick={() => {
+              setRequest(false);
+              const filteredAccepts = data?.list?.filter(
+                (item) => item.status === "accepted"
+              );
+
+              const id = filteredAccepts?.[0]?.id;
+
+              if (id) {
+                router.push(`/conversation?id=${id}`);
+              }else {
+                router.push(`/conversation?id=${id}`);
+
+              }
+            }}
           >
             chat
           </span>
@@ -140,7 +159,18 @@ export default function ConversationsList({
               request && "text-[#0A7CFF]",
               !request && "text-[#838CAC]"
             )}
-            onClick={() => setRequest(true)}
+            onClick={() => {
+              setRequest(true);
+              const filteredRequests = data?.list?.filter(
+                (item) => item.status === "requested"
+              );
+
+              const id = filteredRequests?.[0]?.id;
+
+              if (id) {
+                router.push(`/conversation?id=${id}`);
+              } 
+            }}
           >
             request
             {requestMessage && (
