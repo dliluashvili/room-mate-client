@@ -180,7 +180,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
     const conversation = await checkConversationExistence(String(props.id));
 
     if (conversation) {
-      router.push(`/conversation?id=${conversation.sid}`, undefined, {
+      router.push(`/conversation?id=${conversation.id}`, undefined, {
         shallow: true,
       });
     } else {
