@@ -287,15 +287,10 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   return (
     <>
-      <div
-        ref={parentDomRef}
-        className={clsx("overflow-y-auto", { "h-full": loading })}
-      >
+      <div ref={parentDomRef} className="overflow-y-auto">
         {(paginatedMessagesRef?.current?.hasPrevPage || loading) && (
           <div
-            className={clsx("w-full flex justify-center", {
-              "h-[98%] items-start": loading,
-            })}
+            className="w-full flex justify-center mb-3"
             ref={inViewLoaderDomRef}
           >
             <Spinner size="small" />
