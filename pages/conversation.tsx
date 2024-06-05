@@ -68,8 +68,12 @@ export default function conversation() {
   }, [filteredConversationsByStatus]);
 
   useEffect(() => {
-    if (id) {
-      setMobileOpen(!media);
+    if (!media) {
+      if (id) {
+        setMobileOpen(true);
+      } else if (!id) {
+        setMobileOpen(false);
+      }
     }
   }, [media, id]);
 
