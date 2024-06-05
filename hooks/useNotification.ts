@@ -108,8 +108,6 @@ export const useInitializeNotification = () => {
                 (message) => message.author !== twilioClient.user.identity
               );
 
-              console.log({ incomeMessages });
-
               return {
                 sid: unreadMessage.value.sid,
                 unreadMessagesCount: incomeMessages.length,
