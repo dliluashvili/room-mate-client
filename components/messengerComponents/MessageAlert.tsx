@@ -8,7 +8,7 @@ import {
   AlertDialogTitle,
 } from "../../@/components/ui/alert-dialog";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "../../@/components/ui/button";
 import successIcon from "../../public/imgs/Success.svg";
@@ -23,8 +23,9 @@ type Props = {
 };
 
 export function MessageAlert({ feedback, setIsOpen, alertType }: Props) {
-  const [open, setOpen] = useState(true);
+  const [openAlert, setOpenAlert] = useState(true);
   const router = useRouter();
+  const dialogRef = useRef(null);
   const { t } = useTranslation("common");
 
   const getModalType = () => {
@@ -53,7 +54,7 @@ export function MessageAlert({ feedback, setIsOpen, alertType }: Props) {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenAlert(false);
     setIsOpen(false);
     if (type.cancel) {
       window.open(type.href, "_blank");
@@ -64,36 +65,61 @@ export function MessageAlert({ feedback, setIsOpen, alertType }: Props) {
 
   const type = getModalType();
 
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape") {
+        setOpenAlert(false);
+        setIsOpen(false);
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (dialogRef.current && !dialogRef.current.contains(event.target)) {
+        setOpenAlert(false);
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscapeKey);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKey);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <AlertDialog open={feedback && open}>
+    <AlertDialog open={feedback && openAlert}>
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            <Image src={type.img} width={100} height={100} />
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-center">
-            {feedback}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          {type.cancel && (
+        <div ref={dialogRef}>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              <Image src={type.img} width={100} height={100} />
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center">
+              {feedback}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            {type.cancel && (
+              <Button
+                onClick={() => {
+                  setOpenAlert(false);
+                  setIsOpen(false);
+                }}
+                className=" w-auto lg:w-auto text-xs mt-4 sm:mt-0 md:text-sm lg:text-sm "
+              >
+                {type.cancel}
+              </Button>
+            )}
             <Button
-              onClick={() => {
-                setOpen(false);
-                setIsOpen(false);
-              }}
-              className=" w-auto lg:w-auto text-xs mt-4 sm:mt-0 md:text-sm lg:text-sm "
+              className="w-auto text-xs  md:text-sm lg:text-sm "
+              onClick={handleClose}
             >
-              {type.cancel}
+              {type.text}
             </Button>
-          )}
-          <Button
-            className="w-auto text-xs  md:text-sm lg:text-sm "
-            onClick={handleClose}
-          >
-            {type.text}
-          </Button>
-        </AlertDialogFooter>
+          </AlertDialogFooter>
+        </div>
       </AlertDialogContent>
     </AlertDialog>
   );

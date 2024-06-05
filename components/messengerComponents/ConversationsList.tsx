@@ -124,8 +124,6 @@ export default function ConversationsList({
     }
   }, [data, request]);
 
-  console.log(conversations);
-
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
       <div className="block w-full">
@@ -139,7 +137,7 @@ export default function ConversationsList({
             onClick={() => {
               setRequest(false);
               const filteredAccepts = data?.list?.filter(
-                (item) => item.status === "accepted"
+                (item) => item.status === ConversationStatus.Accepted
               );
 
               const id = filteredAccepts?.[0]?.id;
@@ -163,11 +161,11 @@ export default function ConversationsList({
               setRequest(true);
               const filteredRequestsRejects = data?.list?.filter(
                 (item) =>
-                  item.status === "rejected" || item.status === "requested"
+                  item.status === ConversationStatus.Rejected ||
+                  item.status === ConversationStatus.Requested
               );
 
               const id = filteredRequestsRejects?.[0]?.id;
-              console.log(id);
 
               if (id) {
                 router.push(`/conversation?id=${id}`);
@@ -195,27 +193,29 @@ export default function ConversationsList({
             const conversation = conversations[virtualRow.index];
 
             return (
-              <div
-                key={virtualRow.index}
-                data-index={virtualRow.index}
-                ref={virtualizer.measureElement}
-                className={clsx(
-                  "absolute w-full flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3]",
-                  conversation?.id === router.query.id ? "bg-[#e7e7fe]" : ""
-                )}
-                style={{
-                  transform: `translateY(${virtualRow.start}px)`,
-                }}
-                onClick={() =>
-                  !isLoaderRow ? handleClickConversation(conversation.id) : {}
-                }
-              >
+              <>
                 {isLoaderRow ? (
                   <div className="w-full h-full flex justify-center items-center">
                     <Spinner size="small" />
                   </div>
                 ) : (
-                  <>
+                  <div
+                    key={virtualRow.index}
+                    data-index={virtualRow.index}
+                    ref={virtualizer.measureElement}
+                    className={clsx(
+                      "absolute w-full flex flex-row cursor-pointer items-center justify-center lg:justify-between px-6 md:p-0 py-2 lg:py-2 lg:px-4 border-b-2 border-[#E3E3E3]",
+                      conversation?.id === router.query.id ? "bg-[#e7e7fe]" : ""
+                    )}
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                    onClick={() =>
+                      !isLoaderRow
+                        ? handleClickConversation(conversation.id)
+                        : {}
+                    }
+                  >
                     <div className="w-full h-full  relative flex  flex-row  items-center justify-start md:justify-center md:py-2 lg:py-0 lg:justify-start">
                       <div className="w-10 h-10 relative rounded-[50%] overflow-hidden">
                         {conversation?.user?.profileImage ? (
@@ -258,9 +258,9 @@ export default function ConversationsList({
                         </span>
                       </div>
                     )}
-                  </>
+                  </div>
                 )}
-              </div>
+              </>
             );
           })}
         </div>
