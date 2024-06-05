@@ -12,12 +12,14 @@ import {
   lookupOrCreateTwilioUserResourceMutation,
 } from "../../gql/graphqlStatements";
 import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversationUtils";
-import { MessageAlert } from "./MessageAlert";
+import { MessageAlertDialog } from "./MessageAlertDialog";
 import useTranslation from "next-translate/useTranslation";
 import { Spinner } from "../../@/components/ui/spinner";
 
+// TODO: move to types.ts file
 export type messageSendStatusType =
   | "messageSendSuccess"
+  | "userResourceCreation"
   | "conversationResourceCreationError"
   | "participantAddError"
   | "messageSendError";
@@ -85,10 +87,7 @@ export default function ConversationWindow({
     setIsLoading(true); // Set loading state to true before request
     try {
       if (messageText?.length) {
-        const twilioUserResourceResponse =
-          await lookupOrCreateTwilioUserResource({
-            variables: { userId: participantId },
-          });
+        const twilioUserResourceResponse = null;
         if (twilioUserResourceResponse) {
           const conversation = await twilioClient.createConversation();
           const settledParticipantAdd = await Promise.allSettled([
@@ -144,7 +143,7 @@ export default function ConversationWindow({
   }, [setIsOpen]);
 
   return messageSendStatus ? (
-    <MessageAlert
+    <MessageAlertDialog
       feedback={messageSendStatus.feedback}
       alertType={messageSendStatus.type}
       setIsOpen={setIsOpen}

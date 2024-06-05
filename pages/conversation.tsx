@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ConversationsList from "../components/messengerComponents/ConversationsList";
+import ConversationsList from "../components/conversationComponents/ConversationsList";
 import NewHeader from "../components/NewHeader";
 import { useCheckAuth } from "../components/hooks/useCheckAuth";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { getConversationsForUserQuery } from "../gql/graphqlStatements";
 import { ConversationStatus } from "../gql/graphql";
-import Conversation from "../components/messengerComponents/Conversation";
-import { RouterQuery } from "../components/messengerComponents/types";
+import Conversation from "../components/conversationComponents/Conversation";
+import { RouterQuery } from "../components/conversationComponents/types";
 import { LIMIT, OFFSET } from "../constants/pagination";
 import { useMediaQuery } from "react-responsive";
+import { twilioConnectionStateVar } from "../store/twilioVars";
+import { TwilioConnectionAlertDialog } from "../components/conversationComponents/TwilioConnectionAlertDialog";
 
 export default function conversation() {
   useCheckAuth();
@@ -22,6 +24,8 @@ export default function conversation() {
 
   const router = useRouter();
   const { id }: RouterQuery = router.query;
+
+  const twilioConnectionState = useReactiveVar(twilioConnectionStateVar);
 
   const { data, fetchMore: fetchMoreConversationsForUser } = useQuery(
     getConversationsForUserQuery,
@@ -77,26 +81,33 @@ export default function conversation() {
     }
   }, [media, id]);
 
+  const isTwilioConnectionDown =
+    twilioConnectionState === "disconnected" ||
+    twilioConnectionState === "denied";
+
   return (
-    <main className="w-full flex flex-col h-screen overflow-hidden">
-      <NewHeader />
-      <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
-        <ConversationsList
-          data={data?.getConversationsForUser}
-          request={request}
-          setRequest={setRequest}
-          setMobileOpen={setMobileOpen}
-          conversations={filteredConversationsByStatus}
-          pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
-          fetchMoreConversationsForUser={fetchMoreConversationsForUser}
-        />
-        <Conversation
-          key={id}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-          setRequest={setRequest}
-        />
-      </div>
-    </main>
+    <>
+      <TwilioConnectionAlertDialog open={isTwilioConnectionDown} />
+      <main className="w-full flex flex-col h-screen overflow-hidden">
+        <NewHeader />
+        <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
+          <ConversationsList
+            data={data?.getConversationsForUser}
+            request={request}
+            setRequest={setRequest}
+            setMobileOpen={setMobileOpen}
+            conversations={filteredConversationsByStatus}
+            pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
+            fetchMoreConversationsForUser={fetchMoreConversationsForUser}
+          />
+          <Conversation
+            key={id}
+            mobileOpen={mobileOpen}
+            setMobileOpen={setMobileOpen}
+            setRequest={setRequest}
+          />
+        </div>
+      </main>
+    </>
   );
 }
