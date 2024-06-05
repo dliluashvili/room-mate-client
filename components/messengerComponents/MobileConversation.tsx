@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import CloseCircle from "../../public/newImages/close-circle.svg";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
 import MessagesList from "./MessagesList";
@@ -15,12 +14,11 @@ import {
 } from "../../gql/graphqlStatements";
 import { useApolloClient, useMutation } from "@apollo/client";
 import AutosizeTextarea from "react-textarea-autosize";
-import { useRouter } from "next/router";
-import { Spinner } from "../../@/components/ui/spinner";
-import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import useTranslation from "next-translate/useTranslation";
 import { useToast } from "../../@/components/ui/use-toast";
+import { useRouter } from "next/router";
+
 type Props = {
   mobileOpen: boolean;
   setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,14 +34,14 @@ export default function MobileConversation({
   conversation,
   setRequest,
 }: Props) {
-  const media = useMediaQuery({
-    query: "(min-width: 768px)",
-  });
-
   const [message, setMessage] = useState("");
+
   const headerRef = useRef<HTMLDivElement>(null);
-  const client = useApolloClient();
+
   const router = useRouter();
+
+  const client = useApolloClient();
+
   const { t } = useTranslation("common");
   const { toast } = useToast();
 
@@ -144,8 +142,6 @@ export default function MobileConversation({
     setMessage(event.target.value);
   };
 
-
-
   const handleSendMessage = () => {
     if (
       conversationResource &&
@@ -163,7 +159,20 @@ export default function MobileConversation({
     }
   };
 
-  // FIXME: sometimes headerRef.current?.clientHeight undefined and textarea is hiding below visible area
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // Prevent default form submission
+      handleSendMessage();
+    }
+  };
+
+  const handleBackNavigation = () => {
+    setMobileOpen(false);
+    router.push("conversation/", undefined, {
+      shallow: true,
+    });
+  };
+
   const containerHeight = headerRef.current?.clientHeight
     ? `calc(100% - ${headerRef.current.clientHeight}px)`
     : "100%";
@@ -173,19 +182,12 @@ export default function MobileConversation({
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default form submission
-      handleSendMessage();
-    }
-  };
-
   return (
     <>
       <section
         className={clsx(
           "w-full bg-[#FFFFFF] h-full flex-col absolute z-50",
-          mobileOpen && !media && router.query.id ? "flex" : "hidden"
+          mobileOpen ? "flex" : "hidden"
         )}
       >
         <div
@@ -193,12 +195,7 @@ export default function MobileConversation({
           className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
         >
           <div className="flex flex-row items-center">
-            <div
-              onClick={() => {
-                setMobileOpen(false);
-              }}
-              className="mr-4"
-            >
+            <div onClick={handleBackNavigation} className="mr-4">
               <Image src={ArrowLeft} alt="avatar" />
             </div>
 
@@ -222,18 +219,6 @@ export default function MobileConversation({
               {/* <span>active now</span> */}
             </div>
           </div>
-          {/* <div className="h-full flex items-start justify-start">
-         
-            <Image
-              onClick={() => setMobileOpen(false)}
-              src={CloseCircle}
-              alt="123"
-              width={32}
-              height={32}
-              className="cursor-pointer"
-            />
-       
-        </div> */}
         </div>
         {(() => {
           if (conversation?.status === ConversationStatus.Accepted) {

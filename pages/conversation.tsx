@@ -51,37 +51,27 @@ export default function conversation() {
     return [];
   }, [data, request]);
 
-  // useEffect(() => {
-  //   if (data?.getConversationsForUser.list.length) {
-  //     const conversations = data.getConversationsForUser.list;
-
-  //     if (!id && media) {
-  //       router.push(`/conversation?id=${conversations[0].id}`, undefined, {
-  //         shallow: true,
-  //       });
-  //     } else if (mobileOpen) {
-  //       router.push(`/conversation?id=${conversations[0].id}`, undefined, {
-  //         shallow: true,
-  //       });
-  //     }
-  //   }
-  // }, [id, data]);
-
   useEffect(() => {
     if (filteredConversationsByStatus.length && !id && media) {
-      router.push(
-        `/conversation?id=${filteredConversationsByStatus[0].id} `,
+      router.replace(
+        `/conversation?id=${filteredConversationsByStatus[0].id}`,
         undefined,
         {
           shallow: true,
         }
       );
     } else if (!filteredConversationsByStatus.length && id) {
-      router.push(`/conversation`, undefined, {
+      router.replace(`/conversation`, undefined, {
         shallow: true,
       });
     }
-  }, [filteredConversationsByStatus, id]);
+  }, [filteredConversationsByStatus]);
+
+  useEffect(() => {
+    if (id) {
+      setMobileOpen(!media);
+    }
+  }, [media, id]);
 
   return (
     <main className="w-full flex flex-col h-screen overflow-hidden">
