@@ -294,7 +294,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
         {(paginatedMessagesRef?.current?.hasPrevPage || loading) && (
           <div
             className={clsx("w-full flex justify-center", {
-              "h-full items-start": loading,
+              "h-[98%] items-start": loading,
             })}
             ref={inViewLoaderDomRef}
           >
