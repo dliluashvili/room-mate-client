@@ -137,6 +137,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
         conversation={conversation}
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
+        setRequest={setRequest}
       />
     </>
   );

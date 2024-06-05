@@ -51,7 +51,7 @@ export default function ConversationsList({
   const { id }: RouterQuery = router.query;
   const [requestMessage, setRequestMessage] = useState(false);
 
-  const media = useMediaQuery({ query: "(max-width: 768px)" });
+  const media = useMediaQuery({ query: "(min-width: 768px)" });
 
   const virtualizer = useVirtualizer({
     count: pageInfo?.hasNextPage
@@ -68,7 +68,7 @@ export default function ConversationsList({
         shallow: true,
       });
     }
-    if (media) {
+    if (!media) {
       setMobileOpen(true);
     }
   };
@@ -142,10 +142,10 @@ export default function ConversationsList({
 
               const id = filteredAccepts?.[0]?.id;
 
-              if (id) {
+              if (id && media) {
                 router.push(`/conversation?id=${id}`);
-              } else {
-                router.push(`/conversation?id=${id}`);
+              } else if (id && !media) {
+                router.push(`/conversation`);
               }
             }}
           >
@@ -167,8 +167,10 @@ export default function ConversationsList({
 
               const id = filteredRequestsRejects?.[0]?.id;
 
-              if (id) {
+              if (id && media) {
                 router.push(`/conversation?id=${id}`);
+              } else if (id && !media) {
+                router.push(`/conversation`);
               }
             }}
           >
