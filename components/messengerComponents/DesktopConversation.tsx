@@ -1,9 +1,7 @@
 import Image from "next/image";
-
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-
 import { useRef, useState } from "react";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
@@ -17,8 +15,7 @@ import {
 } from "../../gql/graphqlStatements";
 import useTranslation from "next-translate/useTranslation";
 import { useToast } from "../../@/components/ui/use-toast";
-import { ToastAction } from "../../@/components/ui/toast";
-import { Button } from "../../@/components/ui/button";
+
 
 type Props = {
   conversationResource: Conversation;
@@ -145,7 +142,6 @@ export default function DesktopConversation({
       });
     }
   };
-  console.log(conversation?.status);
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -155,7 +151,7 @@ export default function DesktopConversation({
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default form submission
+      event.preventDefault();
       handleSendMessage();
     }
   };
@@ -168,9 +164,6 @@ export default function DesktopConversation({
     conversation?.user?.firstname && conversation?.user?.lastname
       ? `${conversation.user.firstname} ${conversation.user.lastname}`
       : "User";
-
-  // Assuming conversation.user.sid is the SID of the user participant in the conversation
-  // You can use userStatus to determine if the user is online or offline
 
   return (
     <>
@@ -272,8 +265,8 @@ export default function DesktopConversation({
                 >
                   <span className="text-[#FFFFFF]">
                     {conversation?.status === ConversationStatus.Requested
-                      ? t("acceptReject")
-                      : "you have rejected messages, if you want again get messages from this user press accept"}
+                      ? t("acceptReject", { receiverName: participantFullName })
+                      : t("rejectedMessages", { participantFullName })}
                   </span>
                   <div className=" flex gap-4 flex-row  items-center">
                     <button
