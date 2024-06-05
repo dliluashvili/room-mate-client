@@ -19,11 +19,14 @@ import { useRouter } from "next/router";
 import { Spinner } from "../../@/components/ui/spinner";
 import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
+import useTranslation from "next-translate/useTranslation";
+import { useToast } from "../../@/components/ui/use-toast";
 type Props = {
   mobileOpen: boolean;
   setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>;
   conversationResource: Conversation;
   conversation: ConversationWithUserObject;
+  setRequest: any;
 };
 
 export default function MobileConversation({
@@ -31,6 +34,7 @@ export default function MobileConversation({
   setMobileOpen,
   conversationResource,
   conversation,
+  setRequest,
 }: Props) {
   const media = useMediaQuery({
     query: "(min-width: 768px)",
@@ -40,6 +44,8 @@ export default function MobileConversation({
   const headerRef = useRef<HTMLDivElement>(null);
   const client = useApolloClient();
   const router = useRouter();
+  const { t } = useTranslation("common");
+  const { toast } = useToast();
 
   const [updateConversationStatus, { loading }] = useMutation(
     updateConversationStatusMutation,
@@ -138,10 +144,22 @@ export default function MobileConversation({
     setMessage(event.target.value);
   };
 
+
+
   const handleSendMessage = () => {
-    if (message.length) {
+    if (
+      conversationResource &&
+      message.length &&
+      conversation?.user?.conversationStatus !== "rejected"
+    ) {
       conversationResource.sendMessage(message);
       setMessage("");
+    } else {
+      toast({
+        variant: "destructiveMobile",
+        title: "Blocked",
+        description: "User has blocked you, you cant send more messages",
+      });
     }
   };
 
@@ -167,13 +185,7 @@ export default function MobileConversation({
       <section
         className={clsx(
           "w-full bg-[#FFFFFF] h-full flex-col absolute z-50",
-          mobileOpen ? "" : undefined, // No class for mobileOpen
-          conversation?.id === router.query.id &&
-            conversation?.id !== undefined &&
-            conversation?.id !== null &&
-            !media
-            ? "flex"
-            : "hidden"
+          mobileOpen && !media && router.query.id ? "flex" : "hidden"
         )}
       >
         <div
@@ -184,8 +196,6 @@ export default function MobileConversation({
             <div
               onClick={() => {
                 setMobileOpen(false);
-                
-               
               }}
               className="mr-4"
             >
@@ -238,66 +248,98 @@ export default function MobileConversation({
                   conversationResource={conversationResource}
                   conversation={conversation}
                 />
-                <div className="flex w-full h-auto flex-row items-center px-3 py-4">
-                  <AutosizeTextarea
-                    placeholder="send message"
-                    className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
-                    value={message}
-                    onChange={handleMessageChange}
-                    onKeyDown={handleKeyDown}
-                  />
+                {conversation &&
+                conversation?.user?.conversationStatus !==
+                  ConversationStatus.Rejected ? (
+                  <div className="flex w-full h-auto flex-row items-center px-3 py-4">
+                    <AutosizeTextarea
+                      placeholder="send message"
+                      className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
+                      value={message}
+                      onChange={handleMessageChange}
+                      onKeyDown={handleKeyDown}
+                    />
 
-                  <Image
-                    src={Send}
-                    width={24}
-                    height={24}
-                    alt="send message"
-                    className="cursor-pointer"
-                    onClick={handleSendMessage}
-                  />
-                </div>
+                    <Image
+                      src={Send}
+                      width={24}
+                      height={24}
+                      alt="send message"
+                      className="cursor-pointer"
+                      onClick={handleSendMessage}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex w-full h-auto flex-row justify-center items-center px-3 py-4 ">
+                    user has rejected you cant send more message
+                  </div>
+                )}
               </div>
             );
           }
 
-          if (conversation?.status === ConversationStatus.Requested) {
+          if (
+            conversation?.status === ConversationStatus.Requested ||
+            conversation?.status === ConversationStatus.Rejected
+          ) {
             return (
-              <div className="w-full h-full flex flex-col justify-end  p-6 ">
-                <div className="w-full bg-[#838CAC] rounded-lg flex flex-col items-center p-6">
-                  <span className="text-[#FFFFFF]">
-                    if you reply Mako will be able to call you and see
-                    information such as you active status and when you have read
-                    messages.
+              <div
+                className="flex w-full h-screen justify-end flex-col  p-5 pt-4"
+                style={{
+                  height: containerHeight,
+                }}
+              >
+                <MessagesList
+                  conversationResource={conversationResource}
+                  conversation={conversation}
+                />
+
+                <div
+                  style={{
+                    backgroundColor:
+                      conversation?.status === ConversationStatus.Requested
+                        ? "#838CAC"
+                        : "#c25744",
+                  }}
+                  className=" w-full rounded-lg flex flex-col items-center p-6"
+                >
+                  <span className="text-[#FFFFFF] text-sm">
+                    {conversation?.status === ConversationStatus.Requested
+                      ? t("acceptReject", { receiverName: participantFullName })
+                      : t("rejectedMessages", { participantFullName })}
                   </span>
                   <div className="w-full flex gap-4 flex-row justify-center items-center mt-6">
                     <button
+                      className="py-2 w-full px-10 bg-white rounded-xl text-sm text-[#838CAC]"
                       disabled={loading}
-                      onClick={() =>
+                      onClick={() => {
+                        setRequest(false);
                         updateConversationStatus({
                           variables: {
                             conversationId: conversation.id,
                             status: ConversationStatus.Accepted,
                           },
-                        })
-                      }
-                      className="py-2 w-full px-10 bg-white rounded-xl text-[#838CAC]"
+                        });
+                      }}
                     >
-                      accept
+                      {t("accept")}
                     </button>
-                    <button
-                      disabled={loading}
-                      onClick={() =>
-                        updateConversationStatus({
-                          variables: {
-                            conversationId: conversation.id,
-                            status: ConversationStatus.Rejected,
-                          },
-                        })
-                      }
-                      className="py-2 px-10 w-full text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
-                    >
-                      reject
-                    </button>
+                    {conversation?.status === ConversationStatus.Requested && (
+                      <button
+                        className="py-2 px-10 w-full text-[#FFFFFF] text-sm border border-[#FFFFFF] rounded-xl"
+                        disabled={loading}
+                        onClick={() =>
+                          updateConversationStatus({
+                            variables: {
+                              conversationId: conversation.id,
+                              status: ConversationStatus.Rejected,
+                            },
+                          })
+                        }
+                      >
+                        {t("reject")}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
