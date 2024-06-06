@@ -143,9 +143,9 @@ export default function ConversationsList({
               const id = filteredAccepts?.[0]?.id;
 
               if (id && media) {
-                router.push(`/conversation?id=${id}`);
+                router.replace(`/conversation?id=${id}`);
               } else if (id && !media) {
-                router.push(`/conversation`);
+                router.replace(`/conversation`);
               }
             }}
           >
@@ -168,9 +168,9 @@ export default function ConversationsList({
               const id = filteredRequestsRejects?.[0]?.id;
 
               if (id && media) {
-                router.push(`/conversation?id=${id}`);
+                router.replace(`/conversation?id=${id}`);
               } else if (id && !media) {
-                router.push(`/conversation`);
+                router.replace(`/conversation`);
               }
             }}
           >
