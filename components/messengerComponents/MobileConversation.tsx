@@ -186,7 +186,7 @@ export default function MobileConversation({
     <>
       <section
         className={clsx(
-          "w-screen bg-[#FFFFFF] h-full flex-col top-0 fixed z-50",
+          "w-screen bg-[#FFFFFF] h-full  overscroll-none overflow-y-hidden flex-col top-0 fixed z-50",
           mobileOpen ? "flex" : "hidden"
         )}
       >
