@@ -17,7 +17,7 @@ import classNames from "classnames";
 import Sms from "../../../../public/newImages/sms-edit.svg";
 import Image from "next/image";
 import { checkConversationExistence } from "../../../utils/conversationUtils";
-import ConversationWindow from "../../../messengerComponents/ConverationWindow";
+import ConversationWindow from "../../../conversationComponents/ConversationWindow";
 
 interface ISidebar {
   firstname: string;

@@ -8,8 +8,6 @@ import { makeApolloClient } from "../../providers/apolloProvider";
 export const checkConversationExistence = async (
   participantId: string
 ): Promise<ConversationWithUserObject | null> => {
-  console.log({ participantId });
-
   const client = makeApolloClient();
 
   const conversationsFromCache = client.cache.readQuery({

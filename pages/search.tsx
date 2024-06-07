@@ -20,7 +20,7 @@ import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
 
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
-import ConversationWindow from "../components/messengerComponents/ConverationWindow";
+import ConversationWindow from "../components/conversationComponents/ConversationWindow";
 import { twilioClientVar } from "../store/twilioVars";
 import { useReactiveVar } from "@apollo/client";
 

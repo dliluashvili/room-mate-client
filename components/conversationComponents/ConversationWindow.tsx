@@ -12,12 +12,14 @@ import {
   lookupOrCreateTwilioUserResourceMutation,
 } from "../../gql/graphqlStatements";
 import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversationUtils";
-import { MessageAlert } from "./MessageAlert";
+import { MessageAlertDialog } from "./MessageAlertDialog";
 import useTranslation from "next-translate/useTranslation";
 import { Spinner } from "../../@/components/ui/spinner";
 
+// TODO: move to types.ts file
 export type messageSendStatusType =
   | "messageSendSuccess"
+  | "userResourceCreation"
   | "conversationResourceCreationError"
   | "participantAddError"
   | "messageSendError";
@@ -144,7 +146,7 @@ export default function ConversationWindow({
   }, [setIsOpen]);
 
   return messageSendStatus ? (
-    <MessageAlert
+    <MessageAlertDialog
       feedback={messageSendStatus.feedback}
       alertType={messageSendStatus.type}
       setIsOpen={setIsOpen}
