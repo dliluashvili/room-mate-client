@@ -143,10 +143,7 @@ export default function DesktopConversation({
         if (data?.getConversationsForUser) {
           const updateConversations = data.getConversationsForUser.list.map(
             (conversation) => {
-              if (
-                conversation.sid === sid &&
-                !amIUpdaterOfConversationStatus.current
-              ) {
+              if (conversation.sid === sid) {
                 return {
                   ...conversation,
                   user: {
@@ -249,7 +246,11 @@ export default function DesktopConversation({
       twilioClient.addListener(
         "conversationUpdated",
         ({ updateReasons, conversation }) => {
-          if (updateReasons.includes("state") && conversation) {
+          if (
+            updateReasons.includes("state") &&
+            conversation &&
+            !amIUpdaterOfConversationStatus.current
+          ) {
             updateConversationStatusInCache(
               conversation.sid,
               conversation.state.current
