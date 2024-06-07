@@ -192,9 +192,9 @@ export default function MobileConversation({
       >
         <div
           ref={headerRef}
-          className="flex flex-row w-full justify-between items-center pt-4 pb-4 px-6 shadow-md"
+          className="flex flex-row w-full justify-between  items-center pt-4 pb-4 px-6 shadow-md "
         >
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center ">
             <div onClick={handleBackNavigation} className="mr-4">
               <Image src={ArrowLeft} alt="avatar" />
             </div>
