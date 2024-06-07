@@ -87,7 +87,10 @@ export default function ConversationWindow({
     setIsLoading(true); // Set loading state to true before request
     try {
       if (messageText?.length) {
-        const twilioUserResourceResponse = null;
+        const twilioUserResourceResponse =
+          await lookupOrCreateTwilioUserResource({
+            variables: { userId: participantId },
+          });
         if (twilioUserResourceResponse) {
           const conversation = await twilioClient.createConversation();
           const settledParticipantAdd = await Promise.allSettled([
