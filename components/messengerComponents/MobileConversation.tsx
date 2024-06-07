@@ -150,11 +150,11 @@ export default function MobileConversation({
     ) {
       conversationResource.sendMessage(message);
       setMessage("");
-    } else {
+    } else if (message !== "") {
       toast({
         variant: "destructiveMobile",
         title: "Blocked",
-        description: "User has blocked you, you cant send more messages",
+        description: t("rejected"),
       });
     }
   };
@@ -255,8 +255,8 @@ export default function MobileConversation({
                     />
                   </div>
                 ) : (
-                  <div className="flex w-full h-auto flex-row justify-center items-center px-3 py-4 ">
-                    user has rejected you cant send more message
+                  <div className="flex w-full text-center text-sm h-auto flex-row justify-center items-center px-3 py-4 ">
+                    {t("rejected")}
                   </div>
                 )}
               </div>
