@@ -299,5 +299,7 @@
   "accept": "Accept",
   "reject": "Reject",
   "rejected": "You can't send messages, and you won't receive theirs either. It appears that your message was rejected.",
-  "rejectedMessages": "Since you've declined the message, you're currently unable to send messages. To proceed with communication, please click the 'accept' button.   "
+  "rejectedMessages": "Since you've declined the message, you're currently unable to send messages. To proceed with communication, please click the 'accept' button.",
+  "twilioError": "Oops! It looks like there's an issue with the website  🧐 Please try refreshing the page to resolve it 💫",
+  "refresh": "Refresh website"
 }
