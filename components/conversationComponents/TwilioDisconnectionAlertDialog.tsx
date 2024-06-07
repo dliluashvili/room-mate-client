@@ -13,7 +13,7 @@ type Props = {
   open: boolean;
 };
 
-export const TwilioConnectionAlertDialog = ({ open }: Props) => {
+export const TwilioDisconnectionAlertDialog = ({ open }: Props) => {
   const [openAlert, setOpenAlert] = useState(null);
   const { t } = useTranslation("common");
 

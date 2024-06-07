@@ -2,19 +2,20 @@ import Image from "next/image";
 import Send from "../../public/newImages/send.svg";
 import MessagesList from "./MessagesList";
 import { Conversation } from "@twilio/conversations";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AutosizeTextarea from "react-textarea-autosize";
 import {
   ConversationStatus,
   ConversationWithUserObject,
 } from "../../gql/graphql";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation, useReactiveVar } from "@apollo/client";
 import {
   getConversationsForUserQuery,
+  updateConversationResourceStateMutation,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
 import useTranslation from "next-translate/useTranslation";
-import { useToast } from "../../@/components/ui/use-toast";
+import { twilioClientVar } from "../../store/twilioVars";
 
 type Props = {
   conversationResource: Conversation;
@@ -29,10 +30,12 @@ export default function DesktopConversation({
 }: Props) {
   const [message, setMessage] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
+
+  const amIUpdaterOfConversationStatus = useRef(null);
 
   const client = useApolloClient();
-  const { t } = useTranslation("common");
+
+  const twilioClient = useReactiveVar(twilioClientVar);
 
   const [updateConversationStatus, { loading }] = useMutation(
     updateConversationStatusMutation,
@@ -125,20 +128,63 @@ export default function DesktopConversation({
     }
   );
 
+  const [updateConversationResourceState] = useMutation(
+    updateConversationResourceStateMutation
+  );
+
+  const { t } = useTranslation("common");
+
+  const updateConversationStatusInCache = (sid: string, status: string) => {
+    client.cache.updateQuery(
+      {
+        query: getConversationsForUserQuery,
+      },
+      (data) => {
+        if (data?.getConversationsForUser) {
+          const updateConversations = data.getConversationsForUser.list.map(
+            (conversation) => {
+              if (
+                conversation.sid === sid &&
+                !amIUpdaterOfConversationStatus.current
+              ) {
+                return {
+                  ...conversation,
+                  user: {
+                    ...conversation.user,
+                    conversationStatus:
+                      status === "active"
+                        ? ConversationStatus.Accepted
+                        : ConversationStatus.Rejected,
+                  },
+                };
+              }
+
+              return conversation;
+            }
+          );
+
+          return {
+            ...data,
+            getConversationsForUser: {
+              ...data.getConversationsForUser,
+              list: updateConversations,
+            },
+          };
+        }
+      }
+    );
+
+    amIUpdaterOfConversationStatus.current = null;
+  };
+
   const handleSendMessage = () => {
     if (
       conversationResource &&
       message.length &&
-      conversation?.user?.conversationStatus !== "rejected"
+      conversation?.user.conversationStatus !== ConversationStatus.Rejected
     ) {
       conversationResource.sendMessage(message);
       setMessage("");
-    } else if (message !== "") {
-      toast({
-        variant: "destructive",
-        title: "Blocked",
-        description: t("rejected"),
-      });
     }
   };
 
@@ -154,6 +200,65 @@ export default function DesktopConversation({
       handleSendMessage();
     }
   };
+
+  const handleAcceptClick = () => {
+    setRequest(false);
+
+    amIUpdaterOfConversationStatus.current = true;
+
+    updateConversationStatus({
+      variables: {
+        conversationId: conversation.id,
+        status: ConversationStatus.Accepted,
+      },
+    });
+
+    if (conversationResource.state.current === "inactive") {
+      updateConversationResourceState({
+        variables: {
+          sid: conversationResource.sid,
+          state: "active",
+        },
+      });
+    }
+  };
+
+  const handleRejectClick = async () => {
+    amIUpdaterOfConversationStatus.current = true;
+
+    updateConversationStatus({
+      variables: {
+        conversationId: conversation.id,
+        status: ConversationStatus.Rejected,
+      },
+    });
+
+    if (conversationResource.state.current === "active") {
+      updateConversationResourceState({
+        variables: {
+          sid: conversationResource.sid,
+          state: "inactive",
+        },
+      });
+    }
+  };
+
+  // listen conversation status change
+  useEffect(() => {
+    if (twilioClient) {
+      twilioClient.addListener(
+        "conversationUpdated",
+        ({ updateReasons, conversation }) => {
+          if (updateReasons.includes("state") && conversation) {
+            updateConversationStatusInCache(
+              conversation.sid,
+              conversation.state.current
+            );
+          }
+        }
+      );
+    }
+  }, [twilioClient]);
 
   const containerHeight = headerRef.current?.clientHeight
     ? `calc(100% - ${headerRef.current.clientHeight}px)`
@@ -207,9 +312,8 @@ export default function DesktopConversation({
                   conversationResource={conversationResource}
                   conversation={conversation}
                 />
-                {conversation &&
-                conversation?.user?.conversationStatus !==
-                  ConversationStatus.Rejected ? (
+                {conversation?.user.conversationStatus !==
+                ConversationStatus.Rejected ? (
                   <div className="flex w-full h-auto flex-row items-center px-3 py-4 ">
                     <AutosizeTextarea
                       placeholder="send message"
@@ -271,15 +375,7 @@ export default function DesktopConversation({
                     <button
                       className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
                       disabled={loading}
-                      onClick={() => {
-                        setRequest(false);
-                        updateConversationStatus({
-                          variables: {
-                            conversationId: conversation.id,
-                            status: ConversationStatus.Accepted,
-                          },
-                        });
-                      }}
+                      onClick={handleAcceptClick}
                     >
                       {t("accept")}
                     </button>
@@ -287,14 +383,7 @@ export default function DesktopConversation({
                       <button
                         className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
                         disabled={loading}
-                        onClick={() =>
-                          updateConversationStatus({
-                            variables: {
-                              conversationId: conversation.id,
-                              status: ConversationStatus.Rejected,
-                            },
-                          })
-                        }
+                        onClick={handleRejectClick}
                       >
                         {t("reject")}
                       </button>
