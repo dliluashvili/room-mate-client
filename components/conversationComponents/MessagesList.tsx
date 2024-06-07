@@ -155,12 +155,6 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
     }
   };
 
-  const advanceLastReadMessageIndexForCurrentUser = (message: Message) => {
-    if (message.author === twilioClient.user.identity) {
-      conversationResource?.advanceLastReadMessageIndex(message.index);
-    }
-  };
-
   const formatDate = (date) => {
     if (isToday(date)) {
       return "Today";
@@ -174,7 +168,12 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
   const formatTime = (date) => format(date, "HH:mm:ss");
 
   const handleMessageAdded = (message: Message) => {
-    advanceLastReadMessageIndexForCurrentUser(message);
+    if (message.author === twilioClient.user.identity) {
+      conversationResource?.advanceLastReadMessageIndex(message.index);
+
+      // scroll to bottom
+      virtualizer.scrollOffset = virtualizer.getTotalSize();
+    }
 
     setMessages((prevMessages) => [message, ...prevMessages]);
   };

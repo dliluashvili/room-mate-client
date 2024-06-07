@@ -184,7 +184,7 @@ export default function ConversationsList({
       </div>
       <div className="w-full overflow-auto " ref={parentDomRef}>
         <div
-          className="relative w-full  "
+          className="relative w-full"
           style={{
             height: `${virtualizer.getTotalSize()}px`,
           }}

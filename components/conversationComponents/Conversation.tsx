@@ -15,7 +15,12 @@ import {
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
 
-const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
+const ConversationComponent = ({
+  mobileOpen,
+  setMobileOpen,
+  setRequest,
+  media,
+}) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
@@ -55,7 +60,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const getConversationResource = async (twilioClient: Client, sid: string) => {
     try {
       const conversationResourceResponse =
-        await twilioClient.getConversationBySid(sid);
+        await twilioClient.peekConversationBySid(sid);
 
       setConversationResource(conversationResourceResponse);
     } catch (error) {
@@ -115,18 +120,21 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
       >
         reconnect
       </button> */}
-      <DesktopConversation
-        conversationResource={conversationResource}
-        conversation={conversation}
-        setRequest={setRequest}
-      />
-      <MobileConversation
-        conversationResource={conversationResource}
-        conversation={conversation}
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-        setRequest={setRequest}
-      />
+      {media ? (
+        <DesktopConversation
+          conversationResource={conversationResource}
+          conversation={conversation}
+          setRequest={setRequest}
+        />
+      ) : (
+        <MobileConversation
+          conversationResource={conversationResource}
+          conversation={conversation}
+          mobileOpen={mobileOpen}
+          setMobileOpen={setMobileOpen}
+          setRequest={setRequest}
+        />
+      )}
     </>
   );
 };

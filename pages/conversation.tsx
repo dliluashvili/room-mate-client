@@ -105,6 +105,7 @@ export default function conversation() {
             mobileOpen={mobileOpen}
             setMobileOpen={setMobileOpen}
             setRequest={setRequest}
+            media={media}
           />
         </div>
       </main>

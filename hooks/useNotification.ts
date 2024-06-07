@@ -60,7 +60,7 @@ export const useInitializeNotification = () => {
   ) => {
     const promisedConversations =
       conversations?.map(async (conversation) => {
-        return await twilioClient.getConversationBySid(conversation.sid);
+        return await twilioClient.peekConversationBySid(conversation.sid);
       }) ?? [];
 
     const conversationResources = await Promise.allSettled(
@@ -135,7 +135,7 @@ export const useInitializeNotification = () => {
 
     return unreadMessagesCountFromMessagesList.reduce(
       (acc: PromisedUnreadMessagesCount[] | [], curr) => {
-        if (curr.status === "fulfilled") {
+        if (curr.status === "fulfilled" && curr.value) {
           return [
             ...acc,
             {
@@ -341,8 +341,6 @@ export const useInitializeNotification = () => {
   };
 
   const handleMessageAdded = async (message: Message) => {
-    console.log({ message });
-
     updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
       [message],
       message.conversation.sid
