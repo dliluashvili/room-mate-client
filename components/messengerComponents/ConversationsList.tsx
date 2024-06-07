@@ -125,7 +125,7 @@ export default function ConversationsList({
   }, [data, request]);
 
   return (
-    <section className="flex flex-col w-full md:w-[100px] lg:w-[400px] h-full items-start rounded-md overflow-hidden bg-[#FFFFFF] border-b-4 border-[gray]">
+    <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md overflow-hidden bg-[#FFFFFF] md:border-b-4 border-[gray]">
       <div className="block w-full">
         <div className="flex flex-row md:flex-col lg:flex-row items-center gap-6 justify-start px-6 py-2">
           <span
@@ -182,9 +182,9 @@ export default function ConversationsList({
         </div>
         <div className="h-[1px] w-full bg-[#E3E3E3]"></div>
       </div>
-      <div className="w-full overflow-auto" ref={parentDomRef}>
+      <div className="w-full overflow-auto " ref={parentDomRef}>
         <div
-          className="relative w-full"
+          className="relative w-full  "
           style={{
             height: `${virtualizer.getTotalSize()}px`,
           }}
