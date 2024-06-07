@@ -198,6 +198,35 @@ export const useInitializeNotification = () => {
     return nextConversations;
   };
 
+  const moveConversationToTop = (
+    conversations: ConversationWithUserObject[],
+    conversationSid: string
+  ) => {
+    if (conversations.length > 1) {
+      const conversationIndex = conversations.findIndex(
+        (conversation) => conversation.sid === conversationSid
+      );
+
+      if (conversationIndex) {
+        const prevConversations = conversations.slice(0, conversationIndex);
+
+        const conversation = conversations.find(
+          (_, index) => index === conversationIndex
+        );
+
+        if (conversationIndex < conversations.length - 1) {
+          const nextConversations = conversations.slice(conversationIndex + 1);
+
+          return [conversation, ...prevConversations, ...nextConversations];
+        }
+
+        return [conversation, ...prevConversations];
+      }
+    }
+
+    return conversations;
+  };
+
   const updateConversationsCacheWithNewConversationAndUnreadMessagesCount =
     async (messages: Message[], sid: string) => {
       const receivedMessages = messages.filter(
@@ -205,13 +234,13 @@ export const useInitializeNotification = () => {
       );
       const unreadMessagesCount = receivedMessages.length;
 
-      if (unreadMessagesCount) {
-        // During component initialization data(getConversationsForUser) is undefined.
-        // This is why we need to take latest snapshot from cache every time function will be called
-        const getConversationsForUserData = client.cache.readQuery({
-          query: getConversationsForUserQuery,
-        });
+      // During component initialization data(getConversationsForUser) is undefined.
+      // This is why we need to take latest snapshot from cache every time function will be called
+      const getConversationsForUserData = client.cache.readQuery({
+        query: getConversationsForUserQuery,
+      });
 
+      if (unreadMessagesCount) {
         // updateQuery's update parameter does not return promised value so this is why nextConversations is done here
         const nextConversations =
           await addNewConversationAndUpdateUnreadMessagesToConversations({
@@ -222,6 +251,11 @@ export const useInitializeNotification = () => {
             unreadMessagesCount,
           });
 
+        const reorderedNextConversations = moveConversationToTop(
+          nextConversations,
+          sid
+        );
+
         client.cache.updateQuery(
           {
             query: getConversationsForUserQuery,
@@ -230,7 +264,23 @@ export const useInitializeNotification = () => {
             ...getConversationsForUserData,
             getConversationsForUser: {
               ...getConversationsForUserData.getConversationsForUser,
-              list: nextConversations,
+              list: reorderedNextConversations,
+            },
+          })
+        );
+      } else {
+        client.cache.updateQuery(
+          {
+            query: getConversationsForUserQuery,
+          },
+          () => ({
+            ...getConversationsForUserData,
+            getConversationsForUser: {
+              ...getConversationsForUserData.getConversationsForUser,
+              list: moveConversationToTop(
+                getConversationsForUserData.getConversationsForUser.list,
+                sid
+              ),
             },
           })
         );
@@ -291,6 +341,8 @@ export const useInitializeNotification = () => {
   };
 
   const handleMessageAdded = async (message: Message) => {
+    console.log({ message });
+
     updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
       [message],
       message.conversation.sid
