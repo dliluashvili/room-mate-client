@@ -285,7 +285,6 @@
   "435-6": "- Separate bedroom: $270-$380",
   "435-7": "- Entire 1-bedroom (off-center): < $435",
   "435-yes": "I'll wait message from my personal assistant",
-
   "500-1": "Thank you for registering! 😊",
   "500-2": "Our Support team will contact you with 24 hours to help you find the best accommodation that market can offer you within your budget.",
   "500-3": "To simplify your search, here are some recommendations regarding market conditions and what you can expect when looking for living spaces.",
@@ -298,5 +297,9 @@
   "uploadHeader": "Upload an apartment to our platform.",
   "acceptReject": "If you accept message, {{receiverName}} will be able to message you and will see your profile. If you won’t accapt she can’t send you messages. ",
   "accept": "Accept",
-  "reject": "Reject"
+  "reject": "Reject",
+  "rejected": "You can't send messages, and you won't receive theirs either. It appears that your message was rejected.",
+  "rejectedMessages": "Since you've declined the message, you're currently unable to send messages. To proceed with communication, please click the 'accept' button.",
+  "twilioError": "Oops! It looks like there's an issue with the website  🧐 Please try refreshing the page to resolve it 💫",
+  "refresh": "Refresh website"
 }

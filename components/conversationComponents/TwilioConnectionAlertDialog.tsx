@@ -5,9 +5,9 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
 } from "../../@/components/ui/alert-dialog";
 import { Button } from "../../@/components/ui/button";
+import useTranslation from "next-translate/useTranslation";
 
 type Props = {
   open: boolean;
@@ -15,6 +15,7 @@ type Props = {
 
 export const TwilioConnectionAlertDialog = ({ open }: Props) => {
   const [openAlert, setOpenAlert] = useState(null);
+  const { t } = useTranslation("common");
 
   const handleRefresh = () => {
     location.reload();
@@ -28,11 +29,8 @@ export const TwilioConnectionAlertDialog = ({ open }: Props) => {
     <AlertDialog open={openAlert}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Twilio Socket Connection down</AlertDialogTitle>
           <AlertDialogDescription className="text-center">
-            You can not use messaging feature, because twilio socket is
-            disconnected. Please click "Refresh website" button to refresh
-            website for continue using messaging feature
+            {t("twilioError")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -40,13 +38,13 @@ export const TwilioConnectionAlertDialog = ({ open }: Props) => {
             onClick={() => setOpenAlert(false)}
             className="w-auto lg:w-auto text-xs mt-4 sm:mt-0 md:text-sm lg:text-sm "
           >
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             className="w-auto text-xs  md:text-sm lg:text-sm "
             onClick={handleRefresh}
           >
-            Refresh website
+            {t("refresh")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
