@@ -11,7 +11,7 @@ import { RouterQuery } from "../components/conversationComponents/types";
 import { LIMIT, OFFSET } from "../constants/pagination";
 import { useMediaQuery } from "react-responsive";
 import { twilioConnectionStateVar } from "../store/twilioVars";
-import { TwilioConnectionAlertDialog } from "../components/conversationComponents/TwilioConnectionAlertDialog";
+import { TwilioDisconnectionAlertDialog } from "../components/conversationComponents/TwilioDisconnectionAlertDialog";
 
 export default function conversation() {
   useCheckAuth();
@@ -87,7 +87,7 @@ export default function conversation() {
 
   return (
     <>
-      <TwilioConnectionAlertDialog open={isTwilioConnectionDown} />
+      <TwilioDisconnectionAlertDialog open={isTwilioConnectionDown} />
       <main className="w-full flex flex-col h-full md:h-screen overflow-hidden overscroll-none ">
         <NewHeader />
         <div className="relative flex flex-row md:pt-6 h-full overflow-hidden md:px-20 xl:px-24 bg-[#F5F5F5] flex-grow">
@@ -105,6 +105,7 @@ export default function conversation() {
             mobileOpen={mobileOpen}
             setMobileOpen={setMobileOpen}
             setRequest={setRequest}
+            media={media}
           />
         </div>
       </main>

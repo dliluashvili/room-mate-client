@@ -83,6 +83,14 @@ export type CheckSmsCodeInput = {
   phone: Scalars["String"]["input"];
 };
 
+export type ConversationResourceObject = {
+  __typename?: "ConversationResourceObject";
+  dateCreated: Scalars["DateTime"]["output"];
+  dateUpdated: Scalars["DateTime"]["output"];
+  sid: Scalars["String"]["output"];
+  state: Scalars["String"]["output"];
+};
+
 /** Conversation status enumeration */
 export enum ConversationStatus {
   Accepted = "accepted",
@@ -176,6 +184,7 @@ export type Mutation = {
   lookupOrCreateTwilioUserResource: Scalars["Boolean"]["output"];
   sendCode: SmsStatusCode;
   signUp: UserWithTokenObject;
+  updateConversationResourceState: ConversationResourceObject;
   updateConversationStatus: ConversationStatus;
 };
 
@@ -197,6 +206,11 @@ export type MutationSendCodeArgs = {
 
 export type MutationSignUpArgs = {
   userAndAnsweredQuestions: UserAndAnsweredQuestionsInput;
+};
+
+export type MutationUpdateConversationResourceStateArgs = {
+  sid: Scalars["String"]["input"];
+  state: Scalars["String"]["input"];
 };
 
 export type MutationUpdateConversationStatusArgs = {
