@@ -193,7 +193,7 @@ export default function ConversationsList({
           shallow: true,
         });
       } else if (id && !media && !mobileOpen) {
-        router.replace(`/conversation}`, undefined, {
+        router.replace(`/conversation`, undefined, {
           shallow: true,
         });
       }
