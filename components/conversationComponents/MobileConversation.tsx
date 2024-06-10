@@ -148,8 +148,6 @@ export default function MobileConversation({
   }) => {
     const { conversation, updateReasons } = data;
 
-    console.log({ data });
-
     if (
       updateReasons.includes("state") &&
       conversation &&
@@ -271,8 +269,6 @@ export default function MobileConversation({
   // listen conversation status change
   useEffect(() => {
     if (twilioClient) {
-      console.log({ twilioClient });
-
       twilioClient.addListener(
         "conversationUpdated",
         updateConversationStatusInCache
