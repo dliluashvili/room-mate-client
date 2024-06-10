@@ -125,6 +125,27 @@ export default function ConversationsList({
     }
   }, [data, request]);
 
+  useEffect(() => {
+    const filteredAccepts = data?.list?.filter(
+      (item) => item.status === ConversationStatus.Accepted
+    );
+
+    const filteredRequestsRejects = data?.list?.filter(
+      (item) =>
+        item.status === ConversationStatus.Rejected ||
+        item.status === ConversationStatus.Requested
+    );
+    const id = filteredRequestsRejects?.[0]?.id;
+
+    if (!filteredAccepts) {
+      setRequest(true);
+      if (id && media) {
+        router.push(`/conversation?id=${id}`);
+      } else if (id && !media) {
+        router.push(`/conversation`);
+      }
+    }
+  }, []);
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md overflow-hidden bg-[#FFFFFF] md:border-b-4 border-[gray]">
