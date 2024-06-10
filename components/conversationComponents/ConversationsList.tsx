@@ -172,16 +172,16 @@ export default function ConversationsList({
         item.status === ConversationStatus.Requested
     );
     const id = filteredRequestsRejects?.[0]?.id;
-    console.log(!filteredAccepts?.length, "here");
     if (filteredAccepts?.length === 0) {
       setRequest(true);
       if (id && media) {
         router.replace(`/conversation?id=${id}`);
-      } else if (id && !media) {
-        router.replace(`/conversation`);
-      } else {
-        router.replace(`/conversation`);
       }
+      // else if (id && !media) {
+      //   router.replace(`/conversation?id=${id}`);
+      // } else {
+      //   router.replace(`/conversation`);
+      // }
     }
   }, [data]);
 
