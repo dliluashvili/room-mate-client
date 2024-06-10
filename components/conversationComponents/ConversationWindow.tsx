@@ -143,7 +143,7 @@ export default function ConversationWindow({
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       handleSendMessage();
-      console.log("hi");
+     
     }
   };
 
