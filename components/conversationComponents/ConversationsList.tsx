@@ -32,6 +32,7 @@ type Props = {
   // FIXME: because argument and return types is not fully typed, autosuggestion is not working
   fetchMoreConversationsForUser: Function;
   data: any; // need type
+  mobileOpen: boolean;
 };
 
 const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80;
@@ -39,6 +40,7 @@ const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80;
 export default function ConversationsList({
   request,
   setRequest,
+  mobileOpen,
   setMobileOpen,
   conversations,
   pageInfo,
@@ -82,11 +84,11 @@ export default function ConversationsList({
     const id = filteredAccepts?.[0]?.id;
 
     if (id && media) {
-      router.replace(`/conversation?id=${id}`);
+      router.push(`/conversation?id=${id}`);
     } else if (id && !media) {
-      router.replace(`/conversation`);
+      router.push(`/conversation`);
     } else {
-      router.replace(`/conversation`);
+      router.push(`/conversation`);
     }
   };
 
@@ -101,11 +103,11 @@ export default function ConversationsList({
     const id = filteredRequestsRejects?.[0]?.id;
 
     if (id && media) {
-      router.replace(`/conversation?id=${id}`);
+      router.push(`/conversation?id=${id}`);
     } else if (id && !media) {
-      router.replace(`/conversation`);
+      router.push(`/conversation`);
     } else {
-      router.replace(`/conversation`);
+      router.push(`/conversation`);
     }
   };
 
@@ -176,12 +178,9 @@ export default function ConversationsList({
       setRequest(true);
       if (id && media) {
         router.replace(`/conversation?id=${id}`);
+      } else if (id && !media && !mobileOpen) {
+        router.replace(`/conversation}`);
       }
-      // else if (id && !media) {
-      //   router.replace(`/conversation?id=${id}`);
-      // } else {
-      //   router.replace(`/conversation`);
-      // }
     }
   }, [data]);
 
