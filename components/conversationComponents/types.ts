@@ -2,4 +2,9 @@ type RouterQuery = {
   id?: string;
 };
 
-export type { RouterQuery };
+type MessageSendStatusType =
+  | "messageSendSuccess"
+  | "messageSendError"
+  | "anotherError";
+
+export type { RouterQuery, MessageSendStatusType };
