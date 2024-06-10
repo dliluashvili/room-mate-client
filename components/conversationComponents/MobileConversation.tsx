@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
 import MessagesList from "./MessagesList";
@@ -10,14 +10,15 @@ import {
 } from "../../gql/graphql";
 import {
   getConversationsForUserQuery,
+  updateConversationResourceStateMutation,
   updateConversationStatusMutation,
 } from "../../gql/graphqlStatements";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation, useReactiveVar } from "@apollo/client";
 import AutosizeTextarea from "react-textarea-autosize";
 import clsx from "clsx";
 import useTranslation from "next-translate/useTranslation";
-import { useToast } from "../../@/components/ui/use-toast";
 import { useRouter } from "next/router";
+import { twilioClientVar } from "../../store/twilioVars";
 
 type Props = {
   mobileOpen: boolean;
@@ -37,13 +38,14 @@ export default function MobileConversation({
   const [message, setMessage] = useState("");
 
   const headerRef = useRef<HTMLDivElement>(null);
+  const amIUpdaterOfConversationStatus = useRef(null);
+
+  const client = useApolloClient();
+  const twilioClient = useReactiveVar(twilioClientVar);
 
   const router = useRouter();
 
-  const client = useApolloClient();
-
   const { t } = useTranslation("common");
-  const { toast } = useToast();
 
   const [updateConversationStatus, { loading }] = useMutation(
     updateConversationStatusMutation,
@@ -136,6 +138,50 @@ export default function MobileConversation({
     }
   );
 
+  const [updateConversationResourceState] = useMutation(
+    updateConversationResourceStateMutation
+  );
+
+  const updateConversationStatusInCache = (sid: string, status: string) => {
+    client.cache.updateQuery(
+      {
+        query: getConversationsForUserQuery,
+      },
+      (data) => {
+        if (data?.getConversationsForUser) {
+          const updateConversations = data.getConversationsForUser.list.map(
+            (conversation) => {
+              if (conversation.sid === sid) {
+                return {
+                  ...conversation,
+                  user: {
+                    ...conversation.user,
+                    conversationStatus:
+                      status === "active"
+                        ? ConversationStatus.Accepted
+                        : ConversationStatus.Rejected,
+                  },
+                };
+              }
+
+              return conversation;
+            }
+          );
+
+          return {
+            ...data,
+            getConversationsForUser: {
+              ...data.getConversationsForUser,
+              list: updateConversations,
+            },
+          };
+        }
+      }
+    );
+
+    amIUpdaterOfConversationStatus.current = null;
+  };
+
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -146,16 +192,10 @@ export default function MobileConversation({
     if (
       conversationResource &&
       message.length &&
-      conversation?.user?.conversationStatus !== "rejected"
+      conversation?.user.conversationStatus !== ConversationStatus.Rejected
     ) {
       conversationResource.sendMessage(message);
       setMessage("");
-    } else if (message !== "") {
-      toast({
-        variant: "destructiveMobile",
-        title: "Blocked",
-        description: t("rejected"),
-      });
     }
   };
 
@@ -172,6 +212,69 @@ export default function MobileConversation({
       shallow: true,
     });
   };
+
+  const handleAcceptClick = () => {
+    setRequest(false);
+
+    amIUpdaterOfConversationStatus.current = true;
+
+    updateConversationStatus({
+      variables: {
+        conversationId: conversation.id,
+        status: ConversationStatus.Accepted,
+      },
+    });
+
+    if (conversationResource.state.current === "inactive") {
+      updateConversationResourceState({
+        variables: {
+          sid: conversationResource.sid,
+          state: "active",
+        },
+      });
+    }
+  };
+
+  const handleRejectClick = async () => {
+    amIUpdaterOfConversationStatus.current = true;
+
+    updateConversationStatus({
+      variables: {
+        conversationId: conversation.id,
+        status: ConversationStatus.Rejected,
+      },
+    });
+
+    if (conversationResource.state.current === "active") {
+      updateConversationResourceState({
+        variables: {
+          sid: conversationResource.sid,
+          state: "inactive",
+        },
+      });
+    }
+  };
+
+  // listen conversation status change
+  useEffect(() => {
+    if (twilioClient) {
+      twilioClient.addListener(
+        "conversationUpdated",
+        ({ updateReasons, conversation }) => {
+          if (
+            updateReasons.includes("state") &&
+            conversation &&
+            !amIUpdaterOfConversationStatus.current
+          ) {
+            updateConversationStatusInCache(
+              conversation.sid,
+              conversation.state.current
+            );
+          }
+        }
+      );
+    }
+  }, [twilioClient]);
 
   const containerHeight = headerRef.current?.clientHeight
     ? `calc(100% - ${headerRef.current.clientHeight}px)`
@@ -297,15 +400,7 @@ export default function MobileConversation({
                     <button
                       className="py-2 w-full px-10 bg-white rounded-xl text-sm text-[#838CAC]"
                       disabled={loading}
-                      onClick={() => {
-                        setRequest(false);
-                        updateConversationStatus({
-                          variables: {
-                            conversationId: conversation.id,
-                            status: ConversationStatus.Accepted,
-                          },
-                        });
-                      }}
+                      onClick={handleAcceptClick}
                     >
                       {t("accept")}
                     </button>
@@ -313,14 +408,7 @@ export default function MobileConversation({
                       <button
                         className="py-2 px-10 w-full text-[#FFFFFF] text-sm border border-[#FFFFFF] rounded-xl"
                         disabled={loading}
-                        onClick={() =>
-                          updateConversationStatus({
-                            variables: {
-                              conversationId: conversation.id,
-                              status: ConversationStatus.Rejected,
-                            },
-                          })
-                        }
+                        onClick={handleRejectClick}
                       >
                         {t("reject")}
                       </button>
