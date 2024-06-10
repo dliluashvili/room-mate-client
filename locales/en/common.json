@@ -295,7 +295,7 @@
   "500-yes": "I'll wait message from my personal assistant",
   "upload": "Upload",
   "uploadHeader": "Upload an apartment to our platform.",
-  "acceptReject": "If you accept message, {{receiverName}} will be able to message you and will see your profile. If you won’t accapt she can’t send you messages. ",
+  "acceptReject": "If you accept message, {{receiverName}} will be able to message you and will see your profile. If you won’t accapt {{receiverName}} can’t send you messages. ",
   "accept": "Accept",
   "reject": "Reject",
   "rejected": "You can't send messages, and you won't receive theirs either. It appears that your message was rejected.",

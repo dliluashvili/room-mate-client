@@ -82,11 +82,11 @@ export default function ConversationsList({
     const id = filteredAccepts?.[0]?.id;
 
     if (id && media) {
-      router.replace(`/conversation?id=${id}`, undefined);
+      router.replace(`/conversation?id=${id}`);
     } else if (id && !media) {
-      router.replace(`/conversation`, undefined);
+      router.replace(`/conversation`);
     } else {
-      router.replace(`/conversation`, undefined);
+      router.replace(`/conversation`);
     }
   };
 
@@ -101,11 +101,11 @@ export default function ConversationsList({
     const id = filteredRequestsRejects?.[0]?.id;
 
     if (id && media) {
-      router.replace(`/conversation?id=${id}`, undefined);
+      router.replace(`/conversation?id=${id}`);
     } else if (id && !media) {
-      router.replace(`/conversation`, undefined);
+      router.replace(`/conversation`);
     } else {
-      router.replace(`/conversation`, undefined);
+      router.replace(`/conversation`);
     }
   };
 
@@ -172,18 +172,18 @@ export default function ConversationsList({
         item.status === ConversationStatus.Requested
     );
     const id = filteredRequestsRejects?.[0]?.id;
-
-    if (!filteredAccepts) {
+    console.log(!filteredAccepts?.length, "here");
+    if (filteredAccepts?.length === 0) {
       setRequest(true);
       if (id && media) {
-        router.replace(`/conversation?id=${id}`, undefined);
+        router.replace(`/conversation?id=${id}`);
       } else if (id && !media) {
-        router.replace(`/conversation`, undefined);
+        router.replace(`/conversation`);
       } else {
-        router.replace(`/conversation`, undefined);
+        router.replace(`/conversation`);
       }
     }
-  }, []);
+  }, [data]);
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md overflow-hidden bg-[#FFFFFF] md:border-b-4 border-[gray]">
