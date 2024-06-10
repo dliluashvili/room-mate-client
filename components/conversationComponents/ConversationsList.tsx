@@ -117,12 +117,14 @@ export default function ConversationsList({
             item?.status === ConversationStatus.Rejected) &&
           item?.unreadMessagesCount > 0
       );
+
     if (hasRequested) {
       setRequestMessage(true);
     } else {
       setRequestMessage(false);
     }
   }, [data, request]);
+
 
   return (
     <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md overflow-hidden bg-[#FFFFFF] md:border-b-4 border-[gray]">

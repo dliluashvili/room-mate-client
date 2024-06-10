@@ -139,6 +139,14 @@ export default function ConversationWindow({
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+      console.log("hi");
+    }
+  };
+
   useEffect(() => {
     if (ref.current && media) {
       disableBodyScroll(ref.current);
@@ -197,6 +205,7 @@ export default function ConversationWindow({
                   className="border-[#838CAC] border focus:outline-none rounded-md h-24 pl-1 text-md pt-1"
                   value={messageText}
                   onChange={handleMessageChange}
+                  onKeyDown={handleKeyDown}
                 />
                 <button
                   className="w-full flex flex-row justify-end mt-6 cursor-pointer"
