@@ -224,7 +224,7 @@ export default function ConversationsList({
           >
             request
             {requestMessage && (
-              <div className="absolute w-2 h-2 bg-[#3b66d1] top-0 -right-2 rounded-full"></div>
+              <div className="absolute w-2 h-2 bg-[#DB0505] top-0 -right-2 rounded-full"></div>
             )}
           </span>
         </div>

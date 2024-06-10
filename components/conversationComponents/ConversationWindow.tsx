@@ -143,7 +143,6 @@ export default function ConversationWindow({
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       handleSendMessage();
-     
     }
   };
 
@@ -198,9 +197,12 @@ export default function ConversationWindow({
           ) : (
             <div className=" h-auto w-full flex flex-col justify-end items-end ">
               <div className="flex flex-col pt-5 pb-4 px-4 w-full h-full justify-end  ">
-                <span className="w-[300px] text-xs mb-5">
-                  {t("aboutChat1")} {name} {t("aboutChat2")}
-                </span>
+                <div className="w-[300px] text-xs mb-5">
+                  <span>{t("aboutChat1", { receiverName: name })}</span>
+                  <br />
+                  <br />
+                  <span> {t("aboutChat2", { receiverName: name })}</span>
+                </div>
                 <textarea
                   className="border-[#838CAC] border focus:outline-none rounded-md h-24 pl-1 text-md pt-1"
                   value={messageText}
