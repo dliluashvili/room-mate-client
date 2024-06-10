@@ -95,6 +95,7 @@ export default function conversation() {
             data={data?.getConversationsForUser}
             request={request}
             setRequest={setRequest}
+            mobileOpen={mobileOpen}
             setMobileOpen={setMobileOpen}
             conversations={filteredConversationsByStatus}
             pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
