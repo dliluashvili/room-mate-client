@@ -159,7 +159,6 @@
 .scrollable-content::-webkit-scrollbar {
   width: 12px;
   border-radius: 50%;
-  
 }
 
 .scrollable-content::-webkit-scrollbar-track {
@@ -180,4 +179,8 @@
 .scrollable-content {
   scrollbar-width: thin;
   scrollbar-color: #888 #e0e0e0;
+}
+.scrollable-element {
+  scroll-behavior: none;
+  overflow-y: scroll
 }

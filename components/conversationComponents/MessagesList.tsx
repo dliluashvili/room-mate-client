@@ -286,7 +286,7 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
 
   return (
     <>
-      <div ref={parentDomRef} className="overflow-y-auto">
+      <div ref={parentDomRef} className="overflow-y-auto ">
         {(paginatedMessagesRef?.current?.hasPrevPage || loading) && (
           <div
             className="w-full flex justify-center mb-3"
