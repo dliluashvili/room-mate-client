@@ -82,9 +82,11 @@ export default function ConversationsList({
     const id = filteredAccepts?.[0]?.id;
 
     if (id && media) {
-      router.push(`/conversation?id=${id}`);
+      router.replace(`/conversation?id=${id}`, undefined);
     } else if (id && !media) {
-      router.push(`/conversation`);
+      router.replace(`/conversation`, undefined);
+    } else {
+      router.replace(`/conversation`, undefined);
     }
   };
 
@@ -99,9 +101,11 @@ export default function ConversationsList({
     const id = filteredRequestsRejects?.[0]?.id;
 
     if (id && media) {
-      router.push(`/conversation?id=${id}`);
+      router.replace(`/conversation?id=${id}`, undefined);
     } else if (id && !media) {
-      router.push(`/conversation`);
+      router.replace(`/conversation`, undefined);
+    } else {
+      router.replace(`/conversation`, undefined);
     }
   };
 
@@ -172,9 +176,11 @@ export default function ConversationsList({
     if (!filteredAccepts) {
       setRequest(true);
       if (id && media) {
-        router.push(`/conversation?id=${id}`);
+        router.replace(`/conversation?id=${id}`, undefined);
       } else if (id && !media) {
-        router.push(`/conversation`);
+        router.replace(`/conversation`, undefined);
+      } else {
+        router.replace(`/conversation`, undefined);
       }
     }
   }, []);
