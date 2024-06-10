@@ -11,7 +11,7 @@ export function InfoToast() {
     <Button
       variant="outline"
       onClick={() => {
-        console.log(toast);
+        
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
