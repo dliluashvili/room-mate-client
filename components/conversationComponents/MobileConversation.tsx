@@ -258,9 +258,12 @@ export default function MobileConversation({
   // listen conversation status change
   useEffect(() => {
     if (twilioClient) {
+      console.log({ twilioClient });
       twilioClient.addListener(
         "conversationUpdated",
         ({ updateReasons, conversation }) => {
+          console.log({ updateReasons, conversation });
+
           if (
             updateReasons.includes("state") &&
             conversation &&
