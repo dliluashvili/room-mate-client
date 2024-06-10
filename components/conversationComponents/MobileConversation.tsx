@@ -269,7 +269,7 @@ export default function MobileConversation({
           ) {
             return (
               <div
-                className="flex w-full h-screen justify-end flex-col  p-5 pt-4"
+                className="flex w-full  justify-end flex-col  p-5 pt-4"
                 style={{
                   height: containerHeight,
                 }}

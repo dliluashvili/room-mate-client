@@ -157,7 +157,7 @@
   "aboutChat2": "will decide whether to accept it. Upon acceptance, you'll receive a notification, so ensure your initial message leaves a positive impression!",
   "sendMessageError1": "Oops, a technical issue occurred while sending the message. To view the sent message, go to the Messages tab.",
   "sendMessageError2": "Oops! Something went wrong while sending your message. Please reach out to our support team for assistance.",
-  "successMessage": "The message has been successfully sent. If {{receiverName} accepts your message, you will receive an SMS.",
+  "successMessage": "The message has been successfully sent. If {{receiverName}} accepts your message, you will receive an SMS.",
   "checkMessages": "Go to Message Tab",
   "keepSearch": "Keep Searching",
   "supportTeam": "Contact our support team",

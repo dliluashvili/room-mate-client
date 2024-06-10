@@ -348,7 +348,7 @@ export default function DesktopConversation({
           ) {
             return (
               <div
-                className="flex w-full h-screen justify-end flex-col  p-5"
+                className="flex w-full justify-end flex-col  p-5"
                 style={{
                   height: containerHeight,
                 }}
@@ -365,9 +365,9 @@ export default function DesktopConversation({
                         ? "#838CAC"
                         : "#c25744",
                   }}
-                  className=" py-6 mt-2 w-full h-auto rounded-lg flex  md:flex-col lg:flex-row items-center justify-between gap-14 px-10"
+                  className="py-6  w-full h-auto rounded-lg flex flex-col xl:flex-row items-center justify-between gap-5 px-10"
                 >
-                  <span className="text-[#FFFFFF]">
+                  <span className="text-[#FFFFFF] text-center">
                     {conversation?.status === ConversationStatus.Requested
                       ? t("acceptReject", { receiverName: participantFullName })
                       : t("rejectedMessages", { participantFullName })}
