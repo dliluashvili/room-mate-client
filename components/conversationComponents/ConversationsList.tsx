@@ -73,6 +73,38 @@ export default function ConversationsList({
     }
   };
 
+  const chatHandler = () => {
+    setRequest(false);
+    const filteredAccepts = data?.list?.filter(
+      (item) => item.status === ConversationStatus.Accepted
+    );
+
+    const id = filteredAccepts?.[0]?.id;
+
+    if (id && media) {
+      router.replace(`/conversation?id=${id}`);
+    } else if (id && !media) {
+      router.replace(`/conversation`);
+    }
+  };
+
+  const requestHandler = () => {
+    setRequest(true);
+    const filteredRequestsRejects = data?.list?.filter(
+      (item) =>
+        item.status === ConversationStatus.Rejected ||
+        item.status === ConversationStatus.Requested
+    );
+
+    const id = filteredRequestsRejects?.[0]?.id;
+
+    if (id && media) {
+      router.replace(`/conversation?id=${id}`);
+    } else if (id && !media) {
+      router.replace(`/conversation`);
+    }
+  };
+
   useEffect(() => {
     const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse();
 
@@ -157,20 +189,7 @@ export default function ConversationsList({
               !request && "text-[#0A7CFF]",
               request && "text-[#838CAC]"
             )}
-            onClick={() => {
-              setRequest(false);
-              const filteredAccepts = data?.list?.filter(
-                (item) => item.status === ConversationStatus.Accepted
-              );
-
-              const id = filteredAccepts?.[0]?.id;
-
-              if (id && media) {
-                router.replace(`/conversation?id=${id}`);
-              } else if (id && !media) {
-                router.replace(`/conversation`);
-              }
-            }}
+            onClick={chatHandler}
           >
             chat
           </span>
@@ -180,22 +199,7 @@ export default function ConversationsList({
               request && "text-[#0A7CFF]",
               !request && "text-[#838CAC]"
             )}
-            onClick={() => {
-              setRequest(true);
-              const filteredRequestsRejects = data?.list?.filter(
-                (item) =>
-                  item.status === ConversationStatus.Rejected ||
-                  item.status === ConversationStatus.Requested
-              );
-
-              const id = filteredRequestsRejects?.[0]?.id;
-
-              if (id && media) {
-                router.replace(`/conversation?id=${id}`);
-              } else if (id && !media) {
-                router.replace(`/conversation`);
-              }
-            }}
+            onClick={requestHandler}
           >
             request
             {requestMessage && (
