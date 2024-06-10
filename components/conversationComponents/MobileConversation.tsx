@@ -148,7 +148,7 @@ export default function MobileConversation({
   }) => {
     const { conversation, updateReasons } = data;
 
-    console.log({ conversation, updateReasons });
+    console.log({ data });
 
     if (
       updateReasons.includes("state") &&
