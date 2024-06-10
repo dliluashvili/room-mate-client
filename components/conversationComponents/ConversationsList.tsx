@@ -75,7 +75,7 @@ export default function ConversationsList({
     }
   };
 
-  const chatHandler = () => {
+  const chatClickHandler = () => {
     setRequest(false);
     const filteredAccepts = data?.list?.filter(
       (item) => item.status === ConversationStatus.Accepted
@@ -84,15 +84,21 @@ export default function ConversationsList({
     const id = filteredAccepts?.[0]?.id;
 
     if (id && media) {
-      router.push(`/conversation?id=${id}`);
+      router.push(`/conversation?id=${id}`, undefined, {
+        shallow: true,
+      });
     } else if (id && !media) {
-      router.push(`/conversation`);
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     } else {
-      router.push(`/conversation`);
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     }
   };
 
-  const requestHandler = () => {
+  const requestClickHandler = () => {
     setRequest(true);
     const filteredRequestsRejects = data?.list?.filter(
       (item) =>
@@ -103,11 +109,17 @@ export default function ConversationsList({
     const id = filteredRequestsRejects?.[0]?.id;
 
     if (id && media) {
-      router.push(`/conversation?id=${id}`);
+      router.push(`/conversation?id=${id}`, undefined, {
+        shallow: true,
+      });
     } else if (id && !media) {
-      router.push(`/conversation`);
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     } else {
-      router.push(`/conversation`);
+      router.push(`/conversation`, undefined, {
+        shallow: true,
+      });
     }
   };
 
@@ -177,9 +189,13 @@ export default function ConversationsList({
     if (filteredAccepts?.length === 0) {
       setRequest(true);
       if (id && media) {
-        router.replace(`/conversation?id=${id}`);
+        router.replace(`/conversation?id=${id}`, undefined, {
+          shallow: true,
+        });
       } else if (id && !media && !mobileOpen) {
-        router.replace(`/conversation}`);
+        router.replace(`/conversation}`, undefined, {
+          shallow: true,
+        });
       }
     }
   }, [data]);
@@ -194,7 +210,7 @@ export default function ConversationsList({
               !request && "text-[#0A7CFF]",
               request && "text-[#838CAC]"
             )}
-            onClick={chatHandler}
+            onClick={chatClickHandler}
           >
             chat
           </span>
@@ -204,7 +220,7 @@ export default function ConversationsList({
               request && "text-[#0A7CFF]",
               !request && "text-[#838CAC]"
             )}
-            onClick={requestHandler}
+            onClick={requestClickHandler}
           >
             request
             {requestMessage && (
