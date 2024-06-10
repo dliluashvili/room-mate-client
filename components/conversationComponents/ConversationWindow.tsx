@@ -15,17 +15,10 @@ import { updateCacheWithNewConversationInFirstPlace } from "../utils/conversatio
 import { MessageAlertDialog } from "./MessageAlertDialog";
 import useTranslation from "next-translate/useTranslation";
 import { Spinner } from "../../@/components/ui/spinner";
-
-// TODO: move to types.ts file
-export type messageSendStatusType =
-  | "messageSendSuccess"
-  | "userResourceCreation"
-  | "conversationResourceCreationError"
-  | "participantAddError"
-  | "messageSendError";
+import { MessageSendStatusType } from "./types";
 
 type MessageSendStatus = {
-  type: messageSendStatusType;
+  type: MessageSendStatusType;
   feedback: string;
 };
 
@@ -44,7 +37,6 @@ export default function ConversationWindow({
   const [messageSendStatus, setMessageSendStatus] =
     useState<MessageSendStatus | null>(null);
 
-  const [feedback, setFeedback] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   let { t } = useTranslation("common");
 
@@ -84,22 +76,27 @@ export default function ConversationWindow({
   };
 
   const handleSendMessage = async () => {
-    setIsLoading(true); // Set loading state to true before request
     try {
+      setIsLoading(true);
+
       if (messageText?.length) {
         const twilioUserResourceResponse =
           await lookupOrCreateTwilioUserResource({
             variables: { userId: participantId },
           });
+
         if (twilioUserResourceResponse) {
           const conversation = await twilioClient.createConversation();
+
           const settledParticipantAdd = await Promise.allSettled([
             conversation.add(twilioClient.user.identity),
             conversation.add(participantId),
           ]);
+
           const isFulfilledParticipantAdd = settledParticipantAdd.every(
             (settledParticipant) => settledParticipant.status === "fulfilled"
           );
+
           if (isFulfilledParticipantAdd) {
             await conversation
               .sendMessage(messageText)
@@ -121,21 +118,25 @@ export default function ConversationWindow({
               });
           } else {
             setMessageSendStatus({
-              type: "participantAddError",
+              type: "anotherError",
               feedback: t("sendMessageError2"),
             });
           }
         } else {
           setMessageSendStatus({
-            type: "conversationResourceCreationError",
+            type: "anotherError",
             feedback: t("sendMessageError2"),
           });
         }
       }
     } catch (error) {
       console.log({ error });
+      setMessageSendStatus({
+        type: "anotherError",
+        feedback: t("sendMessageError2"),
+      });
     } finally {
-      setIsLoading(false); // Set loading state to false after request
+      setIsLoading(false);
     }
   };
 
@@ -186,11 +187,7 @@ export default function ConversationWindow({
             </div>
           </div>
           <div className="w-full h-full px-6 "></div>
-          {feedback !== null ? (
-            <div className="flex w-full h-full justify-center items-center pb-40">
-              {feedback}
-            </div>
-          ) : isLoading ? (
+          {isLoading ? (
             <div className="flex h-full justify-center items-start">
               <Spinner />
             </div>

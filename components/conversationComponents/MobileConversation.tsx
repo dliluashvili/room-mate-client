@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Send from "../../public/newImages/send.svg";
 import ArrowLeft from "../../public/newImages/arrow-left-chat.svg";
 import MessagesList from "./MessagesList";
-import { Conversation } from "@twilio/conversations";
+import { Conversation, ConversationUpdateReason } from "@twilio/conversations";
 import {
   ConversationStatus,
   ConversationWithUserObject,
@@ -142,44 +142,55 @@ export default function MobileConversation({
     updateConversationResourceStateMutation
   );
 
-  const updateConversationStatusInCache = (sid: string, status: string) => {
-    client.cache.updateQuery(
-      {
-        query: getConversationsForUserQuery,
-      },
-      (data) => {
-        if (data?.getConversationsForUser) {
-          const updateConversations = data.getConversationsForUser.list.map(
-            (conversation) => {
-              if (conversation.sid === sid) {
-                return {
-                  ...conversation,
-                  user: {
-                    ...conversation.user,
-                    conversationStatus:
-                      status === "active"
-                        ? ConversationStatus.Accepted
-                        : ConversationStatus.Rejected,
-                  },
-                };
+  const updateConversationStatusInCache = (data: {
+    conversation: Conversation;
+    updateReasons: ConversationUpdateReason[];
+  }) => {
+    const { conversation, updateReasons } = data;
+
+    if (
+      updateReasons.includes("state") &&
+      conversation &&
+      !amIUpdaterOfConversationStatus.current
+    ) {
+      client.cache.updateQuery(
+        {
+          query: getConversationsForUserQuery,
+        },
+        (data) => {
+          if (data?.getConversationsForUser) {
+            const updateConversations = data.getConversationsForUser.list.map(
+              (conversationObject) => {
+                if (conversation.sid === conversation.sid) {
+                  return {
+                    ...conversationObject,
+                    user: {
+                      ...conversationObject.user,
+                      conversationStatus:
+                        conversation.state.current === "active"
+                          ? ConversationStatus.Accepted
+                          : ConversationStatus.Rejected,
+                    },
+                  };
+                }
+
+                return conversationObject;
               }
+            );
 
-              return conversation;
-            }
-          );
-
-          return {
-            ...data,
-            getConversationsForUser: {
-              ...data.getConversationsForUser,
-              list: updateConversations,
-            },
-          };
+            return {
+              ...data,
+              getConversationsForUser: {
+                ...data.getConversationsForUser,
+                list: updateConversations,
+              },
+            };
+          }
         }
-      }
-    );
+      );
 
-    amIUpdaterOfConversationStatus.current = null;
+      amIUpdaterOfConversationStatus.current = null;
+    }
   };
 
   const handleMessageChange = (
@@ -253,20 +264,16 @@ export default function MobileConversation({
     if (twilioClient) {
       twilioClient.addListener(
         "conversationUpdated",
-        ({ updateReasons, conversation }) => {
-          if (
-            updateReasons.includes("state") &&
-            conversation &&
-            !amIUpdaterOfConversationStatus.current
-          ) {
-            updateConversationStatusInCache(
-              conversation.sid,
-              conversation.state.current
-            );
-          }
-        }
+        updateConversationStatusInCache
       );
     }
+
+    () => {
+      return twilioClient.removeListener(
+        "conversationUpdated",
+        updateConversationStatusInCache
+      );
+    };
   }, [twilioClient]);
 
   const containerHeight = headerRef.current?.clientHeight

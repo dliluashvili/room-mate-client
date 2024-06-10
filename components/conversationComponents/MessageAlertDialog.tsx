@@ -14,11 +14,11 @@ import { Button } from "../../@/components/ui/button";
 import successIcon from "../../public/imgs/Success.svg";
 import errorIcon from "../../public/imgs/Error.svg";
 import Image from "next/image";
-import { messageSendStatusType } from "./ConversationWindow";
+import { MessageSendStatusType } from "./types";
 
 type Props = {
   feedback: string;
-  alertType: messageSendStatusType;
+  alertType: MessageSendStatusType;
   setIsOpen: (param: boolean) => void;
 };
 
