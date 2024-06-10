@@ -160,21 +160,21 @@ export default function MobileConversation({
         (data) => {
           if (data?.getConversationsForUser) {
             const updateConversations = data.getConversationsForUser.list.map(
-              (conversation) => {
-                if (conversation.sid === conversationResource.sid) {
+              (conversationObject) => {
+                if (conversation.sid === conversation.sid) {
                   return {
-                    ...conversation,
+                    ...conversationObject,
                     user: {
-                      ...conversation.user,
+                      ...conversationObject.user,
                       conversationStatus:
-                        conversationResource.state.current === "active"
+                        conversation.state.current === "active"
                           ? ConversationStatus.Accepted
                           : ConversationStatus.Rejected,
                     },
                   };
                 }
 
-                return conversation;
+                return conversationObject;
               }
             );
 
