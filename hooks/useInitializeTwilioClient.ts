@@ -61,17 +61,6 @@ export const useInitializeTwilioClient = () => {
     });
   };
 
-  // TODO: Code to add reconnection support while tokenExpired
-  // const reInitializeTwilioClient = async (twilioClient: TwilioClient) => {
-  //     await twilioClient.shutdown();
-  //     const { data } = await generateTwilioAccessToken();
-
-  //     if (data?.generateTwilioAccessToken) {
-  //         const client = new TwilioClient(data.generateTwilioAccessToken);
-  //         twilioClientVar(client);
-  //     }
-  // };
-
   useEffect(() => {
     if (user) {
       initializeTwilioClient();
@@ -89,11 +78,6 @@ export const useInitializeTwilioClient = () => {
         handleTokenRefresh(twilioClient);
       });
 
-      // twilioClient.addListener('tokenExpired', () => {
-      //     console.log('tokenExpired');
-      //     reInitializeTwilioClient(twilioClient);
-      // });
-
       twilioClient.addListener("connectionError", (error) => {
         handleConnectionError(error);
       });
@@ -101,7 +85,17 @@ export const useInitializeTwilioClient = () => {
 
     return () => {
       if (twilioClient) {
-        twilioClient.removeAllListeners();
+        twilioClient.removeListener("connectionStateChanged", (state) => {
+          handleConnectionStateChanged(state);
+        });
+
+        twilioClient.removeListener("tokenAboutToExpire", () => {
+          handleTokenRefresh(twilioClient);
+        });
+
+        twilioClient.removeListener("connectionError", (error) => {
+          handleConnectionError(error);
+        });
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
