@@ -210,13 +210,6 @@ export default function MobileConversation({
     }
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Prevent default form submission
-      handleSendMessage();
-    }
-  };
-
   const handleBackNavigation = () => {
     setMobileOpen(false);
     router.push("conversation/", undefined, {
@@ -352,7 +345,6 @@ export default function MobileConversation({
                       className="scrollable-content w-full max-h-20 text-[14px] py-2 px-3 focus:outline-[#838CAC] inset-0  border border-[gray] rounded-xl mr-2"
                       value={message}
                       onChange={handleMessageChange}
-                      onKeyDown={handleKeyDown}
                     />
 
                     <Image
