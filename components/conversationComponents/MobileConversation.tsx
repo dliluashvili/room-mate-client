@@ -380,40 +380,44 @@ export default function MobileConversation({
                   conversationResource={conversationResource}
                   conversation={conversation}
                 />
-
-                <div
-                  style={{
-                    backgroundColor:
-                      conversation?.status === ConversationStatus.Requested
-                        ? "#838CAC"
-                        : "#c25744",
-                  }}
-                  className=" w-full rounded-lg flex flex-col items-center p-6"
-                >
-                  <span className="text-[#FFFFFF] text-sm">
-                    {conversation?.status === ConversationStatus.Requested
-                      ? t("acceptReject", { receiverName: participantFullName })
-                      : t("rejectedMessages", { participantFullName })}
-                  </span>
-                  <div className="w-full flex gap-4 flex-row justify-center items-center mt-6">
-                    <button
-                      className="py-2 w-full px-10 bg-white rounded-xl text-sm text-[#838CAC]"
-                      disabled={loading}
-                      onClick={handleAcceptClick}
-                    >
-                      {t("accept")}
-                    </button>
-                    {conversation?.status === ConversationStatus.Requested && (
+                {conversationResource && (
+                  <div
+                    style={{
+                      backgroundColor:
+                        conversation?.status === ConversationStatus.Requested
+                          ? "#838CAC"
+                          : "#c25744",
+                    }}
+                    className=" w-full rounded-lg flex flex-col items-center p-6"
+                  >
+                    <span className="text-[#FFFFFF] text-sm">
+                      {conversation?.status === ConversationStatus.Requested
+                        ? t("acceptReject", {
+                            receiverName: participantFullName,
+                          })
+                        : t("rejectedMessages", { participantFullName })}
+                    </span>
+                    <div className="w-full flex gap-4 flex-row justify-center items-center mt-6">
                       <button
-                        className="py-2 px-10 w-full text-[#FFFFFF] text-sm border border-[#FFFFFF] rounded-xl"
+                        className="py-2 w-full px-10 bg-white rounded-xl text-sm text-[#838CAC]"
                         disabled={loading}
-                        onClick={handleRejectClick}
+                        onClick={handleAcceptClick}
                       >
-                        {t("reject")}
+                        {t("accept")}
                       </button>
-                    )}
+                      {conversation?.status ===
+                        ConversationStatus.Requested && (
+                        <button
+                          className="py-2 px-10 w-full text-[#FFFFFF] text-sm border border-[#FFFFFF] rounded-xl"
+                          disabled={loading}
+                          onClick={handleRejectClick}
+                        >
+                          {t("reject")}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           }

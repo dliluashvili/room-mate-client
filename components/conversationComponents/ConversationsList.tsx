@@ -18,6 +18,7 @@ import { Howl } from "howler";
 import { Spinner } from "../../@/components/ui/spinner";
 import { LIMIT } from "../../constants/pagination";
 import clsx from "clsx";
+import { MEDIA_QUERY } from "./constants";
 
 const sound = new Howl({
   src: ["./../sound.mp3"],
@@ -40,7 +41,6 @@ const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80;
 export default function ConversationsList({
   request,
   setRequest,
-  mobileOpen,
   setMobileOpen,
   conversations,
   pageInfo,
@@ -52,8 +52,7 @@ export default function ConversationsList({
   const router = useRouter();
   const { id }: RouterQuery = router.query;
   const [requestMessage, setRequestMessage] = useState(false);
-
-  const media = useMediaQuery({ query: "(min-width: 768px)" });
+  const media = useMediaQuery({ query: MEDIA_QUERY });
 
   const virtualizer = useVirtualizer({
     count: pageInfo?.hasNextPage
@@ -185,18 +184,12 @@ export default function ConversationsList({
         item.status === ConversationStatus.Rejected ||
         item.status === ConversationStatus.Requested
     );
-    const id = filteredRequestsRejects?.[0]?.id;
-    if (filteredAccepts?.length === 0) {
+
+    if (
+      filteredAccepts?.length === 0 &&
+      filteredRequestsRejects?.length !== 0
+    ) {
       setRequest(true);
-      if (id && media) {
-        router.replace(`/conversation?id=${id}`, undefined, {
-          shallow: true,
-        });
-      } else if (id && !media && !mobileOpen) {
-        router.replace(`/conversation`, undefined, {
-          shallow: true,
-        });
-      }
     }
   }, [data]);
 

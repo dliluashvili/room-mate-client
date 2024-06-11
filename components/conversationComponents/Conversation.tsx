@@ -15,12 +15,7 @@ import {
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
 
-const ConversationComponent = ({
-  mobileOpen,
-  setMobileOpen,
-  setRequest,
-  media,
-}) => {
+const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
@@ -120,21 +115,20 @@ const ConversationComponent = ({
       >
         reconnect
       </button> */}
-      {media ? (
-        <DesktopConversation
-          conversationResource={conversationResource}
-          conversation={conversation}
-          setRequest={setRequest}
-        />
-      ) : (
-        <MobileConversation
-          conversationResource={conversationResource}
-          conversation={conversation}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-          setRequest={setRequest}
-        />
-      )}
+
+      <DesktopConversation
+        conversationResource={conversationResource}
+        conversation={conversation}
+        setRequest={setRequest}
+      />
+
+      <MobileConversation
+        conversationResource={conversationResource}
+        conversation={conversation}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+        setRequest={setRequest}
+      />
     </>
   );
 };

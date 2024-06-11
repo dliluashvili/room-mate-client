@@ -300,6 +300,7 @@ export default function DesktopConversation({
             </div>
           </div>
         </div>
+
         {(() => {
           if (conversation?.status === ConversationStatus.Accepted) {
             return (
@@ -358,43 +359,47 @@ export default function DesktopConversation({
                   conversation={conversation}
                 />
 
-                <div
-                  style={{
-                    backgroundColor:
-                      conversation?.status === ConversationStatus.Requested
-                        ? "#838CAC"
-                        : "#c25744",
-                  }}
-                  className="py-6  w-full h-auto rounded-lg flex flex-col xl:flex-row items-center justify-between gap-5 px-10"
-                >
-                  <span className="text-[#FFFFFF] text-center">
-                    {conversation?.status === ConversationStatus.Requested
-                      ? t("acceptReject", { receiverName: participantFullName })
-                      : t("rejectedMessages", { participantFullName })}
-                  </span>
-                  <div className=" flex gap-4 flex-row  items-center">
-                    <button
-                      className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
-                      disabled={loading}
-                      onClick={handleAcceptClick}
-                    >
-                      {t("accept")}
-                    </button>
-                    {conversation?.status === ConversationStatus.Requested && (
+                {conversationResource && (
+                  <div
+                    style={{
+                      backgroundColor:
+                        conversation?.status === ConversationStatus.Requested
+                          ? "#838CAC"
+                          : "#c25744",
+                    }}
+                    className="py-6  w-full h-auto rounded-lg flex flex-col xl:flex-row items-center justify-between gap-5 px-10"
+                  >
+                    <span className="text-[#FFFFFF] text-center">
+                      {conversation?.status === ConversationStatus.Requested
+                        ? t("acceptReject", {
+                            receiverName: participantFullName,
+                          })
+                        : t("rejectedMessages", { participantFullName })}
+                    </span>
+                    <div className=" flex gap-4 flex-row  items-center">
                       <button
-                        className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
+                        className="py-3 px-14 bg-white rounded-xl text-[#838CAC]"
                         disabled={loading}
-                        onClick={handleRejectClick}
+                        onClick={handleAcceptClick}
                       >
-                        {t("reject")}
+                        {t("accept")}
                       </button>
-                    )}
+                      {conversation?.status ===
+                        ConversationStatus.Requested && (
+                        <button
+                          className="py-3 px-14 text-[#FFFFFF] border border-[#FFFFFF] rounded-xl"
+                          disabled={loading}
+                          onClick={handleRejectClick}
+                        >
+                          {t("reject")}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           }
-          return <></>;
         })()}
       </section>
     </>
