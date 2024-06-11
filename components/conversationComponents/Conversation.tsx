@@ -15,12 +15,7 @@ import {
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
 
-const ConversationComponent = ({
-  mobileOpen,
-  setMobileOpen,
-  setRequest,
-  media,
-}) => {
+const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =

@@ -12,6 +12,7 @@ import { LIMIT, OFFSET } from "../constants/pagination";
 import { useMediaQuery } from "react-responsive";
 import { twilioConnectionStateVar } from "../store/twilioVars";
 import { TwilioDisconnectionAlertDialog } from "../components/conversationComponents/TwilioDisconnectionAlertDialog";
+import { MEDIA_QUERY } from "../components/conversationComponents/constants";
 
 export default function conversation() {
   useCheckAuth();
@@ -19,7 +20,7 @@ export default function conversation() {
   const [request, setRequest] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const media = useMediaQuery({
-    query: "(min-width: 768px)",
+    query: MEDIA_QUERY,
   });
 
   const router = useRouter();
@@ -68,7 +69,7 @@ export default function conversation() {
       router.replace(`/conversation?id=${id}`, undefined, {
         shallow: true,
       });
-    } 
+    }
   }, [filteredConversationsByStatus]);
 
   useEffect(() => {
@@ -106,7 +107,6 @@ export default function conversation() {
             mobileOpen={mobileOpen}
             setMobileOpen={setMobileOpen}
             setRequest={setRequest}
-            media={media}
           />
         </div>
       </main>
