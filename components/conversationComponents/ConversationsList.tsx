@@ -224,7 +224,7 @@ export default function ConversationsList({
           >
             request
             {requestMessage && (
-              <div className="absolute br-[red]  z-50 -top-2 -right-5 ">
+              <div className="absolute   z-50 -top-2 -right-5 ">
                 <svg
                   width="20px"
                   height="18px"
