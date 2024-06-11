@@ -300,6 +300,7 @@ export default function DesktopConversation({
             </div>
           </div>
         </div>
+
         {(() => {
           if (conversation?.status === ConversationStatus.Accepted) {
             return (
@@ -341,6 +342,7 @@ export default function DesktopConversation({
               </div>
             );
           }
+         
 
           if (
             conversation?.status === ConversationStatus.Requested ||
@@ -394,7 +396,6 @@ export default function DesktopConversation({
               </div>
             );
           }
-          return <></>;
         })()}
       </section>
     </>

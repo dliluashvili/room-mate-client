@@ -185,18 +185,12 @@ export default function ConversationsList({
         item.status === ConversationStatus.Rejected ||
         item.status === ConversationStatus.Requested
     );
-    const id = filteredRequestsRejects?.[0]?.id;
-    if (filteredAccepts?.length === 0) {
+
+    if (
+      filteredAccepts?.length === 0 &&
+      filteredRequestsRejects?.length !== 0
+    ) {
       setRequest(true);
-      if (id && media) {
-        router.replace(`/conversation?id=${id}`, undefined, {
-          shallow: true,
-        });
-      } else if (id && !media && !mobileOpen) {
-        router.replace(`/conversation`, undefined, {
-          shallow: true,
-        });
-      }
     }
   }, [data]);
 

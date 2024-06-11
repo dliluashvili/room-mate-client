@@ -64,11 +64,11 @@ export default function conversation() {
           shallow: true,
         }
       );
-    } else if (!filteredConversationsByStatus.length && id) {
-      router.replace(`/conversation`, undefined, {
+    } else if (filteredConversationsByStatus.length && id) {
+      router.replace(`/conversation?id=${id}`, undefined, {
         shallow: true,
       });
-    }
+    } 
   }, [filteredConversationsByStatus]);
 
   useEffect(() => {

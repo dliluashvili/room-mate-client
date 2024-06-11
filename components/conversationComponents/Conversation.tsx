@@ -120,21 +120,20 @@ const ConversationComponent = ({
       >
         reconnect
       </button> */}
-      {media ? (
-        <DesktopConversation
-          conversationResource={conversationResource}
-          conversation={conversation}
-          setRequest={setRequest}
-        />
-      ) : (
-        <MobileConversation
-          conversationResource={conversationResource}
-          conversation={conversation}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-          setRequest={setRequest}
-        />
-      )}
+
+      <DesktopConversation
+        conversationResource={conversationResource}
+        conversation={conversation}
+        setRequest={setRequest}
+      />
+
+      <MobileConversation
+        conversationResource={conversationResource}
+        conversation={conversation}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+        setRequest={setRequest}
+      />
     </>
   );
 };
