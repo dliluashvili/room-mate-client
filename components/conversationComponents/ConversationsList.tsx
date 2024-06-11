@@ -201,7 +201,7 @@ export default function ConversationsList({
   }, [data]);
 
   return (
-    <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md overflow-hidden bg-[#FFFFFF] md:border-b-4 border-[gray]">
+    <section className="flex flex-col w-full md:w-[100px] lg:w-[400px]  items-start rounded-md  bg-[#FFFFFF] md:border-b-4 border-[gray]">
       <div className="block w-full">
         <div className="flex flex-row md:flex-col lg:flex-row items-center gap-6 justify-start px-6 py-2">
           <span
@@ -224,7 +224,38 @@ export default function ConversationsList({
           >
             request
             {requestMessage && (
-              <div className="absolute w-2 h-2 bg-[#DB0505] top-0 -right-2 rounded-full"></div>
+              <div className="absolute br-[red]  z-50 -top-2 -right-5 ">
+                <svg
+                  width="20px"
+                  height="18px"
+                  viewBox="0 0 24 24"
+                  fill="#ccdffc"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      opacity="0.15"
+                      d="M20 4H4V16H7V21L12 16H20V4Z"
+                      fill="#0A7CFF"
+                    />
+                    <path
+                      d="M8 10H8.01M12 10H12.01M16 10H16.01M4 4H20V16H12L7 21V16H4V4Z"
+                      stroke="#0A7CFF"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                </svg>
+              </div>
             )}
           </span>
         </div>
