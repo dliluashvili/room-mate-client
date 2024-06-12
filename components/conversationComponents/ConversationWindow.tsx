@@ -26,12 +26,14 @@ type Props = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   name: string;
   participantId: string;
+  avatar: string;
 };
 
 export default function ConversationWindow({
   setIsOpen,
   name,
   participantId,
+  avatar,
 }: Props) {
   const [messageText, setMessageText] = useState("");
   const [messageSendStatus, setMessageSendStatus] =
@@ -168,8 +170,20 @@ export default function ConversationWindow({
         <>
           <div className="flex flex-row w-full justify-between items-center p-6  shadow-md">
             <div className="flex flex-row w-full items-center justify-between">
-              <div className="w-full flex flex-row  items-center justify-start">
-                <Image src={TestAvatar} alt="123" width={40} height={40} />
+              <div className="w-full flex flex-row   items-center justify-start">
+                {avatar ? (
+                  <img
+                    src={avatar}
+                    className="rounded-full w-10 h-10"
+                    alt="123"
+                  />
+                ) : (
+                  <img
+                    className="rounded-full w-10 h-10"
+                    src="https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
+                    alt="123"
+                  />
+                )}
                 <div className="flex flex-col ml-6 justify-between">
                   <span>{name}</span>
                 </div>

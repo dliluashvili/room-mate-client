@@ -10,6 +10,7 @@ export interface ISearchItems {
   users_is_locked_communication: boolean;
   isFavourite: boolean;
   profile_image: string;
+  profileImage: string;
   favourite_id?: number;
   cardInfo: {
     districtNames: string;

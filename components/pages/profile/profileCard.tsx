@@ -15,6 +15,7 @@ interface IProps extends ISearchItems {
   setPayModal?: (payed: boolean) => void;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setName?: React.Dispatch<any>;
+  setAvatar?: React.Dispatch<any>;
   setUserId?: React.Dispatch<number | string>;
 }
 
@@ -24,12 +25,14 @@ const ProfileCard: React.FC<IProps> = ({
   id,
   favourite_id,
   isFavourite,
+  profileImage,
   setPayModal,
-  profile_image,
+
   cardInfo,
   updateAddRemove,
   setIsOpen,
   setName,
+  setAvatar,
   setUserId,
 }) => {
   const addRemoveFromFavorites = () => {
@@ -64,6 +67,7 @@ const ProfileCard: React.FC<IProps> = ({
       setIsOpen(true);
       setName(firstname);
       setUserId(id);
+      setAvatar(profileImage);
     }
   };
 
@@ -130,8 +134,8 @@ const ProfileCard: React.FC<IProps> = ({
             }}
             className="pointer"
             src={
-              profile_image
-                ? profile_image
+              profileImage
+                ? profileImage
                 : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
             }
           />
