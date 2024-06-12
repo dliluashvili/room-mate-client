@@ -9,6 +9,7 @@ interface IAnsweredAnswers {
 }
 
 export interface IUser {
+  profileImage: any;
   age?: number;
   email?: string | null;
   firstname?: string;
