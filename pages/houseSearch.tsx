@@ -301,9 +301,8 @@ const Search = () => {
               </div> */}
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
-              {!data?.length ? (
-                <div>...Loading</div>
-              ) : (
+              {data &&
+                data?.length &&
                 data?.map((item, index) => {
                   return (
                     <HouseCard2
@@ -329,8 +328,7 @@ const Search = () => {
                       updateAddRemove={updateAddRemove}
                     />
                   );
-                })
-              )}
+                })}
             </div>
             <div className="d-flex flex-wrap houseCard_container justify-content-md-start  justify-content-center">
               {!searchResults.length ? (
