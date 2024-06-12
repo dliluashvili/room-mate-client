@@ -65,12 +65,33 @@ export default function conversation() {
           shallow: true,
         }
       );
-    } else if (filteredConversationsByStatus.length && id) {
+    }
+
+    if (filteredConversationsByStatus.length && id) {
       router.replace(`/conversation?id=${id}`, undefined, {
         shallow: true,
       });
     }
   }, [filteredConversationsByStatus]);
+
+  useEffect(() => {
+    if (filteredConversationsByStatus.length && id) {
+      router.replace(
+        `/conversation?id=${filteredConversationsByStatus[0].id}`,
+        undefined,
+        {
+          shallow: true,
+        }
+      );
+    }
+    if (!filteredConversationsByStatus.length && id) {
+      router.replace(`/conversation`, undefined, {
+        shallow: true,
+      });
+    }
+  }, [request]);
+
+
 
   useEffect(() => {
     if (!media) {

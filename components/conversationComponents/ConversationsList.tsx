@@ -76,50 +76,10 @@ export default function ConversationsList({
 
   const chatClickHandler = () => {
     setRequest(false);
-    const filteredAccepts = data?.list?.filter(
-      (item) => item.status === ConversationStatus.Accepted
-    );
-
-    const id = filteredAccepts?.[0]?.id;
-
-    if (id && media) {
-      router.push(`/conversation?id=${id}`, undefined, {
-        shallow: true,
-      });
-    } else if (id && !media) {
-      router.push(`/conversation`, undefined, {
-        shallow: true,
-      });
-    } else {
-      router.push(`/conversation`, undefined, {
-        shallow: true,
-      });
-    }
   };
 
   const requestClickHandler = () => {
     setRequest(true);
-    const filteredRequestsRejects = data?.list?.filter(
-      (item) =>
-        item.status === ConversationStatus.Rejected ||
-        item.status === ConversationStatus.Requested
-    );
-
-    const id = filteredRequestsRejects?.[0]?.id;
-
-    if (id && media) {
-      router.push(`/conversation?id=${id}`, undefined, {
-        shallow: true,
-      });
-    } else if (id && !media) {
-      router.push(`/conversation`, undefined, {
-        shallow: true,
-      });
-    } else {
-      router.push(`/conversation`, undefined, {
-        shallow: true,
-      });
-    }
   };
 
   useEffect(() => {
