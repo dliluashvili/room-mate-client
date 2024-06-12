@@ -22,7 +22,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
     useState<Conversation | null>(null);
-
+  const [isLoading, setIsLoading] = useState(true);
   const media = useMediaQuery({
     query: MEDIA_QUERY,
   });
@@ -90,9 +90,16 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
     }
   }, [conversation, twilioClientState]);
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, [media]);
   return (
     <>
-      {media ? (
+      {isLoading ? (
+        <div className="w-full h-full flex justify-center items-center">
+          ...Loading
+        </div>
+      ) : media ? (
         <DesktopConversation
           conversationResource={conversationResource}
           conversation={conversation}
