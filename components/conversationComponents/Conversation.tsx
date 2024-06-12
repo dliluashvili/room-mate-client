@@ -14,12 +14,18 @@ import {
   twilioConnectionStateVar,
 } from "../../store/twilioVars";
 import { Client, Conversation } from "@twilio/conversations";
+import { useMediaQuery } from "react-responsive";
+import { MEDIA_QUERY } from "./constants";
 
 const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
   const [conversation, setConversation] =
     useState<ConversationWithUserObject | null>(null);
   const [conversationResource, setConversationResource] =
     useState<Conversation | null>(null);
+
+  const media = useMediaQuery({
+    query: MEDIA_QUERY,
+  });
 
   const twilioClient = useReactiveVar(twilioClientVar);
   const twilioClientState = useReactiveVar(twilioConnectionStateVar);
@@ -86,19 +92,21 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }) => {
 
   return (
     <>
-      <DesktopConversation
-        conversationResource={conversationResource}
-        conversation={conversation}
-        setRequest={setRequest}
-      />
-
-      <MobileConversation
-        conversationResource={conversationResource}
-        conversation={conversation}
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-        setRequest={setRequest}
-      />
+      {media ? (
+        <DesktopConversation
+          conversationResource={conversationResource}
+          conversation={conversation}
+          setRequest={setRequest}
+        />
+      ) : (
+        <MobileConversation
+          conversationResource={conversationResource}
+          conversation={conversation}
+          mobileOpen={mobileOpen}
+          setMobileOpen={setMobileOpen}
+          setRequest={setRequest}
+        />
+      )}
     </>
   );
 };
