@@ -269,10 +269,12 @@ export default function MobileConversation({
     }
 
     () => {
-      return twilioClient.removeListener(
-        "conversationUpdated",
-        updateConversationStatusInCache
-      );
+      if (twilioClient) {
+        return twilioClient.removeListener(
+          "conversationUpdated",
+          updateConversationStatusInCache
+        );
+      }
     };
   }, [twilioClient]);
 
