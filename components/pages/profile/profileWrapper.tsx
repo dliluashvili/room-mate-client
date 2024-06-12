@@ -39,8 +39,7 @@ const ProfileWrapper: React.FC<IProps> = ({
     <div>
       {/* <Header type="profile" /> */}
       <NewHeader />
-      
-   
+
       <div
         className={classnames("profile_wrapper", {
           [consumerPage]: consumerPage,
