@@ -62,6 +62,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
   const fileRef: any = useRef();
 
   const { user } = useTypedSelector((state) => state.profile);
+  const [avatar, setAvatar] = useState(null);
   const checkAuth = useCheckUnAuthResponse();
 
   const userContactRequest = () => {
@@ -186,6 +187,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
     } else {
       setIsOpen(true);
       setName(props.firstname);
+      setAvatar(props.profile_image);
     }
   };
 
@@ -196,6 +198,7 @@ const SideBar: React.FC<ISidebar> = (props) => {
           setIsOpen={setIsOpen}
           name={name}
           participantId={String(props.id)}
+          avatar={avatar}
         />
       ) : null}
       <ToastContainer />
@@ -276,8 +279,8 @@ const SideBar: React.FC<ISidebar> = (props) => {
               {props.myProfile ? (
                 <img
                   src={
-                    user?.profile_image
-                      ? user?.profile_image
+                    avatar
+                      ? avatar
                       : "https://www.portmelbournefc.com.au/wp-content/uploads/2022/03/avatar-1.jpeg"
                   }
                 />

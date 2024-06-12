@@ -27,7 +27,6 @@ const ProfileCard: React.FC<IProps> = ({
   isFavourite,
   profileImage,
   setPayModal,
-
   cardInfo,
   updateAddRemove,
   setIsOpen,
@@ -70,6 +69,8 @@ const ProfileCard: React.FC<IProps> = ({
       setAvatar(profileImage);
     }
   };
+
+
 
   return (
     <div className="userCard_wrapper">
