@@ -9,6 +9,9 @@ import { SearchProvider } from "../components/pages/search/context/searchContext
 import { HouseSearchProvider } from "../components/pages/houseSearch/houseSearchComponets/houseSearchContext";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import { hotjar } from "react-hotjar";
+import { ApolloWrapper } from "../providers/apolloProvider";
+import TwilioClientWrapper from "../components/TwilioClientWrapper";
+import { Toaster } from "../@/components/ui/toaster";
 
 // import { Html } from "next/document";
 
@@ -19,6 +22,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <meta charSet="utf-8" />
         <title>Roommate Georgia</title>
         <meta
@@ -84,7 +91,12 @@ function MyApp({ Component, pageProps }) {
         <HouseSearchProvider>
           <SearchProvider>
             <Provider store={store}>
-              <Component {...pageProps} />
+              <ApolloWrapper>
+                <TwilioClientWrapper>
+                  <Component {...pageProps} />
+                  <Toaster />
+                </TwilioClientWrapper>
+              </ApolloWrapper>
             </Provider>
           </SearchProvider>
         </HouseSearchProvider>

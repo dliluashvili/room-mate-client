@@ -9,17 +9,15 @@ import useTranslation from "next-translate/useTranslation";
 import axios from "axios";
 import { BASE_URL_GRAPHQL } from "../services/api";
 import Pagination from "../components/common/pagination";
-import { LangEnum } from "../graphql";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import Loader from "../components/common/loader";
 import UserFilter from "../components/UserFilter";
-
 import CloseIcone from "../public/newImages/close-circle.svg";
 import Image from "next/image";
 import FilterIcon from "../public/newImages/filter-search.svg";
-
 import { useLockBodyScroll } from "../components/hooks/useLockBodyScroll";
+import ConversationWindow from "../components/conversationComponents/ConversationWindow";
 
 const Search = () => {
   useCheckAuth();
@@ -39,7 +37,6 @@ const Search = () => {
 
   const router = useRouter();
 
-
   const getSearchResults = async () => {
     const token = localStorage.getItem("token");
     const query = `
@@ -58,10 +55,12 @@ const Search = () => {
                     firstname
                     age
                     isFavourite
+                    profileImage
                     cardInfo {
                       bio
                       districtNames
                       budget
+                         
                     }
                   }
                 }
@@ -126,8 +125,22 @@ const Search = () => {
     setSearchResults(updatedSearchResults);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [participantId, setParticipantId] = useState(null);
+
+  console.log(searchResults);
   return (
     <>
+      {isOpen ? (
+        <ConversationWindow
+          setIsOpen={setIsOpen}
+          name={name}
+          participantId={participantId}
+          avatar={avatar}
+        />
+      ) : null}
       <NewHeader />
       {openPayModal ? (
         <PayModal
@@ -138,7 +151,7 @@ const Search = () => {
         />
       ) : null}
 
-      <div className="searchPage   ">
+      <div className="searchPage">
         <div className="flex flex-col lg:flex-row  relative    w-full lg:pl-20 xl:pl-24  lg:pt-10 ">
           <div className="hidden lg:flex">
             <UserFilter
@@ -194,6 +207,10 @@ const Search = () => {
                   searchResults?.map((el) => {
                     return (
                       <ProfileCard
+                        setIsOpen={setIsOpen}
+                        setName={setName}
+                        setAvatar={setAvatar}
+                        setUserId={setParticipantId}
                         setPayModal={() => {
                           setOpenPayModal(true);
                         }}

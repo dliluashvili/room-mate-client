@@ -1,33 +1,16 @@
-import React from "react";
-import ProfileWrapper from "../../components/pages/profile/profileWrapper";
-import ProfileTab from "../../components/pages/profile/components/profileTab";
-import Notifications from "../../components/pages/profile/notifications";
-import useTranslation from "next-translate/useTranslation";
+import React, { useLayoutEffect } from "react";
+import { useRouter } from "next/router";
 
-const Profile = (props) => {
-  let { t } = useTranslation("common");
+const Profile = () => {
+  const router = useRouter();
 
-  const tabs = [
-    {
-      label: t("notifications"),
-      path: "/profile",
-    },
-    {
-      label: t("favorites"),
-      path: "/profile/favorites",
-    },
-    {
-      label: t("savedApartments"),
-      path: "/profile/flats",
-    },
-  ];
+  useLayoutEffect(() => {
+    router.replace("/profile/favorites", undefined, {
+      shallow: true,
+    });
+  });
 
-  return (
-    <ProfileWrapper>
-      <ProfileTab tabs={tabs} />
-      <Notifications />
-    </ProfileWrapper>
-  );
+  return <></>;
 };
 
 export default Profile;

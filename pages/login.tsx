@@ -13,6 +13,8 @@ import useTranslation from "next-translate/useTranslation";
 import NewHeader from "../components/NewHeader";
 import NewFooter from "../components/NewFooter";
 import withAuth from "../components/withAuth";
+import { useApolloClient } from "@apollo/client";
+import { authLink, httpLink } from "../providers/apolloProvider";
 
 interface ILoginForm {
   password: string;
@@ -34,19 +36,19 @@ const Login = () => {
     getValues,
     formState: { errors },
   } = useForm<ILoginForm>();
+  const [load, setLoad] = useState(false);
 
   let { t } = useTranslation("common");
 
-  //   const [errors, setErrors] = useState<IErrorMsg>({});
-
-  const [load, setLoad] = useState(false);
+  const client = useApolloClient();
 
   const submit = handleSubmit(async (data: any) => {
-    // console.log(errors);'
-
     setLoad(true);
     try {
       const res = await AuthService.login(data);
+
+      const newLink = authLink.concat(httpLink);
+      client.setLink(newLink);
 
       // debugger;
       dispatch(setCurrentUser({ user: null, token: res.data.access_token }));

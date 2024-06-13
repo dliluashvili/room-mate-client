@@ -8,7 +8,6 @@ interface IProps {
 
 const ImgPreview2: React.FC<IProps> = ({ images }) => {
   const [currentId, setCurrentId] = useState(0);
-
   return (
     <div className="ImgPreview_container">
       {images.map((el, i) => {
