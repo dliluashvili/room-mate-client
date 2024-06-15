@@ -32,9 +32,7 @@ export const useInitializeNotification = () => {
 
   const isInitFunctionInitialized = useRef(false);
 
-  const websiteLoadDateRef = useRef(new Date());
-
-  const newlyCreatedConversationsRef = useRef<Conversation[]>([]);
+  const loadDate = useRef(new Date());
 
   const client = useApolloClient();
 
@@ -350,14 +348,9 @@ export const useInitializeNotification = () => {
 
   const handleConversationJoined = async (conversation: Conversation) => {
     if (
-      conversation.dateCreated > websiteLoadDateRef.current &&
+      conversation.dateCreated > loadDate.current &&
       conversation.createdBy !== twilioClient.user.identity
     ) {
-      newlyCreatedConversationsRef.current = [
-        ...newlyCreatedConversationsRef.current,
-        conversation,
-      ];
-
       const messages = await conversation.getMessages();
 
       updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
@@ -386,12 +379,6 @@ export const useInitializeNotification = () => {
           "conversationJoined",
           handleConversationJoined
         );
-      }
-
-      if (newlyCreatedConversationsRef.current.length) {
-        newlyCreatedConversationsRef.current.forEach((conversation) => {
-          conversation.removeListener("messageAdded", handleMessageAdded);
-        });
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
