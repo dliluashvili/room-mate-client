@@ -32,7 +32,7 @@ export const useInitializeNotification = () => {
 
   const isInitFunctionInitialized = useRef(false);
 
-  const websiteLoadDate = useRef(new Date());
+  const websiteLoadDateRef = useRef(new Date());
 
   const newlyCreatedConversationsRef = useRef<Conversation[]>([]);
 
@@ -341,40 +341,51 @@ export const useInitializeNotification = () => {
   };
 
   const handleMessageAdded = async (message: Message) => {
+    console.log("message");
     updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
       [message],
       message.conversation.sid
     );
   };
 
+  const handleConversationJoined = async (conversation: Conversation) => {
+    if (
+      conversation.dateCreated > websiteLoadDateRef.current &&
+      conversation.createdBy !== twilioClient.user.identity
+    ) {
+      newlyCreatedConversationsRef.current = [
+        ...newlyCreatedConversationsRef.current,
+        conversation,
+      ];
+
+      const messages = await conversation.getMessages();
+
+      updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
+        messages.items,
+        conversation.sid
+      );
+    }
+  };
+
   useEffect(() => {
     if (twilioClient && user) {
-      twilioClient.addListener("messageAdded", (message) => {
-        handleMessageAdded(message);
-      });
-
-      twilioClient.addListener("conversationJoined", async (conversation) => {
-        if (conversation.dateCreated > websiteLoadDate.current) {
-          newlyCreatedConversationsRef.current = [
-            ...newlyCreatedConversationsRef.current,
-            conversation,
-          ];
-
-          const messages = await conversation.getMessages();
-
-          updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
-            messages.items,
-            conversation.sid
-          );
-
-          conversation.addListener("messageAdded", handleMessageAdded);
-        }
-      });
+      twilioClient.addListener("messageAdded", handleMessageAdded);
+      twilioClient.addListener("conversationJoined", handleConversationJoined);
     }
 
     return () => {
       if (twilioClient) {
         twilioClient.removeListener("messageAdded", handleMessageAdded);
+
+        /**
+         * When 'A' user will add 'B' user to conversation,
+         * 'B' user can not see current conversation in live mode before will not refresh page.
+         * With the below listener new conversation added to 'B' user and starts listening for its messages.
+         */
+        twilioClient.removeListener(
+          "conversationJoined",
+          handleConversationJoined
+        );
       }
 
       if (newlyCreatedConversationsRef.current.length) {

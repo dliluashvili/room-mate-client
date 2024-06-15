@@ -130,7 +130,6 @@ const Search = () => {
   const [avatar, setAvatar] = useState(null);
   const [participantId, setParticipantId] = useState(null);
 
-  console.log(searchResults);
   return (
     <>
       {isOpen ? (
