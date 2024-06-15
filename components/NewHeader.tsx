@@ -57,7 +57,7 @@ export default function NewHeader() {
   const unreadMessagesCount = useMemo(() => {
     if (data?.getConversationsForUser?.list?.length) {
       return data?.getConversationsForUser?.list.reduce((acc, conversation) => {
-        const sum = conversation.unreadMessagesCount + acc;
+        const sum = conversation?.unreadMessagesCount ?? 0 + acc;
         return sum;
       }, 0);
     }
