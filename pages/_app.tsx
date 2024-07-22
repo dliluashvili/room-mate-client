@@ -95,6 +95,7 @@ function MyApp({ Component, pageProps }) {
             <Provider store={store}>
               <ApolloWrapper>
                 <TwilioClientWrapper>
+                  <Facebook />
                   <Component {...pageProps} />
                   <Toaster />
                 </TwilioClientWrapper>
