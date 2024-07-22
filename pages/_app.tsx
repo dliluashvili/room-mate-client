@@ -12,6 +12,7 @@ import { hotjar } from "react-hotjar";
 import { ApolloWrapper } from "../providers/apolloProvider";
 import TwilioClientWrapper from "../components/TwilioClientWrapper";
 import { Toaster } from "../@/components/ui/toaster";
+import Facebook from "../components/tracking/Facebook";
 
 // import { Html } from "next/document";
 
@@ -84,6 +85,7 @@ function MyApp({ Component, pageProps }) {
         {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> */}
       </Head>
       <div>
+        <Facebook />
         <MessengerCustomerChat
           pageId="103648229133196"
           appId="1116841412243862"
