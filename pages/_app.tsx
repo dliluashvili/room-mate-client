@@ -57,6 +57,10 @@ function MyApp({ Component, pageProps }) {
           async
           src={`https://www.googletagmanager.com/gtag/js?id=G-90LQL896FN`}
         />
+        <script
+          async
+          src={`https://www.googletagmanager.com/ns.html?id=GTM-586WWRZ6`}
+        />
 
         <script
           dangerouslySetInnerHTML={{
@@ -77,7 +81,7 @@ function MyApp({ Component, pageProps }) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
-              gtag('config', 'G-90LQL896FN')
+              gtag('config', 'G-586WWRZ6')
           `,
           }}
         />
@@ -97,6 +101,7 @@ function MyApp({ Component, pageProps }) {
                 <TwilioClientWrapper>
                   <Facebook />
                   <Component {...pageProps} />
+
                   <Toaster />
                 </TwilioClientWrapper>
               </ApolloWrapper>
