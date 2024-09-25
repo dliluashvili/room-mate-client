@@ -5,17 +5,13 @@ const nextConfig = {
             test: /\.svg$/,
             use: { loader: '@svgr/webpack', options: { icon: true } },
         })
-
         return config
     },
-
     images: {
-        domains: ['img.roommategeorgia.ge', 'flagcdn.com', 'localhost'],
         remotePatterns: [
             {
                 protocol: 'https',
                 hostname: 'img.roommategeorgia.ge',
-                port: '',
                 pathname: '/public/static/images/**',
             },
             {
@@ -23,6 +19,10 @@ const nextConfig = {
                 hostname: 'localhost',
                 port: '7777',
                 pathname: '/public/static/images/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'flagcdn.com',
             },
         ],
     },
