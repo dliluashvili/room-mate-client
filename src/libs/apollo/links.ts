@@ -19,10 +19,6 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_API,
-    headers: {
-        'Content-Type': 'application/json',
-        'apollo-require-preflight': 'true',
-    },
 })
 
 const restLink = new RestLink({ uri: process.env.NEXT_PUBLIC_REST_API })
