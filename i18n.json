@@ -1,9 +1,0 @@
-{
-  "locales": ["ka", "en"],
-  "defaultLocale": "ka",
-  "localeDetection": false,
-  "pages": {
-    "*": ["common"],
-    "/about": ["about"]
-  }
-}

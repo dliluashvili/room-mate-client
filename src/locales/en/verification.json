@@ -1,0 +1,11 @@
+{
+    "successUpload": "Successfuly uploaded",
+    "requiredAllImage": "All images are required",
+    "alreadyVerified": "User is already verified",
+    "inReview": "Verification is under review",
+    "frontIdRequired": "Front side of ID is required",
+    "backIdRequired": "Back side of ID is required",
+    "selfieRequired": "Selfie is required",
+    "maxImage": "Maximum image amount is one",
+    "maxMb": "Maximum size of image is 5 MB"
+}
