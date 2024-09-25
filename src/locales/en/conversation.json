@@ -1,0 +1,21 @@
+{
+    "aboutChat1": "Introduce yourself briefly, sharing your budget and location. Once sent, {{receiverName}}  decide whether to accept it. ",
+    "aboutChat2": "Upon acceptance, you'll receive a notification, so ensure your initial message leaves a positive impression!",
+    "sendMessageError1": "Oops, a technical issue occurred while sending the message. To view the sent message, go to the Messages tab.",
+    "sendMessageError2": "Oops! Something went wrong while sending your message. Please reach out to our support team for assistance.",
+    "successMessage": "The message has been successfully sent. If {{receiverName}} accepts your message, you will receive an SMS.",
+    "checkMessages": "Go to Message Tab",
+    "keepSearch": "Keep Searching",
+    "supportTeam": "Contact our support team",
+    "cancel": "Cancel",
+    "acceptReject": "If you accept message, {{receiverName}} will be able to message you and will see your profile. If you won’t accapt {{receiverName}} can’t send you messages. ",
+    "accept": "Accept",
+    "reject": "Reject",
+    "rejected": "You can't send messages, and you won't receive theirs either. It appears that your message was rejected.",
+    "rejectedMessages": "Since you've declined the message, you're currently unable to send messages. To proceed with communication, please click the 'accept' button.",
+    "twilioError": "Oops! It looks like there's an issue with the website  🧐 Please try refreshing the page to resolve it 💫",
+    "refresh": "Refresh website",
+    "chat": "Chat",
+    "request": "Request",
+    "sendMessage": "Send message"
+}
