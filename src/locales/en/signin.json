@@ -1,0 +1,20 @@
+{
+    "auth": "Authorization",
+    "phoneNum": "Phone number",
+    "password": "Password",
+    "signIn": "Sign In",
+    "forgotPass": "Forgot password?",
+    "signInError": "Invalid phone or password",
+    "resetPassword": "Reset password",
+    "back": "Back",
+    "codeSentOn": "Code sent on",
+    "fillField": "Please fill field with pin",
+    "notGetCode": "Did not get code?",
+    "resendCode": "Resend code",
+    "verify": "Verification",
+    "signupModal": "Sign up",
+    "userNotFound": "User not found",
+    "invalidPhone": "Please enter phone number",
+    "noSendCode": "Code not sent",
+    "invalidPhoneOrMail": "Please enter phone or email"
+}
