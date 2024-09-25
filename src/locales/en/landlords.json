@@ -58,5 +58,8 @@
     "rooms": "Rooms",
     "area": "Area",
     "withoutDeposit": "Without deposit",
-    "avaiableForRent": "Available for rent"
+    "avaiableForRent": "Available for rent",
+    "partyAllowed": "Party",
+    "petAllowed": "Pet allowed",
+    "depositAmount": "Deposit"
 }

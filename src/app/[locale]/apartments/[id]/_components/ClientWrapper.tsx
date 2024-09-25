@@ -4,7 +4,11 @@ import { Language } from '@/graphql/typesGraphql'
 import {
     Call,
     Checkbox,
+    Heating,
     Location,
+    Party,
+    Person,
+    Pet,
     PropertyBed,
     PropertyDoor,
     PropertyLedder,
@@ -191,11 +195,11 @@ export default function ClientWrapper() {
                     <span>
                         {t('minRentPeriond')}: {dataById?.getProperty?.minRentalPeriod}
                     </span>
-                    {dataById?.getProperty?.withDeposit ? (
+                    {!dataById?.getProperty?.withDeposit ? (
                         <div className="w-auto bg-[#CFF1E6] p-2">{t('withoutDeposit')}</div>
                     ) : (
                         <div className="bg-[#CFF1E]">
-                            {dataById?.getProperty?.propertyDeposit?.amount}
+                            {t('depositAmount')}: {dataById?.getProperty?.propertyDeposit?.amount} $
                         </div>
                     )}
                 </div>
@@ -232,6 +236,35 @@ export default function ClientWrapper() {
                         {t('floors')}: {dataById?.getProperty?.totalFloors}/
                         {dataById?.getProperty?.floor}
                     </span>
+                </div>
+                <div className="flex flex-row items-center gap-1 md:gap-3">
+                    <Pet className="h-5 w-5" />
+                    <span className="md:text-sm">{t('petAllowed')}:</span>
+                    {dataById?.getProperty?.petAllowed ? (
+                        <Checkbox className="h-4 w-4 md:h-5 md:w-5" checked={true} readOnly />
+                    ) : (
+                        <X className="h-4 w-4 text-red-500 md:h-5 md:w-5" />
+                    )}
+                </div>
+                <div className="flex flex-row items-center gap-1 md:gap-3">
+                    <Party className="h-5 w-5" />
+                    <span className="md:text-sm">{t('partyAllowed')}:</span>
+                    {dataById?.getProperty?.partyAllowed ? (
+                        <Checkbox className="h-4 w-4 md:h-5 md:w-5" checked={true} readOnly />
+                    ) : (
+                        <X className="h-4 w-4 text-red-500 md:h-5 md:w-5" />
+                    )}
+                </div>
+                <div className="flex flex-row items-center gap-2 md:gap-3">
+                    <Heating className="h-5 w-5" />
+
+                    {dataById?.getProperty?.housingHeatingTypes?.[0]?.translations?.[0]?.name ||
+                        'N/A'}
+                </div>
+                <div className="flex flex-row items-center gap-2 md:gap-3">
+                    <Person className="h-6 w-6" />
+                    <span className="md:text-sm">{t('capacity')}:</span>
+                    {dataById?.getProperty?.capacity}
                 </div>
             </div>
             <div className="flex h-auto w-full flex-col gap-2 rounded-lg border border-[#E3E3E3] p-4 shadow-lg md:gap-4 md:p-8 ">

@@ -71,16 +71,12 @@ function ClientWrapper() {
                             <span className="text-xs">{t('myListings')}</span>
                         </button>
                     </Link>
-                    <a
-                        href="/files/Landlord_x_Student_ENG.GEO.docx"
-                        className="hover:bg-slate-100"
-                        download
-                    >
+                    <Link target="_blank" href="/apartments">
                         <button className="flex h-full items-center justify-center gap-2 rounded-md border border-[#838CAC] p-3 text-[#838CAC] md:w-52">
                             <Blank className="h-5 w-5" />
-                            <span className="text-xs">{t('contract')}</span>
+                            <span className="text-xs">{t('allList')}</span>
                         </button>
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className="h-[1px] w-full bg-[#E3E3E3]"></div>

@@ -58,5 +58,8 @@
     "rooms": "ოთახებო",
     "area": "ფართი",
     "withoutDeposit": "დეპოზიტის გარეშე",
-    "avaiableForRent": "ქირაობა ხელმისაწვდომია"
+    "avaiableForRent": "ქირაობა ხელმისაწვდომია",
+    "partyAllowed": "წვეულება",
+    "petAllowed": "შინაური ცხოველები",
+    "depositAmount": "დეპოზიტი"
 }

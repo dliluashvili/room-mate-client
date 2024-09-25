@@ -53,7 +53,9 @@ function ClientWrapper() {
                 alt="cover image"
                 className=" h-[150px] w-full object-cover object-center md:h-auto"
             />
-            <h1 className="py-4 text-center  text-base font-semibold md:text-xl">{t('allList')}</h1>
+            <h1 className="py-4 text-center  text-base font-semibold md:text-xl">
+                {t('myListings')}
+            </h1>
             {data?.getLandlordProperties?.list?.map((item, index) => (
                 <div className="flex w-full flex-col gap-4  px-6 md:w-auto">
                     <div
