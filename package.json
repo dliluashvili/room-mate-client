@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start --port 7777",
+        "start": "next start --port 8081",
+        "start:testing": "next start -p 8082",
         "lint": "next lint",
         "codegen": "graphql-codegen --config codegen.ts"
     },
