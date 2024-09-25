@@ -103,8 +103,9 @@ export default function Header() {
 
     unreadMessagesCount =
         data?.getConversationsForUser?.list?.reduce((acc, conversation) => {
-            return acc + conversation?.unreadMessagesCount ?? 0
-        }, 0) ?? 0
+            const nextAcc = acc + conversation?.unreadMessagesCount
+            return nextAcc
+        }, 0) || 0
 
     const renderAuthSection = () => {
         if (!isClient || isLoadingUser) {
