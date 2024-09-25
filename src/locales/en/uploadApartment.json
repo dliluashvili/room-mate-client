@@ -59,5 +59,6 @@
     "IMAGES__MIN": "At least one image is required",
     "IMAGES__MAX": "No more than 15 images are allowed",
     "DEPOSIT_ID__REQUIRED": "Deposit required",
-    "canNotUpload": "The property could not be uploaded due to various reasons. Please reach out to us, and we'll resolve the issue quickly."
+    "canNotUpload": "The property could not be uploaded due to various reasons. Please reach out to us, and we'll resolve the issue quickly.",
+    "apartmentBedrooms": "Number of bedrooms"
 }

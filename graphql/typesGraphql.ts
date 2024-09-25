@@ -900,6 +900,7 @@ export type UpsertPropertyInput = {
     availableFrom?: InputMaybe<Scalars['DateTime']['input']>
     bathroomsInBedroom?: InputMaybe<Scalars['Float']['input']>
     bathroomsInProperty?: InputMaybe<Scalars['Float']['input']>
+    bedrooms?: InputMaybe<Scalars['Float']['input']>
     cadastralCode?: InputMaybe<Scalars['String']['input']>
     capacity?: InputMaybe<Scalars['Float']['input']>
     contactName?: InputMaybe<Scalars['String']['input']>

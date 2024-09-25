@@ -136,6 +136,8 @@ function ClientWrapper() {
                             titles: getValues('titles'),
                             street: getValues('street'),
                             rooms: getValues('rooms'),
+                            bedrooms: getValues('bedrooms'),
+
                             propertyTypeId: getValues('propertyTypeId'),
                             propertyDepositId: getValues('propertyDepositId'),
                             propertyAmenityIds: getValues('propertyAmenityIds'),
@@ -271,6 +273,16 @@ function ClientWrapper() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{t('apartmentRooms')}</FormLabel>
+                                        <StaticNumericToggle field={field} />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={control}
+                                name="bedrooms"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>{t('apartmentBedrooms')}</FormLabel>
                                         <StaticNumericToggle field={field} />
                                     </FormItem>
                                 )}
