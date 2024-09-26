@@ -35,15 +35,16 @@ export const getCountriesQuery: TypedDocumentNode<
     { getCountries: Query['getCountries'] },
     QueryGetCountriesArgs
 > = gql`
-    query GetCountries($locale: Language) {
+    query GetCountry($locale: Language) {
         getCountries(locale: $locale) {
             id
             alpha2Code
             position
+            visible
             translations {
                 id
-                lang
                 name
+                lang
             }
         }
     }
