@@ -43,6 +43,7 @@ function ClientWrapper() {
     const [getCodeButtonClicked, setGetCodeButtonClicked] = useState(false)
     const [openAlert, setOpenAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const params = useParams()
     const locale = params.locale
@@ -106,6 +107,9 @@ function ClientWrapper() {
     }
 
     const onSubmit = async () => {
+        if (isSubmitting) return // Prevent multiple submissions
+
+        setIsSubmitting(true)
         try {
             const { data: codeData, errors: codeErrors } = await smsCheck({
                 variables: {
@@ -176,6 +180,8 @@ function ClientWrapper() {
             }
         } catch (error) {
             console.error('Error during submission:', error)
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -731,7 +737,12 @@ function ClientWrapper() {
                                 </div>
                             </div>
 
-                            <Button onClick={checkErrorsHandler} type="submit" className="w-full">
+                            <Button
+                                onClick={checkErrorsHandler}
+                                disabled={isSubmitting}
+                                type="submit"
+                                className="w-full"
+                            >
                                 {t('upload')}
                             </Button>
                         </form>
