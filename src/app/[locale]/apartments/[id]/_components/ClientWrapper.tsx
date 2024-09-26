@@ -37,7 +37,7 @@ export default function ClientWrapper() {
 
     const { data: property, error: propertyErorr } = useQuery(GetPropertiesData, {
         variables: {
-            lang: locale as Language,
+            locale: locale as Language,
             id: id,
         },
     })
