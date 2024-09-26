@@ -61,7 +61,7 @@ export const withAuth = (WrappedComponent: React.ComponentType) => {
 
             if (!isAuthenticated.valid) {
                 if (isLandlordPath) {
-                    router.replace('/landlords?modal=signinLandlords')
+                    router.replace('/landlords?modal=signupLandlords')
                 } else if (isRoommatePath) {
                     router.replace('/?modal=signinRoommates')
                 } else if (separatlyRoommates) {
