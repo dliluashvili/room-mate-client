@@ -43,6 +43,7 @@ function ClientWrapper() {
     const [getCodeButtonClicked, setGetCodeButtonClicked] = useState(false)
     const [openAlert, setOpenAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const params = useParams()
     const locale = params.locale
@@ -68,7 +69,16 @@ function ClientWrapper() {
         data,
     })
 
-    const { trigger, formState, getValues, setError, watch, setValue, control, handleSubmit } = form
+    const {
+        trigger,
+        formState: { isValid },
+        getValues,
+        setError,
+        watch,
+        setValue,
+        control,
+        handleSubmit,
+    } = form
 
     const getCodeHandler = async () => {
         const isValid = await trigger('phone')
@@ -106,6 +116,9 @@ function ClientWrapper() {
     }
 
     const onSubmit = async () => {
+        if (isSubmitting) return // Prevent multiple submissions
+
+        setIsSubmitting(true)
         try {
             const { data: codeData, errors: codeErrors } = await smsCheck({
                 variables: {
@@ -137,7 +150,6 @@ function ClientWrapper() {
                             street: getValues('street'),
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
-
                             propertyTypeId: getValues('propertyTypeId'),
                             propertyDepositId: getValues('propertyDepositId'),
                             propertyAmenityIds: getValues('propertyAmenityIds'),
@@ -176,12 +188,14 @@ function ClientWrapper() {
             }
         } catch (error) {
             console.error('Error during submission:', error)
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
     const checkErrorsHandler = async () => {
         await trigger()
-        if (!formState.isValid) {
+        if (!isValid) {
             setOpenAlert(true)
             setAlertMessage('requiredFields')
         }
@@ -199,7 +213,7 @@ function ClientWrapper() {
         })
 
         return () => subscription.unsubscribe()
-    }, [watch, setValue, trigger, formState])
+    }, [watch, setValue, trigger])
 
     return (
         <>
@@ -731,7 +745,12 @@ function ClientWrapper() {
                                 </div>
                             </div>
 
-                            <Button onClick={checkErrorsHandler} type="submit" className="w-full">
+                            <Button
+                                onClick={checkErrorsHandler}
+                                disabled={isSubmitting}
+                                type="submit"
+                                className="w-full"
+                            >
                                 {t('upload')}
                             </Button>
                         </form>
