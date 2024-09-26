@@ -7,6 +7,7 @@ import { useModalHandlers } from './modalHandlers/ModalHandlers'
 import { Drawer, DrawerContent } from '@/src/components/ui/drawer'
 import { useMediaQuery } from 'react-responsive'
 import { ContentWrapper } from './modalContent/ContentWrapper'
+import { X } from 'lucide-react'
 
 export const ModalWrapper = () => {
     const [modalStatus, setModalStatus] = useState(false)
@@ -30,8 +31,11 @@ export const ModalWrapper = () => {
     return (
         <>
             {isMobile ? (
-                <Drawer open={modalStatus} onClose={modalCloseHandler}>
-                    <DrawerContent className="flex h-[95%] items-center justify-center">
+                <Drawer open={modalStatus} dismissible={false} onClose={modalCloseHandler}>
+                    <DrawerContent className="flex h-[100%] items-center justify-center">
+                        <div className="flex w-full justify-end p-5">
+                            <X onClick={modalCloseHandler} />
+                        </div>
                         <ContentWrapper />
                     </DrawerContent>
                 </Drawer>
