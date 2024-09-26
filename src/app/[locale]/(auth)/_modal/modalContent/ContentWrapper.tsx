@@ -48,7 +48,7 @@ export const ContentWrapper = () => {
 
     return (
         <>
-            <div className="flex h-full w-full  flex-col items-center  gap-4 gap-y-4    overflow-hidden border-none p-6 md:w-[460px] md:p-12">
+            <div className="flex h-full w-full  flex-col items-center  gap-4 gap-y-4    overflow-y-auto border-none p-6 md:w-[460px] md:p-12">
                 {modalType === 'signinChooseType' ? (
                     <SigninChooseType
                         signinRoommatesHandler={signinRoommatesHandler}
