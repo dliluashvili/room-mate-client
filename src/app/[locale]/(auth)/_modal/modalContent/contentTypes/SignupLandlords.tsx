@@ -30,7 +30,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
             if (signupMethod === 'email') {
                 const { email } = form.getValues()
                 const { data, errors } = await sendCodeEmail({
-                    variables: { input: { email } },
+                    variables: { input: { email, codePurpose: CodePurpose.LandlordSignUp } },
                 })
 
                 if (errors) {
