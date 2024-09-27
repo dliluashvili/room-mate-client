@@ -69,7 +69,16 @@ function ClientWrapper() {
         data,
     })
 
-    const { trigger, formState, getValues, setError, watch, setValue, control, handleSubmit } = form
+    const {
+        trigger,
+        formState: { isValid },
+        getValues,
+        setError,
+        watch,
+        setValue,
+        control,
+        handleSubmit,
+    } = form
 
     const getCodeHandler = async () => {
         const isValid = await trigger('phone')
@@ -141,7 +150,6 @@ function ClientWrapper() {
                             street: getValues('street'),
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
-
                             propertyTypeId: getValues('propertyTypeId'),
                             propertyDepositId: getValues('propertyDepositId'),
                             propertyAmenityIds: getValues('propertyAmenityIds'),
@@ -187,7 +195,7 @@ function ClientWrapper() {
 
     const checkErrorsHandler = async () => {
         await trigger()
-        if (!formState.isValid) {
+        if (!isValid) {
             setOpenAlert(true)
             setAlertMessage('requiredFields')
         }
@@ -205,7 +213,7 @@ function ClientWrapper() {
         })
 
         return () => subscription.unsubscribe()
-    }, [watch, setValue, trigger, formState])
+    }, [watch, setValue, trigger])
 
     return (
         <>
