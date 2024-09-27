@@ -27,6 +27,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
                     url: '/images/LandlordOpengraph.png',
                 },
             ],
+            metadataBase: new URL('https://roommate.ge'),
         },
     }
 }
