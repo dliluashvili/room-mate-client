@@ -33,7 +33,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
             siteName: 'Roommate',
             images: [
                 {
-                    url: '/images/RommmateOpengraph.png',
+                    url: '/images/RoommateOpengraph.png',
                 },
             ],
         },
