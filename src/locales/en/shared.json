@@ -28,7 +28,7 @@
     "signinAsRoommates": "Sign in for roommates",
     "signinAsLandlords": "Sign in for landlords",
     "price": "Price",
-    "area": "Area M2",
+    "area": "Area m2",
     "bedrooms": "Bedroom",
     "from": "From",
     "to": "To",
@@ -44,5 +44,6 @@
     "dragDrop": "Drag and drop file here, or click to select file",
     "minImage": "You can only upload one image at a time.",
     "minMb": "File size exceeds 5MB. Please upload a smaller file.",
-    "uploading": "Uploading"
+    "uploading": "Uploading",
+    "delete": "Delete"
 }

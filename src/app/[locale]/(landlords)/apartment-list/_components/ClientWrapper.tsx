@@ -1,4 +1,5 @@
 'use client'
+import { RemoveProperty } from '@/graphql/mutation'
 import { getLandlordProperties } from '@/graphql/query'
 import { Language, PaginatedFilteredPropertiesObject } from '@/graphql/typesGraphql'
 import { withAuth } from '@/src/auth/withAuth'
@@ -13,7 +14,7 @@ import {
     Trash,
     Wallet,
 } from '@/src/components/svgs'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import CoverImage from '@images/ApartmentCover.png'
 import Image from 'next/image'
 import { useParams, useSearchParams } from 'next/navigation'
@@ -42,6 +43,33 @@ function ClientWrapper() {
     if (error) {
         console.error('Error fetching properties:', error)
         return <div>Error loading properties</div>
+    }
+    const [removeProperty] = useMutation(RemoveProperty)
+
+    const deletePropertyHandler = async (id: string) => {
+        try {
+            const { data: removed, errors: removeErrors } = await removeProperty({
+                variables: {
+                    propertyId: id,
+                    isSoftRemove: null,
+                },
+                // Refetch the query to get the updated list of properties after deletion
+                refetchQueries: [
+                    {
+                        query: getLandlordProperties,
+                        variables: { pagination: { limit, offset }, lang: locale },
+                    },
+                ],
+            })
+
+            if (removeErrors) {
+                console.error('Error removing property:', removeErrors)
+            } else {
+                console.log('Property removed successfully:', removed)
+            }
+        } catch (err) {
+            console.error('Error deleting property:', err)
+        }
     }
 
     const paginatedData = data?.getLandlordProperties as PaginatedFilteredPropertiesObject
@@ -75,16 +103,16 @@ function ClientWrapper() {
                                     <span className="hidden md:block">
                                         {item?.translations && item?.translations[0]?.title}
                                     </span>
-                                    <span className="block md:hidden">{item?.price} ₾</span>
+                                    <span className="block md:hidden">{item?.price} $</span>
                                 </h1>
                                 {true ? (
                                     <div className="flex items-center gap-1 rounded-md bg-[#CFF1E6] px-2 py-1">
-                                        <span className="text-xs ">აქტიური</span>
+                                        <span className="text-xs ">{t('active')}</span>
                                         <ActiveStatus className="h-4 w-4 fill-mainGreen" />
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-1 rounded-md bg-[#FFDEDE] px-2 py-1">
-                                        <span className="text-xs text-[red] ">ვადაგასული</span>
+                                        <span className="text-xs text-[red] ">{t('expired')}</span>
                                         <InactiveStatus className="h-3 w-3 fill-[red]" />
                                     </div>
                                 )}
@@ -92,12 +120,12 @@ function ClientWrapper() {
                             <div className="flex w-full  md:flex-row md:items-center md:justify-between">
                                 <div className="flex w-full  flex-row items-center gap-1 md:w-1/2">
                                     <Door className="h-4 w-4 md:h-6 md:w-6" />
-                                    <span>ოთახების :</span>
+                                    <span>{t('rooms')}: </span>
                                     {item.rooms}
                                 </div>
                                 <div className="flex w-full flex-row  items-center gap-1 md:w-1/2">
                                     <Square className="h-4 w-4 md:h-6 md:w-6" />
-                                    <span>ფართი :</span>
+                                    <span>{t('area')}: </span>
                                     {item.area}
                                 </div>
                             </div>
@@ -105,26 +133,32 @@ function ClientWrapper() {
                                 <div className="flex w-1/2 flex-row items-center justify-start gap-1">
                                     <Location className="h-4 w-4 md:h-6 md:w-6" />
                                     <span className="line-clap-1 text-ellipsis">
-                                        მისამართი :{item.street}
+                                        {t('address')}: {item.street}
                                     </span>
                                 </div>
                                 <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:flex">
-                                    <Wallet className="h-4 w-4 md:h-6 md:w-6" /> <span>ფასი:</span>
-                                    {item.price}
+                                    <Wallet className="h-4 w-4 md:h-6 md:w-6" />{' '}
+                                    <span>{t('price')}: </span>
+                                    {item.price} $
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="flex w-full justify-end">
                         <div className="flex gap-4 text-xs">
-                            <button className="flex items-center gap-2 rounded-md bg-[#CFF1E6] px-2 py-1">
+                            <button
+                                onClick={() => {
+                                    deletePropertyHandler(item.id)
+                                }}
+                                className="flex items-center gap-2 rounded-md bg-[#CFF1E6] px-2 py-1"
+                            >
                                 <Trash />
-                                წაშლა
+                                {t('delete')}
                             </button>
-                            <button className="flex items-center gap-2 rounded-md bg-[#F59E0B] px-2 py-1 text-white">
+                            {/* <button className="flex items-center gap-2 rounded-md bg-[#F59E0B] px-2 py-1 text-white">
                                 <Edit />
                                 რედაქტირება
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>

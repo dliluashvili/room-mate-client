@@ -56,7 +56,7 @@ export default function ApartmentSection({ flats }: ApartmentSectionProps) {
                                             </div>
                                             <div className="relative flex w-full flex-col p-4">
                                                 <h1 className="text-xl font-bold text-[#484848]">
-                                                    {item.price} ₾/ {t('inMonth')}
+                                                    {item.price} $/ {t('inMonth')}
                                                 </h1>
                                                 <div className="mt-3 flex flex-row items-center">
                                                     <div className="flex flex-row items-center">

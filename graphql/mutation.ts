@@ -18,6 +18,7 @@ import {
     MutationLookupOrCreateTwilioUserResourceArgs,
     MutationUpdateConversationResourceStateArgs,
     MutationIdentityVerificationImagesUploadArgs,
+    MutationRemovePropertyArgs,
 } from './typesGraphql'
 
 export const RoommateSignUpMutation: TypedDocumentNode<
@@ -281,5 +282,16 @@ export const identityVerificationImagesUpload: TypedDocumentNode<
 > = gql`
     mutation IdentityVerificationImagesUpload($input: IdentityUploadInput!) {
         identityVerificationImagesUpload(input: $input)
+    }
+`
+
+export const RemoveProperty: TypedDocumentNode<
+    {
+        removeProperty: Mutation['removeProperty']
+    },
+    MutationRemovePropertyArgs
+> = gql`
+    mutation RemoveProperty($propertyId: String!, $isSoftRemove: Boolean) {
+        removeProperty(propertyId: $propertyId, isSoftRemove: $isSoftRemove)
     }
 `

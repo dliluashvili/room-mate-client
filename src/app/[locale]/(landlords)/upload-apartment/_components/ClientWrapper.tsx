@@ -668,7 +668,7 @@ function ClientWrapper() {
                                 name="imageUploadFiles"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>{t('profileImage')}</FormLabel>
+                                        <FormLabel>{t('apartmentImage')}</FormLabel>
                                         <MultiImageUploader field={field} />
                                         <FormMessage />
                                     </FormItem>
