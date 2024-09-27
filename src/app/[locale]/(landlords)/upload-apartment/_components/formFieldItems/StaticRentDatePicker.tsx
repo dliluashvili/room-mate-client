@@ -137,13 +137,13 @@ function StaticRentDatePicker({ field }: RentDatePickerProps) {
             </Select>
 
             <Select value={selectedDay} onValueChange={handleDayChange}>
-                <SelectTrigger className="w-[100px]">
-                    <SelectValue placeholder={t('day')} />
+                <SelectTrigger className="z-50 w-[100px]">
+                    <SelectValue className="z-50" placeholder={t('day')} />
                 </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
+                <SelectContent  className="z-50">
+                    <SelectGroup className="z-50">
                         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
-                            <SelectItem key={day} value={day.toString()}>
+                            <SelectItem className="z-50" key={day} value={day.toString()}>
                                 {day}
                             </SelectItem>
                         ))}

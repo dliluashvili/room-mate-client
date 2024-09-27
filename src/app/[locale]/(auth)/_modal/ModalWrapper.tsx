@@ -32,7 +32,7 @@ export const ModalWrapper = () => {
         <>
             {isMobile ? (
                 <Dialog open={modalStatus}>
-                    <DialogContent className=" fixed flex h-full w-full max-w-full flex-col gap-0 overflow-hidden border-none bg-[#FFFFFF] p-0 md:w-auto md:max-w-full md:flex-row">
+                    <DialogContent className="flex h-full w-full max-w-full flex-col gap-0 overflow-hidden border-none bg-[#FFFFFF] p-0 md:w-auto md:max-w-full md:flex-row">
                         <div className="flex w-full justify-end p-3">
                             <X onClick={modalCloseHandler} />
                         </div>
