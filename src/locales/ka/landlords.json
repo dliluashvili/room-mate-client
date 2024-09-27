@@ -55,11 +55,13 @@
     "description": "აღწერა",
     "floors": "სართულები",
     "bedroom": "საძინებელი",
-    "rooms": "ოთახებო",
+    "rooms": "ოთახები",
     "area": "ფართი",
     "withoutDeposit": "დეპოზიტის გარეშე",
     "avaiableForRent": "ქირაობა ხელმისაწვდომია",
     "partyAllowed": "წვეულება",
     "petAllowed": "შინაური ცხოველები",
-    "depositAmount": "დეპოზიტი"
+    "depositAmount": "დეპოზიტი",
+    "expired": "ვადაგასული",
+    "active": "აქტიური"
 }

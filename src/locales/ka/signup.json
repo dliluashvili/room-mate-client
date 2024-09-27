@@ -83,5 +83,6 @@
     "500-7": "- Entire 1-bedroom (off-center): <$435",
     "500-yes": "I'll wait message from my personal assistant",
     "userExistsWithPhone": "ამ ნომრით მომხარებელი უკვე არსებობს",
+    "userExistsWithMail": "ამ მეილით მომხარებელი უკვე არსებობს",
     "phoneUsedOnRoommate": "ამ ნომრით უკვე ხართ დარეგისტრირებული როგორც 'roommate'"
 }

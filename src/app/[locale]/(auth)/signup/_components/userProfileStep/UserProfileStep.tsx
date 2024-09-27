@@ -137,6 +137,8 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
             }
         })()
     }
+
+    console.log(countrySelectOptions)
     return (
         <>
             <main className="flex flex-col items-center">
@@ -212,7 +214,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
                                             }}
                                             options={countrySelectOptions}
                                             filterOption={(option: any, inputValue) =>
-                                                option.label.props.children[2]
+                                                option.label.props.children[1]
                                                     .toLowerCase()
                                                     .startsWith(inputValue.toLowerCase())
                                             }

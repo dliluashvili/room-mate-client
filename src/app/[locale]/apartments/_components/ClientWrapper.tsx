@@ -99,17 +99,17 @@ export default function ClientWrapper() {
                                 <div className="flex w-full flex-col gap-4 px-4  py-6">
                                     <div className="flex w-full justify-between">
                                         <h1 className="text-base font-bold">
-                                            <span>{item?.price} ₾</span>
+                                            <span>{item?.price} $</span>
                                         </h1>
                                         {true ? (
                                             <div className="flex items-center gap-1 rounded-md bg-[#CFF1E6] px-2 py-1">
-                                                <span className="text-xs ">აქტიური</span>
+                                                <span className="text-xs ">{t('active')}</span>
                                                 <ActiveStatus className="h-4 w-4 fill-mainGreen" />
                                             </div>
                                         ) : (
                                             <div className="flex items-center gap-1 rounded-md bg-[#FFDEDE] px-2 py-1">
                                                 <span className="text-xs text-[red] ">
-                                                    ვადაგასული
+                                                    {t('expired')}
                                                 </span>
                                                 <InactiveStatus className="h-3 w-3 fill-[red]" />
                                             </div>
@@ -118,7 +118,7 @@ export default function ClientWrapper() {
                                     <div className="flex w-full justify-between">
                                         <div className="flex w-full flex-row items-center gap-1">
                                             <Door className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>ოთახების :</span>
+                                            <span>{t('rooms')}: </span>
                                             {item.rooms}
                                         </div>
                                         <div
@@ -126,7 +126,7 @@ export default function ClientWrapper() {
                                     "
                                         >
                                             <Square className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>ფართი :</span>
+                                            <span>{t('area')}: </span>
                                             {item.area}
                                         </div>
                                     </div>
@@ -137,12 +137,12 @@ export default function ClientWrapper() {
                                         <div className="flex w-full flex-row items-center justify-start gap-1">
                                             <Location className="h-4 w-4 md:h-6 md:w-6" />
                                             <span className="line-clamp-1 text-ellipsis">
-                                                მისამართი :{item.street}
+                                                {t('address')}: {item.street}
                                             </span>
                                         </div>
                                         <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:hidden">
                                             <Wallet className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>ფასი:</span>
+                                            <span>{t('price')}: </span>
                                             {item.price}
                                         </div>
                                     </div>

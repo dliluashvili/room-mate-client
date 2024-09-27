@@ -31,14 +31,14 @@ export const ModalWrapper = () => {
     return (
         <>
             {isMobile ? (
-                <Drawer open={modalStatus} dismissible={false} onClose={modalCloseHandler}>
-                    <DrawerContent className="flex h-[100%] items-center justify-center">
-                        <div className="flex w-full justify-end p-5">
+                <Dialog open={modalStatus}>
+                    <DialogContent className="flex h-full w-full max-w-full flex-col gap-0 overflow-hidden border-none bg-[#FFFFFF] p-0 md:w-auto md:max-w-full md:flex-row">
+                        <div className="flex w-full justify-end p-3">
                             <X onClick={modalCloseHandler} />
                         </div>
                         <ContentWrapper />
-                    </DrawerContent>
-                </Drawer>
+                    </DialogContent>
+                </Dialog>
             ) : (
                 <Dialog open={modalStatus} onOpenChange={modalCloseHandler}>
                     <DialogContent className="flex h-[600px] w-full max-w-full flex-col gap-0 overflow-hidden border-none bg-[#FFFFFF] p-0 md:w-auto md:max-w-full md:flex-row">

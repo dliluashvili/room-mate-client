@@ -61,5 +61,7 @@
     "avaiableForRent": "Available for rent",
     "partyAllowed": "Party",
     "petAllowed": "Pet allowed",
-    "depositAmount": "Deposit"
+    "depositAmount": "Deposit",
+    "expired": "Expired",
+    "active": "Active"
 }

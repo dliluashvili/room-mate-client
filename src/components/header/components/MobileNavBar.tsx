@@ -53,17 +53,39 @@ export default function MobileNavBar({ isRoommatesPath, isLandlordsPath, handleT
                     </div>
 
                     <SheetTrigger asChild>
-                        <Link href="/">
-                            <span
-                                className="text-xs"
-                                style={{ fontWeight: pathnameWithoutLocale === '/' ? 'bold' : '' }}
-                            >
-                                {t('main')}
-                            </span>
-                        </Link>
+                        {isRoommatesPath ? (
+                            <Link href="/">
+                                <span
+                                    className="text-xs"
+                                    style={{
+                                        fontWeight:
+                                            pathnameWithoutLocale === '/' ? 'bold' : 'normal',
+                                    }}
+                                >
+                                    {t('main')}
+                                </span>
+                            </Link>
+                        ) : (
+                            <Link href="/landlords">
+                                <span
+                                    className="text-xs"
+                                    style={{
+                                        fontWeight:
+                                            pathnameWithoutLocale === '/landlords'
+                                                ? 'bold'
+                                                : 'normal',
+                                    }}
+                                >
+                                    {t('main')}
+                                </span>
+                            </Link>
+                        )}
                     </SheetTrigger>
+
                     <SheetTrigger asChild>
-                        {user?.me.userTypes.includes(UserType.Roommate) && authStatus ? (
+                        {authStatus &&
+                        user?.me.userTypes.includes(UserType.Roommate) &&
+                        isRoommatesPath ? (
                             <Link href="/profile">
                                 <span
                                     className="text-xs"
@@ -75,26 +97,25 @@ export default function MobileNavBar({ isRoommatesPath, isLandlordsPath, handleT
                                     {t('profile')}
                                 </span>
                             </Link>
-                        ) : (
-                            <>
-                                {authStatus && user?.me.userTypes.includes(UserType.Landlord) && (
-                                    <Link href="/landlord-profile">
-                                        <span
-                                            className="text-xs"
-                                            style={{
-                                                fontWeight:
-                                                    pathnameWithoutLocale === '/landlord-profile'
-                                                        ? 'bold'
-                                                        : '',
-                                            }}
-                                        >
-                                            {t('profile')}
-                                        </span>
-                                    </Link>
-                                )}
-                            </>
-                        )}
+                        ) : authStatus &&
+                          user?.me.userTypes.includes(UserType.Landlord) &&
+                          isLandlordsPath ? (
+                            <Link href="/landlord-profile">
+                                <span
+                                    className="text-xs"
+                                    style={{
+                                        fontWeight:
+                                            pathnameWithoutLocale === '/landlord-profile'
+                                                ? 'bold'
+                                                : '',
+                                    }}
+                                >
+                                    {t('profile')}
+                                </span>
+                            </Link>
+                        ) : null}
                     </SheetTrigger>
+
                     {isRoommatesPath && !user?.me.userTypes.includes(UserType.Roommate) && (
                         <SheetTrigger asChild>
                             <Link href="?modal=signinChooseType">
@@ -198,6 +219,17 @@ export default function MobileNavBar({ isRoommatesPath, isLandlordsPath, handleT
                             </Link>
                         </SheetTrigger>
                     )}
+                    {isLandlordsPath &&
+                        user?.me.userTypes.includes(UserType.Landlord) &&
+                        authStatus && (
+                            <SheetTrigger asChild>
+                                <Link href="/apartment-list">
+                                    <span onClick={signOutHandler} className="text-xs">
+                                        {t('myListings')}
+                                    </span>
+                                </Link>
+                            </SheetTrigger>
+                        )}
                     {isLandlordsPath && user?.me.userTypes.includes(UserType.Landlord) && (
                         <SheetTrigger asChild>
                             <span onClick={signOutHandler} className="text-xs">
