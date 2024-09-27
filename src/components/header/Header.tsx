@@ -15,6 +15,7 @@ import { LIMIT, OFFSET } from '@/src/constants/pagination'
 import { UserType } from '@/graphql/typesGraphql'
 import { Label } from '../ui/label'
 import { Switch } from '../ui/switch'
+import { signOutHandler } from '@/src/auth/signOut'
 
 export default function Header() {
     const { t } = useTranslation()
@@ -92,7 +93,6 @@ export default function Header() {
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)
     }, [searchParams, router, pathname])
-
     const signupModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
         current.set('modal', 'signupChooseType')
@@ -133,6 +133,12 @@ export default function Header() {
                                 </span>
                             </button>
                         </Link>
+                        <button
+                            onClick={signOutHandler}
+                            className="hidden flex-row items-center rounded-lg bg-mainOrange p-2 text-white md:flex xl:px-3 xl:py-2"
+                        >
+                            <span className="ml-1 text-xs xl:text-base">{t('signOut')}</span>
+                        </button>
                     </>
                 )
             }
