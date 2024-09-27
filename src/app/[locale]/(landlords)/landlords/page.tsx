@@ -28,6 +28,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
                 },
             ],
         },
+        metadataBase: new URL('https://roommate.ge'),
     }
 }
 

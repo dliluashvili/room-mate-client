@@ -17,6 +17,9 @@ export async function generateStaticParams() {
     return [{ locale: 'en' }, { locale: 'ka' }]
 }
 
+
+
+
 export default async function RootLayout({
     children,
     params: { locale },
