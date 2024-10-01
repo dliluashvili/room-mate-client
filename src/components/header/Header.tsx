@@ -267,12 +267,12 @@ export default function Header() {
                     {renderAuthSection()}
 
                     <LangChoose
-                        className={` ${isLandlordsPath ? 'border border-mainOrange' : ' '} cursor-pointer rounded-lg bg-[#f2f5ff] p-2 text-xs text-[#838CAC] lg:p-2 xl:text-base`}
+                        className={` ${isLandlordsPath ? '' : ' '} cursor-pointer rounded-lg  text-xs text-[#838CAC] xl:text-base`}
                         spanClassname="text-xs xl:text-base"
                     />
                     {user?.me?.id && user?.me.userTypes.includes(UserType.Roommate) ? (
                         <button
-                            className="pointer relative flex items-center justify-center rounded-lg bg-[#f2f5ff] p-2 md:flex xl:px-3 xl:py-2"
+                            className="pointer relative flex items-center justify-center rounded-lg  md:flex xl:px-3 xl:py-2"
                             onClick={(e) => {
                                 handleLinkClick(e, '/conversation')
                             }}
