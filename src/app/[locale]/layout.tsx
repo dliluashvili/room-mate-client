@@ -10,6 +10,8 @@ import Footer from '@/src/components/footer/Footer'
 import { ModalWrapper } from './(auth)/_modal/ModalWrapper'
 import { AuthWrapper } from '@/src/auth/authWrapper'
 import TwilioClientWrapper from '@/src/conversation/TwilioClientWrapper'
+import Script from 'next/script'
+import { Partytown } from '@builder.io/partytown/react'
 
 const georgian = Noto_Sans_Georgian({ subsets: ['latin'] })
 
@@ -22,11 +24,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     const { t } = await initTranslations(locale, i18nNamespaces)
 
     return {
-        // title: t('news'),
-        // description: t('describeNews'),
         openGraph: {
-            // title: t('news'),
-            // description: t('describeNews'),
             type: 'website',
             locale: locale,
             url: 'https://roommate.ge',
@@ -67,7 +65,55 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} dir={dir(locale)} className={georgian.className}>
+            <head>
+                <Partytown debug={true} forward={['dataLayer.push', 'hj', 'hj.q']} />
+                <Script id="google-tag-manager" strategy="worker">
+                    {`
+                        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                        })(window,document,'script','dataLayer','GTM-586WWRZ6');
+                    `}
+                </Script>
+                <Script id="hotjar" strategy="worker">
+                    {`
+                        (function(h,o,t,j,a,r){
+                            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                            h._hjSettings={hjid:3128732,hjsv:6};
+                            a=o.getElementsByTagName('head')[0];
+                            r=o.createElement('script');r.async=1;
+                            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                            a.appendChild(r);
+                        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+                    `}
+                </Script>
+            </head>
             <body>
+                <noscript>
+                    <iframe
+                        src="https://www.googletagmanager.com/ns.html?id=GTM-586WWRZ6"
+                        height="0"
+                        width="0"
+                        style={{ display: 'none', visibility: 'hidden' }}
+                    ></iframe>
+                </noscript>
+                <Script
+                    strategy="worker"
+                    src="https://www.googletagmanager.com/gtag/js?id=G-90LQL896FN"
+                />
+                <Script
+                    id="google-analytics"
+                    strategy="worker"
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
+                            gtag('config', 'G-90LQL896FN');
+                        `,
+                    }}
+                />
                 <TranslationsProvider
                     namespaces={i18nNamespaces}
                     locale={locale}
