@@ -247,40 +247,37 @@ function ClientWrapper() {
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex flex-col gap-4">
-                                <FormLabel className="-mb-2 text-sm md:text-base">
-                                    {t('availability')}
-                                </FormLabel>
-                                <FormField
-                                    control={control}
-                                    name="availableFrom"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-xs md:text-sm">
-                                                {t('availableFrom')}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <StaticRentDatePicker field={field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={control}
-                                    name="minRentalPeriod"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-xs md:text-sm">
-                                                {t('minRentMonth')}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <StaticRentMonthSelect field={field} />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
+
+                            <FormField
+                                control={control}
+                                name="availableFrom"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs md:text-sm">
+                                            {t('availableFrom')}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <StaticRentDatePicker field={field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={control}
+                                name="minRentalPeriod"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs md:text-sm">
+                                            {t('minRentMonth')}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <StaticRentMonthSelect field={field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={control}
                                 name="rooms"

@@ -17,8 +17,29 @@ export async function generateStaticParams() {
     return [{ locale: 'en' }, { locale: 'ka' }]
 }
 
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+    const i18nNamespaces = ['meta']
+    const { t } = await initTranslations(locale, i18nNamespaces)
 
-
+    return {
+        // title: t('news'),
+        // description: t('describeNews'),
+        openGraph: {
+            // title: t('news'),
+            // description: t('describeNews'),
+            type: 'website',
+            locale: locale,
+            url: 'https://roommate.ge',
+            siteName: 'Roommate',
+            images: [
+                {
+                    url: '/images/RoommateOpengraph.png',
+                },
+            ],
+        },
+        metadataBase: new URL('https://roommate.ge'),
+    }
+}
 
 export default async function RootLayout({
     children,

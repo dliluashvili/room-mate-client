@@ -118,8 +118,8 @@ export default function ClientWrapper() {
                                     <div className="flex w-full justify-between">
                                         <div className="flex w-full flex-row items-center gap-1">
                                             <Door className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>{t('rooms')}: </span>
-                                            {item.rooms}
+                                            <span>{t('bedrooms')}: </span>
+                                            {item.bedrooms}
                                         </div>
                                         <div
                                             className="flex w-full flex-row  items-center gap-1
@@ -137,7 +137,7 @@ export default function ClientWrapper() {
                                         <div className="flex w-full flex-row items-center justify-start gap-1">
                                             <Location className="h-4 w-4 md:h-6 md:w-6" />
                                             <span className="line-clamp-1 text-ellipsis">
-                                                {t('address')}: {item.street}
+                                                {item.street}
                                             </span>
                                         </div>
                                         <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:hidden">

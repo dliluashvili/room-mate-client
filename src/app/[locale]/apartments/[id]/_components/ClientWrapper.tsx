@@ -96,7 +96,7 @@ export default function ClientWrapper() {
                                             backgroundSize: '150%',
                                             backgroundPosition: 'center',
                                             objectFit: 'fill',
-                                            filter: 'blur(10px)',
+                                            filter: 'blur(15px)',
                                         }}
                                     />
                                     <div className="relative z-10 w-full overflow-hidden md:w-auto">
@@ -157,7 +157,9 @@ export default function ClientWrapper() {
                         <span className="text-sm text-[#838CAC]">
                             {dataById?.getProperty?.propertyType?.translations[0].name}
                         </span>
-                        <span className="md:text-base">{dataById?.getProperty?.price} $ </span>
+                        <span className="md:text-base">
+                            {t('price')}: {dataById?.getProperty?.price} ${' '}
+                        </span>
                     </div>
                     <div className="flex w-full flex-col gap-2 md:w-auto md:gap-4">
                         <div className="flex flex-row  items-center  gap-2">
@@ -193,10 +195,14 @@ export default function ClientWrapper() {
                         )}
                     </span>
                     <span>
-                        {t('minRentPeriond')}: {dataById?.getProperty?.minRentalPeriod}
+                        {t('minRentPeriond')}: {dataById?.getProperty?.minRentalPeriod} {t('month')}
                     </span>
                     {!dataById?.getProperty?.withDeposit ? (
-                        <div className="w-auto bg-[#CFF1E6] p-2">{t('withoutDeposit')}</div>
+                        <div className="flex w-auto ">
+                            <div className="w-auto rounded-sm bg-[#CFF1E6] p-2 px-3">
+                                {t('withoutDeposit')}
+                            </div>
+                        </div>
                     ) : (
                         <div className="bg-[#CFF1E]">
                             {t('depositAmount')}: {dataById?.getProperty?.propertyDeposit?.amount} $
@@ -206,38 +212,33 @@ export default function ClientWrapper() {
             </div>
 
             <div className="grid h-auto  w-full grid-cols-1 gap-4 rounded-lg border border-[#E3E3E3] p-4 shadow-lg md:grid-cols-3 md:gap-y-8  md:p-8">
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <PropertySqm className="h-5 w-5" />
                     <span className="md:text-sm">
                         {t('area')}: {dataById?.getProperty?.area}
                     </span>
                 </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <PropertyDoor className="h-5 w-5" />
                     <span className="md:text-sm">
                         {t('rooms')}: {dataById?.getProperty?.rooms}
                     </span>
                 </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <PropertyBed className="h-5 w-5" />
                     <span className="md:text-sm">
                         {t('bedroom')}: {dataById?.getProperty?.bedrooms}
                     </span>
                 </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
-                    <PropertyDoor className="h-5 w-5" />
-                    <span className="md:text-sm">
-                        {t('capacity')}: {dataById?.getProperty?.bedrooms}
-                    </span>
-                </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <PropertyLedder className="h-5 w-5" />
                     <span className="md:text-sm">
                         {t('floors')}: {dataById?.getProperty?.totalFloors}/
                         {dataById?.getProperty?.floor}
                     </span>
                 </div>
-                <div className="flex flex-row items-center gap-1 md:gap-3">
+                <div className="flex flex-row items-center gap-1 md:gap-2">
                     <Pet className="h-5 w-5" />
                     <span className="md:text-sm">{t('petAllowed')}:</span>
                     {dataById?.getProperty?.petAllowed ? (
@@ -246,7 +247,7 @@ export default function ClientWrapper() {
                         <X className="h-4 w-4 text-red-500 md:h-5 md:w-5" />
                     )}
                 </div>
-                <div className="flex flex-row items-center gap-1 md:gap-3">
+                <div className="flex flex-row items-center gap-1 md:gap-2">
                     <Party className="h-5 w-5" />
                     <span className="md:text-sm">{t('partyAllowed')}:</span>
                     {dataById?.getProperty?.partyAllowed ? (
@@ -255,13 +256,13 @@ export default function ClientWrapper() {
                         <X className="h-4 w-4 text-red-500 md:h-5 md:w-5" />
                     )}
                 </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <Heating className="h-5 w-5" />
 
                     {dataById?.getProperty?.housingHeatingTypes?.[0]?.translations?.[0]?.name ||
                         'N/A'}
                 </div>
-                <div className="flex flex-row items-center gap-2 md:gap-3">
+                <div className="flex flex-row items-center gap-2 md:gap-2">
                     <Person className="h-6 w-6" />
                     <span className="md:text-sm">{t('capacity')}:</span>
                     {dataById?.getProperty?.capacity}
