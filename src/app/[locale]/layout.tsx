@@ -12,6 +12,7 @@ import { AuthWrapper } from '@/src/auth/authWrapper'
 import TwilioClientWrapper from '@/src/conversation/TwilioClientWrapper'
 import Script from 'next/script'
 import { Partytown } from '@builder.io/partytown/react'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 const georgian = Noto_Sans_Georgian({ subsets: ['latin'] })
 
@@ -90,30 +91,6 @@ export default async function RootLayout({
                 </Script>
             </head>
             <body>
-                <noscript>
-                    <iframe
-                        src="https://www.googletagmanager.com/ns.html?id=GTM-586WWRZ6"
-                        height="0"
-                        width="0"
-                        style={{ display: 'none', visibility: 'hidden' }}
-                    ></iframe>
-                </noscript>
-                <Script
-                    strategy="worker"
-                    src="https://www.googletagmanager.com/gtag/js?id=G-90LQL896FN"
-                />
-                <Script
-                    id="google-analytics"
-                    strategy="worker"
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                            window.dataLayer = window.dataLayer || [];
-                            function gtag(){dataLayer.push(arguments);}
-                            gtag('js', new Date());
-                            gtag('config', 'G-90LQL896FN');
-                        `,
-                    }}
-                />
                 <TranslationsProvider
                     namespaces={i18nNamespaces}
                     locale={locale}
@@ -134,6 +111,7 @@ export default async function RootLayout({
                     </ApolloWrapper>
                 </TranslationsProvider>
             </body>
+            <GoogleTagManager gtmId="GTM-586WWRZ6" />
         </html>
     )
 }
