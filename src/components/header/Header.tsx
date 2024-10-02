@@ -36,8 +36,6 @@ export default function Header() {
 
     const isRoommatesPath = !isLandlordsPath
 
-    let unreadMessagesCount = 0
-
     const {
         data: user,
         loading: userLoading,
@@ -46,15 +44,18 @@ export default function Header() {
         skip: !authStatus.valid,
     })
 
-    const [getConversationsForUser, { data }] = useLazyQuery(getConversationsForUserQuery, {
-        variables: {
-            pagination: {
-                limit: LIMIT,
-                offset: OFFSET,
+    const [getConversationsForUser, { data: conversationsForUser }] = useLazyQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                pagination: {
+                    limit: LIMIT,
+                    offset: OFFSET,
+                },
             },
-        },
-        fetchPolicy: 'cache-only',
-    })
+            fetchPolicy: 'cache-only',
+        }
+    )
 
     useEffect(() => {
         setIsClient(true)
@@ -93,6 +94,7 @@ export default function Header() {
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)
     }, [searchParams, router, pathname])
+
     const signupModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
         current.set('modal', 'signupChooseType')
@@ -101,8 +103,8 @@ export default function Header() {
         router.push(`${pathname}${query}`)
     }, [searchParams, router, pathname])
 
-    unreadMessagesCount =
-        data?.getConversationsForUser?.list?.reduce((acc, conversation) => {
+    const unreadMessagesCount =
+        conversationsForUser?.getConversationsForUser?.list?.reduce((acc, conversation) => {
             const nextAcc = acc + conversation?.unreadMessagesCount
             return nextAcc
         }, 0) || 0

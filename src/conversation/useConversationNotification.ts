@@ -11,6 +11,7 @@ import {
     getUserQuery,
 } from '@/graphql/query'
 import {
+    ConversationStatus,
     ConversationWithUserObject,
     PaginatedConversationWithUserObject,
 } from '@/graphql/typesGraphql'
@@ -21,7 +22,8 @@ type PromisedUnreadMessagesCount = {
 }
 
 export const useInitializeConversationNotification = () => {
-    const isInitFunctionInitialized = useRef(false)
+    const isChatConversationResourcesInit = useRef(false)
+    const isRequestedConversationResourcesInit = useRef(false)
 
     const loadDate = useRef(new Date())
 
@@ -31,16 +33,55 @@ export const useInitializeConversationNotification = () => {
 
     const { data: user } = useQuery(getUserQuery)
 
-    const [getConversationsForUser, { data }] = useLazyQuery(getConversationsForUserQuery, {
-        variables: {
-            pagination: {
-                offset: OFFSET,
-                limit: LIMIT,
+    const [getChatConversationsForUser, { data: chatConversations }] = useLazyQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                status: ConversationStatus.Accepted,
+                pagination: {
+                    offset: OFFSET,
+                    limit: LIMIT,
+                },
             },
-        },
-    })
+        }
+    )
+
+    const [getRequestedConversationsForUser, { data: requestedConversations }] = useLazyQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                status: ConversationStatus.Requested,
+                pagination: {
+                    offset: OFFSET,
+                    limit: LIMIT,
+                },
+            },
+        }
+    )
 
     const [getSharedConversation] = useLazyQuery(getSharedConversationQuery)
+
+    const handleMessageAdded = async (message: Message) => {
+        updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
+            [message],
+            message.conversation.sid
+        )
+    }
+
+    const handleConversationJoined = async (conversation: Conversation) => {
+        if (
+            conversation.dateCreated &&
+            conversation.dateCreated > loadDate.current &&
+            conversation.createdBy !== twilioClient?.user.identity
+        ) {
+            const messages = await conversation.getMessages()
+
+            updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
+                messages.items,
+                conversation.sid
+            )
+        }
+    }
 
     const getConversationResources = async (
         conversations: PaginatedConversationWithUserObject['list'],
@@ -210,7 +251,15 @@ export const useInitializeConversationNotification = () => {
         )
         const unreadMessagesCount = receivedMessages.length
 
-        const cacheData = client.cache.readQuery({ query: getConversationsForUserQuery })
+        const cacheData = client.cache.readQuery({
+            query: getConversationsForUserQuery,
+            variables: {
+                status: ConversationStatus.Requested,
+            },
+        })
+
+        console.log({ cacheData })
+
         const conversations = cacheData?.getConversationsForUser?.list ?? []
 
         let reorderedConversations = null
@@ -229,16 +278,24 @@ export const useInitializeConversationNotification = () => {
             reorderedConversations = moveConversationToTop(conversations, sid)
         }
 
-        client.cache.updateQuery({ query: getConversationsForUserQuery }, (existingData) => {
-            if (!existingData?.getConversationsForUser) return existingData
-
-            return {
-                getConversationsForUser: {
-                    ...existingData.getConversationsForUser,
-                    list: reorderedConversations,
+        client.cache.updateQuery(
+            {
+                query: getConversationsForUserQuery,
+                variables: {
+                    status: ConversationStatus.Requested,
                 },
+            },
+            (existingData) => {
+                if (!existingData?.getConversationsForUser) return existingData
+
+                return {
+                    getConversationsForUser: {
+                        ...existingData.getConversationsForUser,
+                        list: reorderedConversations,
+                    },
+                }
             }
-        })
+        )
     }
 
     const setUnreadMessagesCount = (unreadMessages: PromisedUnreadMessagesCount[]) => {
@@ -275,28 +332,6 @@ export const useInitializeConversationNotification = () => {
         setUnreadMessagesCount(unreadMessagesCount)
     }
 
-    const handleMessageAdded = async (message: Message) => {
-        updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
-            [message],
-            message.conversation.sid
-        )
-    }
-
-    const handleConversationJoined = async (conversation: Conversation) => {
-        if (
-            conversation.dateCreated &&
-            conversation.dateCreated > loadDate.current &&
-            conversation.createdBy !== twilioClient?.user.identity
-        ) {
-            const messages = await conversation.getMessages()
-
-            updateConversationsCacheWithNewConversationAndUnreadMessagesCount(
-                messages.items,
-                conversation.sid
-            )
-        }
-    }
-
     useEffect(() => {
         if (twilioClient && user) {
             twilioClient.addListener('messageAdded', handleMessageAdded)
@@ -319,20 +354,31 @@ export const useInitializeConversationNotification = () => {
     }, [twilioClient, user])
 
     useEffect(() => {
-        if (
-            data?.getConversationsForUser?.list &&
-            !isInitFunctionInitialized.current &&
-            twilioClient
-        ) {
-            isInitFunctionInitialized.current = true
-            init(data.getConversationsForUser.list, twilioClient)
+        if (twilioClient) {
+            if (
+                chatConversations?.getConversationsForUser?.list &&
+                !isChatConversationResourcesInit.current
+            ) {
+                isChatConversationResourcesInit.current = true
+                init(chatConversations.getConversationsForUser.list, twilioClient)
+            }
+
+            if (
+                requestedConversations?.getConversationsForUser?.list &&
+                !isRequestedConversationResourcesInit.current
+            ) {
+                isRequestedConversationResourcesInit.current = true
+                init(requestedConversations.getConversationsForUser.list, twilioClient)
+            }
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, twilioClient, user])
+    }, [chatConversations, twilioClient, user])
 
     useEffect(() => {
         if (twilioClient && user) {
-            getConversationsForUser()
+            getChatConversationsForUser()
+            getRequestedConversationsForUser()
         }
     }, [twilioClient, user])
 }

@@ -616,6 +616,7 @@ export type QueryCheckUserExistenceArgs = {
 
 export type QueryGetConversationsForUserArgs = {
     pagination?: InputMaybe<PaginationInput>
+    status?: InputMaybe<ConversationStatus>
 }
 
 export type QueryGetCountriesArgs = {
