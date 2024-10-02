@@ -8,12 +8,6 @@ const nextConfig = {
             use: { loader: '@svgr/webpack', options: { icon: true } },
         })
 
-        // Add Partytown alias
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            '~partytown': join(process.cwd(), 'node_modules', '@builder.io', 'partytown'),
-        }
-
         return config
     },
     images: {
@@ -36,24 +30,6 @@ const nextConfig = {
             },
         ],
     },
-    // Add Partytown headers
-    // async headers() {
-    //     return [
-    //         {
-    //             source: '/(.*)',
-    //             headers: [
-    //                 {
-    //                     key: 'Cross-Origin-Opener-Policy',
-    //                     value: 'same-origin',
-    //                 },
-    //                 {
-    //                     key: 'Cross-Origin-Embedder-Policy',
-    //                     value: 'require-corp',
-    //                 },
-    //             ],
-    //         },
-    //     ]
-    // },
 }
 
 export default nextConfig
