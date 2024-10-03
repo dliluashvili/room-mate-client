@@ -7,7 +7,7 @@ import ReviewSection from './_components/ReviewSection'
 import SuggestSection from './_components/SuggestSection'
 import CoverSection from './_components/CoverSection'
 
-async function Home() {
+function Home() {
     return (
         <main className="h-full w-full">
             <CoverSection />

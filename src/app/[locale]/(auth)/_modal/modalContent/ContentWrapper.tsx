@@ -18,14 +18,10 @@ export const ContentWrapper = () => {
 
     useEffect(() => {
         const modal = searchParams.get('modal')
-        if (modal === 'signinChooseType') {
-            setModalType('signinChooseType')
-        } else if (modal === 'signinRoommates') {
+        if (modal === 'signinRoommates') {
             setModalType('signinRoommates')
         } else if (modal === 'signinLandlords') {
             setModalType('signinLandlords')
-        } else if (modal === 'signupChooseType') {
-            setModalType('signupChooseType')
         } else if (modal === 'signupLandlords') {
             setModalType('signupLandlords')
         } else if (modal === 'resetPasswordRoommates') {
@@ -49,17 +45,7 @@ export const ContentWrapper = () => {
     return (
         <>
             <div className="flex h-full w-full  flex-col items-center  gap-4 gap-y-4    overflow-y-auto border-none p-6 md:w-[460px] md:p-12">
-                {modalType === 'signinChooseType' ? (
-                    <SigninChooseType
-                        signinRoommatesHandler={signinRoommatesHandler}
-                        signinLandlordsHandler={signinLandlordsHandler}
-                    />
-                ) : modalType === 'signupChooseType' ? (
-                    <SignupChooseType
-                        signupRoommatesHandler={signupRoommatesHandler}
-                        signupLandlordsHandler={signupLandlordsHandler}
-                    />
-                ) : modalType === 'signupLandlords' ? (
+                {modalType === 'signupLandlords' ? (
                     <SignupLandlords signupChoosTypeHandler={signupChoosTypeHandler} />
                 ) : modalType === 'signinRoommates' ? (
                     <SigninRoommates

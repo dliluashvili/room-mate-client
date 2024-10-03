@@ -318,7 +318,7 @@ export const getLandlordProperties: TypedDocumentNode<
                         lang
                     }
                 }
-                availableFrom
+
                 minRentalPeriod
                 rooms
                 bathroomsInProperty
@@ -342,7 +342,7 @@ export const getLandlordProperties: TypedDocumentNode<
                         lang
                     }
                 }
-                street
+
                 cadastralCode
                 hideCadastralCode
                 propertyAmenities {
@@ -437,7 +437,7 @@ export const getProperiesList: TypedDocumentNode<
                         lang
                     }
                 }
-                availableFrom
+
                 minRentalPeriod
                 rooms
                 bathroomsInProperty
@@ -461,7 +461,7 @@ export const getProperiesList: TypedDocumentNode<
                         lang
                     }
                 }
-                street
+
                 cadastralCode
                 hideCadastralCode
                 propertyAmenities {
@@ -543,7 +543,7 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
-            availableFrom
+
             minRentalPeriod
             rooms
             bathroomsInProperty
@@ -567,7 +567,7 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
-            street
+
             cadastralCode
             hideCadastralCode
             propertyAmenities {

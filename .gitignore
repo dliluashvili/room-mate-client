@@ -36,3 +36,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+# google credential file
+roommate-437220-2b882de51582.json
+

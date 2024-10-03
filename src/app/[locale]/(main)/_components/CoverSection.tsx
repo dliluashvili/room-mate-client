@@ -1,12 +1,14 @@
 'use client'
 
 import { Button } from '@/src/components/ui/button'
+
 import Link from 'next/link'
 
 import { useTranslation } from 'react-i18next'
 
 export default function CoverSection() {
     const { t } = useTranslation()
+
     return (
         <>
             <section className="w-full px-6 pb-2 pt-6  sm:px-16 md:px-20  xl:px-24">

@@ -354,6 +354,8 @@ export type Mutation = {
     singOut: Scalars['Boolean']['output']
     updateConversationResourceState: ConversationResourceObject
     updateConversationStatus: ConversationStatus
+    updatePropertyOpenCount: Scalars['Boolean']['output']
+    updatePropertyPhoneClickCount: Scalars['Boolean']['output']
     upsertProperty: Scalars['Boolean']['output']
     verifyCodeByEmail: VerifyCodeByEmailObject
     verifyCodeBySms: VerifyCodeBySmsObject
@@ -425,6 +427,16 @@ export type MutationUpdateConversationResourceStateArgs = {
 export type MutationUpdateConversationStatusArgs = {
     conversationId: Scalars['String']['input']
     status: ConversationStatus
+}
+
+export type MutationUpdatePropertyOpenCountArgs = {
+    fingerprint: Scalars['String']['input']
+    propertyId: Scalars['ID']['input']
+}
+
+export type MutationUpdatePropertyPhoneClickCountArgs = {
+    fingerprint: Scalars['String']['input']
+    propertyId: Scalars['ID']['input']
 }
 
 export type MutationUpsertPropertyArgs = {
@@ -527,7 +539,6 @@ export type PropertyDepositTranslatedObject = {
 export type PropertyObject = {
     __typename?: 'PropertyObject'
     area: Scalars['Float']['output']
-    availableFrom?: Maybe<Scalars['DateTime']['output']>
     bathroomsInBedroom?: Maybe<Scalars['Float']['output']>
     bathroomsInProperty: Scalars['Float']['output']
     bedrooms?: Maybe<Scalars['Float']['output']>
@@ -552,9 +563,9 @@ export type PropertyObject = {
     propertyDeposit?: Maybe<PropertyDepositObject>
     propertyType?: Maybe<PropertyTypeObject>
     rooms: Scalars['Float']['output']
-    street: Scalars['String']['output']
     totalFloors: Scalars['Float']['output']
     translations?: Maybe<Array<PropertyTranslatedObject>>
+    views: Scalars['Float']['output']
     withDeposit?: Maybe<Scalars['Boolean']['output']>
 }
 
@@ -563,6 +574,7 @@ export type PropertyTranslatedObject = {
     description: Scalars['String']['output']
     id: Scalars['ID']['output']
     lang: Language
+    street?: Maybe<Scalars['String']['output']>
     title: Scalars['String']['output']
 }
 
@@ -897,7 +909,6 @@ export type UniversityTranslatedObject = {
 
 export type UpsertPropertyInput = {
     area?: InputMaybe<Scalars['Float']['input']>
-    availableFrom?: InputMaybe<Scalars['DateTime']['input']>
     bathroomsInBedroom?: InputMaybe<Scalars['Float']['input']>
     bathroomsInProperty?: InputMaybe<Scalars['Float']['input']>
     bedrooms?: InputMaybe<Scalars['Float']['input']>
@@ -906,7 +917,9 @@ export type UpsertPropertyInput = {
     contactName?: InputMaybe<Scalars['String']['input']>
     contactPhone?: InputMaybe<Scalars['String']['input']>
     descriptions?: InputMaybe<Array<DescriptionTranslated>>
+    districtId?: InputMaybe<Scalars['ID']['input']>
     floor?: InputMaybe<Scalars['Float']['input']>
+    heatingSafetyChecked: Scalars['Boolean']['input']
     hideCadastralCode?: InputMaybe<Scalars['Boolean']['input']>
     housingConditionId?: InputMaybe<Scalars['ID']['input']>
     housingHeatingTypeIds?: InputMaybe<Array<Scalars['ID']['input']>>
@@ -923,7 +936,7 @@ export type UpsertPropertyInput = {
     propertyDepositId?: InputMaybe<Scalars['ID']['input']>
     propertyTypeId?: InputMaybe<Scalars['ID']['input']>
     rooms?: InputMaybe<Scalars['Float']['input']>
-    street?: InputMaybe<Scalars['String']['input']>
+    streets?: InputMaybe<Array<TitleTranslated>>
     titles?: InputMaybe<Array<TitleTranslated>>
     totalFloors?: InputMaybe<Scalars['Float']['input']>
     withDeposit?: InputMaybe<Scalars['Boolean']['input']>
