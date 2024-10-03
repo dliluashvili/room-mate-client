@@ -134,12 +134,12 @@ export default function ClientWrapper() {
                                         className="flex w-full flex-col
                                 "
                                     >
-                                        <div className="flex w-full flex-row items-center justify-start gap-1">
+                                        {/* <div className="flex w-full flex-row items-center justify-start gap-1">
                                             <Location className="h-4 w-4 md:h-6 md:w-6" />
                                             <span className="line-clamp-1 text-ellipsis">
                                                 {item.street}
                                             </span>
-                                        </div>
+                                        </div> */}
                                         <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:hidden">
                                             <Wallet className="h-4 w-4 md:h-6 md:w-6" />
                                             <span>{t('price')}: </span>

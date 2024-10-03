@@ -185,7 +185,7 @@ export default function ClientWrapper() {
                 </div>
                 <div className="h-[1px] w-full bg-[#E3E3E3]"></div>
                 <div className="flex w-auto flex-col gap-2">
-                    <span>
+                    {/* <span>
                         {t('avaiableForRent')}: &nbsp;
                         {new Date(dataById?.getProperty?.availableFrom).toLocaleDateString(
                             'en-GB',
@@ -195,7 +195,7 @@ export default function ClientWrapper() {
                                 year: 'numeric',
                             }
                         )}
-                    </span>
+                    </span> */}
                     <span>
                         {t('minRentPeriond')}: {dataById?.getProperty?.minRentalPeriod} {t('month')}
                     </span>
