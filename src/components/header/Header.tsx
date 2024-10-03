@@ -6,7 +6,7 @@ import LangChoose from './components/LangChoose'
 import MobileNavBar from './components/MobileNavBar'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
 import { isAuthenticatedVar } from '@/src/auth/isAuthenticatedVar'
@@ -88,14 +88,28 @@ export default function Header() {
 
     const signinModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
-        current.set('modal', 'signinChooseType')
+        if (isRoommatesPath) {
+            current.set('modal', 'signinRoommates')
+        } else if (isLandlordsPath) {
+            current.set('modal', 'signinLandlords')
+        }
         const search = current.toString()
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)
     }, [searchParams, router, pathname])
+
     const signupModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
-        current.set('modal', 'signupChooseType')
+
+        if (isRoommatesPath) {
+            router.push('/signup')
+            return // Stop execution to prevent further navigation
+        }
+
+        if (isLandlordsPath) {
+            current.set('modal', 'signupLandlords')
+        }
+
         const search = current.toString()
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)

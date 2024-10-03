@@ -76,24 +76,17 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                     </h1>
                     <button
                         onClick={() => setSignupMethod('email')}
-                        className="flex h-10 w-full flex-row items-center justify-center gap-4 rounded-lg border border-[#838CAC] outline-none hover:border-hoverGreen"
+                        className="flex h-10 w-full flex-row items-center justify-center gap-4 rounded-lg border border-[#838CAC] border-mainOrange outline-none hover:border-hoverOrange"
                     >
                         <AuthSmsIcon className="h-6 w-6" />
                         <span>{t('whithEmail')}</span>
                     </button>
                     <button
                         onClick={() => setSignupMethod('phone')}
-                        className=" flex  h-10 w-full flex-row items-center justify-center gap-4 rounded-lg border border-[#838CAC] outline-none hover:border-hoverGreen"
+                        className="hover:border-hoverOranger flex  h-10 w-full flex-row items-center justify-center gap-4 rounded-lg border border-[#838CAC] border-mainOrange outline-none"
                     >
                         <Call className="h-6 w-6" />
                         <span>{t('withPhone')}</span>
-                    </button>
-                    <button
-                        className="mt-2 flex cursor-pointer flex-row items-center gap-1 outline-none"
-                        onClick={signupChoosTypeHandler}
-                    >
-                        <ArrowLeft className="h-5 w-5" />
-                        <span className="mb-1 text-xs text-[#838CAC]">{t('back')}</span>
                     </button>
                 </div>
             ) : signupMethod === 'email' || signupMethod === 'phone' ? (
@@ -109,6 +102,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 <FormItem>
                                     <FormLabel>{t('name')}</FormLabel>
                                     <Input
+                                        className="border-mainOrange focus:outline-mainOrange"
                                         hasError={
                                             !!form.formState.errors.firstname &&
                                             form.formState.dirtyFields.firstname
@@ -131,6 +125,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 <FormItem>
                                     <FormLabel>{t('surname')}</FormLabel>
                                     <Input
+                                        className="border-mainOrange focus:outline-mainOrange"
                                         hasError={
                                             !!form.formState.errors.lastname &&
                                             form.formState.dirtyFields.lastname
@@ -153,6 +148,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 <FormItem>
                                     <FormLabel>{t('password')}</FormLabel>
                                     <Input
+                                        className="border-mainOrange focus:outline-mainOrange"
                                         type="password"
                                         hasError={
                                             !!form.formState.errors.password &&
@@ -176,6 +172,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 <FormItem>
                                     <FormLabel>{t('confirmPassword')}</FormLabel>
                                     <Input
+                                        className="border-mainOrange focus:outline-mainOrange"
                                         type="password"
                                         hasError={
                                             !!form.formState.errors.confirmPassword &&
@@ -201,6 +198,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                     <FormItem>
                                         <FormLabel>{t('mail')}</FormLabel>
                                         <Input
+                                            className="border-mainOrange focus:outline-mainOrange"
                                             hasError={
                                                 !!form.formState.errors.email &&
                                                 form.formState.dirtyFields.email
@@ -225,7 +223,7 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{t('phoneNum')}</FormLabel>
-                                        <div className="relative">
+                                        <div className="relative border-mainOrange">
                                             <PhoneInput
                                                 type="number"
                                                 defaultCountry="GE"
@@ -244,7 +242,10 @@ export default function SignupLandlords({ signupChoosTypeHandler }: SignupLandlo
                                 )}
                             />
                         ) : null}
-                        <Button type="submit" className="mt-3 w-full">
+                        <Button
+                            type="submit"
+                            className="mt-3 w-full bg-mainOrange hover:bg-hoverOrange focus:bg-pressedOrange"
+                        >
                             {t('getCode')}
                         </Button>
                         <button

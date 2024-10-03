@@ -81,6 +81,8 @@ export default function ClientWrapper() {
         }
     }, [emblaApi, onSelect])
 
+
+
     return (
         <main className="flex min-h-screen w-full flex-col gap-5 px-6 pb-10 pt-5 md:gap-10 lg:px-[280px]">
             <div className="relative w-full overflow-hidden rounded-md">
@@ -158,14 +160,14 @@ export default function ClientWrapper() {
                             {dataById?.getProperty?.propertyType?.translations[0].name}
                         </span>
                         <span className="md:text-base">
-                            {t('price')}: {dataById?.getProperty?.price} ${' '}
+                            {t('price')}: {dataById?.getProperty?.price} $
                         </span>
                     </div>
                     <div className="flex w-full flex-col gap-2 md:w-auto md:gap-4">
-                        <div className="flex flex-row  items-center  gap-2">
+                        {/* <div className="flex flex-row  items-center  gap-2">
                             <Location className="h-4 w-4" />
                             <span className="text-base">{dataById?.getProperty?.street}</span>
-                        </div>
+                        </div> */}
                         <div className="flex w-full md:w-auto">
                             <div className="flex w-full cursor-pointer  items-center gap-2 rounded-md bg-mainGreen px-4 py-2  text-white  md:w-auto">
                                 <a

@@ -1,4 +1,3 @@
-import { ArrowLeft } from '@/src/components/svgs'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { useRouter } from 'next/navigation'
@@ -56,10 +55,6 @@ export default function SigninLandlords({
     }
     return (
         <div className="flex w-full flex-col gap-4">
-            <button className="flex flex-row items-center gap-1" onClick={signinChoosTypeHandler}>
-                <ArrowLeft className="h-5 w-5" />
-                <span className="mb-1 text-xs text-[#838CAC]">{t('back')}</span>
-            </button>
             <h1 className="text-center text-xl  text-textColor">{t('signinAsLandlords')}</h1>
             <Form {...form}>
                 <form
@@ -72,7 +67,11 @@ export default function SigninLandlords({
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>{t('phoneNumOrEmail')}</FormLabel>
-                                <Input value={field.value} onChange={(e) => field.onChange(e)} />
+                                <Input
+                                    className="focus:outline-mainOrange"
+                                    value={field.value}
+                                    onChange={(e) => field.onChange(e)}
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -84,6 +83,7 @@ export default function SigninLandlords({
                             <FormItem>
                                 <FormLabel>{t('password')}</FormLabel>
                                 <Input
+                                    className="focus:outline-mainOrange"
                                     value={field.value}
                                     type="password"
                                     onChange={(e) => field.onChange(e)}
@@ -101,7 +101,10 @@ export default function SigninLandlords({
                             {t('forgotPass')}
                         </button>
                     </div>
-                    <Button type="submit" className="w-full">
+                    <Button
+                        type="submit"
+                        className="w-full bg-mainOrange hover:bg-hoverOrange  focus:bg-pressedOrange"
+                    >
                         {t('signIn')}
                     </Button>
                 </form>
