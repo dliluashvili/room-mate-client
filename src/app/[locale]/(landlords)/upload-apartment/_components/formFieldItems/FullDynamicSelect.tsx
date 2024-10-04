@@ -1,4 +1,4 @@
-import { HousingConditionObject, HousingStatusObject } from '@/graphql/typesGraphql'
+import { DistrictObject, HousingConditionObject, HousingStatusObject } from '@/graphql/typesGraphql'
 import {
     Select,
     SelectContent,
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 type ApartmentStatusProps = {
     field: any
-    data?: HousingStatusObject[] | null | HousingConditionObject[]
+    data?: HousingStatusObject[] | null | HousingConditionObject[] | DistrictObject[]
 }
 
 export default function FullDynamicSelect({ field, data }: ApartmentStatusProps) {

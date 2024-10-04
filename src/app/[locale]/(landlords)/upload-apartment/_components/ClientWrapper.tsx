@@ -24,7 +24,7 @@ import { Checkbox } from '@/src/components/ui/checkbox'
 import FullDynamicCheckbox from './formFieldItems/FullDynamicCheckbox'
 import StaticPetStatusRadio from './formFieldItems/StaticPetStatusRadio'
 import StaticPartyStatusRadio from './formFieldItems/StaticPartyStatusRadio'
-import FullDynamicSelectDeposit from './formFieldItems/FullyDynamicSelectDeposit'
+
 import StaticDepositRadio from './formFieldItems/StaticDepositRadio'
 import MultiImageUploader from './formFieldItems/MultiImageUploader'
 import { SendCodeBySms, UpsertProperty, VerifyCodeBySms } from '@/graphql/mutation'
@@ -38,6 +38,8 @@ import { withAuth } from '@/src/auth/withAuth'
 import { UploadDialog } from './dialogWindow/UploadDialog'
 import PhoneInput, { Value as E164Number } from 'react-phone-number-input'
 import { isEmpty } from '@/src/utils/isEmpty'
+import FullDynamicSelectDeposit from './formFieldItems/FullyDynamicSelectDeposit copy'
+import AddressTextArea from './formFieldItems/AddressTextArea'
 
 function ClientWrapper() {
     const [getCodeButtonClicked, setGetCodeButtonClicked] = useState(false)
@@ -147,7 +149,8 @@ function ClientWrapper() {
                             totalFloors: getValues('totalFloors'),
                             floor: getValues('floor'),
                             titles: getValues('titles'),
-                            // street: getValues('street'),
+                            streets: getValues('street'),
+
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
                             propertyTypeId: getValues('propertyTypeId'),
@@ -174,7 +177,8 @@ function ClientWrapper() {
                             bathroomsInBedroom: getValues('bathroomsInBedroom'),
                             // availableFrom: getValues('availableFrom'),
                             area: getValues('area'),
-                            heatingSafetyChecked: false,
+                            heatingSafetyChecked: getValues('heatingSafetyChecked'),
+                            districtId: getValues('districtId'),
                         },
                     },
                 })
@@ -215,7 +219,7 @@ function ClientWrapper() {
 
         return () => subscription.unsubscribe()
     }, [watch, setValue, trigger])
-
+    console.log(form.getValues())
     return (
         <>
             {openAlert && (
@@ -417,24 +421,23 @@ function ClientWrapper() {
                             </div>
                             <FormField
                                 control={control}
-                                name="street"
+                                name="districtId"
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="flex w-full justify-start  text-sm">
-                                            {t('address')}
+                                    <FormItem className="md:w-1/2">
+                                        <FormLabel className="text-sm md:text-base">
+                                            {t('district')}
                                         </FormLabel>
                                         <FormControl>
-                                            <Input
-                                                placeholder={t('addressDetails')}
-                                                min="0"
-                                                className="h-10 text-xs md:text-sm"
-                                                onChange={(value) => field.onChange(value)}
+                                            <FullDynamicSelect
+                                                field={field}
+                                                data={data?.getDistricts}
                                             />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
+
+                            <AddressTextArea form={form} />
                             <FormField
                                 control={control}
                                 name="cadastralCode"
@@ -742,6 +745,28 @@ function ClientWrapper() {
                                     />
                                 </div>
                             </div>
+                            <FormField
+                                control={control}
+                                name="heatingSafetyChecked"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    field={field}
+                                                    onCheckedChange={(checked) =>
+                                                        field.onChange(checked)
+                                                    }
+                                                />
+                                                <label className=" text-xs font-medium leading-none text-[#838CAC] peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                                    {t('safetyCheck')}
+                                                </label>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
                             <Button
                                 onClick={checkErrorsHandler}
