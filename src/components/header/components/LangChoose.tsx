@@ -42,9 +42,9 @@ const LangChoose = ({ className, spanClassname }: LangChooseProps) => {
             <div className={`${className} `} onClick={handleLangSwitch}>
                 <span className={`${spanClassname}`}>
                     {newLocale === 'ka' ? (
-                        <GeorgianFlag className="h-9 w-9" />
+                        <EnglishFlag className="h-6 w-6 md:h-8 md:w-8" />
                     ) : (
-                        <EnglishFlag className="h-9 w-9" />
+                        <GeorgianFlag className="h-6 w-6 md:h-8 md:w-8" />
                     )}
                 </span>
             </div>

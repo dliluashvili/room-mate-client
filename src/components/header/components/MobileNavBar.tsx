@@ -118,28 +118,28 @@ export default function MobileNavBar({ isRoommatesPath, isLandlordsPath, handleT
 
                     {isRoommatesPath && !user?.me.userTypes.includes(UserType.Roommate) && (
                         <SheetTrigger asChild>
-                            <Link href="?modal=signinChooseType">
+                            <Link href="?modal=signinRoommates">
                                 <span className="text-xs">{t('signIn')}</span>
                             </Link>
                         </SheetTrigger>
                     )}
                     {isLandlordsPath && !user?.me.userTypes.includes(UserType.Landlord) && (
                         <SheetTrigger asChild>
-                            <Link href="?modal=signinChooseType">
+                            <Link href="?modal=signinLandlords">
                                 <span className="text-xs">{t('signIn')}</span>
                             </Link>
                         </SheetTrigger>
                     )}
                     {isLandlordsPath && !user?.me.userTypes.includes(UserType.Landlord) && (
                         <SheetTrigger asChild>
-                            <Link href="?modal=signupChooseType">
+                            <Link href="?modal=signupLandlords">
                                 <span className="text-xs">{t('signUp')}</span>
                             </Link>
                         </SheetTrigger>
                     )}
                     {isRoommatesPath && !user?.me.userTypes.includes(UserType.Roommate) && (
                         <SheetTrigger asChild>
-                            <Link href="?modal=signupChooseType">
+                            <Link href="/signup">
                                 <span
                                     className={`${pathname === '/signup' ? 'font-bold' : ''} text-xs`}
                                 >
