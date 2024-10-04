@@ -19,7 +19,10 @@ export const uploadPropertyInitialValues = {
     floor: undefined,
     housingStatusId: undefined,
     housingConditionId: undefined,
-    street: undefined,
+    street: [
+        { text: '', lang: Language.En },
+        { text: '', lang: Language.Ka },
+    ],
     cadastralCode: null,
     hideCadastralCode: false,
     propertyAmenityIds: [],
@@ -44,6 +47,8 @@ export const uploadPropertyInitialValues = {
         { text: '', lang: Language.Ka },
     ],
     imageUploadFiles: [],
+    heatingSafetyChecked: false,
+    districtId: null,
 }
 
 export default function UploadValidator({ data }: { data?: GetPropertiesDataProps }) {
@@ -99,12 +104,19 @@ export default function UploadValidator({ data }: { data?: GetPropertiesDataProp
             }),
         housingStatusId: z.string().min(0),
         housingConditionId: z.string().min(0),
-        street: z
-            .string()
-            .min(1)
-            .max(300, {
-                message: t('STREET__MAX'),
-            }),
+        street: z.array(descriptionSchema).superRefine((val, ctx) => {
+            val.forEach((item) => {
+                const result = descriptionSchema.safeParse(item)
+                if (!result.success) {
+                    result.error.issues.forEach((issue) => {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: issue.message,
+                        })
+                    })
+                }
+            })
+        }),
         cadastralCode: z
             .string()
             .refine(
@@ -187,6 +199,10 @@ export default function UploadValidator({ data }: { data?: GetPropertiesDataProp
                 message: t('IMAGES__MAX'),
             }),
         code: z.string().optional(),
+        heatingSafetyChecked: z.boolean().refine((val) => val === true, {
+            message: 'Heating safety must be checked.',
+        }),
+        districtId: z.string().min(0),
     })
 
     const form = useForm<z.infer<typeof FormSchema>>({

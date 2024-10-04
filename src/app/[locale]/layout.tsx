@@ -10,34 +10,12 @@ import Footer from '@/src/components/footer/Footer'
 import { ModalWrapper } from './(auth)/_modal/ModalWrapper'
 import { AuthWrapper } from '@/src/auth/authWrapper'
 import TwilioClientWrapper from '@/src/conversation/TwilioClientWrapper'
-
 import { GoogleTagManager } from '@next/third-parties/google'
+import Script from 'next/script'
 
 const georgian = Noto_Sans_Georgian({ subsets: ['latin'] })
 
-export async function generateStaticParams() {
-    return [{ locale: 'en' }, { locale: 'ka' }]
-}
-
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
-    const i18nNamespaces = ['meta']
-    const { t } = await initTranslations(locale, i18nNamespaces)
-
-    return {
-        openGraph: {
-            type: 'website',
-            locale: locale,
-            url: 'https://roommate.ge',
-            siteName: 'Roommate',
-            images: [
-                {
-                    url: '/images/RoommateOpengraph.png',
-                },
-            ],
-        },
-        metadataBase: new URL('https://roommate.ge'),
-    }
-}
+// ... (keep your existing generateStaticParams and generateMetadata functions)
 
 export default async function RootLayout({
     children,
@@ -65,6 +43,22 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} dir={dir(locale)} className={georgian.className}>
+            <Script
+                id="hotjar-script"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        (function(h,o,t,j,a,r){
+                            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                            h._hjSettings={hjid:5156615,hjsv:6};
+                            a=o.getElementsByTagName('head')[0];
+                            r=o.createElement('script');r.async=1;
+                            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                            a.appendChild(r);
+                        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+                    `,
+                }}
+            />
             <body>
                 <TranslationsProvider
                     namespaces={i18nNamespaces}

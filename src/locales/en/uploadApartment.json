@@ -61,5 +61,7 @@
     "DEPOSIT_ID__REQUIRED": "Deposit required",
     "canNotUpload": "The property could not be uploaded due to various reasons. Please reach out to us, and we'll resolve the issue quickly.",
     "apartmentBedrooms": "Number of bedrooms",
-    "apartmentImage": "Upload apartment photos"
+    "apartmentImage": "Upload apartment photos",
+    "district": "District",
+    "safetyCheck": "I take responsibility that the heating is checked and the apartment is safe to live in"
 }
