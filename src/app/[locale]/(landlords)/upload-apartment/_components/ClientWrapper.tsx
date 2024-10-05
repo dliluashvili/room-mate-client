@@ -149,8 +149,7 @@ function ClientWrapper() {
                             totalFloors: getValues('totalFloors'),
                             floor: getValues('floor'),
                             titles: getValues('titles'),
-                            streets: getValues('street'),
-
+                            streets: getValues('streets'),
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
                             propertyTypeId: getValues('propertyTypeId'),
@@ -219,7 +218,7 @@ function ClientWrapper() {
 
         return () => subscription.unsubscribe()
     }, [watch, setValue, trigger])
-    console.log(form.getValues())
+
     return (
         <>
             {openAlert && (
