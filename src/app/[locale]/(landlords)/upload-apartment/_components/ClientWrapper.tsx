@@ -175,7 +175,7 @@ function ClientWrapper() {
                                 : getValues('cadastralCode'),
                             bathroomsInProperty: getValues('bathroomsInProperty'),
                             bathroomsInBedroom: getValues('bathroomsInBedroom'),
-                            // availableFrom: getValues('availableFrom'),
+                            availableFrom: getValues('availableFrom'),
                             area: getValues('area'),
                             heatingSafetyChecked: getValues('heatingSafetyChecked'),
                             districtId: getValues('districtId'),

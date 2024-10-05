@@ -539,6 +539,7 @@ export type PropertyDepositTranslatedObject = {
 export type PropertyObject = {
     __typename?: 'PropertyObject'
     area: Scalars['Float']['output']
+    availableFrom?: Maybe<Scalars['DateTime']['output']>
     bathroomsInBedroom?: Maybe<Scalars['Float']['output']>
     bathroomsInProperty: Scalars['Float']['output']
     bedrooms?: Maybe<Scalars['Float']['output']>
@@ -628,6 +629,7 @@ export type QueryCheckUserExistenceArgs = {
 
 export type QueryGetConversationsForUserArgs = {
     pagination?: InputMaybe<PaginationInput>
+    status?: InputMaybe<ConversationStatus>
 }
 
 export type QueryGetCountriesArgs = {
@@ -909,6 +911,7 @@ export type UniversityTranslatedObject = {
 
 export type UpsertPropertyInput = {
     area?: InputMaybe<Scalars['Float']['input']>
+    availableFrom?: InputMaybe<Scalars['DateTime']['input']>
     bathroomsInBedroom?: InputMaybe<Scalars['Float']['input']>
     bathroomsInProperty?: InputMaybe<Scalars['Float']['input']>
     bedrooms?: InputMaybe<Scalars['Float']['input']>
