@@ -59,6 +59,8 @@ export const useInitializeConversationNotification = () => {
         }
     )
 
+    console.log({ chatConversations, requestedConversations })
+
     const [getSharedConversation] = useLazyQuery(getSharedConversationQuery)
 
     const handleMessageAdded = async (message: Message) => {

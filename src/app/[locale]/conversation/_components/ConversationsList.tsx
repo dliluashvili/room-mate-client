@@ -78,24 +78,24 @@ export default function ConversationsList({
         setRequest(true)
     }
 
-    useEffect(() => {
-        const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse()
+    // useEffect(() => {
+    //     const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse()
 
-        if (!lastVirtualItem) {
-            return
-        }
+    //     if (!lastVirtualItem) {
+    //         return
+    //     }
 
-        if (lastVirtualItem.index >= conversations.length - 1 && pageInfo?.hasNextPage) {
-            fetchMoreConversationsForUser({
-                variables: {
-                    pagination: {
-                        offset: conversations.length,
-                        limit: LIMIT,
-                    },
-                },
-            })
-        }
-    }, [pageInfo?.hasNextPage, virtualizer.getVirtualItems(), conversations.length])
+    //     if (lastVirtualItem.index >= conversations.length - 1 && pageInfo?.hasNextPage) {
+    //         fetchMoreConversationsForUser({
+    //             variables: {
+    //                 pagination: {
+    //                     offset: conversations.length,
+    //                     limit: LIMIT,
+    //                 },
+    //             },
+    //         })
+    //     }
+    // }, [pageInfo?.hasNextPage, virtualizer.getVirtualItems(), conversations.length])
 
     useEffect(() => {
         const hasRequested =
@@ -165,7 +165,7 @@ export default function ConversationsList({
                 <div
                     className="relative w-full"
                     style={{
-                        height: `${virtualizer.getTotalSize()}px`,
+                        height: `${virtualizer.getTotalSize() + 50}px`,
                     }}
                 >
                     {virtualizer.getVirtualItems().map((virtualRow) => {
@@ -191,53 +191,64 @@ export default function ConversationsList({
                                     !isLoaderRow ? handleClickConversation(conversation.id) : {}
                                 }
                             >
-                                {isLoaderRow ? (
-                                    <div className="relative flex h-full w-full flex-row items-center justify-center">
-                                        <Spinner size="small" />
+                                <div className="relative flex h-full w-full flex-row items-center justify-start md:justify-center md:py-2 lg:justify-start lg:py-0">
+                                    <div className="relative h-10 w-10 overflow-hidden rounded-[50%]">
+                                        <Image
+                                            fill
+                                            src={
+                                                conversation?.user?.profileImage
+                                                    ? conversation?.user?.profileImage
+                                                    : Avatar
+                                            }
+                                            alt="Fallback Avatar"
+                                            priority
+                                        />
                                     </div>
-                                ) : (
-                                    <>
-                                        <div className="relative flex h-full w-full flex-row items-center justify-start md:justify-center md:py-2 lg:justify-start lg:py-0">
-                                            <div className="relative h-10 w-10 overflow-hidden rounded-[50%]">
-                                                <Image
-                                                    fill
-                                                    src={
-                                                        conversation?.user?.profileImage
-                                                            ? conversation?.user?.profileImage
-                                                            : Avatar
-                                                    }
-                                                    alt="Fallback Avatar"
-                                                    priority
-                                                />
-                                            </div>
 
-                                            {!!conversation.unreadMessagesCount && (
-                                                <div
-                                                    id="#tablet"
-                                                    className="absolute left-12 hidden  h-5 w-5 items-center justify-center rounded-full bg-[#DB0505] text-[10px] text-white md:flex lg:hidden"
-                                                >
-                                                    {conversation.unreadMessagesCount}
-                                                </div>
-                                            )}
-
-                                            <div className="ml-6 flex h-full flex-col  items-center justify-center md:hidden lg:flex">
-                                                <span className="text-[14px] font-semibold text-[#484848]">
-                                                    {conversation?.user?.firstname ?? ''}
-                                                </span>
-                                            </div>
+                                    {!!conversation?.unreadMessagesCount && (
+                                        <div
+                                            id="#tablet"
+                                            className="absolute left-12 hidden  h-5 w-5 items-center justify-center rounded-full bg-[#DB0505] text-[10px] text-white md:flex lg:hidden"
+                                        >
+                                            {conversation.unreadMessagesCount}
                                         </div>
-                                        {!!conversation.unreadMessagesCount && (
-                                            <div className="flex h-5 w-5 items-center  justify-center rounded-full bg-[#DB0505] md:hidden lg:flex">
-                                                <span className="text-center text-[10px] text-white">
-                                                    {conversation.unreadMessagesCount}
-                                                </span>
-                                            </div>
-                                        )}
-                                    </>
+                                    )}
+
+                                    <div className="ml-6 flex h-full flex-col  items-center justify-center md:hidden lg:flex">
+                                        <span className="text-[14px] font-semibold text-[#484848]">
+                                            {conversation?.user?.firstname ?? ''}
+                                        </span>
+                                    </div>
+                                </div>
+                                {!!conversation?.unreadMessagesCount && (
+                                    <div className="flex h-5 w-5 items-center  justify-center rounded-full bg-[#DB0505] md:hidden lg:flex">
+                                        <span className="text-center text-[10px] text-white">
+                                            {conversation.unreadMessagesCount}
+                                        </span>
+                                    </div>
                                 )}
                             </div>
                         )
                     })}
+                    {(() => (
+                        <div
+                            className={cn(
+                                'absolute bottom-0 flex w-full cursor-pointer flex-row items-center justify-center border-b-2 border-[#E3E3E3] px-6 py-2 md:p-0 lg:justify-between lg:px-4 lg:py-2'
+                            )}
+                            onClick={() =>
+                                fetchMoreConversationsForUser({
+                                    variables: {
+                                        pagination: {
+                                            offset: conversations.length,
+                                            limit: LIMIT,
+                                        },
+                                    },
+                                })
+                            }
+                        >
+                            load more
+                        </div>
+                    ))()}
                 </div>
             </div>
         </section>

@@ -154,8 +154,8 @@ export const getConversationsForUserQuery: TypedDocumentNode<
     { getConversationsForUser: Query['getConversationsForUser'] },
     QueryGetConversationsForUserArgs
 > = gql`
-    query GetConversationsForUser($pagination: PaginationInput) {
-        getConversationsForUser(pagination: $pagination) {
+    query GetConversationsForUser($pagination: PaginationInput, $status: ConversationStatus) {
+        getConversationsForUser(pagination: $pagination, status: $status) {
             list {
                 id
                 sid
