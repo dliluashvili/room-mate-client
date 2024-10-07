@@ -24,7 +24,6 @@ import { Checkbox } from '@/src/components/ui/checkbox'
 import FullDynamicCheckbox from './formFieldItems/FullDynamicCheckbox'
 import StaticPetStatusRadio from './formFieldItems/StaticPetStatusRadio'
 import StaticPartyStatusRadio from './formFieldItems/StaticPartyStatusRadio'
-
 import StaticDepositRadio from './formFieldItems/StaticDepositRadio'
 import MultiImageUploader from './formFieldItems/MultiImageUploader'
 import { SendCodeBySms, UpsertProperty, VerifyCodeBySms } from '@/graphql/mutation'
@@ -150,7 +149,6 @@ function ClientWrapper() {
                             floor: getValues('floor'),
                             titles: getValues('titles'),
                             streets: getValues('street'),
-
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
                             propertyTypeId: getValues('propertyTypeId'),
