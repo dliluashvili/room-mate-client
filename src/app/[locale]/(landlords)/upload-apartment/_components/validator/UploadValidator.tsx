@@ -19,7 +19,7 @@ export const uploadPropertyInitialValues = {
     floor: undefined,
     housingStatusId: undefined,
     housingConditionId: undefined,
-    street: [
+    streets: [
         { text: '', lang: Language.En },
         { text: '', lang: Language.Ka },
     ],
@@ -81,6 +81,14 @@ export default function UploadValidator({ data }: { data?: GetPropertiesDataProp
         lang: z.enum([Language.En, Language.Ka]),
     })
 
+    const streetsSchema = z.object({
+        text: z
+            .string()
+            .min(1, { message: t('ADDRESS__INVALID') })
+            .max(300, { message: t('ADDRESS__MAX') }),
+        lang: z.enum([Language.En, Language.Ka]),
+    })
+
     const FormSchema: z.ZodSchema = z.object({
         propertyTypeId: z.enum(apartmentTypeValues as [string, ...string[]]),
         availableFrom: z
@@ -104,9 +112,9 @@ export default function UploadValidator({ data }: { data?: GetPropertiesDataProp
             }),
         housingStatusId: z.string().min(0),
         housingConditionId: z.string().min(0),
-        street: z.array(descriptionSchema).superRefine((val, ctx) => {
+        streets: z.array(streetsSchema).superRefine((val, ctx) => {
             val.forEach((item) => {
-                const result = descriptionSchema.safeParse(item)
+                const result = streetsSchema.safeParse(item)
                 if (!result.success) {
                     result.error.issues.forEach((issue) => {
                         ctx.addIssue({
@@ -137,7 +145,7 @@ export default function UploadValidator({ data }: { data?: GetPropertiesDataProp
             .min(1),
         housingLivingSafetyIds: z
             .array(z.enum(propertySafetyValues as [string, ...string[]]))
-            .min(1),
+            .optional(),
         capacity: z.number().int().positive(),
         petAllowed: z.boolean(),
         partyAllowed: z.boolean(),

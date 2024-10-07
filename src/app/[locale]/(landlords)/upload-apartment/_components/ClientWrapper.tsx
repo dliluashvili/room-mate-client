@@ -149,6 +149,7 @@ function ClientWrapper() {
                             floor: getValues('floor'),
                             titles: getValues('titles'),
                             streets: getValues('street'),
+
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
                             propertyTypeId: getValues('propertyTypeId'),
@@ -173,7 +174,7 @@ function ClientWrapper() {
                                 : getValues('cadastralCode'),
                             bathroomsInProperty: getValues('bathroomsInProperty'),
                             bathroomsInBedroom: getValues('bathroomsInBedroom'),
-                            // availableFrom: getValues('availableFrom'),
+                            availableFrom: getValues('availableFrom'),
                             area: getValues('area'),
                             heatingSafetyChecked: getValues('heatingSafetyChecked'),
                             districtId: getValues('districtId'),
@@ -217,7 +218,7 @@ function ClientWrapper() {
 
         return () => subscription.unsubscribe()
     }, [watch, setValue, trigger])
-    console.log(form.getValues())
+
     return (
         <>
             {openAlert && (

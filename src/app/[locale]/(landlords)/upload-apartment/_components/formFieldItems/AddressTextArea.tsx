@@ -1,24 +1,30 @@
+import React, { useState } from 'react'
 import { Language } from '@/graphql/typesGraphql'
 import { Button } from '@/src/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/src/components/ui/form'
 import { Input } from '@/src/components/ui/input'
-import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function AddressTextArea({ form }: any) {
-    const { t } = useTranslation()
     const [selectedLangTitle, setSelectedLangTitle] = useState<Language>(Language.Ka)
-    const getDescriptionByLangTitle = (lang: Language) => {
+
+    const { t } = useTranslation()
+
+    const getAddressByLangTitle = (lang: Language) => {
         return (
-            form.getValues('street')?.find((desc: any) => desc.lang === lang) || { text: '', lang }
+            form.getValues('streets')?.find((street: any) => street.lang === lang) || {
+                text: '',
+                lang,
+            }
         )
     }
+
     return (
         <div className="flex flex-col gap-4">
             {selectedLangTitle && (
                 <FormField
                     control={form.control}
-                    name="street"
+                    name="streets"
                     render={({ field }) => (
                         <FormItem className="w-full">
                             <FormLabel>{t('address')}</FormLabel>
@@ -43,18 +49,18 @@ export default function AddressTextArea({ form }: any) {
                                 <Input
                                     placeholder={t('addressDetails')}
                                     className="h-10 text-xs md:text-sm"
-                                    value={getDescriptionByLangTitle(selectedLangTitle).text}
+                                    value={getAddressByLangTitle(selectedLangTitle).text}
                                     onChange={(e) => {
-                                        const newDescriptions = [...field.value]
-                                        const index = newDescriptions.findIndex(
+                                        const newStreets = [...field.value]
+                                        const index = newStreets.findIndex(
                                             (desc) => desc.lang === selectedLangTitle
                                         )
                                         if (index > -1) {
-                                            newDescriptions[index] = {
-                                                ...newDescriptions[index],
+                                            newStreets[index] = {
+                                                ...newStreets[index],
                                                 text: e.target.value,
                                             }
-                                            field.onChange(newDescriptions)
+                                            field.onChange(newStreets)
                                         }
                                     }}
                                 />
