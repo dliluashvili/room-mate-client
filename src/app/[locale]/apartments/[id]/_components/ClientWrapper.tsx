@@ -80,8 +80,7 @@ export default function ClientWrapper() {
             emblaApi.off('reInit', onSelect)
         }
     }, [emblaApi, onSelect])
-
-
+    console.log(dataById?.getProperty)
 
     return (
         <main className="flex min-h-screen w-full flex-col gap-5 px-6 pb-10 pt-5 md:gap-10 lg:px-[280px]">
@@ -158,6 +157,10 @@ export default function ClientWrapper() {
                         </span>
                         <span className="text-sm text-[#838CAC]">
                             {dataById?.getProperty?.propertyType?.translations[0].name}
+                        </span>
+                        <span className="text-sm text-[#838CAC]">
+                            <span className="text-[#484848]">{t('district')}: </span>
+                            {dataById?.getProperty?.district?.translations[0].name}
                         </span>
                         <span className="md:text-base">
                             {t('price')}: {dataById?.getProperty?.price} $
