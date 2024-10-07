@@ -536,6 +536,7 @@ export const getPropertyById: TypedDocumentNode<
     query GetProperty($id: ID!, $lang: String) {
         getProperty(id: $id, lang: $lang) {
             id
+
             propertyType {
                 id
                 translations {
@@ -560,6 +561,13 @@ export const getPropertyById: TypedDocumentNode<
             bathroomsInBedroom
             totalFloors
             floor
+            translations {
+                street
+                title
+                lang
+                id
+                description
+            }
             bedrooms
             housingStatus {
                 id
@@ -621,6 +629,7 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
+
             contactName
             contactPhone
             translations {
