@@ -25,7 +25,9 @@ export default function Footer() {
         pathname.includes('/landlord-profile')
 
     return (
-        <div className="flex h-full w-full flex-col pt-12">
+        <div
+            className={`${pathname.includes('students-assistance') ? 'hidden' : 'flex'} h-full w-full flex-col pt-12`}
+        >
             <div className="flex flex-col px-6 sm:px-16 md:flex-row md:items-start md:justify-between md:px-20 xl:px-24">
                 <Link href={`${isLandlordsPath ? '/landlords' : '/'} `} className="w-auto">
                     <Logo

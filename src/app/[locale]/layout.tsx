@@ -12,6 +12,12 @@ import { AuthWrapper } from '@/src/auth/authWrapper'
 import TwilioClientWrapper from '@/src/conversation/TwilioClientWrapper'
 import { GoogleTagManager } from '@next/third-parties/google'
 import Script from 'next/script'
+import dynamic from 'next/dynamic'
+
+// Dynamically import the ChatraComponent with SSR disabled
+const ChatraComponent = dynamic(() => import('@/src/components/chat/Chat'), {
+    ssr: false,
+})
 
 const georgian = Noto_Sans_Georgian({ subsets: ['latin'] })
 
@@ -75,16 +81,17 @@ export default async function RootLayout({
                     `,
                 }}
             />
-            <noscript>
-                <img
-                    height="1"
-                    width="1"
-                    style={{ display: 'none' }}
-                    src="https://www.facebook.com/tr?id=1185072756167867&ev=PageView&noscript=1"
-                    alt=""
-                />
-            </noscript>
+
             <body>
+                <noscript>
+                    <img
+                        height="1"
+                        width="1"
+                        style={{ display: 'none' }}
+                        src="https://www.facebook.com/tr?id=1185072756167867&ev=PageView&noscript=1"
+                        alt=""
+                    />
+                </noscript>
                 <TranslationsProvider
                     namespaces={i18nNamespaces}
                     locale={locale}
@@ -99,6 +106,7 @@ export default async function RootLayout({
                                 </Suspense>
 
                                 {children}
+                                <ChatraComponent />
                                 <Footer />
                             </TwilioClientWrapper>
                         </AuthWrapper>

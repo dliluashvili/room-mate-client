@@ -116,6 +116,7 @@ function ClientWrapper() {
         }
     }
 
+    console.log(form.getValues())
     const onSubmit = async () => {
         if (isSubmitting) return // Prevent multiple submissions
 
@@ -148,7 +149,7 @@ function ClientWrapper() {
                             totalFloors: getValues('totalFloors'),
                             floor: getValues('floor'),
                             titles: getValues('titles'),
-                            streets: getValues('street'),
+                            streets: getValues('streets'),
 
                             rooms: getValues('rooms'),
                             bedrooms: getValues('bedrooms'),
