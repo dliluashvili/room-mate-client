@@ -6,7 +6,7 @@ const ChatraComponent = () => {
     useEffect(() => {
         // Load Chatra script
         ;(function (d, w, c) {
-            w.ChatraID = 'rWaYjQAp8dv3pX2Sz'
+            w.ChatraID = 'k7fNHdZQkWpbDyfng'
             var s = d.createElement('script')
             w[c] =
                 w[c] ||
@@ -23,3 +23,5 @@ const ChatraComponent = () => {
 }
 
 export default ChatraComponent
+
+
