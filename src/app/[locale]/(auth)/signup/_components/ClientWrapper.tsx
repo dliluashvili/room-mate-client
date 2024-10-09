@@ -41,6 +41,8 @@ export default function ClientWrapper() {
         )
     }
 
+    console.log(formData)
+
     const submit = async () => {
         if (!formData) return
 
@@ -157,6 +159,7 @@ export default function ClientWrapper() {
                         <CardContent className="relative h-full w-full bg-white px-6 pb-16 pt-8 sm:px-14">
                             {step === 1 && (
                                 <UserProfileStep
+                                step={step}
                                     setStep={setStep}
                                     formData={formData}
                                     updateFormData={updateFormData}

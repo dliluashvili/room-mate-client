@@ -30,14 +30,16 @@ import ImageUploader from '../imageUploader/ImageUploader'
 import { FormDataProps } from '../../types'
 import { SendCodeBySms, VerifyCodeBySms } from '@/graphql/mutation'
 import Reactdatepicker from '@/src/components/shared/datePicker/TestDatePicker'
+import BirthDatePicker from '@/src/components/shared/datePicker/BirthDateSelect'
 
 type StepOneProps = {
     formData?: FormDataProps
     setStep: Dispatch<SetStateAction<number>>
     updateFormData: (newData: Partial<FormDataProps>) => void
+    step: number
 }
 
-export default function UserProfileStep({ formData, setStep, updateFormData }: StepOneProps) {
+export default function UserProfileStep({ formData, setStep, updateFormData, step }: StepOneProps) {
     const [getCodeButtonClicked, setGetCodeButtonClicked] = useState(false)
     const [phoneFormat, setPhoneFormat] = useState(false)
 
@@ -138,6 +140,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
         })()
     }
 
+    console.log(form.getValues())
     return (
         <>
             <main className="flex flex-col items-center">
@@ -252,7 +255,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
                                     </FormItem>
                                 )}
                             /> */}
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="birthDate"
                                 render={({ field }) => (
@@ -263,6 +266,22 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
                                             <FormMessage />
                                         )}
                                     </FormItem>
+                                )}
+                            /> */}
+
+                            <FormField
+                                control={form.control}
+                                name="birthDate"
+                                render={({ field }) => (
+                                    <div className="flex flex-col gap-7">
+                                        <FormItem>
+                                            <FormLabel>{t('age')}</FormLabel>
+                                            <BirthDatePicker field={field} step={step} />
+                                        </FormItem>
+                                        {field.value !== undefined && field.value !== '' && (
+                                            <FormMessage />
+                                        )}
+                                    </div>
                                 )}
                             />
 
