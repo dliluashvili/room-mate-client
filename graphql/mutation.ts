@@ -19,6 +19,8 @@ import {
     MutationUpdateConversationResourceStateArgs,
     MutationIdentityVerificationImagesUploadArgs,
     MutationRemovePropertyArgs,
+    MutationUpdatePropertyPhoneClickCountArgs,
+    MutationUpdatePropertyOpenCountArgs,
 } from './typesGraphql'
 
 export const RoommateSignUpMutation: TypedDocumentNode<
@@ -293,5 +295,27 @@ export const RemoveProperty: TypedDocumentNode<
 > = gql`
     mutation RemoveProperty($propertyId: String!, $isSoftRemove: Boolean) {
         removeProperty(propertyId: $propertyId, isSoftRemove: $isSoftRemove)
+    }
+`
+
+export const UpdatePropertyPhoneClickCount: TypedDocumentNode<
+    {
+        updatePropertyPhoneClickCount: Mutation['updatePropertyPhoneClickCount']
+    },
+    MutationUpdatePropertyPhoneClickCountArgs
+> = gql`
+    mutation UpdatePropertyPhoneClickCount($propertyId: ID!, $fingerprint: String!) {
+        updatePropertyPhoneClickCount(propertyId: $propertyId, fingerprint: $fingerprint)
+    }
+`
+
+export const UpdatePropertyOpenCount: TypedDocumentNode<
+    {
+        updatePropertyOpenCount: Mutation['updatePropertyOpenCount']
+    },
+    MutationUpdatePropertyOpenCountArgs
+> = gql`
+    mutation UpdatePropertyOpenCount($propertyId: ID!, $fingerprint: String!) {
+        updatePropertyOpenCount(propertyId: $propertyId, fingerprint: $fingerprint)
     }
 `

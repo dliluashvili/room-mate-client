@@ -11,25 +11,22 @@ import {
     Door,
     FilterIcon,
     InactiveStatus,
-    Location,
     Square,
     Wallet,
 } from '@/src/components/svgs'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { useParams, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Filter from './Filter'
 import { useLockBodyScroll } from '@/src/components/hooks/useLockBodyScroll'
 import Link from 'next/link'
+import { getFingerprint } from '@/src/utils/fingerPrint'
+import { UpdatePropertyOpenCount } from '@/graphql/mutation'
 
 export default function ClientWrapper() {
-    const [isOpen, setIsOpen] = useState(false)
-    const [filterInputParams, setFilterInputParams] = useState<GetPropertiesFilterInput>()
     const { t } = useTranslation()
-    useLockBodyScroll(isOpen)
-
     const params = useParams()
     const locale = params.locale as Language
     const searchParams = useSearchParams()
@@ -37,6 +34,14 @@ export default function ClientWrapper() {
     const currentPage = parseInt(page, 10)
     const limit = 10
     const offset = (currentPage - 1) * limit
+    const [isOpen, setIsOpen] = useState(false)
+    const [filterInputParams, setFilterInputParams] = useState<GetPropertiesFilterInput>()
+    const [fingerprint, setFingerprint] = useState('')
+    const [canSendMutation, setCanSendMutation] = useState(true)
+
+    useLockBodyScroll(isOpen)
+
+    const [updatePropertyClickCount] = useMutation(UpdatePropertyOpenCount)
 
     const { data, error } = useQuery(getProperiesList, {
         variables: {
@@ -52,6 +57,27 @@ export default function ClientWrapper() {
     if (error) {
         return null
     }
+
+    const handleApartmentClick = async (propertyId: string) => {
+        if (fingerprint && canSendMutation) {
+            const { data } = await updatePropertyClickCount({
+                variables: {
+                    propertyId,
+                    fingerprint,
+                },
+            })
+            if (data?.updatePropertyOpenCount) {
+                setCanSendMutation(false)
+                setTimeout(() => {
+                    setCanSendMutation(true)
+                }, 5000)
+            }
+        }
+    }
+
+    useEffect(() => {
+        getFingerprint().then(setFingerprint)
+    }, [])
 
     const paginatedData = data?.getProperties as PaginatedFilteredPropertiesObject
 
@@ -86,6 +112,7 @@ export default function ClientWrapper() {
                     <div className="flex w-full flex-col gap-4 md:w-[320px]">
                         <Link href={`/apartments/${item.id}`}>
                             <div
+                                onClick={() => handleApartmentClick(item.id)}
                                 key={index}
                                 className="flex w-full flex-col overflow-hidden rounded-md bg-[#FFFFFF] shadow-md"
                             >

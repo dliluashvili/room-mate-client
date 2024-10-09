@@ -245,7 +245,7 @@ export default function Header() {
     return (
         <>
             <header
-                className={`flex w-full flex-row items-center justify-between px-6 py-3 shadow-md sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 ${
+                className={` ${pathname.includes('students-assistance') ? 'hidden' : 'flex'} flex w-full flex-row items-center justify-between px-6 py-3 shadow-md sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 ${
                     isLandlordsPath ? 'bg-[#C0DBFC]' : 'bg-[headerBg]'
                 }`}
             >
