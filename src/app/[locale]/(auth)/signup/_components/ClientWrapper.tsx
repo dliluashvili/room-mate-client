@@ -117,7 +117,7 @@ export default function ClientWrapper() {
                     input.profileImage = modifiedFormData.profileImage as string
                 }
 
-                const { data } = await signUp({
+                const { data, errors } = await signUp({
                     variables: {
                         input,
                     },
@@ -127,15 +127,13 @@ export default function ClientWrapper() {
                     signIn(data.roommateSignUp.jwt)
                     router.push('/roommates')
                 }
-            } catch (error: unknown | CustomError) {
-                setAlertIsOpen(true)
-                if ((error as CustomError)?.message === 'PHONE_EXISTS') {
+                if (errors && errors[0].message === 'USER__EXISTS_WITH_PHONE') {
+                    setAlertIsOpen(true)
                     setAlertType('PHONE_EXISTS')
-                } else if ((error as CustomError)?.message === 'EMAIL_EXISTS') {
-                    setAlertType('EMAIL_EXISTS')
-                } else {
-                    setAlertType('ERROR')
                 }
+            } catch (errors: unknown | CustomError) {
+                setAlertIsOpen(true)
+                setAlertType('ERROR')
             }
         }
     }

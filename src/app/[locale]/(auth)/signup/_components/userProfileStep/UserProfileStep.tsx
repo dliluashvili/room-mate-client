@@ -138,7 +138,6 @@ export default function UserProfileStep({ formData, setStep, updateFormData }: S
         })()
     }
 
-    console.log(countrySelectOptions)
     return (
         <>
             <main className="flex flex-col items-center">
