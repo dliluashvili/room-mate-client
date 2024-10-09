@@ -20,7 +20,7 @@ import { ResetPassword, ResetPasswordVerifyCode } from '@/graphql/mutation'
 import { ArrowLeft } from '@/src/components/svgs'
 import { Input } from '@/src/components/ui/input'
 import { VerificationCodeValidityStatus } from '@/graphql/typesGraphql'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 type otpType = {
     setVerifyCode: Dispatch<SetStateAction<boolean>>
@@ -31,10 +31,17 @@ type otpType = {
 export function InputOTPForm({ setVerifyCode, identifier, modalType }: otpType) {
     const { t } = useTranslation()
     const [newPassword, setNewPassword] = useState(false)
+    const pathname = usePathname()
 
     const [verifyCode] = useMutation(ResetPasswordVerifyCode)
     const [resetPasswordSubmit] = useMutation(ResetPassword)
     const router = useRouter()
+
+    const isLandlordsPath =
+        pathname.includes('/landlords') ||
+        pathname.includes('/upload-apartment') ||
+        pathname.includes('/apartment-list') ||
+        pathname.includes('/landlord-profile')
 
     const codeFormSchema = z.object({
         code: z.string().min(6),
@@ -115,7 +122,11 @@ export function InputOTPForm({ setVerifyCode, identifier, modalType }: otpType) 
             console.log(errors)
         } else if (data) {
             if (data?.resetPassword === true) {
-                router.push('/?modal=signinChooseType')
+                if (isLandlordsPath) {
+                    router.push('/?modal=signinLandlords')
+                } else {
+                    router.push('/?modal=signinRoommates')
+                }
             }
         }
     }
