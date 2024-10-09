@@ -116,7 +116,7 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
         <div className="flex h-[20px] flex-row gap-2">
             <Select value={selectedYear} onValueChange={handleYearChange}>
                 <SelectTrigger className="w-[100px]">
-                    <SelectValue>{selectedYear || t('year')}</SelectValue>
+                    <SelectValue placeholder={t('year')}>{selectedYear || t('year')}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
