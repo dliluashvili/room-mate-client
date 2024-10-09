@@ -15,19 +15,29 @@ import {
     PropertySqm,
 } from '@/src/components/svgs'
 
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { Check, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useTranslation } from 'react-i18next'
+import { UpdatePropertyPhoneClickCount } from '@/graphql/mutation'
+import { getFingerprint } from '@/src/utils/fingerPrint'
 
 export default function ClientWrapper() {
     const { t } = useTranslation()
     const params = useParams()
     const locale = params.locale
     const id = params.id as string
+
+    const [canSendMutation, setCanSendMutation] = useState(true)
+    const [selectedIndex, setSelectedIndex] = useState(0)
+    const [fingerprint, setFingerprint] = useState('')
+    const [showFullPhone, setShowFullPhone] = useState(false)
+
+    const [updatePhoneClickCount] = useMutation(UpdatePropertyPhoneClickCount)
+
     const { data: dataById, error } = useQuery(getPropertyById, {
         variables: {
             lang: locale as Language,
@@ -41,19 +51,17 @@ export default function ClientWrapper() {
             id: id,
         },
     })
-    const [selectedIndex, setSelectedIndex] = useState(0)
+
     const images = dataById?.getProperty?.images || []
-
     const allAmenities = property?.getPropertyAmenities || []
-
-    // Assuming dataById.getProperty.propertyAmenities is an array of included amenities
     const includedAmenities = dataById?.getProperty?.propertyAmenities || []
-
-    // Create a Set of included amenity IDs for faster lookup
     const includedAmenityIds = new Set(includedAmenities.map((amenity) => amenity.id))
+    const maskedPhone =
+        dataById?.getProperty?.contactPhone &&
+        dataById?.getProperty?.contactPhone.slice(0, -6) +
+            dataById?.getProperty?.contactPhone.slice(-6).replace(/\d/g, '*')
 
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
-
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
 
@@ -80,6 +88,30 @@ export default function ClientWrapper() {
             emblaApi.off('reInit', onSelect)
         }
     }, [emblaApi, onSelect])
+
+    const handlePhoneClick = async () => {
+        setShowFullPhone(true)
+
+        if (fingerprint && canSendMutation) {
+            const { data } = await updatePhoneClickCount({
+                variables: {
+                    propertyId: id,
+                    fingerprint,
+                },
+            })
+
+            if (data?.updatePropertyPhoneClickCount) {
+                setCanSendMutation(false)
+                setTimeout(() => {
+                    setCanSendMutation(true)
+                }, 5000)
+            }
+        }
+    }
+
+    useEffect(() => {
+        getFingerprint().then(setFingerprint)
+    }, [])
 
     return (
         <main className="flex min-h-screen w-full flex-col gap-5 px-6 pb-10 pt-5 md:gap-10 lg:px-[280px]">
@@ -174,16 +206,27 @@ export default function ClientWrapper() {
                             </span>
                         </div>
                         <div className="flex w-full md:w-auto">
-                            <div className="flex w-full cursor-pointer  items-center gap-2 rounded-md bg-mainGreen px-4 py-2  text-white  md:w-auto">
-                                <a
-                                    href={`tel:${dataById?.getProperty?.contactPhone}`}
-                                    className="flex items-center gap-2"
-                                >
-                                    <Call className="h-5 w-5 fill-white" />
-                                    <span className=" text-sm md:text-base">
-                                        {dataById?.getProperty?.contactPhone}
-                                    </span>
-                                </a>
+                            <div
+                                className="flex w-full cursor-pointer items-center gap-2 rounded-md bg-mainGreen px-4 py-2 text-white md:w-auto"
+                                onClick={handlePhoneClick}
+                            >
+                                {showFullPhone ? (
+                                    <a
+                                        href={`tel:${dataById?.getProperty?.contactPhone}`}
+                                        className="flex items-center gap-2"
+                                        onClick={(e) => e.stopPropagation()} // Prevent click event bubbling
+                                    >
+                                        <Call className="h-5 w-5 fill-white" />
+                                        <span className="text-sm md:text-base">
+                                            {dataById?.getProperty?.contactPhone}
+                                        </span>
+                                    </a>
+                                ) : (
+                                    <div className="flex items-center gap-2">
+                                        <Call className="h-5 w-5 fill-white" />
+                                        <span className="text-sm md:text-base">{maskedPhone}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -304,20 +347,22 @@ export default function ClientWrapper() {
                     ))}
                 </div>
             </div>
-            <div className="flex w-full flex-col gap-4 overflow-hidden rounded-lg border  border-[#E3E3E3] pb-8 shadow-lg md:pb-8">
-                <div className="w-full bg-mainGreen px-8  py-3 text-white">
-                    {t('livingSafety')}{' '}
-                </div>
-                {dataById?.getProperty?.housingLivingSafeties?.map((item, index) => (
-                    <div
-                        className="flex w-full flex-row items-center gap-2 px-4 md:px-8"
-                        key={index}
-                    >
-                        <Check className="min-h-6 min-w-6 text-mainGreen" />
-                        <span>{item.translations[0].name}</span>
+            {dataById?.getProperty?.housingLivingSafeties?.length ? (
+                <div className="flex w-full flex-col gap-4 overflow-hidden rounded-lg border  border-[#E3E3E3] pb-8 shadow-lg md:pb-8">
+                    <div className="w-full bg-mainGreen px-8  py-3 text-white">
+                        {t('livingSafety')}{' '}
                     </div>
-                ))}
-            </div>
+                    {dataById?.getProperty?.housingLivingSafeties?.map((item, index) => (
+                        <div
+                            className="flex w-full flex-row items-center gap-2 px-4 md:px-8"
+                            key={index}
+                        >
+                            <Check className="min-h-6 min-w-6 text-mainGreen" />
+                            <span>{item.translations[0].name}</span>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
         </main>
     )
 }
