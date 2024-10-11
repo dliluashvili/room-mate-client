@@ -150,19 +150,13 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
             </Select>
 
             <Select value={selectedDay} onValueChange={handleDayChange}>
-                <SelectTrigger className="z-50 w-[100px]">
-                    <SelectValue className="z-50" placeholder={t('day')}>
-                        {selectedDay || t('day')}
-                    </SelectValue>
+                <SelectTrigger className=" w-[100px]">
+                    <SelectValue placeholder={t('day')}>{selectedDay || t('day')}</SelectValue>
                 </SelectTrigger>
-                <SelectContent className="z-50">
-                    <SelectGroup className="z-50">
+                <SelectContent>
+                    <SelectGroup>
                         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
-                            <SelectItem
-                                className="z-50"
-                                key={day}
-                                value={day.toString().padStart(2, '0')}
-                            >
+                            <SelectItem key={day} value={day.toString().padStart(2, '0')}>
                                 {day}
                             </SelectItem>
                         ))}

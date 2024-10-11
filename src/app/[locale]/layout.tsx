@@ -19,8 +19,6 @@ const ChatraComponent = dynamic(() => import('@/src/components/chat/Chat'), {
 
 const georgian = Noto_Sans_Georgian({ subsets: ['latin'] })
 
-
-
 export default async function RootLayout({
     children,
     params: { locale },
