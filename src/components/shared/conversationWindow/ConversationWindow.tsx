@@ -155,7 +155,7 @@ export default function ConversationWindow({ setIsOpen, name, participantId, ava
     ) : (
         <div
             ref={ref}
-            className="fixed bottom-0 right-0 z-50 flex h-full w-full flex-col rounded-lg border bg-[#FFFFFF] shadow-md md:right-20 md:h-[415px] md:w-[375px]"
+            className="fixed bottom-0 right-0 z-[1000000] flex h-full w-full flex-col rounded-lg border bg-[#FFFFFF] shadow-md md:right-20 md:h-[415px] md:w-[375px]"
         >
             <div className="flex w-full flex-row items-center justify-between p-6 shadow-md">
                 <div className="flex w-full flex-row items-center justify-between">

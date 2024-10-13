@@ -160,7 +160,7 @@ export default function MobileConversation({
         <>
             <section
                 className={cn(
-                    'fixed top-0 z-50 h-full w-screen flex-col overflow-y-hidden overscroll-none bg-[#FFFFFF]',
+                    'fixed top-0 z-[10000] h-full w-screen flex-col overflow-y-hidden overscroll-none bg-[#FFFFFF]',
                     mobileOpen ? 'flex' : 'hidden'
                 )}
             >

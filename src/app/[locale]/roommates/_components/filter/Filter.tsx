@@ -146,7 +146,7 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
     return (
         <>
             <section
-                className={`${isOpen ? 'fixed h-screen w-full overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full  w-full  flex-col gap-4 bg-white p-0  md:gap-6 `}
+                className={`${isOpen ? 'fixed z-[100000] h-screen w-full overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full  w-full  flex-col gap-4 bg-white p-0  md:gap-6 `}
             >
                 {isOpen ? (
                     <div className="flex h-auto w-full flex-row items-center justify-end gap-3">

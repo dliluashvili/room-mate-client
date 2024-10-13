@@ -82,7 +82,7 @@ export default function ClientWrapper() {
     const paginatedData = data?.getProperties as PaginatedFilteredPropertiesObject
 
     return (
-        <main className="flex min-h-screen w-full flex-col items-center gap-10 bg-[#F5F5F5]  px-6 pb-10 md:flex-row md:items-start md:px-20 md:py-10">
+        <main className="flex min-h-screen w-full flex-col items-center gap-10 bg-[#F5F5F5]  px-6 pb-10 md:items-start md:px-20 md:py-10 lg:flex-row">
             <div className="flex h-auto w-full justify-start   pt-6   md:pt-10    lg:hidden lg:px-0">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
@@ -106,7 +106,7 @@ export default function ClientWrapper() {
                     setFilterInputParams={setFilterInputParams}
                 />
             ) : null}
-            <div className="hidden min-h-screen w-[1px] bg-gray-200 md:block"></div>
+            <div className="hidden min-h-screen w-[1px] bg-gray-200 lg:block"></div>
             <div className="grid  w-full  flex-col items-center  gap-10 md:w-auto md:grid-cols-2">
                 {data?.getProperties?.list?.map((item, index) => (
                     <div className="flex w-full flex-col gap-4 md:w-[320px]">
