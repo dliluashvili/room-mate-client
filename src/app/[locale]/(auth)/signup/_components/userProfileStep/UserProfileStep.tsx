@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation'
 import { UserProfileStepValidator } from './UserProfileStepValidator'
 import { useTranslation } from 'react-i18next'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, use, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import {
     Form,
@@ -29,7 +29,6 @@ import Select from '@/src/components/ui/select'
 import ImageUploader from '../imageUploader/ImageUploader'
 import { FormDataProps } from '../../types'
 import { SendCodeBySms, VerifyCodeBySms } from '@/graphql/mutation'
-import Reactdatepicker from '@/src/components/shared/datePicker/TestDatePicker'
 import BirthDatePicker from '@/src/components/shared/datePicker/BirthDateSelect'
 
 type StepOneProps = {
@@ -37,9 +36,18 @@ type StepOneProps = {
     setStep: Dispatch<SetStateAction<number>>
     updateFormData: (newData: Partial<FormDataProps>) => void
     step: number
+    setAlertIsOpen: Dispatch<SetStateAction<boolean>>
+    setAlertType: Dispatch<SetStateAction<string>>
 }
 
-export default function UserProfileStep({ formData, setStep, updateFormData, step }: StepOneProps) {
+export default function UserProfileStep({
+    formData,
+    setStep,
+    updateFormData,
+    step,
+    setAlertIsOpen,
+    setAlertType,
+}: StepOneProps) {
     const [getCodeButtonClicked, setGetCodeButtonClicked] = useState(false)
     const [phoneFormat, setPhoneFormat] = useState(false)
 
@@ -98,6 +106,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
 
     const handleSubmit = async (data: { code: string }) => {
         updateFormData(data)
+
         const { data: responseData } = await smsCheck({
             variables: {
                 input: {
@@ -122,25 +131,31 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
         }
     }
 
-    const getCodeHandler = () => {
-        form.handleSubmit(async () => {
-            setGetCodeButtonClicked(true)
+    const getCodeHandler = async () => {
+        setGetCodeButtonClicked(true)
 
-            const { data } = await smsSend({
-                variables: {
-                    input: {
-                        phone: form.watch('phone') ?? '',
-                        codePurpose: CodePurpose.RoommateSignUp,
-                    },
+        const { data } = await smsSend({
+            variables: {
+                input: {
+                    phone: form.watch('phone') ?? '',
+                    codePurpose: CodePurpose.RoommateSignUp,
                 },
-            })
-            if (data?.sendCodeBySms?.status === 'ALREADY_SENT') {
-                form.setError('code', { message: t('codeAlreadySent') })
-            }
-        })()
+            },
+        })
+        if (data?.sendCodeBySms?.status === 'ALREADY_SENT') {
+            form.setError('code', { message: t('codeAlreadySent') })
+        }
+    }
+    const clickHandler = () => {
+        // Check if form.formState.errors has any keys
+        if (Object.keys(form.formState.errors).length > 0 || !form.formState.isDirty) {
+            setAlertIsOpen(true)
+            setAlertType('requiredFields')
+        }
     }
 
-    console.log(form.getValues())
+
+
     return (
         <>
             <main className="flex flex-col items-center">
@@ -155,6 +170,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
                                         <FormLabel>{t('name')}</FormLabel>
 
                                         <Input
+                                            className="appearance-none  outline-none ring-0 ring-offset-0"
                                             type="string"
                                             {...field}
                                             value={field.value}
@@ -209,6 +225,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
                                     <FormItem>
                                         <FormLabel>{t('country')}</FormLabel>
                                         <Select
+                                            className="text-base"
                                             {...field}
                                             placeholder={t('selectCountry')}
                                             onChange={(value) => {
@@ -231,6 +248,7 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
                                     <FormItem>
                                         <FormLabel>{t('gender')}</FormLabel>
                                         <Select
+                                            className="text-base"
                                             {...field}
                                             placeholder={t('selectGender')}
                                             onChange={(value) => {
@@ -241,33 +259,6 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
                                     </FormItem>
                                 )}
                             />
-
-                            {/* <FormField
-                                control={form.control}
-                                name="birthDate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t('age')}</FormLabel>
-                                        <DatePicker field={field} />
-                                        {field.value !== undefined && field.value !== '' && (
-                                            <FormMessage />
-                                        )}
-                                    </FormItem>
-                                )}
-                            /> */}
-                            {/* <FormField
-                                control={form.control}
-                                name="birthDate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{t('age')}</FormLabel>
-                                        <Reactdatepicker field={field} />
-                                        {field.value !== undefined && field.value !== '' && (
-                                            <FormMessage />
-                                        )}
-                                    </FormItem>
-                                )}
-                            /> */}
 
                             <FormField
                                 control={form.control}
@@ -434,7 +425,10 @@ export default function UserProfileStep({ formData, setStep, updateFormData, ste
                             />
                         </div>
                         <Button
-                            onClick={() => setPhoneFormat(true)}
+                            onClick={() => {
+                                setPhoneFormat(true)
+                                clickHandler()
+                            }}
                             className="mt-4 w-full"
                             size="lg"
                             type="submit"

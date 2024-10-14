@@ -135,7 +135,7 @@ export default function QuestionsStep({
                                                                 <FormControl>
                                                                     <textarea
                                                                         spellCheck="false"
-                                                                        className="w-full rounded-md border border-[#828bab] px-3 py-2 text-sm  focus:border-2 focus:border-[#c5758a] focus:outline-none"
+                                                                        className="w-full rounded-md border border-[#828bab] px-3 py-2 text-base  focus:border-2 focus:border-[#3DBF8D] focus:outline-none"
                                                                         rows={4}
                                                                         {...field}
                                                                         onChange={(e) => {
@@ -215,6 +215,7 @@ export default function QuestionsStep({
                                                                     item.translations[0].title}
                                                             </FormLabel>
                                                             <Select
+                                                                className="text-base"
                                                                 placeholder={t('select')}
                                                                 {...field}
                                                                 isMulti={

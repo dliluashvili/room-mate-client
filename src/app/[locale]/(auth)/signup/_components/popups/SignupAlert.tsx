@@ -36,6 +36,8 @@ export function SignupAlert({ alertIsOpen, alertType, setAlertIsOpen }: SignupPr
                 return { text: t('emailExist') }
             case 'ERROR':
                 return { text: t('serverError') }
+            case 'requiredFields':
+                return { text: t('requiredFields') }
             default:
                 return { text: null }
         }
