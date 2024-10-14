@@ -62,15 +62,15 @@ export default function ProfileNavBar() {
                     </div>
                     <ArrowRight className="h-6 w-6 md:hidden" />
                 </button> */}
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
-                    <Link href="/conversation">
+                <Link href="/conversation" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
                         <div className="flex flex-row items-center">
                             <Bell2 className=" h-6 w-6" />
                             <span className="ml-3">{t('notifications')}</span>
                         </div>
                         <ArrowRight className="h-6 w-6 md:hidden" />
-                    </Link>
-                </button>
+                    </button>
+                </Link>
 
                 <button
                     onClick={() => sectionClickHandler('verification', 'true')}

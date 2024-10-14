@@ -3,6 +3,8 @@ import ProfileNavBar from './profileNavBar/ProfileNavBar'
 import { withAuth } from '@/src/auth/withAuth'
 import Verification from './verification/Verification'
 import { useSearchParams } from 'next/navigation'
+import { ArrowBigLeft } from 'lucide-react'
+import { ArrowLeft } from '@/src/components/svgs'
 
 function ClientWrapper() {
     const searchParams = useSearchParams()
@@ -11,7 +13,10 @@ function ClientWrapper() {
 
     return (
         <main className="mt-1 flex min-h-screen w-full flex-col  items-center overflow-scroll bg-[#F5F5F5] px-6 pb-8 pt-6 md:flex-row md:items-start  md:px-24">
-            <div className="block  md:hidden">
+            <div>
+                <ArrowLeft />
+            </div>
+            <div className="block w-full  md:hidden">
                 {verification === 'true' ? <Verification /> : <ProfileNavBar />}
             </div>
             <div className="hidden flex-row md:flex md:gap-10">
