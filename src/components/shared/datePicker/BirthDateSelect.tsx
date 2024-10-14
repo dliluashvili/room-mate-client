@@ -54,52 +54,52 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
     const params = useParams()
     const locale = params.locale as string
 
-    const [selectedYear, setSelectedYear] = useState<string>('')
-    const [selectedMonth, setSelectedMonth] = useState<string>('')
-    const [selectedDay, setSelectedDay] = useState<string>('')
-    const [daysInMonth, setDaysInMonth] = useState<number>(31)
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
     useEffect(() => {
         if (field.value) {
             const date = parse(field.value, 'yyyy-MM-dd', new Date())
-
             if (isValid(date)) {
-                const year = format(date, 'yyyy')
-                const month = format(date, 'MM')
-                const day = format(date, 'dd')
-
-                setSelectedYear(year)
-                setSelectedMonth(month)
-                setSelectedDay(day)
-
-                setDaysInMonth(getDaysInMonth(date))
+                setSelectedDate(date)
             } else {
                 console.log('Invalid date:', field.value)
+                setSelectedDate(null)
             }
         } else {
             console.log('No field value')
+            setSelectedDate(null)
         }
-    }, [field.value, selectedYear, selectedMonth, selectedDay])
+    }, [field.value])
 
     const handleYearChange = (value: string) => {
-        setSelectedYear(value)
-        updateFieldValue(value, selectedMonth, selectedDay)
+        updateDate(Number(value), selectedDate?.getMonth() ?? 0, selectedDate?.getDate() ?? 1)
     }
 
     const handleMonthChange = (value: string) => {
-        setSelectedMonth(value)
-        updateFieldValue(selectedYear, value, selectedDay)
+        const month = Number(value) - 1 // JavaScript months are 0-indexed
+        updateDate(
+            selectedDate?.getFullYear() ?? new Date().getFullYear(),
+            month,
+            selectedDate?.getDate() ?? 1
+        )
     }
 
     const handleDayChange = (value: string) => {
-        setSelectedDay(value)
-        updateFieldValue(selectedYear, selectedMonth, value)
+        updateDate(
+            selectedDate?.getFullYear() ?? new Date().getFullYear(),
+            selectedDate?.getMonth() ?? 0,
+            Number(value)
+        )
     }
 
-    const updateFieldValue = (year: string, month: string, day: string) => {
-        if (year && month && day) {
-            const newDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-            field.onChange(newDate)
+    const updateDate = (year: number, month: number, day: number) => {
+        const newDate = new Date(year, month, day)
+        if (isValid(newDate)) {
+            setSelectedDate(newDate)
+            field.onChange(format(newDate, 'yyyy-MM-dd'))
+        } else {
+            setSelectedDate(null)
+            field.onChange('')
         }
     }
 
@@ -107,16 +107,22 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
     const startYear = 1960
     const yearRange = Array.from({ length: currentYear - startYear + 1 }, (_, i) => currentYear - i)
 
-    const getMonthName = (monthNumber: string) => {
-        const index = parseInt(monthNumber, 10) - 1
-        return locale === 'ka' ? georgianMonths[index] : englishMonths[index]
+    const getMonthName = (monthNumber: number) => {
+        return locale === 'ka' ? georgianMonths[monthNumber] : englishMonths[monthNumber]
     }
 
+    const daysInMonth = selectedDate ? getDaysInMonth(selectedDate) : 31
+
     return (
-        <div className="flex h-[20px] flex-row gap-2">
-            <Select value={selectedYear} onValueChange={handleYearChange}>
+        <div className="flex h-auto flex-row gap-2">
+            <Select
+                value={selectedDate ? selectedDate.getFullYear().toString() : ''}
+                onValueChange={handleYearChange}
+            >
                 <SelectTrigger className="w-[100px]">
-                    <SelectValue placeholder={t('year')}>{selectedYear || t('year')}</SelectValue>
+                    <SelectValue placeholder={t('year')}>
+                        {selectedDate ? selectedDate.getFullYear().toString() : t('year')}
+                    </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
@@ -129,10 +135,15 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
                 </SelectContent>
             </Select>
 
-            <Select value={selectedMonth} onValueChange={handleMonthChange}>
+            <Select
+                value={
+                    selectedDate ? (selectedDate.getMonth() + 1).toString().padStart(2, '0') : ''
+                }
+                onValueChange={handleMonthChange}
+            >
                 <SelectTrigger className="w-[160px]">
                     <SelectValue placeholder={t('month')}>
-                        {selectedMonth ? getMonthName(selectedMonth) : t('month')}
+                        {selectedDate ? getMonthName(selectedDate.getMonth()) : t('month')}
                     </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
@@ -149,9 +160,16 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
                 </SelectContent>
             </Select>
 
-            <Select value={selectedDay} onValueChange={handleDayChange}>
+            <Select
+                value={selectedDate ? selectedDate.getDate().toString().padStart(2, '0') : ''}
+                onValueChange={handleDayChange}
+            >
                 <SelectTrigger className=" w-[100px]">
-                    <SelectValue placeholder={t('day')}>{selectedDay || t('day')}</SelectValue>
+                    <SelectValue placeholder={t('day')}>
+                        {selectedDate
+                            ? selectedDate.getDate().toString().padStart(2, '0')
+                            : t('day')}
+                    </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>

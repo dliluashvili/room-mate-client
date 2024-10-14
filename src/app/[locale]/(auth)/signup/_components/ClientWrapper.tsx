@@ -153,15 +153,16 @@ export default function ClientWrapper() {
             />
             <main className="flex h-auto w-full flex-col items-center justify-center px-6 md:px-[10%] md:pb-16 lg:px-[15%] xl:px-[334px]">
                 <SignupHeader step={step} />
-
                 <Card className="w-full">
                     {isClient ? (
                         <CardContent className="relative h-full w-full bg-white px-6 pb-16 pt-8 sm:px-14">
                             {step === 1 && (
                                 <UserProfileStep
-                                step={step}
+                                    step={step}
                                     setStep={setStep}
                                     formData={formData}
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     updateFormData={updateFormData}
                                 />
                             )}

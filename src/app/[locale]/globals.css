@@ -134,8 +134,13 @@ body {
     width: 100% !important;
     border-radius: 8px !important;
     border: 1px solid hsl(227, 20%, 59%) !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     color: #484848 !important;
+}
+
+.PhoneInput:focus {
+    outline: 0 !important;
+    border: 0 !important;
 }
 
 .PhoneInputCountry {
@@ -147,7 +152,8 @@ body {
 }
 
 .PhoneInput--focus {
-    outline: 1px solid #3dae8c !important;
+    outline: 0 !important;
+    border: 2px solid #3dbf8d !important;
 }
 
 .PhoneInputInput {

@@ -53,7 +53,11 @@ export function UserProfileStepValidator({ formData }: any) {
             message: t('incorrectFormat'),
         }),
         email: z.string().email(t('emailError')).optional().or(z.literal('')),
-        profileImage: z.union([z.any(), z.undefined()]),
+        profileImage: z
+            .any()
+            .refine((value) => value !== undefined && value !== null && value !== '', {
+                message: t('profileImageRequired'),
+            }),
         password: z
             .string()
             .min(6, { message: t('minpass') })
