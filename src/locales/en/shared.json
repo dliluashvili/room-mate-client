@@ -45,5 +45,6 @@
     "minImage": "You can only upload one image at a time.",
     "minMb": "File size exceeds 5MB. Please upload a smaller file.",
     "uploading": "Uploading",
-    "delete": "Delete"
+    "delete": "Delete",
+    "routerBack": "Back"
 }
