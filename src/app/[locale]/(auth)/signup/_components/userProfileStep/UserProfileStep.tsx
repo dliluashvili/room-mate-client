@@ -131,30 +131,38 @@ export default function UserProfileStep({
         }
     }
 
-    const getCodeHandler = async () => {
-        setGetCodeButtonClicked(true)
+    const getCodeHandler = () => {
+        clickHandler()
+        form.handleSubmit(async () => {
+            setGetCodeButtonClicked(true)
 
-        const { data } = await smsSend({
-            variables: {
-                input: {
-                    phone: form.watch('phone') ?? '',
-                    codePurpose: CodePurpose.RoommateSignUp,
+            const { data } = await smsSend({
+                variables: {
+                    input: {
+                        phone: form.watch('phone') ?? '',
+                        codePurpose: CodePurpose.RoommateSignUp,
+                    },
                 },
-            },
-        })
-        if (data?.sendCodeBySms?.status === 'ALREADY_SENT') {
-            form.setError('code', { message: t('codeAlreadySent') })
-        }
+            })
+            if (data?.sendCodeBySms?.status === 'ALREADY_SENT') {
+                form.setError('code', { message: t('codeAlreadySent') })
+            }
+        })()
     }
     const clickHandler = () => {
-        // Check if form.formState.errors has any keys
-        if (Object.keys(form.formState.errors).length > 0 || !form.formState.isDirty) {
-            setAlertIsOpen(true)
-            setAlertType('requiredFields')
-        }
+        // Force a re-render to ensure we have the latest form state
+        form.trigger()
+
+        // Use setTimeout to allow state updates to complete
+        setTimeout(() => {
+            const hasErrors = Object.keys(form.formState.errors).length > 0
+
+            if (hasErrors) {
+                setAlertIsOpen(true)
+                setAlertType('requiredFields')
+            }
+        }, 0)
     }
-
-
 
     return (
         <>
@@ -380,7 +388,7 @@ export default function UserProfileStep({
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{t('Phonenumber')}</FormLabel>
-                                        <div onClick={() => setPhoneFormat(false)}>
+                                        <div onClick={() => setPhoneFormat(true)}>
                                             <PhoneInput
                                                 type="number"
                                                 field={field}
