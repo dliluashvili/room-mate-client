@@ -71,6 +71,22 @@ export default function ProfileNavBar() {
                         <ArrowRight className="h-6 w-6 md:hidden" />
                     </button>
                 </Link>
+                <Link href="/roommates" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                        <div className="flex flex-row items-center">
+                            <span className="ml-3">{t('findRoommate')}</span>
+                        </div>
+                        <ArrowRight className="h-6 w-6 md:hidden" />
+                    </button>
+                </Link>
+                <Link href="/apartments" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                        <div className="flex flex-row items-center">
+                            <span className="ml-3">{t('rentApartment')}</span>
+                        </div>
+                        <ArrowRight className="h-6 w-6 md:hidden" />
+                    </button>
+                </Link>
 
                 <button
                     onClick={() => sectionClickHandler('verification', 'true')}
