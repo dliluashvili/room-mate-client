@@ -207,7 +207,10 @@ export function LandlordsSignupOTP({ signupMethod, setSignupMethod, formData }: 
                         </FormItem>
                     )}
                 />
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full bg-mainOrange hover:bg-hoverOrange focus:bg-pressedOrange"
+                    type="submit"
+                >
                     {t('verify')}
                 </Button>
                 <div className="w-full">

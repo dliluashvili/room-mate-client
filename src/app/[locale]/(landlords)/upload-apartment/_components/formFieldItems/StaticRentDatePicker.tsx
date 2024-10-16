@@ -127,11 +127,21 @@ function StaticRentDatePicker({ field }: RentDatePickerProps) {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        {(locale === 'ka' ? georgianMonths : englishMonths).map((month, index) => (
-                            <SelectItem key={index + 1} value={(index + 1).toString()}>
-                                {month}
-                            </SelectItem>
-                        ))}
+                        {(locale === 'ka' ? georgianMonths : englishMonths).map((month, index) => {
+                            const isCurrentYear =
+                                selectedYear && parseInt(selectedYear) === currentYear
+                            const isPastMonth = index + 1 < new Date().getMonth() + 1
+
+                            return (
+                                <SelectItem
+                                    key={index + 1}
+                                    value={(index + 1).toString()}
+                                    disabled={!!(isCurrentYear && isPastMonth)} // Us // Disable previous months in the current year
+                                >
+                                    {month}
+                                </SelectItem>
+                            )
+                        })}
                     </SelectGroup>
                 </SelectContent>
             </Select>
@@ -140,7 +150,7 @@ function StaticRentDatePicker({ field }: RentDatePickerProps) {
                 <SelectTrigger className="z-50 w-[100px]">
                     <SelectValue className="z-50" placeholder={t('day')} />
                 </SelectTrigger>
-                <SelectContent  className="z-50">
+                <SelectContent className="z-50">
                     <SelectGroup className="z-50">
                         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
                             <SelectItem className="z-50" key={day} value={day.toString()}>

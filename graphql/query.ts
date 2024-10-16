@@ -216,6 +216,7 @@ export type GetPropertiesDataProps = {
     getHousingHeatingTypes: Query['getHousingHeatingTypes']
     getHousingLivingSafeties: Query['getHousingLivingSafeties']
     getPropertyDeposits: Query['getPropertyDeposits']
+    getDistricts: Query['getDistricts']
 }
 export const GetPropertiesData: TypedDocumentNode<GetPropertiesDataProps> = gql`
     query GetProperties($locale: Language) {
@@ -278,6 +279,15 @@ export const GetPropertiesData: TypedDocumentNode<GetPropertiesDataProps> = gql`
                 lang
             }
         }
+        getDistricts(locale: $locale) {
+            id
+            visible
+            translations {
+                id
+                name
+                lang
+            }
+        }
     }
 `
 
@@ -318,7 +328,7 @@ export const getLandlordProperties: TypedDocumentNode<
                         lang
                     }
                 }
-                availableFrom
+
                 minRentalPeriod
                 rooms
                 bathroomsInProperty
@@ -342,7 +352,7 @@ export const getLandlordProperties: TypedDocumentNode<
                         lang
                     }
                 }
-                street
+
                 cadastralCode
                 hideCadastralCode
                 propertyAmenities {
@@ -437,7 +447,7 @@ export const getProperiesList: TypedDocumentNode<
                         lang
                     }
                 }
-                availableFrom
+
                 minRentalPeriod
                 rooms
                 bathroomsInProperty
@@ -461,7 +471,7 @@ export const getProperiesList: TypedDocumentNode<
                         lang
                     }
                 }
-                street
+
                 cadastralCode
                 hideCadastralCode
                 propertyAmenities {
@@ -526,6 +536,7 @@ export const getPropertyById: TypedDocumentNode<
     query GetProperty($id: ID!, $lang: String) {
         getProperty(id: $id, lang: $lang) {
             id
+
             propertyType {
                 id
                 translations {
@@ -543,13 +554,20 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
-            availableFrom
+
             minRentalPeriod
             rooms
             bathroomsInProperty
             bathroomsInBedroom
             totalFloors
             floor
+            translations {
+                street
+                title
+                lang
+                id
+                description
+            }
             bedrooms
             housingStatus {
                 id
@@ -567,7 +585,7 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
-            street
+
             cadastralCode
             hideCadastralCode
             propertyAmenities {
@@ -611,6 +629,7 @@ export const getPropertyById: TypedDocumentNode<
                     lang
                 }
             }
+
             contactName
             contactPhone
             translations {

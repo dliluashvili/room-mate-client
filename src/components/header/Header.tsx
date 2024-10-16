@@ -6,7 +6,7 @@ import LangChoose from './components/LangChoose'
 import MobileNavBar from './components/MobileNavBar'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
 import { isAuthenticatedVar } from '@/src/auth/isAuthenticatedVar'
@@ -89,7 +89,11 @@ export default function Header() {
 
     const signinModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
-        current.set('modal', 'signinChooseType')
+        if (isRoommatesPath) {
+            current.set('modal', 'signinRoommates')
+        } else if (isLandlordsPath) {
+            current.set('modal', 'signinLandlords')
+        }
         const search = current.toString()
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)
@@ -97,7 +101,16 @@ export default function Header() {
 
     const signupModalHandler = useCallback(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()))
-        current.set('modal', 'signupChooseType')
+
+        if (isRoommatesPath) {
+            router.push('/signup')
+            return // Stop execution to prevent further navigation
+        }
+
+        if (isLandlordsPath) {
+            current.set('modal', 'signupLandlords')
+        }
+
         const search = current.toString()
         const query = search ? `?${search}` : ''
         router.push(`${pathname}${query}`)
@@ -269,12 +282,12 @@ export default function Header() {
                     {renderAuthSection()}
 
                     <LangChoose
-                        className={` ${isLandlordsPath ? 'border border-mainOrange' : ' '} cursor-pointer rounded-lg bg-[#f2f5ff] p-2 text-xs text-[#838CAC] lg:p-2 xl:text-base`}
+                        className={` ${isLandlordsPath ? '' : ' '} cursor-pointer rounded-lg  text-xs text-[#838CAC] xl:text-base`}
                         spanClassname="text-xs xl:text-base"
                     />
                     {user?.me?.id && user?.me.userTypes.includes(UserType.Roommate) ? (
                         <button
-                            className="pointer relative flex items-center justify-center rounded-lg bg-[#f2f5ff] p-2 md:flex xl:px-3 xl:py-2"
+                            className="pointer relative flex items-center justify-center rounded-lg  md:flex xl:px-3 xl:py-2"
                             onClick={(e) => {
                                 handleLinkClick(e, '/conversation')
                             }}

@@ -130,12 +130,12 @@ function ClientWrapper() {
                                 </div>
                             </div>
                             <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between">
-                                <div className="flex w-1/2 flex-row items-center justify-start gap-1">
+                                {/* <div className="flex w-1/2 flex-row items-center justify-start gap-1">
                                     <Location className="h-4 w-4 md:h-6 md:w-6" />
                                     <span className="line-clap-1 text-ellipsis">
                                         {t('address')}: {item.street}
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:flex">
                                     <Wallet className="h-4 w-4 md:h-6 md:w-6" />{' '}
                                     <span>{t('price')}: </span>

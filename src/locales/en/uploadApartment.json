@@ -53,13 +53,18 @@
     "invalidCode": "Code is invalid!",
     "AVAILABLE_FROM__MIN_DATE_TODAY": "Date can't be chosen if it is earlier than today.",
     "CADASTRAL_CODE__INVALID": "The cadastral code must follow the format: 00.00.00.111.111",
-    "STREET__MAX": "Street name should be up to 300 characters",
+    "ADDRESS__INVALID": "Each item must have text in every listed language",
+    "ADDRESS__MAX": "Street name should be up to 300 characters",
     "TITLE__INVALID": "Each item must have text in every listed language",
     "TITLE__MAX": "Title should be up to 300 characters",
+    "DESCRIPTION__INVALID": "Each item must have text in every listed language",
+    "DESCRIPTION__MAX": "Description should be up to 300 characters",
     "IMAGES__MIN": "At least one image is required",
     "IMAGES__MAX": "No more than 15 images are allowed",
     "DEPOSIT_ID__REQUIRED": "Deposit required",
     "canNotUpload": "The property could not be uploaded due to various reasons. Please reach out to us, and we'll resolve the issue quickly.",
     "apartmentBedrooms": "Number of bedrooms",
-    "apartmentImage": "Upload apartment photos"
+    "apartmentImage": "Upload apartment photos",
+    "district": "District",
+    "safetyCheck": "I take responsibility that the heating is checked and the apartment is safe to live in"
 }

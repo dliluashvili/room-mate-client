@@ -1,3 +1,5 @@
+import { join } from 'path'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     webpack(config) {
@@ -5,11 +7,11 @@ const nextConfig = {
             test: /\.svg$/,
             use: { loader: '@svgr/webpack', options: { icon: true } },
         })
+
         return config
     },
     images: {
         unoptimized: true,
-
         remotePatterns: [
             {
                 protocol: 'https',

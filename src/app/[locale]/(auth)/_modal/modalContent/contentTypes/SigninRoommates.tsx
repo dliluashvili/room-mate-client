@@ -54,14 +54,6 @@ export default function SigninRoommates({
     }
     return (
         <div className="flex h-full w-full flex-col gap-4">
-            <button
-                className="flex flex-row items-center gap-1 outline-none"
-                onClick={signinChoosTypeHandler}
-            >
-                <ArrowLeft className="h-5 w-5" />
-                <span className="mb-1 text-xs text-[#838CAC]">{t('back')}</span>
-            </button>
-
             <div className=" text-center text-xl">{t('signinAsRoommates')}</div>
             <div className="h-[1px] w-full bg-slate-200"></div>
             <Form {...form}>
