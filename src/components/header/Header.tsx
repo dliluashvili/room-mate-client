@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
-import { useApolloClient, useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
+import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
 import { isAuthenticatedVar } from '@/src/auth/isAuthenticatedVar'
 import { getConversationsForUserQuery, getUserQuery } from '@/graphql/query'
 import { LIMIT, OFFSET } from '@/src/constants/pagination'
@@ -35,8 +35,6 @@ export default function Header() {
         pathname.includes('/landlord-profile')
 
     const isRoommatesPath = !isLandlordsPath
-
-    const client = useApolloClient()
 
     const [getChatConversationsForUser, { data: chatConversations }] = useLazyQuery(
         getConversationsForUserQuery,
