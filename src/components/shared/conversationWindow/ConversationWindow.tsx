@@ -123,7 +123,6 @@ export default function ConversationWindow({ setIsOpen, name, participantId, ava
                 }
             }
         } catch (error) {
-            console.log({ error })
             setMessageSendStatus({
                 type: 'anotherError',
                 feedback: t('sendMessageError2'),

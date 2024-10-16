@@ -59,8 +59,6 @@ export const useInitializeConversationNotification = () => {
         }
     )
 
-    console.log({ chatConversations, requestedConversations })
-
     const [getSharedConversation] = useLazyQuery(getSharedConversationQuery)
 
     const handleMessageAdded = async (message: Message) => {
@@ -255,12 +253,7 @@ export const useInitializeConversationNotification = () => {
 
         const cacheData = client.cache.readQuery({
             query: getConversationsForUserQuery,
-            variables: {
-                status: ConversationStatus.Requested,
-            },
         })
-
-        console.log({ cacheData })
 
         const conversations = cacheData?.getConversationsForUser?.list ?? []
 
@@ -300,38 +293,50 @@ export const useInitializeConversationNotification = () => {
         )
     }
 
-    const setUnreadMessagesCount = (unreadMessages: PromisedUnreadMessagesCount[]) => {
-        client.cache.updateQuery({ query: getConversationsForUserQuery }, (data) => {
-            if (!data?.getConversationsForUser?.list) return data
-
-            const unreadMessagesMap = new Map(
-                unreadMessages.map((msg) => [msg.sid, msg.unreadMessagesCount])
-            )
-
-            const updatedList = data.getConversationsForUser.list.map((conversation) => ({
-                ...conversation,
-                unreadMessagesCount:
-                    unreadMessagesMap.get(conversation.sid) ?? conversation.unreadMessagesCount,
-            }))
-
-            return {
-                getConversationsForUser: {
-                    ...data.getConversationsForUser,
-                    list: updatedList,
+    const setUnreadMessagesCount = (
+        unreadMessages: PromisedUnreadMessagesCount[],
+        status: ConversationStatus
+    ) => {
+        client.cache.updateQuery(
+            {
+                query: getConversationsForUserQuery,
+                variables: {
+                    status,
                 },
+            },
+            (data) => {
+                if (!data?.getConversationsForUser?.list) return data
+
+                const unreadMessagesMap = new Map(
+                    unreadMessages.map((msg) => [msg.sid, msg.unreadMessagesCount])
+                )
+
+                const updatedList = data.getConversationsForUser.list.map((conversation) => ({
+                    ...conversation,
+                    unreadMessagesCount:
+                        unreadMessagesMap.get(conversation.sid) ?? conversation.unreadMessagesCount,
+                }))
+
+                return {
+                    getConversationsForUser: {
+                        ...data.getConversationsForUser,
+                        list: updatedList,
+                    },
+                }
             }
-        })
+        )
     }
 
     const init = async (
         conversations: PaginatedConversationWithUserObject['list'],
-        twilioClient: TwilioClient
+        twilioClient: TwilioClient,
+        status: ConversationStatus
     ) => {
         const conversationResources = await getConversationResources(conversations, twilioClient)
 
         const unreadMessagesCount = await getUnreadMessagesCount(conversationResources)
 
-        setUnreadMessagesCount(unreadMessagesCount)
+        setUnreadMessagesCount(unreadMessagesCount, status)
     }
 
     useEffect(() => {
@@ -362,7 +367,11 @@ export const useInitializeConversationNotification = () => {
                 !isChatConversationResourcesInit.current
             ) {
                 isChatConversationResourcesInit.current = true
-                init(chatConversations.getConversationsForUser.list, twilioClient)
+                init(
+                    chatConversations.getConversationsForUser.list,
+                    twilioClient,
+                    ConversationStatus.Accepted
+                )
             }
 
             if (
@@ -370,12 +379,14 @@ export const useInitializeConversationNotification = () => {
                 !isRequestedConversationResourcesInit.current
             ) {
                 isRequestedConversationResourcesInit.current = true
-                init(requestedConversations.getConversationsForUser.list, twilioClient)
+                init(
+                    requestedConversations.getConversationsForUser.list,
+                    twilioClient,
+                    ConversationStatus.Requested
+                )
             }
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chatConversations, twilioClient, user])
+    }, [chatConversations, requestedConversations, twilioClient])
 
     useEffect(() => {
         if (twilioClient && user) {

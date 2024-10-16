@@ -64,8 +64,6 @@ function ClientWrapper() {
 
             if (removeErrors) {
                 console.error('Error removing property:', removeErrors)
-            } else {
-                console.log('Property removed successfully:', removed)
             }
         } catch (err) {
             console.error('Error deleting property:', err)

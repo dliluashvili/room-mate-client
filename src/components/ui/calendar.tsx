@@ -13,7 +13,6 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
     const lang = params.locale === 'en' ? undefined : ka
     return (
         <DayPicker
-        
             fromYear={2024}
             toYear={2030}
             locale={lang}

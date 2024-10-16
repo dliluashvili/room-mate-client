@@ -6,13 +6,13 @@ import LangChoose from './components/LangChoose'
 import MobileNavBar from './components/MobileNavBar'
 import Link from 'next/link'
 import { MouseEvent, useCallback, useEffect, useState } from 'react'
-import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
-import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
+import { useApolloClient, useLazyQuery, useQuery, useReactiveVar } from '@apollo/client'
 import { isAuthenticatedVar } from '@/src/auth/isAuthenticatedVar'
 import { getConversationsForUserQuery, getUserQuery } from '@/graphql/query'
 import { LIMIT, OFFSET } from '@/src/constants/pagination'
-import { UserType } from '@/graphql/typesGraphql'
+import { ConversationStatus, UserType } from '@/graphql/typesGraphql'
 import { Label } from '../ui/label'
 import { Switch } from '../ui/switch'
 import { signOutHandler } from '@/src/auth/signOut'
@@ -36,6 +36,36 @@ export default function Header() {
 
     const isRoommatesPath = !isLandlordsPath
 
+    const client = useApolloClient()
+
+    const [getChatConversationsForUser, { data: chatConversations }] = useLazyQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                status: ConversationStatus.Accepted,
+                pagination: {
+                    offset: OFFSET,
+                    limit: LIMIT,
+                },
+            },
+            fetchPolicy: 'cache-only',
+        }
+    )
+
+    const [getRequestedConversationsForUser, { data: requestedConversations }] = useLazyQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                status: ConversationStatus.Requested,
+                pagination: {
+                    offset: OFFSET,
+                    limit: LIMIT,
+                },
+            },
+            fetchPolicy: 'cache-only',
+        }
+    )
+
     const {
         data: user,
         loading: userLoading,
@@ -43,37 +73,6 @@ export default function Header() {
     } = useQuery(getUserQuery, {
         skip: !authStatus.valid,
     })
-
-    const [getConversationsForUser, { data: conversationsForUser }] = useLazyQuery(
-        getConversationsForUserQuery,
-        {
-            variables: {
-                pagination: {
-                    limit: LIMIT,
-                    offset: OFFSET,
-                },
-            },
-            fetchPolicy: 'cache-only',
-        }
-    )
-
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
-
-    useEffect(() => {
-        setIsLoadingUser(false)
-    }, [userLoading])
-
-    useEffect(() => {
-        if (user) {
-            getConversationsForUser()
-        }
-    }, [user])
-
-    useEffect(() => {
-        refetchUser()
-    }, [authStatus])
 
     const handleLinkClick = (e: MouseEvent<HTMLButtonElement>, href: string) => {
         if (pathname === '/signup') {
@@ -116,11 +115,13 @@ export default function Header() {
         router.push(`${pathname}${query}`)
     }, [searchParams, router, pathname])
 
-    const unreadMessagesCount =
-        conversationsForUser?.getConversationsForUser?.list?.reduce((acc, conversation) => {
-            const nextAcc = acc + conversation?.unreadMessagesCount
-            return nextAcc
-        }, 0) || 0
+    const handleToggle = () => {
+        if (isLandlordsPath) {
+            router.push('/')
+        } else {
+            router.push('/landlords')
+        }
+    }
 
     const renderAuthSection = () => {
         if (!isClient || isLoadingUser) {
@@ -235,13 +236,38 @@ export default function Header() {
         }
     }
 
-    const handleToggle = () => {
-        if (isLandlordsPath) {
-            router.push('/')
-        } else {
-            router.push('/landlords')
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    useEffect(() => {
+        setIsLoadingUser(false)
+    }, [userLoading])
+
+    useEffect(() => {
+        if (user) {
+            getChatConversationsForUser()
+            getRequestedConversationsForUser()
         }
-    }
+    }, [user])
+
+    useEffect(() => {
+        refetchUser()
+    }, [authStatus])
+
+    const unreadChatMessagesCount =
+        chatConversations?.getConversationsForUser?.list?.reduce((acc, conversation) => {
+            const nextAcc = acc + conversation?.unreadMessagesCount
+            return nextAcc
+        }, 0) || 0
+
+    const unreadRequestedMessagesCount =
+        requestedConversations?.getConversationsForUser?.list?.reduce((acc, conversation) => {
+            const nextAcc = acc + conversation?.unreadMessagesCount
+            return nextAcc
+        }, 0) || 0
+
+    const unreadMessagesCount = unreadChatMessagesCount + unreadRequestedMessagesCount
 
     return (
         <>

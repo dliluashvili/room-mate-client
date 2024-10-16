@@ -116,7 +116,6 @@ function ClientWrapper() {
         }
     }
 
-    console.log(form.getValues())
     const onSubmit = async () => {
         if (isSubmitting) return // Prevent multiple submissions
 

@@ -16,7 +16,7 @@ export function client() {
                 Query: {
                     fields: {
                         getConversationsForUser: {
-                            keyArgs: false,
+                            keyArgs: ['status'],
                             merge(
                                 existing: PaginatedConversationWithUserObject,
                                 incoming: PaginatedConversationWithUserObject,

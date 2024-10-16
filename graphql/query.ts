@@ -164,7 +164,6 @@ export const getConversationsForUserQuery: TypedDocumentNode<
                 createdAt
                 updatedAt
                 unreadMessagesCount @client
-                messages @client
                 user {
                     id
                     firstname

@@ -36,7 +36,6 @@ export default function Verification() {
                     setBackId(null)
                 }
             } else if (errors) {
-                console.log(errors)
                 if (errors[0]?.message === 'IDENTITY_IMAGES__REQUIRED') {
                     setMessage('requiredAllImage')
                 } else if (errors[0]?.message === 'USERVERIFIED ') {
