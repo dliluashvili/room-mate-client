@@ -40,8 +40,7 @@ export default function ClientWrapper() {
             prevData ? { ...prevData, ...newData } : (newData as FormDataProps)
         )
     }
-
-    console.log(formData)
+ 
 
     const submit = async () => {
         if (!formData) return
@@ -137,7 +136,6 @@ export default function ClientWrapper() {
                     setAlertIsOpen(true)
                     setAlertType('USER__EXISTS_WITH_PHONE:landlord')
                 }
-                console.log(errors && errors[0].message)
             } catch (errors: unknown | CustomError) {
                 setAlertIsOpen(true)
                 setAlertType('ERROR')
