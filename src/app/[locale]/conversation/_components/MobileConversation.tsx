@@ -209,7 +209,7 @@ export default function MobileConversation({
                                     <div className="flex h-auto w-full flex-row items-center px-3 py-4">
                                         <AutosizeTextarea
                                             placeholder={t('sendMessage')}
-                                            className="scrollable-content inset-0 mr-2 max-h-20 w-full rounded-xl border border-[gray]  px-3 py-2 text-base focus:outline-[#838CAC]"
+                                            className="scrollable-content inset-0 mr-2 max-h-20 w-full rounded-xl border border-[gray]  px-3 py-2 text-sm focus:outline-[#838CAC]"
                                             value={message}
                                             onChange={handleMessageChange}
                                         />
