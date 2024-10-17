@@ -68,7 +68,7 @@ export default function SigninLandlords({
                             <FormItem>
                                 <FormLabel>{t('phoneNumOrEmail')}</FormLabel>
                                 <Input
-                                    className="focus:outline-mainOrange"
+                                    className="focus:border-mainOrange"
                                     value={field.value}
                                     onChange={(e) => field.onChange(e)}
                                 />
@@ -83,7 +83,7 @@ export default function SigninLandlords({
                             <FormItem>
                                 <FormLabel>{t('password')}</FormLabel>
                                 <Input
-                                    className="focus:outline-mainOrange"
+                                    className="focus:border-mainOrange"
                                     value={field.value}
                                     type="password"
                                     onChange={(e) => field.onChange(e)}

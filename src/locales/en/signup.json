@@ -84,6 +84,7 @@
     "500-yes": "I'll wait message from my personal assistant",
 
     "userExistsWithPhone": "User exist with this phone number",
-    "phoneUsedOnRoommate": "You are already registered as a 'roommate' with this number",
-    "userExistsWithMail": "User exists with this email"
+    "phoneUsedOnRoommate": "You are already registered as a 'Roommate' with this number",
+    "userExistsWithMail": "User exists with this email",
+    "phoneExistOnLandlord": "You are already registered as a 'Landlord' with this number"
 }

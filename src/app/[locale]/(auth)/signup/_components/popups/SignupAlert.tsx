@@ -32,6 +32,8 @@ export function SignupAlert({ alertIsOpen, alertType, setAlertIsOpen }: SignupPr
         switch (alertType) {
             case 'PHONE_EXISTS':
                 return { text: t('phoneExist') }
+            case 'USER__EXISTS_WITH_PHONE:landlord':
+                return { text: t('phoneExistOnLandlord') }
             case 'EMAIL_EXISTS':
                 return { text: t('emailExist') }
             case 'ERROR':

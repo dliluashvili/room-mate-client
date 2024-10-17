@@ -62,11 +62,9 @@ function BirthDatePicker({ field, step }: BirthDatePickerProps) {
             if (isValid(date)) {
                 setSelectedDate(date)
             } else {
-                console.log('Invalid date:', field.value)
                 setSelectedDate(null)
             }
         } else {
-            console.log('No field value')
             setSelectedDate(null)
         }
     }, [field.value])

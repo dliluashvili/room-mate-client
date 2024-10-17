@@ -40,8 +40,7 @@ export default function ClientWrapper() {
             prevData ? { ...prevData, ...newData } : (newData as FormDataProps)
         )
     }
-
-    console.log(formData)
+ 
 
     const submit = async () => {
         if (!formData) return
@@ -129,9 +128,13 @@ export default function ClientWrapper() {
                     signIn(data.roommateSignUp.jwt)
                     router.push('/roommates')
                 }
+
                 if (errors && errors[0].message === 'USER__EXISTS_WITH_PHONE') {
                     setAlertIsOpen(true)
                     setAlertType('PHONE_EXISTS')
+                } else if (errors && errors[0].message === 'USER__EXISTS_WITH_PHONE:landlord') {
+                    setAlertIsOpen(true)
+                    setAlertType('USER__EXISTS_WITH_PHONE:landlord')
                 }
             } catch (errors: unknown | CustomError) {
                 setAlertIsOpen(true)

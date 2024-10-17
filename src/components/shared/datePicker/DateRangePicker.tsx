@@ -78,7 +78,7 @@ export const RangePicker = ({ className, updateUseForm, field, id }: RangePicker
 
     return (
         <>
-            <div className={cn('hidden gap-2 pb-20 md:grid', className)}>
+            <div className={cn('hidden gap-2 md:grid', className)}>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -118,7 +118,7 @@ export const RangePicker = ({ className, updateUseForm, field, id }: RangePicker
                         {renderDateContent()}
                     </Button>
                 </DrawerTrigger>
-                <DrawerContent className="pb-12 py-3 h-full">
+                <DrawerContent className="h-full py-3 pb-12">
                     <Calendar
                         defaultMonth={defaultMonth}
                         className="flex flex-row justify-center"

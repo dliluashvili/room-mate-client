@@ -84,5 +84,6 @@
     "500-yes": "I'll wait message from my personal assistant",
     "userExistsWithPhone": "ამ ნომრით მომხმარებელი უკვე არსებობს",
     "userExistsWithMail": "ამ მეილით მომხმარებელი უკვე არსებობს",
-    "phoneUsedOnRoommate": "ამ ნომრით უკვე ხართ დარეგისტრირებული როგორც 'roommate'"
+    "phoneUsedOnRoommate": "ამ ნომრით უკვე ხართ დარეგისტრირებული როგორც 'roommate'",
+    "phoneExistOnLandlord": "ამ ნომრით უკვე ხართ დარეგისტრირებული როგორც 'ბინის მეპატრონე'"
 }
