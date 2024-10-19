@@ -87,9 +87,9 @@ export default function FilterSelectGender({ gender, setGender }: FilterSelectGe
 
     return (
         <>
-            <label className="w-full text-sm">{t('gender')}</label>
+            <label className="w-full text-sm -mb-2">{t('gender')}</label>
             <Select
-                className="mt-2 w-full cursor-pointer text-sm"
+                className="w-full cursor-pointer text-sm"
                 placeholder={t('select')}
                 value={selectedValue}
                 options={
