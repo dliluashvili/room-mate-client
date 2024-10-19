@@ -40,7 +40,7 @@ export default function ClientWrapper() {
             prevData ? { ...prevData, ...newData } : (newData as FormDataProps)
         )
     }
- 
+
 
     const submit = async () => {
         if (!formData) return
@@ -107,7 +107,7 @@ export default function ClientWrapper() {
                     email: modifiedFormData.email!,
                     phone: modifiedFormData.phone!,
                     birthDate: modifiedFormData.birthDate,
-                    profileImage: modifiedFormData.profileImage,
+                    profileImage: modifiedFormData.profileImage!,
                     firstname: modifiedFormData.firstname!,
                     lastname: modifiedFormData.lastname!,
                     password: modifiedFormData.password!,
