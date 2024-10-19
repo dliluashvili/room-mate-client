@@ -1,7 +1,5 @@
 import { TypedDocumentNode, gql } from '@apollo/client'
 import {
-    PaginatedFilteredPropertiesObject,
-    PropertyObject,
     Query,
     QueryGetConversationsForUserArgs,
     QueryGetCountriesArgs,
@@ -671,6 +669,23 @@ export const getRoommate: TypedDocumentNode<
                 name
                 checked
             }
+        }
+    }
+`
+
+export const GetGenders: TypedDocumentNode<
+    { getGenders: Query['getGenders'] },
+    QueryGetGendersArgs
+> = gql`
+    query GetGenders($locale: Language) {
+        getGenders(locale: $locale) {
+            visible
+            translations {
+                id
+                sex
+                lang
+            }
+            id
         }
     }
 `

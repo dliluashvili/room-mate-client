@@ -549,6 +549,7 @@ export type PropertyObject = {
     contactPhone?: Maybe<Scalars['String']['output']>
     district?: Maybe<DistrictObject>
     floor: Scalars['Float']['output']
+    heatingSafetyChecked: Scalars['Boolean']['output']
     hideCadastralCode?: Maybe<Scalars['Boolean']['output']>
     housingCondition?: Maybe<HousingConditionObject>
     housingHeatingTypes?: Maybe<Array<HousingHeatingTypeObject>>
@@ -629,7 +630,6 @@ export type QueryCheckUserExistenceArgs = {
 
 export type QueryGetConversationsForUserArgs = {
     pagination?: InputMaybe<PaginationInput>
-    status?: InputMaybe<ConversationStatus>
 }
 
 export type QueryGetCountriesArgs = {
@@ -812,7 +812,7 @@ export type RoommateSignUpInput = {
     lastname: Scalars['String']['input']
     password: Scalars['String']['input']
     phone: Scalars['String']['input']
-    profileImage?: InputMaybe<Scalars['String']['input']>
+    profileImage: Scalars['String']['input']
 }
 
 export type RoommateVerification = {
