@@ -38,18 +38,20 @@ export default function ClientWrapper() {
 
     const [updatePhoneClickCount] = useMutation(UpdatePropertyPhoneClickCount)
 
-    const { data: dataById, error } = useQuery(getPropertyById, {
+    const { data: dataById } = useQuery(getPropertyById, {
         variables: {
             lang: locale as Language,
             id: id,
         },
+        fetchPolicy: 'cache-and-network',
     })
 
-    const { data: property, error: propertyErorr } = useQuery(GetPropertiesData, {
+    const { data: property } = useQuery(GetPropertiesData, {
         variables: {
             locale: locale as Language,
             id: id,
         },
+        fetchPolicy: 'cache-and-network',
     })
 
     const images = dataById?.getProperty?.images || []
@@ -233,7 +235,7 @@ export default function ClientWrapper() {
                 </div>
                 <div className="h-[1px] w-full bg-[#E3E3E3]"></div>
                 <div className="flex w-auto flex-col gap-2">
-                    {/* <span>
+                    <span>
                         {t('avaiableForRent')}: &nbsp;
                         {new Date(dataById?.getProperty?.availableFrom).toLocaleDateString(
                             'en-GB',
@@ -243,7 +245,7 @@ export default function ClientWrapper() {
                                 year: 'numeric',
                             }
                         )}
-                    </span> */}
+                    </span>
                     <span>
                         {t('minRentPeriond')}: {dataById?.getProperty?.minRentalPeriod} {t('month')}
                     </span>
@@ -347,22 +349,27 @@ export default function ClientWrapper() {
                     ))}
                 </div>
             </div>
-            {dataById?.getProperty?.housingLivingSafeties?.length ? (
-                <div className="flex w-full flex-col gap-4 overflow-hidden rounded-lg border  border-[#E3E3E3] pb-8 shadow-lg md:pb-8">
-                    <div className="w-full bg-mainGreen px-8  py-3 text-white">
-                        {t('livingSafety')}{' '}
+            {dataById?.getProperty?.housingLivingSafeties && (
+                <div
+                    className={` ${dataById?.getProperty?.housingLivingSafeties?.length ? 'pb-8' : ''} flex w-full flex-col gap-4 overflow-hidden rounded-lg border border-[#E3E3E3] shadow-lg`}
+                >
+                    <div className="w-full bg-mainGreen px-8 py-3 text-white">
+                        {t('livingSafety')}
                     </div>
-                    {dataById?.getProperty?.housingLivingSafeties?.map((item, index) => (
-                        <div
-                            className="flex w-full flex-row items-center gap-2 px-4 md:px-8"
-                            key={index}
-                        >
-                            <Check className="min-h-6 min-w-6 text-mainGreen" />
-                            <span>{item.translations[0].name}</span>
-                        </div>
-                    ))}
+
+                    {dataById?.getProperty?.housingLivingSafeties?.length
+                        ? dataById.getProperty.housingLivingSafeties.map((item, index) => (
+                              <div
+                                  className="flex w-full flex-row items-center gap-2  px-4 md:px-8"
+                                  key={index}
+                              >
+                                  <Check className="min-h-6 min-w-6 text-mainGreen" />
+                                  <span>{item.translations[0].name}</span>
+                              </div>
+                          ))
+                        : null}
                 </div>
-            ) : null}
+            )}
         </main>
     )
 }

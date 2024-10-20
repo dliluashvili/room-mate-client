@@ -452,6 +452,7 @@ export const getProperiesList: TypedDocumentNode<
                 bathroomsInBedroom
                 totalFloors
                 floor
+
                 bedrooms
                 housingStatus {
                     id
@@ -614,6 +615,7 @@ export const getPropertyById: TypedDocumentNode<
             petAllowed
             partyAllowed
             area
+            availableFrom
             price
             withDeposit
             propertyDeposit {
