@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation'
 import { UserProfileStepValidator } from './UserProfileStepValidator'
 import { useTranslation } from 'react-i18next'
-import { Dispatch, SetStateAction, use, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import {
     Form,
@@ -150,13 +150,9 @@ export default function UserProfileStep({
         })()
     }
     const clickHandler = () => {
-        // Force a re-render to ensure we have the latest form state
         form.trigger()
-
-        // Use setTimeout to allow state updates to complete
         setTimeout(() => {
             const hasErrors = Object.keys(form.formState.errors).length > 0
-
             if (hasErrors) {
                 setAlertIsOpen(true)
                 setAlertType('requiredFields')

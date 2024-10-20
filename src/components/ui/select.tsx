@@ -20,11 +20,16 @@ type DropdownIndicatorProps = ReactSelectDropdownIndicatorProps<
     GroupBase<unknown>
 > & {
     isMenuOpen: boolean
+    setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const DropdownIndicator = (props: DropdownIndicatorProps) => {
-    const { isMenuOpen, ...dropdownIndicatorProps } = props
+    const { isMenuOpen, setIsMenuOpen, ...dropdownIndicatorProps } = props
 
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setIsMenuOpen(!isMenuOpen)
+        console.log('123')
+    }
     return (
         components.DropdownIndicator && (
             <components.DropdownIndicator {...dropdownIndicatorProps}>
@@ -33,6 +38,7 @@ const DropdownIndicator = (props: DropdownIndicatorProps) => {
                     className={cn('text-neutral-600', {
                         'rotate-180': isMenuOpen,
                     })}
+                    onTouchStart={handleTouchStart}
                 />
             </components.DropdownIndicator>
         )
@@ -193,6 +199,7 @@ const Select = (props: SelectProps) => {
             ...baseStyles,
             padding: 0,
             width: 'auto',
+            cursor: 'pointer',
         }),
         menu: (baseStyles: any) => ({
             ...baseStyles,
@@ -244,7 +251,11 @@ const Select = (props: SelectProps) => {
             components={{
                 ...restReactSelectProps.components,
                 DropdownIndicator: (props) => (
-                    <DropdownIndicator {...props} isMenuOpen={isMenuOpen} />
+                    <DropdownIndicator
+                        {...props}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                    />
                 ),
                 ClearIndicator: (props) => <ClearIndicator {...props} />,
                 MultiValueRemove: (props) => <MultiValueRemove {...props} />,

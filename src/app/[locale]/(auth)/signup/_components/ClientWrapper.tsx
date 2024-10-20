@@ -41,7 +41,6 @@ export default function ClientWrapper() {
         )
     }
 
-
     const submit = async () => {
         if (!formData) return
 
@@ -145,7 +144,12 @@ export default function ClientWrapper() {
 
     useEffect(() => {
         setIsClient(true)
+        window.scrollTo(0, 0)
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [step])
 
     return (
         <>
@@ -172,6 +176,8 @@ export default function ClientWrapper() {
 
                             {step === 2 && (
                                 <QuestionsStep
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     step={step}
                                     updateFormData={updateFormData}
                                     submit={submit}
@@ -182,6 +188,8 @@ export default function ClientWrapper() {
                             )}
                             {step === 3 && (
                                 <QuestionsStep
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     step={step}
                                     updateFormData={updateFormData}
                                     submit={submit}
