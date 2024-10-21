@@ -560,6 +560,7 @@ export const getPropertyById: TypedDocumentNode<
             bathroomsInBedroom
             totalFloors
             floor
+            views
             translations {
                 street
                 title

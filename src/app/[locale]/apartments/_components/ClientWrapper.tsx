@@ -81,6 +81,8 @@ export default function ClientWrapper() {
 
     const paginatedData = data?.getProperties as PaginatedFilteredPropertiesObject
 
+ 
+
     return (
         <main className="flex min-h-screen w-full flex-col items-center gap-10 bg-[#F5F5F5]  px-6 pb-10 md:items-start md:px-20 md:py-10 lg:flex-row">
             <div className="flex h-auto w-full justify-start   pt-6   md:pt-10    lg:hidden lg:px-0">

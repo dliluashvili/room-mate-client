@@ -13,6 +13,7 @@ import {
     PropertyDoor,
     PropertyLedder,
     PropertySqm,
+    ViewIcon,
 } from '@/src/components/svgs'
 
 import { useMutation, useQuery } from '@apollo/client'
@@ -188,9 +189,15 @@ export default function ClientWrapper() {
                             {dataById?.getProperty?.translations &&
                                 dataById?.getProperty?.translations[0].title}
                         </span>
-                        <span className="text-sm text-[#838CAC]">
-                            {dataById?.getProperty?.propertyType?.translations[0].name}
-                        </span>
+                        <div className="flex flex-row gap-3">
+                            <span className="text-sm text-[#838CAC]">
+                                {dataById?.getProperty?.propertyType?.translations[0].name}
+                            </span>
+                            <div className="flex flex-row items-center gap-1">
+                                <ViewIcon className="text-xl text-slate-500" />
+                                <span>{dataById?.getProperty?.views}</span>
+                            </div>
+                        </div>
                         <span className="text-sm text-[#838CAC]">
                             <span className="text-[#484848]">{t('district')}: </span>
                             {dataById?.getProperty?.district?.translations[0].name}
