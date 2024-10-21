@@ -40,7 +40,7 @@ export default function ConnectSection() {
                         <p className="z-50 mt-4 overflow-auto text-center text-xs text-[#fff] md:text-start xl:text-base xl:text-[#484848] ">
                             {t('partnersText2')}
                         </p>
-                        <Link target="_blank" href="https://form.jotform.com/240432625356049">
+                        <Link target="_blank" href="https://roommate.ge/upload-apartment">
                             <Button size="lg" className="mt-7">
                                 {t('leaveFlat')}
                             </Button>

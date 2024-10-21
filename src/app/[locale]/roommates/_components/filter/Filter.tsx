@@ -10,6 +10,7 @@ import FilterLoading from '../loaders/FilterLoading'
 import { CloseCircle } from '@/src/components/svgs'
 import FilterSelectComponent from './filterComponents/FilterSelectComponent'
 import { FilterRangePicker } from './filterComponents/FilterRangePicker'
+import FilterSelectGender from './filterComponents/FilterSelectGender'
 
 type RangeDataProps = {
     questionId: string
@@ -20,6 +21,10 @@ type AnswerIdProps = {
     questionId: string
     questionName: string
     answerIds: string[] | string
+}
+type GenderProps = {
+    columnName: string
+    data: string | string[]
 }
 
 type FilterComponentProps = {
@@ -38,6 +43,7 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
     const [key, setKey] = useState(0)
     const [ranges, setRanges] = useState<RangeDataProps[]>([])
     const [answers, setAnswers] = useState<AnswerIdProps[]>([])
+    const [gender, setGender] = useState<GenderProps[]>([])
 
     const { loading, error, data } = useQuery(getQuestionsWithAnswersQuery, {
         fetchPolicy: 'cache-and-network',
@@ -91,6 +97,17 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
                 }
             }
         })
+        gender.forEach((query, index) => {
+            if (query.data && query.data.length > 0) {
+                params.set(`answer[${index}][columnName]`, query.columnName)
+
+                if (Array.isArray(query.data)) {
+                    params.set(`answer[${index}][data]`, query.data.join(','))
+                } else {
+                    params.set(`answer[${index}][data]`, query.data)
+                }
+            }
+        })
 
         router.push(pathname + '?' + params.toString())
     }
@@ -98,6 +115,7 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
         setKey((prevKey) => prevKey + 1)
         setRanges([])
         setAnswers([])
+        setGender([])
         const page = searchParams.get('page')
         if (page) {
             const newPathname = `${pathname}?page=${page}`
@@ -136,6 +154,17 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
                         return [...prevRanges, obj as RangeDataProps]
                     }
                 })
+            } else if (obj.columnName === 'gender_id') {
+                setGender((prevGender) => {
+                    const index = prevGender.findIndex((g) => g.columnName === 'gender_id')
+                    if (index !== -1) {
+                        return prevGender.map((g) =>
+                            g.columnName === 'gender_id' ? (obj as GenderProps) : g
+                        )
+                    } else {
+                        return [...prevGender, obj as GenderProps]
+                    }
+                })
             }
         })
     }, [transformedParams, isOpen])
@@ -143,10 +172,12 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
     if (loading) return <FilterLoading />
     if (error) return <p>Error: {error.message}</p>
 
+ 
+
     return (
         <>
             <section
-                className={`${isOpen ? 'fixed h-screen w-full overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full  w-full  flex-col gap-4 bg-white p-0  md:gap-6 `}
+                className={`${isOpen ? 'fixed z-[100000] h-screen w-full overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full  w-full  flex-col gap-4 bg-white p-0  md:gap-6 `}
             >
                 {isOpen ? (
                     <div className="flex h-auto w-full flex-row items-center justify-end gap-3">
@@ -162,6 +193,7 @@ export default function Filter({ transformedParams, isOpen, setIsOpen }: FilterC
                 <div className=" hidden h-auto w-full flex-row items-center justify-end hover:underline lg:flex">
                     <button onClick={filterClearHandler}>{t('clearFilters')}</button>
                 </div>
+                <FilterSelectGender gender={gender} setGender={setGender} />
                 {data?.getQuestionsWithAnswers &&
                     [...data.getQuestionsWithAnswers]
                         .sort((a, b) => {

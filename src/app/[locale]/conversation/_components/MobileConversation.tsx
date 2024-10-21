@@ -160,7 +160,7 @@ export default function MobileConversation({
         <>
             <section
                 className={cn(
-                    'fixed top-0 z-50 h-full w-screen flex-col overflow-y-hidden overscroll-none bg-[#FFFFFF]',
+                    'fixed top-0 z-[10000] h-full w-screen flex-col overflow-y-hidden overscroll-none bg-[#FFFFFF]',
                     mobileOpen ? 'flex' : 'hidden'
                 )}
             >
@@ -209,7 +209,7 @@ export default function MobileConversation({
                                     <div className="flex h-auto w-full flex-row items-center px-3 py-4">
                                         <AutosizeTextarea
                                             placeholder={t('sendMessage')}
-                                            className="scrollable-content inset-0 mr-2 max-h-20 w-full rounded-xl border border-[gray]  px-3 py-2 text-[14px] focus:outline-[#838CAC]"
+                                            className="scrollable-content inset-0 mr-2 max-h-20 w-full rounded-xl border border-[gray]  px-3 py-2 text-sm focus:outline-[#838CAC]"
                                             value={message}
                                             onChange={handleMessageChange}
                                         />

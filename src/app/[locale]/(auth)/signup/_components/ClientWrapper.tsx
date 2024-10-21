@@ -106,7 +106,7 @@ export default function ClientWrapper() {
                     email: modifiedFormData.email!,
                     phone: modifiedFormData.phone!,
                     birthDate: modifiedFormData.birthDate,
-                    profileImage: modifiedFormData.profileImage,
+                    profileImage: modifiedFormData.profileImage!,
                     firstname: modifiedFormData.firstname!,
                     lastname: modifiedFormData.lastname!,
                     password: modifiedFormData.password!,
@@ -117,7 +117,7 @@ export default function ClientWrapper() {
                     input.profileImage = modifiedFormData.profileImage as string
                 }
 
-                const { data } = await signUp({
+                const { data, errors } = await signUp({
                     variables: {
                         input,
                     },
@@ -127,22 +127,29 @@ export default function ClientWrapper() {
                     signIn(data.roommateSignUp.jwt)
                     router.push('/roommates')
                 }
-            } catch (error: unknown | CustomError) {
-                setAlertIsOpen(true)
-                if ((error as CustomError)?.message === 'PHONE_EXISTS') {
+
+                if (errors && errors[0].message === 'USER__EXISTS_WITH_PHONE') {
+                    setAlertIsOpen(true)
                     setAlertType('PHONE_EXISTS')
-                } else if ((error as CustomError)?.message === 'EMAIL_EXISTS') {
-                    setAlertType('EMAIL_EXISTS')
-                } else {
-                    setAlertType('ERROR')
+                } else if (errors && errors[0].message === 'USER__EXISTS_WITH_PHONE:landlord') {
+                    setAlertIsOpen(true)
+                    setAlertType('USER__EXISTS_WITH_PHONE:landlord')
                 }
+            } catch (errors: unknown | CustomError) {
+                setAlertIsOpen(true)
+                setAlertType('ERROR')
             }
         }
     }
 
     useEffect(() => {
         setIsClient(true)
+        window.scrollTo(0, 0)
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [step])
 
     return (
         <>
@@ -153,20 +160,24 @@ export default function ClientWrapper() {
             />
             <main className="flex h-auto w-full flex-col items-center justify-center px-6 md:px-[10%] md:pb-16 lg:px-[15%] xl:px-[334px]">
                 <SignupHeader step={step} />
-
                 <Card className="w-full">
                     {isClient ? (
                         <CardContent className="relative h-full w-full bg-white px-6 pb-16 pt-8 sm:px-14">
                             {step === 1 && (
                                 <UserProfileStep
+                                    step={step}
                                     setStep={setStep}
                                     formData={formData}
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     updateFormData={updateFormData}
                                 />
                             )}
 
                             {step === 2 && (
                                 <QuestionsStep
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     step={step}
                                     updateFormData={updateFormData}
                                     submit={submit}
@@ -177,6 +188,8 @@ export default function ClientWrapper() {
                             )}
                             {step === 3 && (
                                 <QuestionsStep
+                                    setAlertIsOpen={setAlertIsOpen}
+                                    setAlertType={setAlertType}
                                     step={step}
                                     updateFormData={updateFormData}
                                     submit={submit}

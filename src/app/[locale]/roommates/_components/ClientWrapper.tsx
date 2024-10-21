@@ -45,6 +45,17 @@ function ClientWrapper() {
                 answerIds,
             })
         }
+        for (let i = 0; ; i++) {
+            const columnName = searchParams.get(`answer[${i}][columnName]`)
+            const data = searchParams.get(`answer[${i}][data]`)
+
+            if (!columnName || !data) break
+
+            transformedParams.push({
+                columnName,
+                data,
+            })
+        }
 
         setTransformedParams(transformedParams)
     }, [searchParams, isOpen])

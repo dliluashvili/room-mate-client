@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     autoComplete="off"
                     type={type}
                     className={cn(
-                        'flex h-[38px] w-full rounded-lg  border border-[#828bab] bg-[#FFFFFF] px-3 py-2 text-base placeholder:text-placeholderColor focus:outline-[#3dae8c] focus:ring-0',
+                        'flex h-[38px] w-full appearance-none  appearance-none rounded-lg border border-[#828bab] bg-[#FFFFFF] px-3 py-2 text-base outline-none ring-0 ring-offset-0 placeholder:text-placeholderColor focus:border-2 focus:border-[#3DBF8D]  focus:ring-0',
                         className
                     )}
                     ref={ref}

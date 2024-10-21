@@ -118,7 +118,7 @@ export const RangePicker = ({ className, updateUseForm, field, id }: RangePicker
                         {renderDateContent()}
                     </Button>
                 </DrawerTrigger>
-                <DrawerContent>
+                <DrawerContent className="h-full py-3 pb-12">
                     <Calendar
                         defaultMonth={defaultMonth}
                         className="flex flex-row justify-center"

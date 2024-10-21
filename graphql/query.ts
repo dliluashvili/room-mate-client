@@ -1,7 +1,5 @@
 import { TypedDocumentNode, gql } from '@apollo/client'
 import {
-    PaginatedFilteredPropertiesObject,
-    PropertyObject,
     Query,
     QueryGetConversationsForUserArgs,
     QueryGetCountriesArgs,
@@ -451,6 +449,7 @@ export const getProperiesList: TypedDocumentNode<
                 bathroomsInBedroom
                 totalFloors
                 floor
+
                 bedrooms
                 housingStatus {
                     id
@@ -558,6 +557,7 @@ export const getPropertyById: TypedDocumentNode<
             bathroomsInBedroom
             totalFloors
             floor
+            views
             translations {
                 street
                 title
@@ -613,6 +613,7 @@ export const getPropertyById: TypedDocumentNode<
             petAllowed
             partyAllowed
             area
+            availableFrom
             price
             withDeposit
             propertyDeposit {
@@ -668,6 +669,23 @@ export const getRoommate: TypedDocumentNode<
                 name
                 checked
             }
+        }
+    }
+`
+
+export const GetGenders: TypedDocumentNode<
+    { getGenders: Query['getGenders'] },
+    QueryGetGendersArgs
+> = gql`
+    query GetGenders($locale: Language) {
+        getGenders(locale: $locale) {
+            visible
+            translations {
+                id
+                sex
+                lang
+            }
+            id
         }
     }
 `

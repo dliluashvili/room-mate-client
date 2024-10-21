@@ -12,6 +12,7 @@ import StepTwoValidator from './QuestionsStepValidator'
 import { RangePicker } from '@/src/components/shared/datePicker/DateRangePicker'
 import { FormDataProps } from '../../types'
 import Loading from '../../loading'
+import { Dispatch, SetStateAction } from 'react'
 
 type StepTwoProps = {
     step: number
@@ -20,6 +21,8 @@ type StepTwoProps = {
     setStep: (value: number) => void
     updateFormData: (newData: any) => void
     submit: () => Promise<void>
+    setAlertIsOpen: Dispatch<SetStateAction<boolean>>
+    setAlertType: Dispatch<SetStateAction<string>>
 }
 
 export default function QuestionsStep({
@@ -29,6 +32,8 @@ export default function QuestionsStep({
     setStep,
     updateFormData,
     submit,
+    setAlertIsOpen,
+    setAlertType,
 }: StepTwoProps) {
     const { t } = useTranslation()
 
@@ -66,10 +71,22 @@ export default function QuestionsStep({
         }
     }
 
+    const clickHandler = () => {
+        form.trigger()
+
+        setTimeout(() => {
+            const hasErrors = Object.keys(form.formState.errors).length > 0
+            if (hasErrors) {
+                setAlertIsOpen(true)
+                setAlertType('requiredFields')
+            }
+        }, 0)
+    }
+
     return (
         <>
             {questionsData ? (
-                <main className="flex h-full flex-col items-center p-2">
+                <main className="flex h-full flex-col items-center">
                     <Form {...form}>
                         <form className="w-full" onSubmit={form.handleSubmit(handleSubmit)}>
                             {questions &&
@@ -135,7 +152,7 @@ export default function QuestionsStep({
                                                                 <FormControl>
                                                                     <textarea
                                                                         spellCheck="false"
-                                                                        className="w-full rounded-md border border-[#828bab] px-3 py-2 text-sm  focus:border-2 focus:border-[#c5758a] focus:outline-none"
+                                                                        className="w-full rounded-md border border-[#828bab] px-3 py-2 text-base  focus:border-2 focus:border-[#3DBF8D] focus:outline-none"
                                                                         rows={4}
                                                                         {...field}
                                                                         onChange={(e) => {
@@ -215,6 +232,7 @@ export default function QuestionsStep({
                                                                     item.translations[0].title}
                                                             </FormLabel>
                                                             <Select
+                                                                className="text-base"
                                                                 placeholder={t('select')}
                                                                 {...field}
                                                                 isMulti={
@@ -272,7 +290,12 @@ export default function QuestionsStep({
                                     )
                                 })}
                             <div className="mt-8 flex flex-col items-start justify-between ">
-                                <Button className="mt-4 w-full" size="lg" type="submit">
+                                <Button
+                                    onClick={clickHandler}
+                                    className="mt-4 w-full"
+                                    size="lg"
+                                    type="submit"
+                                >
                                     {next}
                                 </Button>
                                 <div

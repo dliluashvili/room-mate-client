@@ -13,8 +13,6 @@ import TwilioClientWrapper from '@/src/conversation/TwilioClientWrapper'
 import { GoogleTagManager } from '@next/third-parties/google'
 import Script from 'next/script'
 import dynamic from 'next/dynamic'
-
-// Dynamically import the ChatraComponent with SSR disabled
 const ChatraComponent = dynamic(() => import('@/src/components/chat/Chat'), {
     ssr: false,
 })

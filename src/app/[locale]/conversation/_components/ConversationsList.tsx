@@ -141,7 +141,7 @@ export default function ConversationsList({ request, setRequest, setMobileOpen }
             : requestedConversations?.getConversationsForUser?.pageInfo.hasNextPage
 
     return (
-        <section className="flex w-full flex-col items-start rounded-md border-[gray] bg-[#FFFFFF] md:w-[100px] md:border-b-4 lg:w-[400px]">
+        <section className="flex min-h-screen w-full flex-col items-start rounded-md border-[gray] bg-[#FFFFFF] md:h-full md:w-[100px] md:border-b-4 lg:w-[400px]">
             <div className="block w-full">
                 <div className="flex flex-row items-center justify-start gap-6 px-6 py-2 md:flex-col lg:flex-row">
                     <span

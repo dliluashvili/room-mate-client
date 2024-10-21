@@ -17,6 +17,7 @@ import { useCallback } from 'react'
 import { useQuery } from '@apollo/client'
 import { getUserQuery } from '@/graphql/query'
 import { signOutHandler } from '@/src/auth/signOut'
+import Link from 'next/link'
 
 export default function ProfileNavBar() {
     const { t } = useTranslation()
@@ -54,27 +55,39 @@ export default function ProfileNavBar() {
             </div>
             <div className="mb-4 hidden h-[1px] w-full bg-[#E5E5E5] md:block"></div>
             <div className="flex h-full w-full flex-col items-center gap-4 md:gap-8">
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                {/* <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
                     <div className="flex flex-row items-center">
                         <UserIcon2 className="h-6 w-6" />
                         <span className="ml-3">{t('myPage')}</span>
                     </div>
                     <ArrowRight className="h-6 w-6 md:hidden" />
-                </button>
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
-                    <div className="flex flex-row items-center">
-                        <Bell2 className=" h-6 w-6" />
-                        <span className="ml-3">{t('notifications')}</span>
-                    </div>
-                    <ArrowRight className="h-6 w-6 md:hidden" />
-                </button>
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
-                    <div className="flex flex-row items-center">
-                        <Note className=" h-6 w-6" />
-                        <span className="ml-3">{t('aboutMe')}</span>
-                    </div>
-                    <ArrowRight className="h-6 w-6 md:hidden" />
-                </button>
+                </button> */}
+                <Link href="/conversation" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                        <div className="flex flex-row items-center">
+                            <Bell2 className=" h-6 w-6" />
+                            <span className="ml-3">{t('notifications')}</span>
+                        </div>
+                        <ArrowRight className="h-6 w-6 md:hidden" />
+                    </button>
+                </Link>
+                <Link href="/roommates" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                        <div className="flex flex-row items-center">
+                            <span className="ml-3">{t('findRoommate')}</span>
+                        </div>
+                        <ArrowRight className="h-6 w-6 md:hidden" />
+                    </button>
+                </Link>
+                <Link href="/apartments" className="w-full">
+                    <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4 shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                        <div className="flex flex-row items-center">
+                            <span className="ml-3">{t('rentApartment')}</span>
+                        </div>
+                        <ArrowRight className="h-6 w-6 md:hidden" />
+                    </button>
+                </Link>
+
                 <button
                     onClick={() => sectionClickHandler('verification', 'true')}
                     className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none"
@@ -85,13 +98,13 @@ export default function ProfileNavBar() {
                     </div>
                     <ArrowRight className="h-6 w-6 md:hidden" />
                 </button>
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
+                {/* <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none">
                     <div className="flex flex-row items-center">
                         <Setting className=" h-6 w-6" />
                         <span className="ml-3">{t('editProfile')}</span>
                     </div>
                     <ArrowRight className="h-6 w-6 md:hidden" />
-                </button>
+                </button> */}
                 <button
                     onClick={signOutHandler}
                     className="flex w-full flex-row items-center justify-between rounded-lg bg-[#FFFFFF] p-4  shadow-md md:bg-[#F5F5F5] md:p-0 md:shadow-none"
@@ -101,12 +114,12 @@ export default function ProfileNavBar() {
                         <span className="ml-3 text-[#DB0505]">{t('logOut')}</span>
                     </div>
                 </button>
-                <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#F2F5FF] p-4 shadow-md md:p-0 md:shadow-none">
+                {/* <button className="flex w-full flex-row items-center justify-between rounded-lg bg-[#F2F5FF] p-4 shadow-md md:p-0 md:shadow-none">
                     <div className="flex flex-row items-center">
                         <ShieldSlash className=" h-6 w-6 fill-[#838CAC]" />
                         <span className="ml-3 md:text-[#838CAC]">{t('deleteProfile')}</span>
                     </div>
-                </button>
+                </button> */}
             </div>
         </section>
     )

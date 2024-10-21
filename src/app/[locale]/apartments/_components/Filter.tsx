@@ -149,14 +149,20 @@ export default function Filter({ isOpen, setIsOpen, setFilterInputParams }: Filt
 
     return (
         <section
-            className={`${isOpen ? 'fixed h-screen w-full  overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full w-full flex-col items-center gap-4 rounded-md  bg-white p-6 md:gap-6 md:shadow-md`}
+            className={`${isOpen ? 'fixed z-[100000] h-screen w-full  overflow-auto border-t-2 px-6 py-6 sm:px-16 md:px-20 md:py-10' : 'relative p-0'} flex h-full w-full flex-col items-center gap-4 rounded-md  bg-white p-6 md:gap-6 md:shadow-md`}
         >
             {isOpen && (
                 <div className="flex h-auto w-full flex-row items-center justify-end gap-3">
-                    <button className="underline underline-offset-1" onClick={filterClearHandler}>
+                    <button
+                        className="rounded-md border  border-[#8c91a4] bg-[#F2F5FF] px-3 py-[2px]"
+                        onClick={filterClearHandler}
+                    >
                         {t('clearFilters')}
                     </button>
-                    <CloseCircle className="h-6 w-6" onClick={() => setIsOpen(!isOpen)} />
+                    <CloseCircle
+                        className="h-6 w-6  fill-[#F2F5FF]"
+                        onClick={() => setIsOpen(!isOpen)}
+                    />
                 </div>
             )}
             <div className="hidden h-auto w-full flex-row items-center justify-end hover:underline lg:flex">
