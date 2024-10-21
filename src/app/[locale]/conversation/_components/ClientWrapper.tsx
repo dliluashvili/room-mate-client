@@ -24,58 +24,29 @@ const ClientWrapper = () => {
         query: MEDIA_QUERY,
     })
 
-    const router = useRouter()
     const searchParams = useSearchParams()
     const conversationIdFromParam = searchParams.get('id')
 
     const twilioConnectionState = useReactiveVar(twilioConnectionStateVar)
 
-    const { data, fetchMore: fetchMoreConversationsForUser } = useQuery(
-        getConversationsForUserQuery,
-        {
-            variables: {
-                pagination: {
-                    offset: OFFSET,
-                    limit: LIMIT,
-                },
-            },
-        }
-    )
+    // useEffect(() => {
+    //     if (filteredConversationsByStatus.length && !conversationIdFromParam && isDesktop) {
+    //         router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
+    //     }
 
-    const filteredConversationsByStatus = useMemo(() => {
-        if (data?.getConversationsForUser?.list?.length) {
-            if (request) {
-                return data.getConversationsForUser.list.filter(
-                    (conversation) => conversation.status !== ConversationStatus.Accepted
-                )
-            }
+    //     if (filteredConversationsByStatus.length && conversationIdFromParam) {
+    //         router.replace(`/conversation?id=${conversationIdFromParam}`)
+    //     }
+    // }, [filteredConversationsByStatus])
 
-            return data.getConversationsForUser.list.filter(
-                (conversation) => conversation.status === ConversationStatus.Accepted
-            )
-        }
-
-        return []
-    }, [data, request])
-
-    useEffect(() => {
-        if (filteredConversationsByStatus.length && !conversationIdFromParam && isDesktop) {
-            router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
-        }
-
-        if (filteredConversationsByStatus.length && conversationIdFromParam) {
-            router.replace(`/conversation?id=${conversationIdFromParam}`)
-        }
-    }, [filteredConversationsByStatus])
-
-    useEffect(() => {
-        if (filteredConversationsByStatus.length && conversationIdFromParam) {
-            router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
-        }
-        if (!filteredConversationsByStatus.length && conversationIdFromParam) {
-            router.replace(`/conversation`)
-        }
-    }, [request])
+    // useEffect(() => {
+    //     if (filteredConversationsByStatus.length && conversationIdFromParam) {
+    //         router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
+    //     }
+    //     if (!filteredConversationsByStatus.length && conversationIdFromParam) {
+    //         router.replace(`/conversation`)
+    //     }
+    // }, [request])
 
     useEffect(() => {
         if (!isDesktop) {
@@ -108,14 +79,10 @@ const ClientWrapper = () => {
             <main className="flex h-full w-full flex-col overflow-hidden overscroll-none md:h-[calc(100vh-150px)]">
                 <div className="relative flex h-full flex-grow flex-row overflow-hidden bg-[#F5F5F5] md:px-20 md:py-6 xl:px-24">
                     <ConversationsList
-                        data={data?.getConversationsForUser}
                         request={request}
                         setRequest={setRequest}
                         mobileOpen={mobileOpen}
                         setMobileOpen={setMobileOpen}
-                        conversations={filteredConversationsByStatus}
-                        pageInfo={data?.getConversationsForUser?.pageInfo ?? null}
-                        fetchMoreConversationsForUser={fetchMoreConversationsForUser}
                     />
 
                     <Conversation

@@ -39,7 +39,6 @@ export const useInitializeConversationNotification = () => {
             variables: {
                 status: ConversationStatus.Accepted,
                 pagination: {
-                    offset: OFFSET,
                     limit: LIMIT,
                 },
             },
@@ -52,7 +51,6 @@ export const useInitializeConversationNotification = () => {
             variables: {
                 status: ConversationStatus.Requested,
                 pagination: {
-                    offset: OFFSET,
                     limit: LIMIT,
                 },
             },

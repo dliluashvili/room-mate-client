@@ -229,6 +229,12 @@ export const generateTwilioAccessTokenMutation = gql`
     }
 `
 
+export const generateTwilioAccessTokenByIdMutation = gql`
+    mutation GenerateTwilioAccessTokenById($id: Float!) {
+        generateTwilioAccessTokenById(id: $id)
+    }
+`
+
 export const logConnectionErrorMutation = gql`
     mutation LogConnectionError($error: String!) {
         logConnectionError(error: $error)

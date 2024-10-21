@@ -1,4 +1,4 @@
-import { ConversationWithUserObject, Query } from '@/graphql/typesGraphql'
+import { ConversationWithUserObject } from '@/graphql/typesGraphql'
 
 import { getConversationsForUserQuery, getSharedConversationQuery } from '@/graphql/query'
 import { client } from '@/src/libs/apollo/client'

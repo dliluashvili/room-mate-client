@@ -118,6 +118,11 @@ body {
             format('svg');
 }
 
+.content-visibility {
+    content-visibility: auto;
+    contain-intrinsic-size: 500px;
+}
+
 /* prevent scrollin inside input field */
 .number-input::-webkit-inner-spin-button,
 .number-input::-webkit-outer-spin-button {

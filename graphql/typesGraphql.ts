@@ -87,6 +87,7 @@ export type ConversationWithUserObject = {
     createdAt: Scalars['DateTime']['output']
     creatorId: Scalars['Float']['output']
     id: Scalars['ID']['output']
+    position: Scalars['Float']['output']
     sid: Scalars['String']['output']
     status: ConversationStatus
     unreadMessagesCount: Scalars['Int']['output']
@@ -108,6 +109,18 @@ export type CountryTranslatedObject = {
     id: Scalars['ID']['output']
     lang: Language
     name: Scalars['String']['output']
+}
+
+export type CursorPaginationInfoObject = {
+    __typename?: 'CursorPaginationInfoObject'
+    cursor: Scalars['ID']['output']
+    hasNextPage: Scalars['Boolean']['output']
+    limit: Scalars['Int']['output']
+}
+
+export type CursorPaginationInput = {
+    cursor?: InputMaybe<Scalars['ID']['input']>
+    limit?: Scalars['Int']['input']
 }
 
 export type DescriptionTranslated = {
@@ -337,6 +350,7 @@ export type MeWithJwtObject = {
 export type Mutation = {
     __typename?: 'Mutation'
     generateTwilioAccessToken: Scalars['String']['output']
+    generateTwilioAccessTokenById: Scalars['String']['output']
     identityVerificationImagesUpload: Scalars['Boolean']['output']
     landlordSendResetPasswordVerificationCode: SendResetPasswordVerificationCodeObject
     landlordSignIn: JwtObject
@@ -360,6 +374,10 @@ export type Mutation = {
     verifyCodeByEmail: VerifyCodeByEmailObject
     verifyCodeBySms: VerifyCodeBySmsObject
     verifyResetPasswordVerificationCode: VerifyResetPasswordVerificationCodeObject
+}
+
+export type MutationGenerateTwilioAccessTokenByIdArgs = {
+    id: Scalars['Float']['input']
 }
 
 export type MutationIdentityVerificationImagesUploadArgs = {
@@ -477,7 +495,7 @@ export type OldUserObject = {
 export type PaginatedConversationWithUserObject = {
     __typename?: 'PaginatedConversationWithUserObject'
     list?: Maybe<Array<ConversationWithUserObject>>
-    pageInfo: PaginationInfoObject
+    pageInfo: CursorPaginationInfoObject
 }
 
 export type PaginatedFilteredPropertiesObject = {
@@ -629,7 +647,7 @@ export type QueryCheckUserExistenceArgs = {
 }
 
 export type QueryGetConversationsForUserArgs = {
-    pagination?: InputMaybe<PaginationInput>
+    pagination?: InputMaybe<CursorPaginationInput>
     status?: InputMaybe<ConversationStatus>
 }
 

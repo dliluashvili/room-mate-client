@@ -3,45 +3,28 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import {
-    ConversationStatus,
-    ConversationWithUserObject,
-    PaginationInfoObject,
-} from '@/graphql/typesGraphql'
+import { ConversationStatus, ConversationWithUserObject } from '@/graphql/typesGraphql'
 import { MEDIA_QUERY } from '../constants'
 import { LIMIT } from '@/src/constants/pagination'
 import { Spinner } from '@/src/components/ui/spinner'
 import { cn } from '@/src/utils/cn'
 import Avatar from '@images/UniversalAvatar.webp'
 import Image from 'next/image'
-import { RequestConversation } from '@/src/components/svgs'
 import { useTranslation } from 'react-i18next'
+import { getConversationsForUserQuery } from '@/graphql/query'
+import { useQuery } from '@apollo/client'
+import { TabTypes } from '../types'
+import { useInView } from 'react-intersection-observer'
 
 type Props = {
     request: boolean
     setRequest: Dispatch<SetStateAction<boolean>>
     setMobileOpen: Dispatch<SetStateAction<boolean>>
-    conversations: ConversationWithUserObject[] | []
-    pageInfo: PaginationInfoObject | null
-    // FIXME: because argument and return types is not fully typed, autosuggestion is not working
-    fetchMoreConversationsForUser: Function
-    data: any // need type
     mobileOpen: boolean
 }
 
-const CONVERSATION_BOX_ESTIMATE_HEIGHT = 80
-
-export default function ConversationsList({
-    request,
-    setRequest,
-    setMobileOpen,
-    conversations,
-    pageInfo,
-    data,
-    fetchMoreConversationsForUser,
-}: Props) {
-    const [requestMessage, setRequestMessage] = useState(false)
+export default function ConversationsList({ request, setRequest, setMobileOpen }: Props) {
+    const [activeTab, setActiveTab] = useState<TabTypes>('chats')
 
     const parentDomRef = useRef<HTMLDivElement>(null)
 
@@ -54,12 +37,29 @@ export default function ConversationsList({
 
     const { t } = useTranslation()
 
-    const virtualizer = useVirtualizer({
-        count: pageInfo?.hasNextPage ? conversations.length + 1 : conversations.length,
-        getScrollElement: () => parentDomRef.current,
-        estimateSize: () => CONVERSATION_BOX_ESTIMATE_HEIGHT,
-        overscan: 5,
-    })
+    const { ref: inViewLoaderDomRef, inView: inViewLoaderDom } = useInView()
+
+    const { data: chatConversations, fetchMore: fetchMoreGetChatConversationsForUser } = useQuery(
+        getConversationsForUserQuery,
+        {
+            variables: {
+                status: ConversationStatus.Accepted,
+                pagination: {
+                    limit: LIMIT,
+                },
+            },
+        }
+    )
+
+    const { data: requestedConversations, fetchMore: fetchMoreGetRequestConversationsForUser } =
+        useQuery(getConversationsForUserQuery, {
+            variables: {
+                status: ConversationStatus.Requested,
+                pagination: {
+                    limit: LIMIT,
+                },
+            },
+        })
 
     const handleClickConversation = (conversationId: string) => {
         if (conversationId !== conversationIdFromParam) {
@@ -71,64 +71,74 @@ export default function ConversationsList({
     }
 
     const chatClickHandler = () => {
-        setRequest(false)
+        setActiveTab('chats')
     }
 
     const requestClickHandler = () => {
-        setRequest(true)
+        setActiveTab('requests')
     }
 
+    useEffect(() => {
+        if (inViewLoaderDom) {
+            if (activeTab === 'chats') {
+                fetchMoreGetChatConversationsForUser({
+                    variables: {
+                        status: ConversationStatus.Accepted,
+                        pagination: {
+                            limit: LIMIT,
+                            cursor: chatConversations?.getConversationsForUser?.pageInfo.cursor,
+                        },
+                    },
+                })
+            } else {
+                fetchMoreGetRequestConversationsForUser({
+                    variables: {
+                        status: ConversationStatus.Requested,
+                        pagination: {
+                            limit: LIMIT,
+                            cursor: requestedConversations?.getConversationsForUser?.pageInfo
+                                .cursor,
+                        },
+                    },
+                })
+            }
+        }
+    }, [activeTab, inViewLoaderDom])
+
     // useEffect(() => {
-    //     const [lastVirtualItem] = [...virtualizer.getVirtualItems()].reverse()
+    //     const filteredAccepts = data?.list?.filter(
+    //         (item: { status: ConversationStatus }) => item.status === ConversationStatus.Accepted
+    //     )
 
-    //     if (!lastVirtualItem) {
-    //         return
+    //     const filteredRequestsRejects = data?.list?.filter(
+    //         (item: { status: ConversationStatus }) =>
+    //             item.status === ConversationStatus.Rejected ||
+    //             item.status === ConversationStatus.Requested
+    //     )
+
+    //     if (filteredAccepts?.length === 0 && filteredRequestsRejects?.length !== 0) {
+    //         setRequest(true)
     //     }
+    // }, [data])
 
-    //     if (lastVirtualItem.index >= conversations.length - 1 && pageInfo?.hasNextPage) {
-    //         fetchMoreConversationsForUser({
-    //             variables: {
-    //                 pagination: {
-    //                     offset: conversations.length,
-    //                     limit: LIMIT,
-    //                 },
-    //             },
-    //         })
-    //     }
-    // }, [pageInfo?.hasNextPage, virtualizer.getVirtualItems(), conversations.length])
+    const activeConversationsByTab =
+        activeTab === 'chats'
+            ? (chatConversations?.getConversationsForUser?.list ?? [])
+            : (requestedConversations?.getConversationsForUser?.list ?? [])
 
-    useEffect(() => {
-        const hasRequested =
-            data &&
-            data.list.some(
-                (item: { status: ConversationStatus; unreadMessagesCount: number }) =>
-                    (item?.status === ConversationStatus.Requested ||
-                        item?.status === ConversationStatus.Rejected) &&
-                    item?.unreadMessagesCount > 0
-            )
-
-        if (hasRequested) {
-            setRequestMessage(true)
-        } else {
-            setRequestMessage(false)
+    const groupedConversations = activeConversationsByTab.reduce((acc, conversation, index) => {
+        const groupIndex = Math.floor(index / 15)
+        if (!acc[groupIndex]) {
+            acc[groupIndex] = []
         }
-    }, [data, request])
+        acc[groupIndex].push(conversation)
+        return acc
+    }, [] as ConversationWithUserObject[][])
 
-    useEffect(() => {
-        const filteredAccepts = data?.list?.filter(
-            (item: { status: ConversationStatus }) => item.status === ConversationStatus.Accepted
-        )
-
-        const filteredRequestsRejects = data?.list?.filter(
-            (item: { status: ConversationStatus }) =>
-                item.status === ConversationStatus.Rejected ||
-                item.status === ConversationStatus.Requested
-        )
-
-        if (filteredAccepts?.length === 0 && filteredRequestsRejects?.length !== 0) {
-            setRequest(true)
-        }
-    }, [data])
+    const hasNextPageByTab =
+        activeTab === 'chats'
+            ? chatConversations?.getConversationsForUser?.pageInfo.hasNextPage
+            : requestedConversations?.getConversationsForUser?.pageInfo.hasNextPage
 
     return (
         <section className="flex w-full flex-col items-start rounded-md border-[gray] bg-[#FFFFFF] md:w-[100px] md:border-b-4 lg:w-[400px]">
@@ -137,8 +147,7 @@ export default function ConversationsList({
                     <span
                         className={cn(
                             'cursor-pointer',
-                            !request && 'text-[#0A7CFF]',
-                            request && 'text-[#838CAC]'
+                            activeTab === 'chats' ? 'text-[#0A7CFF]' : 'text-[#838CAC]'
                         )}
                         onClick={chatClickHandler}
                     >
@@ -147,51 +156,34 @@ export default function ConversationsList({
                     <span
                         className={cn(
                             'relative cursor-pointer',
-                            request && 'text-[#0A7CFF]',
-                            !request && 'text-[#838CAC]'
+                            activeTab === 'requests' ? 'text-[#0A7CFF]' : 'text-[#838CAC]'
                         )}
                         onClick={requestClickHandler}
                     >
                         {t('request')}
-                        {requestMessage && (
+                        {/* {activeTab === 'requests' && (
                             <div className="absolute -right-4 -top-1.5 z-50 ">
                                 <RequestConversation className="h-4 w-4" />
                             </div>
-                        )}
+                        )} */}
                     </span>
                 </div>
             </div>
             <div className="w-full overflow-auto" ref={parentDomRef}>
-                <div
-                    className="relative w-full"
-                    style={{
-                        height: `${virtualizer.getTotalSize() + 50}px`,
-                    }}
-                >
-                    {virtualizer.getVirtualItems().map((virtualRow) => {
-                        const isLoaderRow = virtualRow.index > conversations.length - 1
-
-                        const conversation = conversations[virtualRow.index]
-
-                        return (
+                {groupedConversations.map((group, groupIndex) => (
+                    <div key={`group-${groupIndex}`} className="content-visibility">
+                        {group.map((conversation) => (
                             <div
-                                key={virtualRow.index}
-                                data-index={virtualRow.index}
-                                ref={virtualizer.measureElement}
+                                key={conversation.id}
                                 className={cn(
-                                    'absolute flex w-full cursor-pointer flex-row items-center justify-center border-b-2 border-[#E3E3E3] px-6 py-2 md:p-0 lg:justify-between lg:px-4 lg:py-2',
+                                    'flex w-full cursor-pointer flex-row items-center justify-center border-b-2 border-[#E3E3E3] px-6 py-2 md:p-0 lg:justify-between lg:px-4 lg:py-2',
                                     conversation?.id === conversationIdFromParam
                                         ? 'bg-[#e7e7fe]'
                                         : ''
                                 )}
-                                style={{
-                                    transform: `translateY(${virtualRow.start}px)`,
-                                }}
-                                onClick={() =>
-                                    !isLoaderRow ? handleClickConversation(conversation.id) : {}
-                                }
+                                onClick={() => handleClickConversation(conversation.id)}
                             >
-                                <div className="relative flex h-full w-full flex-row items-center justify-start md:justify-center md:py-2 lg:justify-start lg:py-0">
+                                <div className="flex h-full w-full flex-row items-center justify-start md:justify-center md:py-2 lg:justify-start lg:py-0">
                                     <div className="relative h-10 w-10 overflow-hidden rounded-[50%]">
                                         <Image
                                             fill
@@ -228,28 +220,15 @@ export default function ConversationsList({
                                     </div>
                                 )}
                             </div>
-                        )
-                    })}
-                    {(() => (
-                        <div
-                            className={cn(
-                                'absolute bottom-0 flex w-full cursor-pointer flex-row items-center justify-center border-b-2 border-[#E3E3E3] px-6 py-2 md:p-0 lg:justify-between lg:px-4 lg:py-2'
-                            )}
-                            onClick={() =>
-                                fetchMoreConversationsForUser({
-                                    variables: {
-                                        pagination: {
-                                            offset: conversations.length,
-                                            limit: LIMIT,
-                                        },
-                                    },
-                                })
-                            }
-                        >
-                            load more
-                        </div>
-                    ))()}
-                </div>
+                        ))}
+                    </div>
+                ))}
+
+                {hasNextPageByTab && (
+                    <div className="my-6 flex w-full justify-center" ref={inViewLoaderDomRef}>
+                        <Spinner size="small" />
+                    </div>
+                )}
             </div>
         </section>
     )

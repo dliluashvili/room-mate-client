@@ -154,12 +154,13 @@ export const getConversationsForUserQuery: TypedDocumentNode<
     { getConversationsForUser: Query['getConversationsForUser'] },
     QueryGetConversationsForUserArgs
 > = gql`
-    query GetConversationsForUser($pagination: PaginationInput, $status: ConversationStatus) {
+    query GetConversationsForUser($pagination: CursorPaginationInput, $status: ConversationStatus) {
         getConversationsForUser(pagination: $pagination, status: $status) {
             list {
                 id
                 sid
                 status
+                position
                 creatorId
                 createdAt
                 updatedAt
@@ -174,11 +175,8 @@ export const getConversationsForUserQuery: TypedDocumentNode<
             }
             pageInfo {
                 hasNextPage
-                hasPrevious
-                offset
                 limit
-                total
-                page
+                cursor
             }
         }
     }
