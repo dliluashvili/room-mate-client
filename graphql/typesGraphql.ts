@@ -113,7 +113,7 @@ export type CountryTranslatedObject = {
 
 export type CursorPaginationInfoObject = {
     __typename?: 'CursorPaginationInfoObject'
-    cursor: Scalars['ID']['output']
+    cursor?: Maybe<Scalars['ID']['output']>
     hasNextPage: Scalars['Boolean']['output']
     limit: Scalars['Int']['output']
 }
@@ -647,12 +647,8 @@ export type QueryCheckUserExistenceArgs = {
 }
 
 export type QueryGetConversationsForUserArgs = {
-<<<<<<< HEAD
     pagination?: InputMaybe<CursorPaginationInput>
     status?: InputMaybe<ConversationStatus>
-=======
-    pagination?: InputMaybe<PaginationInput>
->>>>>>> 97e12d11eaff26415bcb0d96561e3908bf538b8e
 }
 
 export type QueryGetCountriesArgs = {

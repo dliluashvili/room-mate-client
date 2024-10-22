@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Send } from '@/src/components/svgs'
 import MessagesList from './MessagesList'
 import { Conversation } from '@twilio/conversations'
-import { useRef, useState, KeyboardEvent } from 'react'
+import { useRef, useState, KeyboardEvent, Dispatch, SetStateAction } from 'react'
 import AutosizeTextarea from 'react-textarea-autosize'
 import Avatar from '@images/UniversalAvatar.webp'
 import { useApolloClient, useMutation } from '@apollo/client'
@@ -16,17 +16,18 @@ import { ConversationStatus, ConversationWithUserObject } from '@/graphql/typesG
 import { getConversationsForUserQuery } from '@/graphql/query'
 import { useTranslation } from 'react-i18next'
 import { amIUpdaterOfStatusVar } from '@/src/conversation/conversationVars'
+import { TabTypes } from '../types'
 
 type Props = {
     conversationResource: Conversation | null
     conversation: ConversationWithUserObject | null
-    setRequest: any
+    setActiveTab: Dispatch<SetStateAction<TabTypes>>
 }
 
 export default function DesktopConversation({
     conversationResource,
     conversation,
-    setRequest,
+    setActiveTab,
 }: Props) {
     const [message, setMessage] = useState('')
 
@@ -95,7 +96,7 @@ export default function DesktopConversation({
     const handleAcceptClick = () => {
         amIUpdaterOfStatusVar(true)
 
-        setRequest(false)
+        setActiveTab('chats')
 
         if (conversation) {
             updateConversationStatus({

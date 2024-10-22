@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { Send, ArrowLeft } from '@/src/components/svgs'
 import MessagesList from './MessagesList'
 import { Conversation } from '@twilio/conversations'
@@ -19,13 +19,14 @@ import { getConversationsForUserQuery } from '@/graphql/query'
 import { cn } from '@/src/utils/cn'
 import { useLockBodyScroll } from '@/src/components/hooks/useLockBodyScroll'
 import Avatar from '@images/UniversalAvatar.webp'
+import { TabTypes } from '../types'
 
 type Props = {
     mobileOpen: boolean
     setMobileOpen: React.Dispatch<React.SetStateAction<boolean>>
     conversationResource: Conversation | null
     conversation: ConversationWithUserObject | null
-    setRequest: any
+    setActiveTab: Dispatch<SetStateAction<TabTypes>>
 }
 
 export default function MobileConversation({
@@ -33,7 +34,7 @@ export default function MobileConversation({
     setMobileOpen,
     conversationResource,
     conversation,
-    setRequest,
+    setActiveTab,
 }: Props) {
     useLockBodyScroll(mobileOpen)
 
@@ -102,7 +103,7 @@ export default function MobileConversation({
     }
 
     const handleAcceptClick = () => {
-        setRequest(false)
+        setActiveTab('chats')
 
         amIUpdaterOfStatusVar(true)
 

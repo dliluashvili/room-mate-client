@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import DesktopConversation from './DesktopConversation'
 import MobileConversation from './MobileConversation'
@@ -10,12 +10,21 @@ import { ConversationStatus, ConversationWithUserObject } from '@/graphql/typesG
 import { twilioClientVar, twilioConnectionStateVar } from '@/src/conversation/conversationVars'
 import { getConversationsForUserQuery } from '@/graphql/query'
 import dynamic from 'next/dynamic'
+import { TabTypes } from '../types'
+import { LIMIT } from '@/src/constants/pagination'
 
 const MediaQuery = dynamic(() => import('react-responsive'), {
     ssr: false,
 })
 
-const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) => {
+type Props = {
+    mobileOpen: boolean
+    setMobileOpen: Dispatch<SetStateAction<boolean>>
+    activeTab: TabTypes
+    setActiveTab: Dispatch<SetStateAction<TabTypes>>
+}
+
+const ConversationComponent = ({ mobileOpen, setMobileOpen, setActiveTab }: Props) => {
     const [conversation, setConversation] = useState<ConversationWithUserObject | null>(null)
     const [conversationResource, setConversationResource] = useState<Conversation | null>(null)
 
@@ -24,8 +33,16 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) =
 
     // Conversations for user is already fetching or fetched from useNotifications hook
     // So this is why it is fetched from cache
-    const { data } = useQuery(getConversationsForUserQuery, {
-        fetchPolicy: 'cache-only',
+    const { data: chatConversations } = useQuery(getConversationsForUserQuery, {
+        variables: {
+            status: ConversationStatus.Accepted,
+        },
+    })
+
+    const { data: requestedConversations } = useQuery(getConversationsForUserQuery, {
+        variables: {
+            status: ConversationStatus.Requested,
+        },
     })
 
     const searchParams = useSearchParams()
@@ -33,9 +50,9 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) =
 
     const updateRequest = (conversation: ConversationWithUserObject) => {
         if (conversation.status === ConversationStatus.Requested) {
-            setRequest(true)
+            setActiveTab('requests')
         } else if (conversation.status === ConversationStatus.Accepted) {
-            setRequest(false)
+            setActiveTab('chats')
         }
     }
 
@@ -59,10 +76,22 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) =
      * useEffects start
      */
     useEffect(() => {
-        if (data?.getConversationsForUser?.list?.length && conversationIdFromParam) {
-            updateConversation(data.getConversationsForUser.list, conversationIdFromParam)
+        if (conversationIdFromParam) {
+            if (chatConversations?.getConversationsForUser?.list?.length) {
+                updateConversation(
+                    chatConversations.getConversationsForUser.list,
+                    conversationIdFromParam
+                )
+            }
+
+            if (requestedConversations?.getConversationsForUser?.list?.length) {
+                updateConversation(
+                    requestedConversations.getConversationsForUser.list,
+                    conversationIdFromParam
+                )
+            }
         }
-    }, [data, conversationIdFromParam])
+    }, [chatConversations, requestedConversations, conversationIdFromParam])
 
     useEffect(() => {
         if (conversation) {
@@ -82,7 +111,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) =
                 <DesktopConversation
                     conversationResource={conversationResource}
                     conversation={conversation}
-                    setRequest={setRequest}
+                    setActiveTab={setActiveTab}
                 />
             </MediaQuery>
             <MediaQuery maxWidth={768}>
@@ -91,7 +120,7 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setRequest }: any) =
                     conversation={conversation}
                     mobileOpen={mobileOpen}
                     setMobileOpen={setMobileOpen}
-                    setRequest={setRequest}
+                    setActiveTab={setActiveTab}
                 />
             </MediaQuery>
         </>

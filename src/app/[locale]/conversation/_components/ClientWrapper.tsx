@@ -1,22 +1,20 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery, useReactiveVar } from '@apollo/client'
-import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { useReactiveVar } from '@apollo/client'
+import { useSearchParams } from 'next/navigation'
 import ConversationsList from '../_components/ConversationsList'
 import Conversation from '../_components/Conversation'
 import { useMediaQuery } from 'react-responsive'
 import { TwilioDisconnectionAlertDialog } from '../_components/TwilioDisconnectionAlertDialog'
 import { MEDIA_QUERY } from '../constants'
-import { LIMIT, OFFSET } from '@/src/constants/pagination'
 import { twilioConnectionStateVar } from '@/src/conversation/conversationVars'
-import { getConversationsForUserQuery } from '@/graphql/query'
-import { ConversationStatus } from '@/graphql/typesGraphql'
 import { Spinner } from '@/src/components/ui/spinner'
 import { withAuth } from '@/src/auth/withAuth'
+import { TabTypes } from '../types'
 
 const ClientWrapper = () => {
-    const [request, setRequest] = useState(false)
+    const [activeTab, setActiveTab] = useState<TabTypes>('chats')
     const [mobileOpen, setMobileOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -25,38 +23,19 @@ const ClientWrapper = () => {
     })
 
     const searchParams = useSearchParams()
-    const conversationIdFromParam = searchParams.get('id')
+    const activeConversationId = searchParams.get('id')
 
     const twilioConnectionState = useReactiveVar(twilioConnectionStateVar)
 
-    // useEffect(() => {
-    //     if (filteredConversationsByStatus.length && !conversationIdFromParam && isDesktop) {
-    //         router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
-    //     }
-
-    //     if (filteredConversationsByStatus.length && conversationIdFromParam) {
-    //         router.replace(`/conversation?id=${conversationIdFromParam}`)
-    //     }
-    // }, [filteredConversationsByStatus])
-
-    // useEffect(() => {
-    //     if (filteredConversationsByStatus.length && conversationIdFromParam) {
-    //         router.replace(`/conversation?id=${filteredConversationsByStatus[0].id}`)
-    //     }
-    //     if (!filteredConversationsByStatus.length && conversationIdFromParam) {
-    //         router.replace(`/conversation`)
-    //     }
-    // }, [request])
-
     useEffect(() => {
         if (!isDesktop) {
-            if (conversationIdFromParam) {
+            if (activeConversationId) {
                 setMobileOpen(true)
-            } else if (!conversationIdFromParam) {
+            } else if (!activeConversationId) {
                 setMobileOpen(false)
             }
         }
-    }, [isDesktop, conversationIdFromParam])
+    }, [isDesktop, activeConversationId])
 
     useEffect(() => {
         setIsLoading(false)
@@ -79,17 +58,19 @@ const ClientWrapper = () => {
             <main className="flex h-full w-full flex-col overflow-hidden overscroll-none md:h-[calc(100vh-150px)]">
                 <div className="relative flex h-full flex-grow flex-row overflow-hidden bg-[#F5F5F5] md:px-20 md:py-6 xl:px-24">
                     <ConversationsList
-                        request={request}
-                        setRequest={setRequest}
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+                        activeConversationId={activeConversationId}
                         mobileOpen={mobileOpen}
                         setMobileOpen={setMobileOpen}
                     />
 
                     <Conversation
-                        key={conversationIdFromParam}
+                        key={activeConversationId}
                         mobileOpen={mobileOpen}
                         setMobileOpen={setMobileOpen}
-                        setRequest={setRequest}
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
                     />
                 </div>
             </main>

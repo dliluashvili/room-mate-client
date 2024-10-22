@@ -17,15 +17,19 @@ import { TabTypes } from '../types'
 import { useInView } from 'react-intersection-observer'
 
 type Props = {
-    request: boolean
-    setRequest: Dispatch<SetStateAction<boolean>>
+    activeConversationId: string | null
     setMobileOpen: Dispatch<SetStateAction<boolean>>
     mobileOpen: boolean
+    activeTab: TabTypes
+    setActiveTab: Dispatch<SetStateAction<TabTypes>>
 }
 
-export default function ConversationsList({ request, setRequest, setMobileOpen }: Props) {
-    const [activeTab, setActiveTab] = useState<TabTypes>('chats')
-
+export default function ConversationsList({
+    activeTab,
+    setActiveTab,
+    activeConversationId,
+    setMobileOpen,
+}: Props) {
     const parentDomRef = useRef<HTMLDivElement>(null)
 
     const router = useRouter()
@@ -105,21 +109,42 @@ export default function ConversationsList({ request, setRequest, setMobileOpen }
         }
     }, [activeTab, inViewLoaderDom])
 
-    // useEffect(() => {
-    //     const filteredAccepts = data?.list?.filter(
-    //         (item: { status: ConversationStatus }) => item.status === ConversationStatus.Accepted
-    //     )
+    useEffect(() => {
+        if (!activeConversationId) {
+            if (activeTab === 'chats') {
+                const activeConversation = chatConversations?.getConversationsForUser?.list?.[0]
 
-    //     const filteredRequestsRejects = data?.list?.filter(
-    //         (item: { status: ConversationStatus }) =>
-    //             item.status === ConversationStatus.Rejected ||
-    //             item.status === ConversationStatus.Requested
-    //     )
+                if (activeConversation) {
+                    console.log({ activeConversation: activeConversation?.id })
 
-    //     if (filteredAccepts?.length === 0 && filteredRequestsRejects?.length !== 0) {
-    //         setRequest(true)
-    //     }
-    // }, [data])
+                    router.push(`/conversation?id=${activeConversation.id}`)
+                }
+            } else if (activeTab === 'requests') {
+                const activeConversation =
+                    requestedConversations?.getConversationsForUser?.list?.[0]
+
+                if (activeConversation) {
+                    router.push(`/conversation?id=${activeConversation.id}`)
+                }
+            }
+        }
+    }, [chatConversations, requestedConversations])
+
+    useEffect(() => {
+        if (activeTab === 'chats') {
+            const activeConversation = chatConversations?.getConversationsForUser?.list?.[0]
+
+            if (activeConversation) {
+                router.push(`/conversation?id=${activeConversation.id}`)
+            }
+        } else if (activeTab === 'requests') {
+            const activeConversation = requestedConversations?.getConversationsForUser?.list?.[0]
+
+            if (activeConversation) {
+                router.push(`/conversation?id=${activeConversation.id}`)
+            }
+        }
+    }, [activeTab])
 
     const activeConversationsByTab =
         activeTab === 'chats'
@@ -141,7 +166,7 @@ export default function ConversationsList({ request, setRequest, setMobileOpen }
             : requestedConversations?.getConversationsForUser?.pageInfo.hasNextPage
 
     return (
-        <section className="flex min-h-screen w-full flex-col items-start rounded-md border-[gray] bg-[#FFFFFF] md:h-full md:w-[100px] md:border-b-4 lg:w-[400px]">
+        <section className="flex w-full flex-col items-start rounded-md border-[gray] bg-[#FFFFFF] md:h-full md:w-[100px] md:border-b-4 lg:w-[400px]">
             <div className="block w-full">
                 <div className="flex flex-row items-center justify-start gap-6 px-6 py-2 md:flex-col lg:flex-row">
                     <span

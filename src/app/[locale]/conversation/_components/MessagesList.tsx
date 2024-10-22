@@ -309,9 +309,9 @@ const MessagesList = ({ conversationResource, conversation }: Props) => {
                                 className={cn(
                                     'text group relative mx-2 max-w-[65%] bg-[#c5bdff] p-2 text-sm text-stone-800 md:max-w-[75%]',
                                     {
-                                        'ml-40 rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] text-right ':
+                                        'ml-40 rounded-t-[12px] rounded-bl-[12px] rounded-br-[0] text-right':
                                             conversation?.user?.id !== message.author,
-                                        'mr-40 rounded-t-[12px] rounded-bl-[0] rounded-br-[12px] text-left ':
+                                        'mr-40 rounded-t-[12px] rounded-bl-[0] rounded-br-[12px] text-left':
                                             conversation?.user?.id === message.author,
                                     }
                                 )}
