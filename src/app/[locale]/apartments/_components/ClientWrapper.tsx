@@ -24,6 +24,7 @@ import { useLockBodyScroll } from '@/src/components/hooks/useLockBodyScroll'
 import Link from 'next/link'
 import { getFingerprint } from '@/src/utils/fingerPrint'
 import { UpdatePropertyOpenCount } from '@/graphql/mutation'
+import Loading from '../../loading'
 
 export default function ClientWrapper() {
     const { t } = useTranslation()
@@ -81,10 +82,8 @@ export default function ClientWrapper() {
 
     const paginatedData = data?.getProperties as PaginatedFilteredPropertiesObject
 
- 
-
     return (
-        <main className="flex min-h-screen w-full flex-col items-center gap-10 bg-[#F5F5F5]  px-6 pb-10 md:items-start md:px-20 md:py-10 lg:flex-row">
+        <main className="flex min-h-screen w-full flex-col items-center gap-3 xl:gap-8 xl:px-20 bg-[#F5F5F5]  px-6 pb-10 md:items-start md:px-5 md:py-10 lg:flex-row">
             <div className="flex h-auto w-full justify-start   pt-6   md:pt-10    lg:hidden lg:px-0">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
@@ -94,7 +93,7 @@ export default function ClientWrapper() {
                     <span className="ml-2 text-sm text-[#838CAC]">{t('filter')}</span>
                 </button>
             </div>
-            <div className="hidden h-full lg:block lg:w-1/2 xl:w-[30%] ">
+            <div className="hidden h-full md:w-auto lg:block ">
                 <Filter
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
@@ -109,79 +108,85 @@ export default function ClientWrapper() {
                 />
             ) : null}
             <div className="hidden min-h-screen w-[1px] bg-gray-200 lg:block"></div>
-            <div className="grid  w-full  flex-col items-center  gap-10 md:w-auto md:grid-cols-2">
-                {data?.getProperties?.list?.map((item, index) => (
-                    <div className="flex w-full flex-col gap-4 md:w-[320px]">
-                        <Link href={`/apartments/${item.id}`}>
-                            <div
-                                onClick={() => handleApartmentClick(item.id)}
-                                key={index}
-                                className="flex w-full flex-col overflow-hidden rounded-md bg-[#FFFFFF] shadow-md"
-                            >
-                                <Image
-                                    width={320}
-                                    height={180}
-                                    alt="propert image"
-                                    className="h-[200px] w-full object-cover"
-                                    src={item.images && item.images[0].thumb}
-                                />
-                                <div className="flex w-full flex-col gap-4 px-4  py-6">
-                                    <div className="flex w-full justify-between">
-                                        <h1 className="text-base font-bold">
-                                            <span>{item?.price} $</span>
-                                        </h1>
-                                        {true ? (
-                                            <div className="flex items-center gap-1 rounded-md bg-[#CFF1E6] px-2 py-1">
-                                                <span className="text-xs ">{t('active')}</span>
-                                                <ActiveStatus className="h-4 w-4 fill-mainGreen" />
+            {!data ? (
+                <div className="md:w-full">
+                    <Loading />
+                </div>
+            ) : (
+                <div className="grid  w-full  flex-col items-center  gap-5 xl:gap-10 md:w-auto md:grid-cols-2">
+                    {data?.getProperties?.list?.map((item, index) => (
+                        <div className="flex w-full flex-col gap-4 md:w-[300px] xl:w-[350px]">
+                            <Link href={`/apartments/${item.id}`}>
+                                <div
+                                    onClick={() => handleApartmentClick(item.id)}
+                                    key={index}
+                                    className="flex w-full flex-col overflow-hidden rounded-md bg-[#FFFFFF] shadow-md"
+                                >
+                                    <Image
+                                        width={320}
+                                        height={180}
+                                        alt="propert image"
+                                        className="h-[200px] w-full object-cover"
+                                        src={item.images && item.images[0].thumb}
+                                    />
+                                    <div className="flex w-full flex-col gap-4 px-4  py-6">
+                                        <div className="flex w-full justify-between">
+                                            <h1 className="text-base font-bold">
+                                                <span>{item?.price} $</span>
+                                            </h1>
+                                            {true ? (
+                                                <div className="flex items-center gap-1 rounded-md bg-[#CFF1E6] px-2 py-1">
+                                                    <span className="text-xs ">{t('active')}</span>
+                                                    <ActiveStatus className="h-4 w-4 fill-mainGreen" />
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-1 rounded-md bg-[#FFDEDE] px-2 py-1">
+                                                    <span className="text-xs text-[red] ">
+                                                        {t('expired')}
+                                                    </span>
+                                                    <InactiveStatus className="h-3 w-3 fill-[red]" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex w-full justify-between">
+                                            <div className="flex w-full flex-row items-center gap-1">
+                                                <Door className="h-4 w-4 md:h-6 md:w-6" />
+                                                <span>{t('bedrooms')}: </span>
+                                                {item.bedrooms}
                                             </div>
-                                        ) : (
-                                            <div className="flex items-center gap-1 rounded-md bg-[#FFDEDE] px-2 py-1">
-                                                <span className="text-xs text-[red] ">
-                                                    {t('expired')}
-                                                </span>
-                                                <InactiveStatus className="h-3 w-3 fill-[red]" />
+                                            <div
+                                                className="flex w-full flex-row  items-center gap-1
+                                    "
+                                            >
+                                                <Square className="h-4 w-4 md:h-6 md:w-6" />
+                                                <span>{t('area')}: </span>
+                                                {item.area}
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="flex w-full justify-between">
-                                        <div className="flex w-full flex-row items-center gap-1">
-                                            <Door className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>{t('bedrooms')}: </span>
-                                            {item.bedrooms}
                                         </div>
                                         <div
-                                            className="flex w-full flex-row  items-center gap-1
-                                    "
-                                        >
-                                            <Square className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>{t('area')}: </span>
-                                            {item.area}
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="flex w-full flex-col
+                                            className="flex w-full flex-col
                                 "
-                                    >
-                                        {/* <div className="flex w-full flex-row items-center justify-start gap-1">
+                                        >
+                                            {/* <div className="flex w-full flex-row items-center justify-start gap-1">
                                             <Location className="h-4 w-4 md:h-6 md:w-6" />
                                             <span className="line-clamp-1 text-ellipsis">
                                                 {item.street}
                                             </span>
                                         </div> */}
-                                        <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:hidden">
-                                            <Wallet className="h-4 w-4 md:h-6 md:w-6" />
-                                            <span>{t('price')}: </span>
-                                            {item.price}
+                                            <div className="hidden  w-1/2 flex-row items-center justify-start gap-1 md:hidden">
+                                                <Wallet className="h-4 w-4 md:h-6 md:w-6" />
+                                                <span>{t('price')}: </span>
+                                                {item.price}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Link>
-                    </div>
-                ))}
-                <Pagination data={paginatedData} />
-            </div>
+                            </Link>
+                        </div>
+                    ))}
+                    <Pagination data={paginatedData} />
+                </div>
+            )}
         </main>
     )
 }
