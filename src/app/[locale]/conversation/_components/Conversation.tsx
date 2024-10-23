@@ -11,7 +11,6 @@ import { twilioClientVar, twilioConnectionStateVar } from '@/src/conversation/co
 import { getConversationsForUserQuery } from '@/graphql/query'
 import dynamic from 'next/dynamic'
 import { TabTypes } from '../types'
-import { LIMIT } from '@/src/constants/pagination'
 
 const MediaQuery = dynamic(() => import('react-responsive'), {
     ssr: false,
@@ -37,12 +36,14 @@ const ConversationComponent = ({ mobileOpen, setMobileOpen, setActiveTab }: Prop
         variables: {
             status: ConversationStatus.Accepted,
         },
+        fetchPolicy: 'cache-only',
     })
 
     const { data: requestedConversations } = useQuery(getConversationsForUserQuery, {
         variables: {
             status: ConversationStatus.Requested,
         },
+        fetchPolicy: 'cache-only',
     })
 
     const searchParams = useSearchParams()

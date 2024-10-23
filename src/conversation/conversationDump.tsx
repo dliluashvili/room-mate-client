@@ -124,8 +124,6 @@ const Comp = () => {
                     variables: { userId: String(participantId) },
                 })
 
-                console.log({ currentClient })
-
                 if (twilioUserResourceResponse) {
                     const conversation = await currentClient!.createConversation()
 

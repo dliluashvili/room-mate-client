@@ -16,7 +16,6 @@ import { ConversationStatus, UserType } from '@/graphql/typesGraphql'
 import { Label } from '../ui/label'
 import { Switch } from '../ui/switch'
 import { signOutHandler } from '@/src/auth/signOut'
-import Comp from '@/src/conversation/conversationDump'
 
 export default function Header() {
     const { t } = useTranslation()
@@ -270,7 +269,6 @@ export default function Header() {
 
     return (
         <>
-            <Comp />
             <header
                 className={` ${pathname.includes('students-assistance') ? 'hidden' : 'flex'} flex w-full flex-row items-center justify-between px-6 py-3 shadow-md sm:px-16 md:px-20 md:py-3 xl:px-24 xl:py-6 ${
                     isLandlordsPath ? 'bg-[#C0DBFC]' : 'bg-[headerBg]'

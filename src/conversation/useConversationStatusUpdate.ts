@@ -27,35 +27,45 @@ export const useConversationStatusUpdate = () => {
             return
         }
 
-        client.cache.updateQuery({ query: getConversationsForUserQuery }, (cacheData) => {
-            if (!cacheData?.getConversationsForUser?.list) return cacheData
+        const conversationStatus =
+            conversation?.state?.current === 'active'
+                ? ConversationStatus.Accepted
+                : ConversationStatus.Rejected
 
-            const updateConversations = cacheData.getConversationsForUser.list.map(
-                (conversationObject): ConversationWithUserObject => {
-                    if (conversationObject.sid === conversation.sid) {
-                        return {
-                            ...conversationObject,
-                            user: {
-                                ...(conversationObject.user as UserPreviewObject),
-                                conversationStatus:
-                                    conversation?.state?.current === 'active'
-                                        ? ConversationStatus.Accepted
-                                        : ConversationStatus.Rejected,
-                            },
-                        }
-                    }
-                    return conversationObject
-                }
-            )
-
-            return {
-                ...cacheData,
-                getConversationsForUser: {
-                    ...cacheData.getConversationsForUser,
-                    list: updateConversations,
+        client.cache.updateQuery(
+            {
+                query: getConversationsForUserQuery,
+                variables: {
+                    status: ConversationStatus.Requested,
                 },
+            },
+            (cacheData) => {
+                if (!cacheData?.getConversationsForUser?.list) return cacheData
+
+                const updateConversations = cacheData.getConversationsForUser.list.map(
+                    (conversationObject): ConversationWithUserObject => {
+                        if (conversationObject.sid === conversation.sid) {
+                            return {
+                                ...conversationObject,
+                                user: {
+                                    ...(conversationObject.user as UserPreviewObject),
+                                    conversationStatus,
+                                },
+                            }
+                        }
+                        return conversationObject
+                    }
+                )
+
+                return {
+                    ...cacheData,
+                    getConversationsForUser: {
+                        ...cacheData.getConversationsForUser,
+                        list: updateConversations,
+                    },
+                }
             }
-        })
+        )
 
         amIUpdaterOfStatusVar(false)
     }

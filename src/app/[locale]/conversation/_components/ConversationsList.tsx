@@ -12,7 +12,7 @@ import Avatar from '@images/UniversalAvatar.webp'
 import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 import { getConversationsForUserQuery } from '@/graphql/query'
-import { useQuery } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
 import { TabTypes } from '../types'
 import { useInView } from 'react-intersection-observer'
 
@@ -52,6 +52,8 @@ export default function ConversationsList({
                     limit: LIMIT,
                 },
             },
+            fetchPolicy: 'cache-only',
+            nextFetchPolicy: 'cache-and-network',
         }
     )
 
@@ -63,6 +65,8 @@ export default function ConversationsList({
                     limit: LIMIT,
                 },
             },
+            fetchPolicy: 'cache-only',
+            nextFetchPolicy: 'cache-and-network',
         })
 
     const handleClickConversation = (conversationId: string) => {
@@ -115,8 +119,6 @@ export default function ConversationsList({
                 const activeConversation = chatConversations?.getConversationsForUser?.list?.[0]
 
                 if (activeConversation) {
-                    console.log({ activeConversation: activeConversation?.id })
-
                     router.push(`/conversation?id=${activeConversation.id}`)
                 }
             } else if (activeTab === 'requests') {

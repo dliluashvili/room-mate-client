@@ -23,17 +23,10 @@ export function client() {
                                 // @ts-ignore
                                 { args: { pagination } }
                             ) {
-                                if (!existing) {
-                                    return incoming
-                                }
-
                                 // If any client write happens, the merge function is called.
                                 // In this case cache should be replaced.
-                                if (!pagination) {
-                                    return {
-                                        ...existing,
-                                        list: incoming.list,
-                                    }
+                                if (!existing || !pagination) {
+                                    return incoming
                                 }
 
                                 // While two query runs parallel, accidentally data is merged and duplicated
@@ -86,25 +79,3 @@ export function client() {
 
     return apolloClient
 }
-
-function offsetFromCursor(items: any, cursor: any, readField: any) {
-    // Search from the back of the list because the cursor we're
-    // looking for is typically the ID of the last item.
-    for (let i = items.length - 1; i >= 0; --i) {
-        const item = items[i]
-        // Using readField works for both non-normalized objects
-        // (returning item.id) and normalized references (returning
-        // the id field from the referenced entity object), so it's
-        // a good idea to use readField when you're not sure what
-        // kind of elements you're dealing with.
-        if (readField('id', item) === cursor) {
-            // Add one because the cursor identifies the item just
-            // before the first item in the page we care about.
-            return i + 1
-        }
-    }
-    // Report that the cursor could not be found.
-    return -1
-}
-
-// console.log({ cursor, existing, incoming })

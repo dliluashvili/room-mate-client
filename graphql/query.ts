@@ -189,6 +189,7 @@ export const getSharedConversationQuery: TypedDocumentNode<
             id
             sid
             status
+            position
             creatorId
             createdAt
             updatedAt

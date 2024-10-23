@@ -1,24 +1,47 @@
-import { ConversationWithUserObject } from '@/graphql/typesGraphql'
+import { ConversationStatus, ConversationWithUserObject } from '@/graphql/typesGraphql'
 
 import { getConversationsForUserQuery, getSharedConversationQuery } from '@/graphql/query'
 import { client } from '@/src/libs/apollo/client'
 
-export const checkConversationExistence = async (
-    participantId: string
-): Promise<ConversationWithUserObject | null> => {
+const checkConversationExistenceInCache = (participantId: string, status: ConversationStatus) => {
     const apolloClient = client()
 
     const conversationsFromCache = apolloClient.cache.readQuery({
         query: getConversationsForUserQuery,
+        variables: {
+            status,
+        },
     })
 
     const sharedConversationFromCache = conversationsFromCache?.getConversationsForUser?.list?.find(
         (conversation) => conversation?.user?.id === participantId
     )
 
+    return sharedConversationFromCache
+}
+
+export const checkConversationExistence = async (
+    participantId: string
+): Promise<ConversationWithUserObject | null> => {
+    const apolloClient = client()
+
+    const checkChatConversationExistenceInCache = checkConversationExistenceInCache(
+        participantId,
+        ConversationStatus.Accepted
+    )
+
     // local storage check
-    if (sharedConversationFromCache) {
-        return sharedConversationFromCache
+    if (checkChatConversationExistenceInCache) {
+        return checkChatConversationExistenceInCache
+    }
+
+    const checkRequestedConversationExistenceInCache = checkConversationExistenceInCache(
+        participantId,
+        ConversationStatus.Requested
+    )
+
+    if (checkRequestedConversationExistenceInCache) {
+        return checkRequestedConversationExistenceInCache
     }
 
     const { data } = await apolloClient.query({
@@ -47,6 +70,9 @@ export const updateCacheWithNewConversationInFirstPlace = (
     apolloClient.cache.updateQuery(
         {
             query: getConversationsForUserQuery,
+            variables: {
+                status: newConversation.status,
+            },
         },
         (data) => {
             if (data?.getConversationsForUser) {

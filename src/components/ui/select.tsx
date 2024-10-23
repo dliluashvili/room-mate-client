@@ -28,7 +28,6 @@ const DropdownIndicator = (props: DropdownIndicatorProps) => {
 
     const handleTouchStart = (e: React.TouchEvent) => {
         setIsMenuOpen(!isMenuOpen)
-        console.log('123')
     }
     return (
         components.DropdownIndicator && (
