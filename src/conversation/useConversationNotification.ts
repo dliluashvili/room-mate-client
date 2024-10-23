@@ -229,7 +229,8 @@ export const useInitializeConversationNotification = () => {
     const moveConversationToTop = (
         conversations: ConversationWithUserObject[],
         conversationSid: string,
-        cursor?: string | null
+        cursor: string | null | undefined,
+        cursorGap: number = 1
     ): {
         conversations: ConversationWithUserObject[]
         cursor?: string | null
@@ -246,7 +247,9 @@ export const useInitializeConversationNotification = () => {
 
         return {
             conversations: [movedConversation, ...conversationsClone],
-            cursor: Number.isFinite(Number(cursor)) ? (Number(cursor) + 1).toString() : cursor,
+            cursor: Number.isFinite(Number(cursor))
+                ? (Number(cursor) + cursorGap).toString()
+                : cursor,
         }
     }
 
@@ -293,19 +296,13 @@ export const useInitializeConversationNotification = () => {
             conversation: checkRequestedConversationExistence,
             conversations: requestedConversations,
             cursor: requestedConversationsCursor,
-        } = getConversationsAndConversationByStatus(ConversationStatus.Accepted, sid)
+        } = getConversationsAndConversationByStatus(ConversationStatus.Requested, sid)
 
         const currentConversations = checkChatConversationExistence
             ? chatConversations
             : checkRequestedConversationExistence
               ? requestedConversations
               : []
-
-        const cacheCursor = checkChatConversationExistence
-            ? chatConversationsCursor
-            : checkRequestedConversationExistence
-              ? requestedConversationsCursor
-              : null
 
         const currentConversation =
             checkChatConversationExistence ?? checkRequestedConversationExistence
@@ -320,15 +317,26 @@ export const useInitializeConversationNotification = () => {
                     unreadMessagesCount,
                 })
 
+            const cacheCursor =
+                updatedConversations[0].status === ConversationStatus.Accepted
+                    ? chatConversationsCursor
+                    : requestedConversationsCursor
+
             const { conversations, cursor } = moveConversationToTop(
                 updatedConversations,
                 sid,
-                cacheCursor
+                cacheCursor,
+                !currentConversation ? 2 : 1
             )
 
             reorderedConversations = conversations
             nextCursor = cursor
         } else {
+            const cacheCursor =
+                currentConversations[0].status === ConversationStatus.Accepted
+                    ? chatConversationsCursor
+                    : requestedConversationsCursor
+
             const { conversations, cursor } = moveConversationToTop(
                 currentConversations,
                 sid,
