@@ -243,7 +243,18 @@ export default function ClientWrapper() {
                                         className="flex w-full cursor-pointer items-center gap-2 rounded-md bg-mainGreen px-4 py-2 text-white md:w-auto"
                                         onClick={handlePhoneClick}
                                     >
-                                        {showFullPhone ? (
+                                        {dataById?.getProperty?.propertyType?.id === '3' ? (
+                                            <a
+                                                href="https://wa.me/995599976385"
+                                                className="flex items-center gap-2"
+                                                onClick={(e) => e.stopPropagation()} // Prevent click event bubbling
+                                            >
+                                                <Call className="h-5 w-5 fill-white" />
+                                                <span className="text-sm md:text-base">
+                                                    +995 599 976 385
+                                                </span>
+                                            </a>
+                                        ) : showFullPhone ? (
                                             <a
                                                 href={`tel:${dataById?.getProperty?.contactPhone}`}
                                                 className="flex items-center gap-2"
